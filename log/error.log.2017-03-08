@@ -1,0 +1,8 @@
+2017-03-08 15:48:08,623 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
+2017-03-08 15:51:22,081 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
+2017-03-08 15:55:46,141 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
+2017-03-08 15:57:12,500 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
+2017-03-08 16:00:37,526 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
+2017-03-08 16:06:02,809 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
+2017-03-08 16:10:31,385 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
+2017-03-08 16:14:10,648 ERROR[com.alibaba.druid.pool.DruidAbstractDataSource:935] - maxIdle is deprecated
