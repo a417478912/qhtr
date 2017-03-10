@@ -36,7 +36,7 @@ public class MyBatisTestBySpringTestFramework {
         user1.setCreateTime(new Date());
     	List<User> users = new ArrayList<User>();
     	users.add(user1);
-       userService.addUser(user);
+      // userService.addUser(user);
     }
     
 

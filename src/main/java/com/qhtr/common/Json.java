@@ -4,6 +4,13 @@ public class Json {
 	private boolean success = true;
 	private String code;
 	private Object data;
+	private String message;
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
 	public boolean isSuccess() {
 		return success;
 	}

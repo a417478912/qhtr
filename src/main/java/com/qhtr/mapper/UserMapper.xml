@@ -114,4 +114,34 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!-- 自定义方法 -->
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Store" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+      <if test="1 == 1">
+   			1 = 1
+      </if>
+       <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="phone != null" >
+        and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null" >
+        and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="avatar != null" >
+        and avatar = #{avatar,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
 </mapper>

@@ -15,8 +15,8 @@ import com.qhtr.model.Goods;
 import com.qhtr.service.GoodsService;
 
 @Controller
-@RequestMapping("/goods")
-public class GoodsController {
+@RequestMapping("/app_goods")
+public class App_GoodsController {
 	@Resource
 	private GoodsService goodsService;
 	

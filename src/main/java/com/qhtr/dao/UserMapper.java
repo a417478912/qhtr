@@ -1,5 +1,7 @@
 package com.qhtr.dao;
 
+import java.util.List;
+
 import com.qhtr.model.User;
 
 public interface UserMapper {
@@ -14,4 +16,7 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+    
+    //自定义方法
+    List<User> selectByConditions(User user);
 }

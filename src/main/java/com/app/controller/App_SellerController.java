@@ -14,8 +14,8 @@ import com.qhtr.service.SellerService;
 import com.qhtr.service.StoreService;
 
 @Controller
-@RequestMapping("/seller")
-public class SellerController {
+@RequestMapping("/app_seller")
+public class App_SellerController {
 	@Resource
 	private SellerService sellerService;
 	@Resource
