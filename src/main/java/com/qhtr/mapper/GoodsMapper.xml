@@ -8,15 +8,27 @@
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="thumb" property="thumb" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="vip_price" property="vipPrice" jdbcType="INTEGER" />
+    <result column="special_selling_price" property="specialSellingPrice" jdbcType="INTEGER" />
     <result column="stock" property="stock" jdbcType="INTEGER" />
     <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="pull_on_time" property="pullOnTime" jdbcType="TIMESTAMP" />
+    <result column="new_pull_on_time" property="newPullOnTime" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="is_new_pull_on" property="isNewPullOn" jdbcType="INTEGER" />
+    <result column="is_recommended_by_store_manager" property="isRecommendedByStoreManager" jdbcType="INTEGER" />
+    <result column="is_special_selling" property="isSpecialSelling" jdbcType="INTEGER" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.qhtr.model.Goods" extends="BaseResultMap" >
     <result column="details" property="details" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, seller_id, name, category_id, thumb, price, stock, isDefault, status
+    id, seller_id, name, category_id, thumb, price, vip_price, special_selling_price, 
+    stock, isDefault, status, create_time, pull_on_time, new_pull_on_time, start_time, 
+    end_time, is_new_pull_on, is_recommended_by_store_manager, is_special_selling
   </sql>
   <sql id="Blob_Column_List" >
     details
@@ -36,12 +48,18 @@
   <insert id="insert" parameterType="com.qhtr.model.Goods" >
     insert into goods_goods (id, seller_id, name, 
       category_id, thumb, price, 
-      stock, isDefault, status, 
-      details)
+      vip_price, special_selling_price, stock, 
+      isDefault, status, create_time, 
+      pull_on_time, new_pull_on_time, start_time, 
+      end_time, is_new_pull_on, is_recommended_by_store_manager, 
+      is_special_selling, details)
     values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{stock,jdbcType=INTEGER}, #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{details,jdbcType=LONGVARCHAR})
+      #{vipPrice,jdbcType=INTEGER}, #{specialSellingPrice,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, 
+      #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{pullOnTime,jdbcType=TIMESTAMP}, #{newPullOnTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{isNewPullOn,jdbcType=INTEGER}, #{isRecommendedByStoreManager,jdbcType=INTEGER}, 
+      #{isSpecialSelling,jdbcType=INTEGER}, #{details,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Goods" >
     insert into goods_goods
@@ -64,6 +82,12 @@
       <if test="price != null" >
         price,
       </if>
+      <if test="vipPrice != null" >
+        vip_price,
+      </if>
+      <if test="specialSellingPrice != null" >
+        special_selling_price,
+      </if>
       <if test="stock != null" >
         stock,
       </if>
@@ -72,6 +96,30 @@
       </if>
       <if test="status != null" >
         status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="pullOnTime != null" >
+        pull_on_time,
+      </if>
+      <if test="newPullOnTime != null" >
+        new_pull_on_time,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="isNewPullOn != null" >
+        is_new_pull_on,
+      </if>
+      <if test="isRecommendedByStoreManager != null" >
+        is_recommended_by_store_manager,
+      </if>
+      <if test="isSpecialSelling != null" >
+        is_special_selling,
       </if>
       <if test="details != null" >
         details,
@@ -96,6 +144,12 @@
       <if test="price != null" >
         #{price,jdbcType=INTEGER},
       </if>
+      <if test="vipPrice != null" >
+        #{vipPrice,jdbcType=INTEGER},
+      </if>
+      <if test="specialSellingPrice != null" >
+        #{specialSellingPrice,jdbcType=INTEGER},
+      </if>
       <if test="stock != null" >
         #{stock,jdbcType=INTEGER},
       </if>
@@ -104,6 +158,30 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pullOnTime != null" >
+        #{pullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPullOnTime != null" >
+        #{newPullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isNewPullOn != null" >
+        #{isNewPullOn,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommendedByStoreManager != null" >
+        #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      </if>
+      <if test="isSpecialSelling != null" >
+        #{isSpecialSelling,jdbcType=INTEGER},
       </if>
       <if test="details != null" >
         #{details,jdbcType=LONGVARCHAR},
@@ -128,6 +206,12 @@
       <if test="price != null" >
         price = #{price,jdbcType=INTEGER},
       </if>
+      <if test="vipPrice != null" >
+        vip_price = #{vipPrice,jdbcType=INTEGER},
+      </if>
+      <if test="specialSellingPrice != null" >
+        special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
+      </if>
       <if test="stock != null" >
         stock = #{stock,jdbcType=INTEGER},
       </if>
@@ -136,6 +220,30 @@
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pullOnTime != null" >
+        pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPullOnTime != null" >
+        new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isNewPullOn != null" >
+        is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommendedByStoreManager != null" >
+        is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      </if>
+      <if test="isSpecialSelling != null" >
+        is_special_selling = #{isSpecialSelling,jdbcType=INTEGER},
       </if>
       <if test="details != null" >
         details = #{details,jdbcType=LONGVARCHAR},
@@ -150,9 +258,19 @@
       category_id = #{categoryId,jdbcType=INTEGER},
       thumb = #{thumb,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
+      vip_price = #{vipPrice,jdbcType=INTEGER},
+      special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
       stock = #{stock,jdbcType=INTEGER},
       isDefault = #{isdefault,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP},
+      new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER},
+      is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      is_special_selling = #{isSpecialSelling,jdbcType=INTEGER},
       details = #{details,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -163,13 +281,23 @@
       category_id = #{categoryId,jdbcType=INTEGER},
       thumb = #{thumb,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
+      vip_price = #{vipPrice,jdbcType=INTEGER},
+      special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
       stock = #{stock,jdbcType=INTEGER},
       isDefault = #{isdefault,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER}
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP},
+      new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER},
+      is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      is_special_selling = #{isSpecialSelling,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-   <!--以下自定义方法 --> 
+  <!--以下自定义方法 --> 
   <select id="selectByConditions" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -204,8 +332,6 @@
       <if test="details != null" >
         and details = #{details,jdbcType=LONGVARCHAR}
       </if>
-    
-    
     </where>
-  </select>
+  	</select>
 </mapper>

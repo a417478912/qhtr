@@ -10,14 +10,38 @@ public class Store {
     private String phone;
 
     private String avatar;
-
+    /**
+     * banner轮播图(pictureid)
+     */
     private String picture1;
-
+    /**
+     * 地图上的展示图
+     */
     private String picture2;
 
     private String picture3;
 
     private String details;
+    
+    public Integer getCollectNum() {
+		return collectNum;
+	}
+
+	public void setCollectNum(Integer collectNum) {
+		this.collectNum = collectNum;
+	}
+
+	public Integer getSellNum() {
+		return sellNum;
+	}
+
+	public void setSellNum(Integer sellNum) {
+		this.sellNum = sellNum;
+	}
+
+	private Integer collectNum;
+
+    private Integer sellNum;
 
     private String location;
 
