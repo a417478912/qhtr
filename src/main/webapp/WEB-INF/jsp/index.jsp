@@ -1,7 +1,7 @@
 <%@ page language="java" pageEncoding="UTF-8"%> 
 <html>
 <%@ include file="/common/base.jsp"%>
-<script charset="utf-8" src="${rootPath}kindeditor-4.1.10/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="${rootPath}kindeditor-4.1.10/kindeditor.js"></script>
 <link rel="stylesheet" href="${rootPath}kindeditor-4.1.10/themes/default/default.css" />
 	<link rel="stylesheet" href="${rootPath}kindeditor-4.1.10/plugins/code/prettify.css" />
 	<script charset="utf-8" src="${rootPath}kindeditor-4.1.10/lang/zh_CN.js"></script>
@@ -29,10 +29,10 @@ $("#a").click(function(){
 KindEditor.ready(function(K) {
 			var editor1 = K.create('textarea[name="content"]', {
 				cssPath : '${rootPath}kindeditor-4.1.10/plugins/code/prettify.css',
-				uploadJson : '${rootPath}upload_json.do',
-				fileManagerJson : '../jsp/file_manager_json.jsp',
+				uploadJson : '${rootPath}file/upload_json.do',
+				fileManagerJson : '${rootPath}/file_manager_json.jsp',
 				allowFileManager : true,
-				afterCreate : function() {
+				afterCreate : function() {/* 渲染完成之后 */
 					var self = this;
 					K.ctrl(document, 13, function() {
 						self.sync();
