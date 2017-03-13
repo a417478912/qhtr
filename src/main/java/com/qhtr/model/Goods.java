@@ -13,6 +13,12 @@ public class Goods {
 
     private String thumb;
 
+    private String picture1;
+
+    private String picture2;
+
+    private String picture3;
+
     private Integer price;
 
     private Integer vipPrice;
@@ -22,6 +28,7 @@ public class Goods {
     private Integer stock;
 
     private Integer isdefault;
+	
 	/**
      * 1.待审核  2已上架  3,审核失败  4.已下架  5.已删除
      */
@@ -42,6 +49,12 @@ public class Goods {
     private Integer isRecommendedByStoreManager;
 
     private Integer isSpecialSelling;
+
+    private String string1;
+
+    private String string2;
+
+    private String string3;
 
     private String details;
 
@@ -83,6 +96,30 @@ public class Goods {
 
     public void setThumb(String thumb) {
         this.thumb = thumb == null ? null : thumb.trim();
+    }
+
+    public String getPicture1() {
+        return picture1;
+    }
+
+    public void setPicture1(String picture1) {
+        this.picture1 = picture1 == null ? null : picture1.trim();
+    }
+
+    public String getPicture2() {
+        return picture2;
+    }
+
+    public void setPicture2(String picture2) {
+        this.picture2 = picture2 == null ? null : picture2.trim();
+    }
+
+    public String getPicture3() {
+        return picture3;
+    }
+
+    public void setPicture3(String picture3) {
+        this.picture3 = picture3 == null ? null : picture3.trim();
     }
 
     public Integer getPrice() {
@@ -195,6 +232,30 @@ public class Goods {
 
     public void setIsSpecialSelling(Integer isSpecialSelling) {
         this.isSpecialSelling = isSpecialSelling;
+    }
+
+    public String getString1() {
+        return string1;
+    }
+
+    public void setString1(String string1) {
+        this.string1 = string1 == null ? null : string1.trim();
+    }
+
+    public String getString2() {
+        return string2;
+    }
+
+    public void setString2(String string2) {
+        this.string2 = string2 == null ? null : string2.trim();
+    }
+
+    public String getString3() {
+        return string3;
+    }
+
+    public void setString3(String string3) {
+        this.string3 = string3 == null ? null : string3.trim();
     }
 
     public String getDetails() {

@@ -1,39 +1,48 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.qhtr.dao.GoodsMapper" >
-  <resultMap id="BaseResultMap" type="com.qhtr.model.Goods" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
-    <result column="thumb" property="thumb" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="INTEGER" />
-    <result column="vip_price" property="vipPrice" jdbcType="INTEGER" />
-    <result column="special_selling_price" property="specialSellingPrice" jdbcType="INTEGER" />
-    <result column="stock" property="stock" jdbcType="INTEGER" />
-    <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="pull_on_time" property="pullOnTime" jdbcType="TIMESTAMP" />
-    <result column="new_pull_on_time" property="newPullOnTime" jdbcType="TIMESTAMP" />
-    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
-    <result column="is_new_pull_on" property="isNewPullOn" jdbcType="INTEGER" />
-    <result column="is_recommended_by_store_manager" property="isRecommendedByStoreManager" jdbcType="INTEGER" />
-    <result column="is_special_selling" property="isSpecialSelling" jdbcType="INTEGER" />
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.qhtr.dao.GoodsMapper">
+  <resultMap id="BaseResultMap" type="com.qhtr.model.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="thumb" jdbcType="VARCHAR" property="thumb" />
+    <result column="picture1" jdbcType="VARCHAR" property="picture1" />
+    <result column="picture2" jdbcType="VARCHAR" property="picture2" />
+    <result column="picture3" jdbcType="VARCHAR" property="picture3" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="vip_price" jdbcType="INTEGER" property="vipPrice" />
+    <result column="special_selling_price" jdbcType="INTEGER" property="specialSellingPrice" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="isDefault" jdbcType="INTEGER" property="isdefault" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="pull_on_time" jdbcType="TIMESTAMP" property="pullOnTime" />
+    <result column="new_pull_on_time" jdbcType="TIMESTAMP" property="newPullOnTime" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_new_pull_on" jdbcType="INTEGER" property="isNewPullOn" />
+    <result column="is_recommended_by_store_manager" jdbcType="INTEGER" property="isRecommendedByStoreManager" />
+    <result column="is_special_selling" jdbcType="INTEGER" property="isSpecialSelling" />
+    <result column="string1" jdbcType="VARCHAR" property="string1" />
+    <result column="string2" jdbcType="VARCHAR" property="string2" />
+    <result column="string3" jdbcType="VARCHAR" property="string3" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.qhtr.model.Goods" extends="BaseResultMap" >
-    <result column="details" property="details" jdbcType="LONGVARCHAR" />
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qhtr.model.Goods">
+    <result column="details" jdbcType="LONGVARCHAR" property="details" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, seller_id, name, category_id, thumb, price, vip_price, special_selling_price, 
-    stock, isDefault, status, create_time, pull_on_time, new_pull_on_time, start_time, 
-    end_time, is_new_pull_on, is_recommended_by_store_manager, is_special_selling
+  <sql id="Base_Column_List">
+    id, seller_id, name, category_id, thumb, picture1, picture2, picture3, price, vip_price, 
+    special_selling_price, stock, isDefault, status, create_time, pull_on_time, new_pull_on_time, 
+    start_time, end_time, is_new_pull_on, is_recommended_by_store_manager, is_special_selling, 
+    string1, string2, string3
   </sql>
-  <sql id="Blob_Column_List" >
+  <sql id="Blob_Column_List">
     details
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
@@ -41,222 +50,622 @@
     from goods_goods
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from goods_goods
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qhtr.model.Goods" >
+  <insert id="insert" parameterType="com.qhtr.model.Goods">
     insert into goods_goods (id, seller_id, name, 
-      category_id, thumb, price, 
+      category_id, thumb, picture1, 
+      picture2, picture3, price, 
+      vip_price, special_selling_price, stock, 
+      isDefault, status, create_time, 
+      pull_on_time, new_pull_on_time, start_time, 
+      end_time, is_new_pull_on, is_recommended_by_store_manager, 
+      is_special_selling, string1, string2, 
+      string3, details)
+    values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, 
+      #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
+      #{vipPrice,jdbcType=INTEGER}, #{specialSellingPrice,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, 
+      #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{pullOnTime,jdbcType=TIMESTAMP}, #{newPullOnTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{isNewPullOn,jdbcType=INTEGER}, #{isRecommendedByStoreManager,jdbcType=INTEGER}, 
+      #{isSpecialSelling,jdbcType=INTEGER}, #{string1,jdbcType=VARCHAR}, #{string2,jdbcType=VARCHAR}, 
+      #{string3,jdbcType=VARCHAR}, #{details,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qhtr.model.Goods">
+    insert into goods_goods
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="categoryId != null">
+        category_id,
+      </if>
+      <if test="thumb != null">
+        thumb,
+      </if>
+      <if test="picture1 != null">
+        picture1,
+      </if>
+      <if test="picture2 != null">
+        picture2,
+      </if>
+      <if test="picture3 != null">
+        picture3,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="vipPrice != null">
+        vip_price,
+      </if>
+      <if test="specialSellingPrice != null">
+        special_selling_price,
+      </if>
+      <if test="stock != null">
+        stock,
+      </if>
+      <if test="isdefault != null">
+        isDefault,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="pullOnTime != null">
+        pull_on_time,
+      </if>
+      <if test="newPullOnTime != null">
+        new_pull_on_time,
+      </if>
+      <if test="startTime != null">
+        start_time,
+      </if>
+      <if test="endTime != null">
+        end_time,
+      </if>
+      <if test="isNewPullOn != null">
+        is_new_pull_on,
+      </if>
+      <if test="isRecommendedByStoreManager != null">
+        is_recommended_by_store_manager,
+      </if>
+      <if test="isSpecialSelling != null">
+        is_special_selling,
+      </if>
+      <if test="string1 != null">
+        string1,
+      </if>
+      <if test="string2 != null">
+        string2,
+      </if>
+      <if test="string3 != null">
+        string3,
+      </if>
+      <if test="details != null">
+        details,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="thumb != null">
+        #{thumb,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1 != null">
+        #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null">
+        #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3 != null">
+        #{picture3,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="vipPrice != null">
+        #{vipPrice,jdbcType=INTEGER},
+      </if>
+      <if test="specialSellingPrice != null">
+        #{specialSellingPrice,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null">
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="isdefault != null">
+        #{isdefault,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pullOnTime != null">
+        #{pullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPullOnTime != null">
+        #{newPullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isNewPullOn != null">
+        #{isNewPullOn,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommendedByStoreManager != null">
+        #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      </if>
+      <if test="isSpecialSelling != null">
+        #{isSpecialSelling,jdbcType=INTEGER},
+      </if>
+      <if test="string1 != null">
+        #{string1,jdbcType=VARCHAR},
+      </if>
+      <if test="string2 != null">
+        #{string2,jdbcType=VARCHAR},
+      </if>
+      <if test="string3 != null">
+        #{string3,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null">
+        #{details,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Goods">
+    update goods_goods
+    <set>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryId != null">
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="thumb != null">
+        thumb = #{thumb,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1 != null">
+        picture1 = #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null">
+        picture2 = #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3 != null">
+        picture3 = #{picture3,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="vipPrice != null">
+        vip_price = #{vipPrice,jdbcType=INTEGER},
+      </if>
+      <if test="specialSellingPrice != null">
+        special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
+      </if>
+      <if test="stock != null">
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="isdefault != null">
+        isDefault = #{isdefault,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pullOnTime != null">
+        pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newPullOnTime != null">
+        new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null">
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isNewPullOn != null">
+        is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER},
+      </if>
+      <if test="isRecommendedByStoreManager != null">
+        is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      </if>
+      <if test="isSpecialSelling != null">
+        is_special_selling = #{isSpecialSelling,jdbcType=INTEGER},
+      </if>
+      <if test="string1 != null">
+        string1 = #{string1,jdbcType=VARCHAR},
+      </if>
+      <if test="string2 != null">
+        string2 = #{string2,jdbcType=VARCHAR},
+      </if>
+      <if test="string3 != null">
+        string3 = #{string3,jdbcType=VARCHAR},
+      </if>
+      <if test="details != null">
+        details = #{details,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qhtr.model.Goods">
+    update goods_goods
+    set seller_id = #{sellerId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      thumb = #{thumb,jdbcType=VARCHAR},
+      picture1 = #{picture1,jdbcType=VARCHAR},
+      picture2 = #{picture2,jdbcType=VARCHAR},
+      picture3 = #{picture3,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      vip_price = #{vipPrice,jdbcType=INTEGER},
+      special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER},
+      isDefault = #{isdefault,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP},
+      new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER},
+      is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      is_special_selling = #{isSpecialSelling,jdbcType=INTEGER},
+      string1 = #{string1,jdbcType=VARCHAR},
+      string2 = #{string2,jdbcType=VARCHAR},
+      string3 = #{string3,jdbcType=VARCHAR},
+      details = #{details,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Goods">
+    update goods_goods
+    set seller_id = #{sellerId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      thumb = #{thumb,jdbcType=VARCHAR},
+      picture1 = #{picture1,jdbcType=VARCHAR},
+      picture2 = #{picture2,jdbcType=VARCHAR},
+      picture3 = #{picture3,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      vip_price = #{vipPrice,jdbcType=INTEGER},
+      special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
+      stock = #{stock,jdbcType=INTEGER},
+      isDefault = #{isdefault,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP},
+      new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER},
+      is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER},
+      is_special_selling = #{isSpecialSelling,jdbcType=INTEGER},
+      string1 = #{string1,jdbcType=VARCHAR},
+      string2 = #{string2,jdbcType=VARCHAR},
+      string3 = #{string3,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <resultMap id="BaseResultMap" type="com.qhtr.model.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="thumb" jdbcType="VARCHAR" property="thumb" />
+    <result column="picture1" jdbcType="VARCHAR" property="picture1" />
+    <result column="picture2" jdbcType="VARCHAR" property="picture2" />
+    <result column="picture3" jdbcType="VARCHAR" property="picture3" />
+    <result column="price" jdbcType="INTEGER" property="price" />
+    <result column="vip_price" jdbcType="INTEGER" property="vipPrice" />
+    <result column="special_selling_price" jdbcType="INTEGER" property="specialSellingPrice" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="isDefault" jdbcType="INTEGER" property="isdefault" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="pull_on_time" jdbcType="TIMESTAMP" property="pullOnTime" />
+    <result column="new_pull_on_time" jdbcType="TIMESTAMP" property="newPullOnTime" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="is_new_pull_on" jdbcType="INTEGER" property="isNewPullOn" />
+    <result column="is_recommended_by_store_manager" jdbcType="INTEGER" property="isRecommendedByStoreManager" />
+    <result column="is_special_selling" jdbcType="INTEGER" property="isSpecialSelling" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.qhtr.model.Goods">
+    <result column="details" jdbcType="LONGVARCHAR" property="details" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, seller_id, name, category_id, thumb, picture1, picture2, picture3, price, vip_price, 
+    special_selling_price, stock, isDefault, status, create_time, pull_on_time, new_pull_on_time, 
+    start_time, end_time, is_new_pull_on, is_recommended_by_store_manager, is_special_selling
+  </sql>
+  <sql id="Blob_Column_List">
+    details
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from goods_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goods_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qhtr.model.Goods">
+    insert into goods_goods (id, seller_id, name, 
+      category_id, thumb, picture1, 
+      picture2, picture3, price, 
       vip_price, special_selling_price, stock, 
       isDefault, status, create_time, 
       pull_on_time, new_pull_on_time, start_time, 
       end_time, is_new_pull_on, is_recommended_by_store_manager, 
       is_special_selling, details)
     values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
+      #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, 
+      #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
       #{vipPrice,jdbcType=INTEGER}, #{specialSellingPrice,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, 
       #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{pullOnTime,jdbcType=TIMESTAMP}, #{newPullOnTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{isNewPullOn,jdbcType=INTEGER}, #{isRecommendedByStoreManager,jdbcType=INTEGER}, 
       #{isSpecialSelling,jdbcType=INTEGER}, #{details,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.qhtr.model.Goods" >
+  <insert id="insertSelective" parameterType="com.qhtr.model.Goods">
     insert into goods_goods
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="sellerId != null" >
+      <if test="sellerId != null">
         seller_id,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="categoryId != null" >
+      <if test="categoryId != null">
         category_id,
       </if>
-      <if test="thumb != null" >
+      <if test="thumb != null">
         thumb,
       </if>
-      <if test="price != null" >
+      <if test="picture1 != null">
+        picture1,
+      </if>
+      <if test="picture2 != null">
+        picture2,
+      </if>
+      <if test="picture3 != null">
+        picture3,
+      </if>
+      <if test="price != null">
         price,
       </if>
-      <if test="vipPrice != null" >
+      <if test="vipPrice != null">
         vip_price,
       </if>
-      <if test="specialSellingPrice != null" >
+      <if test="specialSellingPrice != null">
         special_selling_price,
       </if>
-      <if test="stock != null" >
+      <if test="stock != null">
         stock,
       </if>
-      <if test="isdefault != null" >
+      <if test="isdefault != null">
         isDefault,
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="pullOnTime != null" >
+      <if test="pullOnTime != null">
         pull_on_time,
       </if>
-      <if test="newPullOnTime != null" >
+      <if test="newPullOnTime != null">
         new_pull_on_time,
       </if>
-      <if test="startTime != null" >
+      <if test="startTime != null">
         start_time,
       </if>
-      <if test="endTime != null" >
+      <if test="endTime != null">
         end_time,
       </if>
-      <if test="isNewPullOn != null" >
+      <if test="isNewPullOn != null">
         is_new_pull_on,
       </if>
-      <if test="isRecommendedByStoreManager != null" >
+      <if test="isRecommendedByStoreManager != null">
         is_recommended_by_store_manager,
       </if>
-      <if test="isSpecialSelling != null" >
+      <if test="isSpecialSelling != null">
         is_special_selling,
       </if>
-      <if test="details != null" >
+      <if test="details != null">
         details,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="sellerId != null" >
+      <if test="sellerId != null">
         #{sellerId,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="categoryId != null" >
+      <if test="categoryId != null">
         #{categoryId,jdbcType=INTEGER},
       </if>
-      <if test="thumb != null" >
+      <if test="thumb != null">
         #{thumb,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
+      <if test="picture1 != null">
+        #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null">
+        #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3 != null">
+        #{picture3,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
         #{price,jdbcType=INTEGER},
       </if>
-      <if test="vipPrice != null" >
+      <if test="vipPrice != null">
         #{vipPrice,jdbcType=INTEGER},
       </if>
-      <if test="specialSellingPrice != null" >
+      <if test="specialSellingPrice != null">
         #{specialSellingPrice,jdbcType=INTEGER},
       </if>
-      <if test="stock != null" >
+      <if test="stock != null">
         #{stock,jdbcType=INTEGER},
       </if>
-      <if test="isdefault != null" >
+      <if test="isdefault != null">
         #{isdefault,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="pullOnTime != null" >
+      <if test="pullOnTime != null">
         #{pullOnTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="newPullOnTime != null" >
+      <if test="newPullOnTime != null">
         #{newPullOnTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="startTime != null" >
+      <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endTime != null" >
+      <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isNewPullOn != null" >
+      <if test="isNewPullOn != null">
         #{isNewPullOn,jdbcType=INTEGER},
       </if>
-      <if test="isRecommendedByStoreManager != null" >
+      <if test="isRecommendedByStoreManager != null">
         #{isRecommendedByStoreManager,jdbcType=INTEGER},
       </if>
-      <if test="isSpecialSelling != null" >
+      <if test="isSpecialSelling != null">
         #{isSpecialSelling,jdbcType=INTEGER},
       </if>
-      <if test="details != null" >
+      <if test="details != null">
         #{details,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Goods" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Goods">
     update goods_goods
-    <set >
-      <if test="sellerId != null" >
+    <set>
+      <if test="sellerId != null">
         seller_id = #{sellerId,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="categoryId != null" >
+      <if test="categoryId != null">
         category_id = #{categoryId,jdbcType=INTEGER},
       </if>
-      <if test="thumb != null" >
+      <if test="thumb != null">
         thumb = #{thumb,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
+      <if test="picture1 != null">
+        picture1 = #{picture1,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2 != null">
+        picture2 = #{picture2,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3 != null">
+        picture3 = #{picture3,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
         price = #{price,jdbcType=INTEGER},
       </if>
-      <if test="vipPrice != null" >
+      <if test="vipPrice != null">
         vip_price = #{vipPrice,jdbcType=INTEGER},
       </if>
-      <if test="specialSellingPrice != null" >
+      <if test="specialSellingPrice != null">
         special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
       </if>
-      <if test="stock != null" >
+      <if test="stock != null">
         stock = #{stock,jdbcType=INTEGER},
       </if>
-      <if test="isdefault != null" >
+      <if test="isdefault != null">
         isDefault = #{isdefault,jdbcType=INTEGER},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="pullOnTime != null" >
+      <if test="pullOnTime != null">
         pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="newPullOnTime != null" >
+      <if test="newPullOnTime != null">
         new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="startTime != null" >
+      <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endTime != null" >
+      <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="isNewPullOn != null" >
+      <if test="isNewPullOn != null">
         is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER},
       </if>
-      <if test="isRecommendedByStoreManager != null" >
+      <if test="isRecommendedByStoreManager != null">
         is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER},
       </if>
-      <if test="isSpecialSelling != null" >
+      <if test="isSpecialSelling != null">
         is_special_selling = #{isSpecialSelling,jdbcType=INTEGER},
       </if>
-      <if test="details != null" >
+      <if test="details != null">
         details = #{details,jdbcType=LONGVARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qhtr.model.Goods" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.qhtr.model.Goods">
     update goods_goods
     set seller_id = #{sellerId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       thumb = #{thumb,jdbcType=VARCHAR},
+      picture1 = #{picture1,jdbcType=VARCHAR},
+      picture2 = #{picture2,jdbcType=VARCHAR},
+      picture3 = #{picture3,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
       vip_price = #{vipPrice,jdbcType=INTEGER},
       special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
@@ -274,12 +683,15 @@
       details = #{details,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Goods" >
+  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Goods">
     update goods_goods
     set seller_id = #{sellerId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       thumb = #{thumb,jdbcType=VARCHAR},
+      picture1 = #{picture1,jdbcType=VARCHAR},
+      picture2 = #{picture2,jdbcType=VARCHAR},
+      picture3 = #{picture3,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
       vip_price = #{vipPrice,jdbcType=INTEGER},
       special_selling_price = #{specialSellingPrice,jdbcType=INTEGER},
@@ -308,28 +720,70 @@
    	 <if test="1 == 1" >
         1 = 1
       </if>
-      <if test="name != null" >
+     <if test="sellerId != null">
+        and seller_id = #{sellerId,jdbcType=INTEGER}
+      </if>
+      <if test="name != null">
         and name = #{name,jdbcType=VARCHAR}
       </if>
-      <if test="categoryId != null" >
+      <if test="categoryId != null">
         and category_id = #{categoryId,jdbcType=INTEGER}
       </if>
-      <if test="thumb != null" >
+      <if test="thumb != null">
         and thumb = #{thumb,jdbcType=VARCHAR}
       </if>
-      <if test="price != null" >
+      <if test="picture1 != null">
+        and picture1 = #{picture1,jdbcType=VARCHAR}
+      </if>
+      <if test="picture2 != null">
+        and picture2 = #{picture2,jdbcType=VARCHAR}
+      </if>
+      <if test="picture3 != null">
+        and picture3 = #{picture3,jdbcType=VARCHAR}
+      </if>
+      <if test="price != null">
         and price = #{price,jdbcType=INTEGER}
       </if>
-      <if test="stock != null" >
+      <if test="vipPrice != null">
+        and vip_price = #{vipPrice,jdbcType=INTEGER}
+      </if>
+      <if test="specialSellingPrice != null">
+        and special_selling_price = #{specialSellingPrice,jdbcType=INTEGER}
+      </if>
+      <if test="stock != null">
         and stock = #{stock,jdbcType=INTEGER}
       </if>
-      <if test="isdefault != null" >
+      <if test="isdefault != null">
         and isDefault = #{isdefault,jdbcType=INTEGER}
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         and status = #{status,jdbcType=INTEGER}
       </if>
-      <if test="details != null" >
+      <if test="createTime != null">
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="pullOnTime != null">
+        and pull_on_time = #{pullOnTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="newPullOnTime != null">
+        and new_pull_on_time = #{newPullOnTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="startTime != null">
+        and start_time = #{startTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="endTime != null">
+        and end_time = #{endTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="isNewPullOn != null">
+        and is_new_pull_on = #{isNewPullOn,jdbcType=INTEGER}
+      </if>
+      <if test="isRecommendedByStoreManager != null">
+        and is_recommended_by_store_manager = #{isRecommendedByStoreManager,jdbcType=INTEGER}
+      </if>
+      <if test="isSpecialSelling != null">
+        and is_special_selling = #{isSpecialSelling,jdbcType=INTEGER}
+      </if>
+      <if test="details != null">
         and details = #{details,jdbcType=LONGVARCHAR}
       </if>
     </where>
