@@ -143,5 +143,6 @@
         and create_time = #{createTime,jdbcType=TIMESTAMP}
       </if>
     </where>
+    order by create_time desc,status desc
   </select>
 </mapper>

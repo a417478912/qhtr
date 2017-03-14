@@ -1,32 +1,12 @@
 <%@ page language="java" pageEncoding="UTF-8"%> 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@ include file="/common/base.jsp"%>
+<%@ include file="/common/baseDwz.jsp"%>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=7" />
 <title>简单实用国产jQuery UI框架 - DWZ富客户端框架(J-UI.com)</title>
-
-<link href="${rootPath}dwz/themes/default/style.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${rootPath}dwz/themes/css/core.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${rootPath}dwz/themes/css/print.css" rel="stylesheet" type="text/css" media="print"/>
-<link href="${rootPath}dwz/uploadify/css/uploadify.css" rel="stylesheet" type="text/css" media="screen"/>
-<link href="${rootPath}dwz/themes/css/ieHack.css" rel="stylesheet" type="text/css" media="screen"/>
-
-<script src="${rootPath}dwz/js/speedup.js" type="text/javascript"></script>
-<script src="${rootPath}dwz/js/jquery-2.1.4.min.js" type="text/javascript"></script>
-
-<script src="${rootPath}dwz/js/jquery.cookie.js" type="text/javascript"></script>
-<script src="${rootPath}dwz/js/jquery.validate.js" type="text/javascript"></script>
-<script src="${rootPath}dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
-<script src="${rootPath}dwz/xheditor/xheditor-1.2.2.min.js" type="text/javascript"></script>
-<script src="${rootPath}dwz/xheditor/xheditor_lang/zh-cn.js" type="text/javascript"></script>
-<script src="${rootPath}dwz/uploadify/scripts/jquery.uploadify.min.js" type="text/javascript"></script>
-
-<script src="${rootPath}dwz/bin/dwz.min.js" type="text/javascript"></script>
-<script src="${rootPath}dwz/js/dwz.regional.zh.js" type="text/javascript"></script>
-
 
 <script type="text/javascript">
 $(function(){
@@ -79,21 +59,8 @@ $(function(){
 					</div>
 					<div class="accordionContent">
 						<ul class="tree treeFolder">
+							<li><a href="${rootPaht}/user/userList.do" target="navTab" rel="user_list">会员列表</a>
 							<li><a href="tabsPage.html" target="navTab">主框架面板</a>
-							</li>
-							
-							<li><a>常用组件</a>
-								<ul>
-									<li><a href="w_panel.html" target="navTab" rel="w_panel">面板</a></li>
-								</ul>
-							</li>
-									
-							<li><a>表单组件</a>
-								<ul>
-									<li><a href="demo_upload.html" target="navTab" rel="demo_upload">iframeCallback表单提交</a></li>
-									<li><a href="w_uploadify.html" target="navTab" rel="w_uploadify">uploadify多文件上传</a></li>
-								</ul>
-							</li>
 						</ul>
 					</div>
 					<div class="accordionHeader">

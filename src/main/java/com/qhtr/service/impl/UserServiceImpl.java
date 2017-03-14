@@ -7,6 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+import com.qhtr.common.PageBean;
 import com.qhtr.dao.UserMapper;
 import com.qhtr.model.User;
 import com.qhtr.service.UserService;
@@ -67,6 +69,13 @@ public class UserServiceImpl implements UserService{
 		}else{
 			return 1;
 		}
+	}
+
+	@Override
+	public PageBean<User> getUserListByConditions(User user,int pageNum,int rows) {
+		PageHelper.startPage(pageNum,rows);
+		List<User> userList = userMapper.selectByConditions(user);
+		return new PageBean<User>(userList);
 	}
 }
 	

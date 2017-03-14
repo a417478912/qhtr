@@ -27,6 +27,8 @@ public class Goods {
 
     private Integer stock;
 
+    private String details;
+
     private Integer isdefault;
 	
 	/**
@@ -55,8 +57,6 @@ public class Goods {
     private String string2;
 
     private String string3;
-
-    private String details;
 
     public Integer getId() {
         return id;
@@ -152,6 +152,14 @@ public class Goods {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details == null ? null : details.trim();
     }
 
     public Integer getIsdefault() {
@@ -256,13 +264,5 @@ public class Goods {
 
     public void setString3(String string3) {
         this.string3 = string3 == null ? null : string3.trim();
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details == null ? null : details.trim();
     }
 }

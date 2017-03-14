@@ -12,7 +12,10 @@ public class User {
     private String password;
 
     private String avatar;
-
+    
+    /**
+     * 1为正常状态
+     */
     private Integer status;
 
     private Date createTime;

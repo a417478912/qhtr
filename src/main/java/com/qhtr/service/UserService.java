@@ -1,5 +1,8 @@
 package com.qhtr.service;
 
+import java.util.List;
+
+import com.qhtr.common.PageBean;
 import com.qhtr.model.User;
 
 public interface UserService {
@@ -23,5 +26,12 @@ public interface UserService {
 	    * @return
 	    */
 	   int login(String phone, String password);
+	   
+	   /**
+	    * 条件查找用户
+	    * @param user
+	    * @return
+	    */
+	   public PageBean<User> getUserListByConditions(User user,int pageNum,int rows);
 }
 	
