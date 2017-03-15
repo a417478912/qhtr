@@ -1,7 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/common/base.jsp"%>
-<link href="${rootPath}dwz/themes/css/core.css" rel="stylesheet" type="text/css" />
-<script src="${rootPath}dwz/js/dwz.pagination.js" type="text/javascript"></script>
 
 <form id="pagerForm" method="post" action="${rootPath}/user/userList.do">
 	<input type="hidden" name="status" value="${param.status}">
@@ -98,8 +96,8 @@
 			</select>
 			<span>条，共${userList.total}条</span>
 		</div>
-
-		<%-- <div class="pagination" targetType="navTab" totalCount="${userList.total }" numPerPage="${userList.numPerPage}" pageNumShown="10" currentPage="${userList.pageNum }"></div> --%>
-		<div class="pagination" targetType="navTab" totalCount="100" numPerPage="20" pageNumShown="10" currentPage="1"></div>
+	
+	<div class="pagination" targetType="navTab" totalCount="200" numPerPage="20" pageNumShown="10" currentPage="1"></div>
 	</div>
+	
 </div>

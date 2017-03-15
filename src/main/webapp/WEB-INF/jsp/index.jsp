@@ -2,7 +2,8 @@
 <!DOCTYPE html>
 <head>
 <%@ include file="/common/base.jsp"%>
-<%@ include file="/common/baseDwz.jsp"%>
+<%@ include file="/common/baseDwzJs.jsp"%>
+<%@ include file="/common/baseDwzCss.jsp"%>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=7" />
