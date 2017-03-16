@@ -7,6 +7,8 @@ public class User {
 
     private String name;
 
+    private String nickName;
+
     private String phone;
 
     private String password;
@@ -19,11 +21,7 @@ public class User {
 
     private Date createTime;
 
-    private String string1;
-
-    private String string2;
-
-    private String string3;
+    private String birthday;
 
     public Integer getId() {
         return id;
@@ -39,6 +37,14 @@ public class User {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
     }
 
     public String getPhone() {
@@ -89,27 +95,11 @@ public class User {
         this.createTime = createTime;
     }
 
-    public String getString1() {
-        return string1;
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setString1(String string1) {
-        this.string1 = string1 == null ? null : string1.trim();
-    }
-
-    public String getString2() {
-        return string2;
-    }
-
-    public void setString2(String string2) {
-        this.string2 = string2 == null ? null : string2.trim();
-    }
-
-    public String getString3() {
-        return string3;
-    }
-
-    public void setString3(String string3) {
-        this.string3 = string3 == null ? null : string3.trim();
+    public void setBirthday(String birthday) {
+        this.birthday = birthday == null ? null : birthday.trim();
     }
 }

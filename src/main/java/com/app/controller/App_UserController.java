@@ -3,14 +3,19 @@ package com.app.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.qhtr.common.Json;
+import com.qhtr.model.User;
 import com.qhtr.service.UserService;
+import com.qhtr.utils.FileUploadUtils;
+import com.sun.tools.internal.xjc.model.SymbolSpace;
 
 @Controller
 @RequestMapping("/app_user")
@@ -52,6 +57,35 @@ public class App_UserController {
 		return j;
 	}
 	
+	/**
+	 * 更新用户信息
+	 * @param j
+	 * @param id
+	 * @param nickName
+	 * @param sex
+	 * @param birthday
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateUser",method=RequestMethod.POST)
+	public Json updateUser(Json j,@RequestParam int id,String nickName,String sex,String birthday){
+		int result = userService.updateUser(id,nickName,sex,birthday,"");
+		if(result == 1){
+			j.setMessage("更新成功!");
+		}else{
+			j.setSuccess(false);
+			j.setMessage("更新失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 用户登录
+	 * @param j
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/login")
 	public Json login(Json j,@RequestParam String phone,@RequestParam String password){
@@ -61,6 +95,28 @@ public class App_UserController {
 		}else{
 			j.setSuccess(false);
 			j.setMessage("登录失败");
+		}
+		return j;
+	}
+	
+	/**
+	 * 用户头像上传
+	 * @param j
+	 * @param id
+	 * @param avatar
+	 * @return
+	 * @throws Exception 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateAvatar",method=RequestMethod.POST)
+	public Json updateAvatar(Json j,@RequestParam int id,@RequestParam MultipartFile avatar) throws Exception{
+		String path = FileUploadUtils.uploadFile(avatar);
+		int result = userService.updateUser(id, "", "", "",path);
+		if(result == 1){
+			j.setMessage("更新成功!");
+		}else{
+			j.setSuccess(false);
+			j.setMessage("更新失败!");
 		}
 		return j;
 	}

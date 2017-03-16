@@ -4,18 +4,17 @@
   <resultMap id="BaseResultMap" type="com.qhtr.model.User" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="string1" property="string1" jdbcType="VARCHAR" />
-    <result column="string2" property="string2" jdbcType="VARCHAR" />
-    <result column="string3" property="string3" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, phone, password, sex, avatar, status, create_time, string1, string2, string3
+    id, name, nick_name, phone, password, sex, avatar, status, create_time, birthday
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -28,14 +27,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.User" >
-    insert into user (id, name, phone, 
-      password, sex, avatar, 
-      status, create_time, string1, 
-      string2, string3)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{string1,jdbcType=VARCHAR}, 
-      #{string2,jdbcType=VARCHAR}, #{string3,jdbcType=VARCHAR})
+    insert into user (id, name, nick_name, 
+      phone, password, sex, 
+      avatar, status, create_time, 
+      birthday)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{avatar,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{birthday,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.User" >
     insert into user
@@ -45,6 +44,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
       </if>
       <if test="phone != null" >
         phone,
@@ -64,14 +66,8 @@
       <if test="createTime != null" >
         create_time,
       </if>
-      <if test="string1 != null" >
-        string1,
-      </if>
-      <if test="string2 != null" >
-        string2,
-      </if>
-      <if test="string3 != null" >
-        string3,
+      <if test="birthday != null" >
+        birthday,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -80,6 +76,9 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
@@ -99,14 +98,8 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="string1 != null" >
-        #{string1,jdbcType=VARCHAR},
-      </if>
-      <if test="string2 != null" >
-        #{string2,jdbcType=VARCHAR},
-      </if>
-      <if test="string3 != null" >
-        #{string3,jdbcType=VARCHAR},
+      <if test="birthday != null" >
+        #{birthday,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -115,6 +108,9 @@
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
@@ -134,14 +130,8 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="string1 != null" >
-        string1 = #{string1,jdbcType=VARCHAR},
-      </if>
-      <if test="string2 != null" >
-        string2 = #{string2,jdbcType=VARCHAR},
-      </if>
-      <if test="string3 != null" >
-        string3 = #{string3,jdbcType=VARCHAR},
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -149,19 +139,18 @@
   <update id="updateByPrimaryKey" parameterType="com.qhtr.model.User" >
     update user
     set name = #{name,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      string1 = #{string1,jdbcType=VARCHAR},
-      string2 = #{string2,jdbcType=VARCHAR},
-      string3 = #{string3,jdbcType=VARCHAR}
+      birthday = #{birthday,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-   <!-- 自定义方法 -->
+  <!-- 自定义方法 -->
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.User" >
     select 
     <include refid="Base_Column_List" />

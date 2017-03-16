@@ -11,7 +11,17 @@
 	<input type="text" name="goodsId" value=1010>
 	<input type="text" name=num value=12>
 	<input type="submit" value="确定">
+	
 </form>
+
+<form action="${rootPath}app_user/updateAvatar.do" method="post" enctype="multipart/form-data">
+	<div>
+	<input type="file" name="avatar">
+	<input type="text" name="id" value=1>
+	<input type="submit" value="确定">
+	<img alt="" src="${rootPath}/upload/userAvatar/20170316/20170316/20170316181239_832.png">
+	</div>
+	</form>
 </body>
 </html>
 <script>

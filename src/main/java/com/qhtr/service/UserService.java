@@ -31,5 +31,14 @@ public interface UserService {
 	    * @return
 	    */
 	   public PageBean<User> getUserListByConditions(User user,int pageNum,int rows);
+	   /**
+	    * 修改用户
+	    * @param id
+	    * @param nickName
+	    * @param sex
+	    * @param birthday
+	    * @return
+	    */
+	   int updateUser(int id, String nickName, String sex, String birthday,String avatar);
 }
 	

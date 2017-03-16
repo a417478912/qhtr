@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -76,6 +77,25 @@ public class UserServiceImpl implements UserService{
 		PageHelper.startPage(pageNum,rows);
 		List<User> userList = userMapper.selectByConditions(user);
 		return new PageBean<User>(userList);
+	}
+
+	@Override
+	public int updateUser(int id, String nickName, String sex, String birthday,String avatar) {
+		User user = new User();
+		user.setId(id);
+		if(StringUtils.isNotBlank(nickName)){
+			user.setNickName(nickName);
+		}
+		if(StringUtils.isNotBlank(sex)){
+			user.setSex(sex);
+		}
+		if(StringUtils.isNotBlank(birthday)){
+			user.setBirthday(birthday);;
+		}
+		if(StringUtils.isNotBlank(avatar)){
+			user.setAvatar(avatar);
+		}
+		return userMapper.updateByPrimaryKeySelective(user);
 	}
 }
 	
