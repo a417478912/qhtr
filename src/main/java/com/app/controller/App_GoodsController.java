@@ -24,12 +24,14 @@ public class App_GoodsController {
 	 * 通过卖家id获取商品信息
 	 * @param j
 	 * @param sellerId
+	 * @param type 类型: 0.全部  1. 新品上架  2. 特卖    3 店长推荐
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value="/selectGoodsBySellerId")
-	public Json selectGoodsBySellerId(Json j,@RequestParam int sellerId){
-		List<Goods> goods = goodsService.selectGoodsBySellerId(sellerId);
+	public Json selectGoodsBySellerId(Json j,@RequestParam int sellerId,Integer type){
+		if(type == null) type =0;
+		List<Goods> goods = goodsService.selectGoodsBySellerId(sellerId,type);
 		if(goods != null){
 			j.setData(goods);
 		}else{

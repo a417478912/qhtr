@@ -5,16 +5,19 @@ public class Store {
 
     private Integer sellerId;
 
+    private Integer categoreId;
+
     private String name;
 
     private String phone;
 
     private String avatar;
-    /**
+	
+	/**
      * banner轮播图(pictureid)
      */
     private String picture1;
-    /**
+	/**
      * 地图上的展示图
      */
     private String picture2;
@@ -22,28 +25,14 @@ public class Store {
     private String picture3;
 
     private String details;
-    
-    public Integer getCollectNum() {
-		return collectNum;
-	}
 
-	public void setCollectNum(Integer collectNum) {
-		this.collectNum = collectNum;
-	}
-
-	public Integer getSellNum() {
-		return sellNum;
-	}
-
-	public void setSellNum(Integer sellNum) {
-		this.sellNum = sellNum;
-	}
-
-	private Integer collectNum;
+    private Integer collectNum;
 
     private Integer sellNum;
 
     private String location;
+
+    private Integer type;
 
     public Integer getId() {
         return id;
@@ -59,6 +48,14 @@ public class Store {
 
     public void setSellerId(Integer sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public Integer getCategoreId() {
+        return categoreId;
+    }
+
+    public void setCategoreId(Integer categoreId) {
+        this.categoreId = categoreId;
     }
 
     public String getName() {
@@ -117,11 +114,35 @@ public class Store {
         this.details = details == null ? null : details.trim();
     }
 
+    public Integer getCollectNum() {
+        return collectNum;
+    }
+
+    public void setCollectNum(Integer collectNum) {
+        this.collectNum = collectNum;
+    }
+
+    public Integer getSellNum() {
+        return sellNum;
+    }
+
+    public void setSellNum(Integer sellNum) {
+        this.sellNum = sellNum;
+    }
+
     public String getLocation() {
         return location;
     }
 
     public void setLocation(String location) {
         this.location = location == null ? null : location.trim();
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

@@ -1,5 +1,7 @@
 package com.qhtr.dao;
 
+import java.util.List;
+
 import com.qhtr.model.Category;
 
 public interface CategoryMapper {
@@ -14,4 +16,7 @@ public interface CategoryMapper {
     int updateByPrimaryKeySelective(Category record);
 
     int updateByPrimaryKey(Category record);
+    
+    //自定义方法
+    List<Category> selectByConditions(Category record);
 }

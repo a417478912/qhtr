@@ -11,14 +11,19 @@ public class User {
 
     private String password;
 
+    private String sex;
+
     private String avatar;
-    
-    /**
-     * 1为正常状态
-     */
+
     private Integer status;
 
     private Date createTime;
+
+    private String string1;
+
+    private String string2;
+
+    private String string3;
 
     public Integer getId() {
         return id;
@@ -52,6 +57,14 @@ public class User {
         this.password = password == null ? null : password.trim();
     }
 
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
+    }
+
     public String getAvatar() {
         return avatar;
     }
@@ -74,5 +87,29 @@ public class User {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getString1() {
+        return string1;
+    }
+
+    public void setString1(String string1) {
+        this.string1 = string1 == null ? null : string1.trim();
+    }
+
+    public String getString2() {
+        return string2;
+    }
+
+    public void setString2(String string2) {
+        this.string2 = string2 == null ? null : string2.trim();
+    }
+
+    public String getString3() {
+        return string3;
+    }
+
+    public void setString3(String string3) {
+        this.string3 = string3 == null ? null : string3.trim();
     }
 }

@@ -92,7 +92,7 @@
   </update>
   
    <!-- 自定义方法 -->
-  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Store" >
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Admin" >
     select 
     <include refid="Base_Column_List" />
     from admin

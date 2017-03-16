@@ -4,10 +4,20 @@ import java.util.List;
 
 import com.qhtr.model.Attr;
 import com.qhtr.model.Goods;
+import com.qhtr.model.Sku;
 
 public class GoodsDto {
-	private Goods goods;
-	private List<Attr> attrList;
+	public Goods goods;
+	public List<Attr> attrList;
+	public List<Sku> skuList;
+	
+	
+	public List<Sku> getSkuList() {
+		return skuList;
+	}
+	public void setSkuList(List<Sku> skuList) {
+		this.skuList = skuList;
+	}
 	public Goods getGoods() {
 		return goods;
 	}

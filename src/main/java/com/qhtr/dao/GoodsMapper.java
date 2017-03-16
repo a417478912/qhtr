@@ -24,5 +24,17 @@ public interface GoodsMapper {
      * 通过接 条件查询 商品
      */
     List<Goods> selectByConditions(Goods goods);
+    /**
+     * 周边好货
+     * @return
+     */
+
+	List<Goods> selectGoodsByCondition1();
+	/**
+	 * 通过内容搜索
+	 * @param searchContent
+	 * @return
+	 */
+	List<Goods> selectGoodsBySearch(String searchContent);
     
 }

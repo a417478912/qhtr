@@ -30,10 +30,10 @@ public class Goods {
     private String details;
 
     private Integer isdefault;
-	
 	/**
      * 1.待审核  2已上架  3,审核失败  4.已下架  5.已删除
      */
+
     private Integer status;
 
     private Date createTime;
@@ -57,6 +57,10 @@ public class Goods {
     private String string2;
 
     private String string3;
+
+    private Integer collectNum;
+
+    private Integer sellNum;
 
     public Integer getId() {
         return id;
@@ -84,7 +88,7 @@ public class Goods {
 
     public Integer getCategoryId() {
         return categoryId;
-    }
+    } 
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
@@ -264,5 +268,21 @@ public class Goods {
 
     public void setString3(String string3) {
         this.string3 = string3 == null ? null : string3.trim();
+    }
+
+    public Integer getCollectNum() {
+        return collectNum;
+    }
+
+    public void setCollectNum(Integer collectNum) {
+        this.collectNum = collectNum;
+    }
+
+    public Integer getSellNum() {
+        return sellNum;
+    }
+
+    public void setSellNum(Integer sellNum) {
+        this.sellNum = sellNum;
     }
 }

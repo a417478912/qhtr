@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.qhtr.model.Store" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
+    <result column="categore_id" property="categoreId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
@@ -14,10 +15,11 @@
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
     <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, seller_id, name, phone, avatar, picture1, picture2, picture3, details, collect_num, 
-    sell_num, location
+    id, seller_id, categore_id, name, phone, avatar, picture1, picture2, picture3, details, 
+    collect_num, sell_num, location, type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,16 +32,16 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Store" >
-    insert into seller_store (id, seller_id, name, 
-      phone, avatar, picture1, 
-      picture2, picture3, details, 
-      collect_num, sell_num, location
-      )
-    values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, 
-      #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
-      #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}
-      )
+    insert into seller_store (id, seller_id, categore_id, 
+      name, phone, avatar, 
+      picture1, picture2, picture3, 
+      details, collect_num, sell_num, 
+      location, type)
+    values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{categoreId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
+      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, 
+      #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
+      #{location,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Store" >
     insert into seller_store
@@ -49,6 +51,9 @@
       </if>
       <if test="sellerId != null" >
         seller_id,
+      </if>
+      <if test="categoreId != null" >
+        categore_id,
       </if>
       <if test="name != null" >
         name,
@@ -80,6 +85,9 @@
       <if test="location != null" >
         location,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,6 +95,9 @@
       </if>
       <if test="sellerId != null" >
         #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="categoreId != null" >
+        #{categoreId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -118,6 +129,9 @@
       <if test="location != null" >
         #{location,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Store" >
@@ -125,6 +139,9 @@
     <set >
       <if test="sellerId != null" >
         seller_id = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="categoreId != null" >
+        categore_id = #{categoreId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -156,12 +173,16 @@
       <if test="location != null" >
         location = #{location,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Store" >
     update seller_store
     set seller_id = #{sellerId,jdbcType=INTEGER},
+      categore_id = #{categoreId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
@@ -171,7 +192,8 @@
       details = #{details,jdbcType=VARCHAR},
       collect_num = #{collectNum,jdbcType=INTEGER},
       sell_num = #{sellNum,jdbcType=INTEGER},
-      location = #{location,jdbcType=VARCHAR}
+      location = #{location,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -208,6 +230,33 @@
       <if test="details != null" >
         and details = #{details,jdbcType=VARCHAR}
       </if>
+	   <if test="categoreId != null" >
+        and categore_id = #{categoreId,jdbcType=VARCHAR}
+      </if>
+	   <if test="type != null" >
+        and type = #{type,jdbcType=VARCHAR}
+      </if>
+	   <if test="collectNum != null" >
+        and collect_num = #{collectNum,jdbcType=VARCHAR}
+      </if>
+	   <if test="sellNum != null" >
+        and sell_num = #{sellNum,jdbcType=VARCHAR}
+      </if>
     </where>
+  </select>
+  
+  
+  <select id="selectHotStore" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from seller_store
+    order by sell_num desc
+  </select>
+  
+  <select id="selectStoreBySearch" resultMap="BaseResultMap"  parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from seller_store
+    where name like CONCAT("%",#{searchContent,jdbcType=VARCHAR},"%")
   </select>
 </mapper>

@@ -19,4 +19,15 @@ public interface StoreMapper {
     
     //自定义方法
     List<Store> selectByConditions(Store store);
+    /**
+     * 热店搜索
+     * @return
+     */
+	List<Store> selectHotStore();
+	/**
+	 * 通过内容搜索
+	 * @param searchContent
+	 * @return
+	 */
+	List<Store> selectStoreBySearch(String searchContent);
 }

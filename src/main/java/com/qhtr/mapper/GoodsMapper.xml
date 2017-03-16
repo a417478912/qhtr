@@ -28,12 +28,14 @@
     <result column="string1" property="string1" jdbcType="VARCHAR" />
     <result column="string2" property="string2" jdbcType="VARCHAR" />
     <result column="string3" property="string3" jdbcType="VARCHAR" />
+    <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
+    <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, seller_id, name, category_id, thumb, picture1, picture2, picture3, price, vip_price, 
     special_selling_price, stock, details, isDefault, status, create_time, pull_on_time, 
     new_pull_on_time, start_time, end_time, is_new_pull_on, is_recommended_by_store_manager, 
-    is_special_selling, string1, string2, string3
+    is_special_selling, string1, string2, string3, collect_num, sell_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -54,8 +56,8 @@
       create_time, pull_on_time, new_pull_on_time, 
       start_time, end_time, is_new_pull_on, 
       is_recommended_by_store_manager, is_special_selling, 
-      string1, string2, string3
-      )
+      string1, string2, string3, 
+      collect_num, sell_num)
     values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, 
       #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
@@ -64,8 +66,8 @@
       #{createTime,jdbcType=TIMESTAMP}, #{pullOnTime,jdbcType=TIMESTAMP}, #{newPullOnTime,jdbcType=TIMESTAMP}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isNewPullOn,jdbcType=INTEGER}, 
       #{isRecommendedByStoreManager,jdbcType=INTEGER}, #{isSpecialSelling,jdbcType=INTEGER}, 
-      #{string1,jdbcType=VARCHAR}, #{string2,jdbcType=VARCHAR}, #{string3,jdbcType=VARCHAR}
-      )
+      #{string1,jdbcType=VARCHAR}, #{string2,jdbcType=VARCHAR}, #{string3,jdbcType=VARCHAR}, 
+      #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Goods" >
     insert into goods_goods
@@ -148,6 +150,12 @@
       <if test="string3 != null" >
         string3,
       </if>
+      <if test="collectNum != null" >
+        collect_num,
+      </if>
+      <if test="sellNum != null" >
+        sell_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -227,6 +235,12 @@
       </if>
       <if test="string3 != null" >
         #{string3,jdbcType=VARCHAR},
+      </if>
+      <if test="collectNum != null" >
+        #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null" >
+        #{sellNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -308,6 +322,12 @@
       <if test="string3 != null" >
         string3 = #{string3,jdbcType=VARCHAR},
       </if>
+      <if test="collectNum != null" >
+        collect_num = #{collectNum,jdbcType=INTEGER},
+      </if>
+      <if test="sellNum != null" >
+        sell_num = #{sellNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -337,12 +357,14 @@
       is_special_selling = #{isSpecialSelling,jdbcType=INTEGER},
       string1 = #{string1,jdbcType=VARCHAR},
       string2 = #{string2,jdbcType=VARCHAR},
-      string3 = #{string3,jdbcType=VARCHAR}
+      string3 = #{string3,jdbcType=VARCHAR},
+      collect_num = #{collectNum,jdbcType=INTEGER},
+      sell_num = #{sellNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--以下自定义方法 --> 
-  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+<!--以下自定义方法 --> 
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Goods" >
     select 
     <include refid="Base_Column_List" />
     from goods_goods
@@ -418,4 +440,23 @@
       </if>
     </where>
   	</select>
+  	
+  	
+  	<!-- 周边好货 -->
+  <select id="selectGoodsByCondition1" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goods_goods
+    order by id desc
+  	</select>
+  	
+  	
+  	<!-- 通过内容搜索 -->
+  <select id="selectGoodsBySearch" resultMap="BaseResultMap"  parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_goods
+    where name like CONCAT("%",#{searchContent,jdbcType=VARCHAR},"%")
+  	</select>
+
 </mapper>

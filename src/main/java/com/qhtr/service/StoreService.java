@@ -1,5 +1,7 @@
 package com.qhtr.service;
 
+import java.util.List;
+
 import com.qhtr.model.Store;
 
 public interface StoreService {
@@ -15,5 +17,32 @@ public interface StoreService {
 	 * @return
 	 */
 	Store getStoreBySellerId(Integer sellerId);
-
+	/**
+	 * 根据经纬度，返回商铺信息
+	 * @param location 经纬度
+	 * @param distance 距离/默认1000米
+	 * @return
+	 */
+	List<Store> getStoresByDistance(String location,int distance);
+	/**
+	 * 通过分类查找店铺
+	 * @param type
+	 * @param page 第几页
+	 * @param num  数量
+	 * @return
+	 */
+	List<Store> getStoresByType(int type,int page,int num);
+	/**
+	 * 热店查找
+	 * @return
+	 */
+	List<Store> getHotStores(int page,int num);
+	/**
+	 * 通过内容搜索
+	 * @param searchContent
+	 * @param page
+	 * @param num
+	 * @return
+	 */
+	List<Store> selectStoreBySearch(String searchContent, int page, int num);
 }

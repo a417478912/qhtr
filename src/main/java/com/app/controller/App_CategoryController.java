@@ -1,0 +1,9 @@
+package com.app.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("/app_category")
+public class App_CategoryController {
+}

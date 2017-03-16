@@ -1,7 +1,5 @@
 package com.qhtr.service;
 
-import java.util.List;
-
 import com.qhtr.common.PageBean;
 import com.qhtr.model.User;
 
