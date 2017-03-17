@@ -5,6 +5,8 @@ import java.util.Date;
 public class Goods {
     private Integer id;
 
+    private String goodsCode;
+
     private Integer sellerId;
 
     private String name;
@@ -30,10 +32,10 @@ public class Goods {
     private String details;
 
     private Integer isdefault;
+	
 	/**
      * 1.待审核  2已上架  3,审核失败  4.已下架  5.已删除
      */
-
     private Integer status;
 
     private Date createTime;
@@ -70,6 +72,14 @@ public class Goods {
         this.id = id;
     }
 
+    public String getGoodsCode() {
+        return goodsCode;
+    }
+
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode == null ? null : goodsCode.trim();
+    }
+
     public Integer getSellerId() {
         return sellerId;
     }
@@ -88,7 +98,7 @@ public class Goods {
 
     public Integer getCategoryId() {
         return categoryId;
-    } 
+    }
 
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;

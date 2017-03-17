@@ -3,6 +3,7 @@
 <mapper namespace="com.qhtr.dao.GoodsMapper" >
   <resultMap id="BaseResultMap" type="com.qhtr.model.Goods" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
     <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
@@ -32,9 +33,9 @@
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, seller_id, name, category_id, thumb, picture1, picture2, picture3, price, vip_price, 
-    special_selling_price, stock, details, isDefault, status, create_time, pull_on_time, 
-    new_pull_on_time, start_time, end_time, is_new_pull_on, is_recommended_by_store_manager, 
+    id, goods_code, seller_id, name, category_id, thumb, picture1, picture2, picture3, 
+    price, vip_price, special_selling_price, stock, details, isDefault, status, create_time, 
+    pull_on_time, new_pull_on_time, start_time, end_time, is_new_pull_on, is_recommended_by_store_manager, 
     is_special_selling, string1, string2, string3, collect_num, sell_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -48,32 +49,37 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Goods" >
-    insert into goods_goods (id, seller_id, name, 
-      category_id, thumb, picture1, 
-      picture2, picture3, price, 
-      vip_price, special_selling_price, stock, 
-      details, isDefault, status, 
-      create_time, pull_on_time, new_pull_on_time, 
-      start_time, end_time, is_new_pull_on, 
-      is_recommended_by_store_manager, is_special_selling, 
-      string1, string2, string3, 
-      collect_num, sell_num)
-    values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, #{picture1,jdbcType=VARCHAR}, 
-      #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{vipPrice,jdbcType=INTEGER}, #{specialSellingPrice,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, 
-      #{details,jdbcType=VARCHAR}, #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{pullOnTime,jdbcType=TIMESTAMP}, #{newPullOnTime,jdbcType=TIMESTAMP}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{isNewPullOn,jdbcType=INTEGER}, 
-      #{isRecommendedByStoreManager,jdbcType=INTEGER}, #{isSpecialSelling,jdbcType=INTEGER}, 
-      #{string1,jdbcType=VARCHAR}, #{string2,jdbcType=VARCHAR}, #{string3,jdbcType=VARCHAR}, 
-      #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER})
+    insert into goods_goods (id, goods_code, seller_id, 
+      name, category_id, thumb, 
+      picture1, picture2, picture3, 
+      price, vip_price, special_selling_price, 
+      stock, details, isDefault, 
+      status, create_time, pull_on_time, 
+      new_pull_on_time, start_time, end_time, 
+      is_new_pull_on, is_recommended_by_store_manager, 
+      is_special_selling, string1, string2, 
+      string3, collect_num, sell_num
+      )
+    values (#{id,jdbcType=INTEGER}, #{goodsCode,jdbcType=VARCHAR}, #{sellerId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, 
+      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{vipPrice,jdbcType=INTEGER}, #{specialSellingPrice,jdbcType=INTEGER}, 
+      #{stock,jdbcType=INTEGER}, #{details,jdbcType=VARCHAR}, #{isdefault,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{pullOnTime,jdbcType=TIMESTAMP}, 
+      #{newPullOnTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{isNewPullOn,jdbcType=INTEGER}, #{isRecommendedByStoreManager,jdbcType=INTEGER}, 
+      #{isSpecialSelling,jdbcType=INTEGER}, #{string1,jdbcType=VARCHAR}, #{string2,jdbcType=VARCHAR}, 
+      #{string3,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Goods" >
     insert into goods_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="goodsCode != null" >
+        goods_code,
       </if>
       <if test="sellerId != null" >
         seller_id,
@@ -161,6 +167,9 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
+      </if>
       <if test="sellerId != null" >
         #{sellerId,jdbcType=INTEGER},
       </if>
@@ -247,6 +256,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Goods" >
     update goods_goods
     <set >
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
+      </if>
       <if test="sellerId != null" >
         seller_id = #{sellerId,jdbcType=INTEGER},
       </if>
@@ -333,7 +345,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Goods" >
     update goods_goods
-    set seller_id = #{sellerId,jdbcType=INTEGER},
+    set goods_code = #{goodsCode,jdbcType=VARCHAR},
+      seller_id = #{sellerId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       thumb = #{thumb,jdbcType=VARCHAR},
@@ -363,7 +376,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-<!--以下自定义方法 --> 
+  <!--以下自定义方法 --> 
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Goods" >
     select 
     <include refid="Base_Column_List" />
@@ -374,6 +387,9 @@
       </if>
      <if test="sellerId != null">
         and seller_id = #{sellerId,jdbcType=INTEGER}
+      </if>
+     <if test="goodsCode != null">
+        and goods_code = #{goodsCode,jdbcType=VARCHAR}
       </if>
       <if test="name != null">
         and name = #{name,jdbcType=VARCHAR}
@@ -458,5 +474,4 @@
     from goods_goods
     where name like CONCAT("%",#{searchContent,jdbcType=VARCHAR},"%")
   	</select>
-
 </mapper>
