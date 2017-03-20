@@ -6,6 +6,7 @@ import com.app.dto.BuyCartDto;
 import com.qhtr.model.BuyCart;
 
 public interface BuyCartService {
+	BuyCart selectById(int id);
 	/**
 	 * 通过用户id查询购物车
 	 * @param userId
@@ -43,4 +44,10 @@ public interface BuyCartService {
 	 * @return
 	 */
 	int updateBatch(List<BuyCart> carts);
+	/**
+	 * 通过购物车ids，查找购物车信息
+	 * @param ids
+	 * @return
+	 */
+	List<BuyCartDto> selectByIds(int[] ids);
 }

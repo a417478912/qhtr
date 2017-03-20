@@ -7,7 +7,7 @@ public class StoreOrder {
 
     private String orderCode;
 
-    private Integer payOrderId;
+    private String payOrderCode;
 
     private Integer sellerId;
 
@@ -25,6 +25,8 @@ public class StoreOrder {
 
     private Date cancalTime;
 
+    private String userRemark;
+
     public Integer getId() {
         return id;
     }
@@ -41,12 +43,12 @@ public class StoreOrder {
         this.orderCode = orderCode == null ? null : orderCode.trim();
     }
 
-    public Integer getPayOrderId() {
-        return payOrderId;
+    public String getPayOrderCode() {
+        return payOrderCode;
     }
 
-    public void setPayOrderId(Integer payOrderId) {
-        this.payOrderId = payOrderId;
+    public void setPayOrderCode(String payOrderCode) {
+        this.payOrderCode = payOrderCode == null ? null : payOrderCode.trim();
     }
 
     public Integer getSellerId() {
@@ -111,5 +113,13 @@ public class StoreOrder {
 
     public void setCancalTime(Date cancalTime) {
         this.cancalTime = cancalTime;
+    }
+
+    public String getUserRemark() {
+        return userRemark;
+    }
+
+    public void setUserRemark(String userRemark) {
+        this.userRemark = userRemark == null ? null : userRemark.trim();
     }
 }

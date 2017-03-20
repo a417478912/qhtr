@@ -1,5 +1,7 @@
 package com.qhtr.dao;
 
+import java.util.List;
+
 import com.qhtr.model.StoreOrder;
 
 public interface StoreOrderMapper {
@@ -14,4 +16,7 @@ public interface StoreOrderMapper {
     int updateByPrimaryKeySelective(StoreOrder record);
 
     int updateByPrimaryKey(StoreOrder record);
+    
+    //自定义方法
+    List<StoreOrder> selectByConditions(StoreOrder record);
 }

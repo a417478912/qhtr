@@ -1,5 +1,7 @@
 package com.qhtr.dao;
 
+import java.util.List;
+
 import com.qhtr.model.PayOrder;
 
 public interface PayOrderMapper {
@@ -14,4 +16,6 @@ public interface PayOrderMapper {
     int updateByPrimaryKeySelective(PayOrder record);
 
     int updateByPrimaryKey(PayOrder record);
+
+	List<PayOrder> selectByConditions(PayOrder poTem);
 }

@@ -218,6 +218,17 @@
     and u.user_id = #{userId,jdbcType=INTEGER}
   </select>
   
+  <!-- 通过购物车ids查找购物车信息  -->
+  <select id="selectByIds" resultMap="StoreMap" parameterType="java.lang.Integer" >
+    select  u.id as id,u.goods_id as goods_id,u.sku_id as sku_id,u.num as num,u.user_id as user_id,
+    s.id as store_id,s.name as store_name
+    from user_buycart u,seller_store s
+    where u.store_id = s.id and u.id in
+    <foreach item="ids" collection="array" open="(" separator="," close=")">
+	#{ids}
+	</foreach>
+  </select>
+  
   <delete id="deleteByIds" parameterType="java.lang.Integer" >
     delete from user_buycart
     where id in 

@@ -12,13 +12,22 @@ public class BuyCart {
     private Integer storeId;
 
     private Integer userId;
-
+    
+    /**
+     * 商品名字
+     */
     private String string1;
-
+    /**
+     * sku详情
+     */
     private String string2;
-
+    /**
+     * 价格
+     */
     private String string3;
-
+    /**
+     * goods code
+     */
     private String string4;
 
     private String string5;

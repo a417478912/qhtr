@@ -7,15 +7,17 @@ public class GoodsOrder {
 
     private String orderCode;
 
-    private Integer storeOrderId;
-
-    private Integer payOrderId;
+    private String storeOrderCode;
 
     private Integer goodsId;
 
     private Integer userId;
 
+    private Integer addressId;
+
     private Integer sellerId;
+
+    private Integer storeId;
 
     private Integer skuId;
 
@@ -26,8 +28,8 @@ public class GoodsOrder {
     private String userRemark;
 
     private Integer price;
-    
-    /**
+	
+	/**
      * 取货方式/配送方式    1.快递   2.自取
      */
     private Integer distributionType;
@@ -68,20 +70,12 @@ public class GoodsOrder {
         this.orderCode = orderCode == null ? null : orderCode.trim();
     }
 
-    public Integer getStoreOrderId() {
-        return storeOrderId;
+    public String getStoreOrderCode() {
+        return storeOrderCode;
     }
 
-    public void setStoreOrderId(Integer storeOrderId) {
-        this.storeOrderId = storeOrderId;
-    }
-
-    public Integer getPayOrderId() {
-        return payOrderId;
-    }
-
-    public void setPayOrderId(Integer payOrderId) {
-        this.payOrderId = payOrderId;
+    public void setStoreOrderCode(String storeOrderCode) {
+        this.storeOrderCode = storeOrderCode == null ? null : storeOrderCode.trim();
     }
 
     public Integer getGoodsId() {
@@ -100,12 +94,28 @@ public class GoodsOrder {
         this.userId = userId;
     }
 
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
     public Integer getSellerId() {
         return sellerId;
     }
 
     public void setSellerId(Integer sellerId) {
         this.sellerId = sellerId;
+    }
+
+    public Integer getStoreId() {
+        return storeId;
+    }
+
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     public Integer getSkuId() {

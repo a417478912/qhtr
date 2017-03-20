@@ -5,13 +5,13 @@ import java.util.List;
 import com.qhtr.model.BuyCart;
 
 public class BuyCartDto {
-	public String storeId;
+	public int storeId;
 	public String storeName;
 	public List<BuyCart> buyCartList;
-	public String getStoreId() {
+	public int getStoreId() {
 		return storeId;
 	}
-	public void setStoreId(String storeId) {
+	public void setStoreId(int storeId) {
 		this.storeId = storeId;
 	}
 	public String getStoreName() {

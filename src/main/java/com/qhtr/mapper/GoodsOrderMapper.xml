@@ -4,11 +4,12 @@
   <resultMap id="BaseResultMap" type="com.qhtr.model.GoodsOrder" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
-    <result column="store_order_id" property="storeOrderId" jdbcType="INTEGER" />
-    <result column="pay_order_id" property="payOrderId" jdbcType="INTEGER" />
+    <result column="store_order_code" property="storeOrderCode" jdbcType="VARCHAR" />
     <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="address_id" property="addressId" jdbcType="INTEGER" />
     <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="sku_id" property="skuId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="num" property="num" jdbcType="INTEGER" />
@@ -27,10 +28,10 @@
     <result column="after_sale_time" property="afterSaleTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_code, store_order_id, pay_order_id, goods_id, user_id, seller_id, sku_id, 
-    status, num, user_remark, price, distribution_type, goods_name, goods_code, sku__attr_details, 
-    total_price, create_time, cancal_time, payment_time, receive_time, comment_time, 
-    after_sale_time
+    id, order_code, store_order_code, goods_id, user_id, address_id, seller_id, store_id, 
+    sku_id, status, num, user_remark, price, distribution_type, goods_name, goods_code, 
+    sku__attr_details, total_price, create_time, cancal_time, payment_time, receive_time, 
+    comment_time, after_sale_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -43,22 +44,24 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.GoodsOrder" >
-    insert into order_goods_order (id, order_code, store_order_id, 
-      pay_order_id, goods_id, user_id, 
-      seller_id, sku_id, status, 
-      num, user_remark, price, 
-      distribution_type, goods_name, goods_code, 
-      sku__attr_details, total_price, create_time, 
-      cancal_time, payment_time, receive_time, 
-      comment_time, after_sale_time)
-    values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{storeOrderId,jdbcType=INTEGER}, 
-      #{payOrderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{sellerId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{num,jdbcType=INTEGER}, #{userRemark,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{distributionType,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
-      #{skuAttrDetails,jdbcType=VARCHAR}, #{totalPrice,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{cancalTime,jdbcType=TIMESTAMP}, #{paymentTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, 
-      #{commentTime,jdbcType=TIMESTAMP}, #{afterSaleTime,jdbcType=TIMESTAMP})
+    insert into order_goods_order (id, order_code, store_order_code, 
+      goods_id, user_id, address_id, 
+      seller_id, store_id, sku_id, 
+      status, num, user_remark, 
+      price, distribution_type, goods_name, 
+      goods_code, sku__attr_details, total_price, 
+      create_time, cancal_time, payment_time, 
+      receive_time, comment_time, after_sale_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{storeOrderCode,jdbcType=VARCHAR}, 
+      #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
+      #{sellerId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{userRemark,jdbcType=VARCHAR}, 
+      #{price,jdbcType=INTEGER}, #{distributionType,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{skuAttrDetails,jdbcType=VARCHAR}, #{totalPrice,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{cancalTime,jdbcType=TIMESTAMP}, #{paymentTime,jdbcType=TIMESTAMP}, 
+      #{receiveTime,jdbcType=TIMESTAMP}, #{commentTime,jdbcType=TIMESTAMP}, #{afterSaleTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.GoodsOrder" >
     insert into order_goods_order
@@ -69,11 +72,8 @@
       <if test="orderCode != null" >
         order_code,
       </if>
-      <if test="storeOrderId != null" >
-        store_order_id,
-      </if>
-      <if test="payOrderId != null" >
-        pay_order_id,
+      <if test="storeOrderCode != null" >
+        store_order_code,
       </if>
       <if test="goodsId != null" >
         goods_id,
@@ -81,8 +81,14 @@
       <if test="userId != null" >
         user_id,
       </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
       <if test="sellerId != null" >
         seller_id,
+      </if>
+      <if test="storeId != null" >
+        store_id,
       </if>
       <if test="skuId != null" >
         sku_id,
@@ -140,11 +146,8 @@
       <if test="orderCode != null" >
         #{orderCode,jdbcType=VARCHAR},
       </if>
-      <if test="storeOrderId != null" >
-        #{storeOrderId,jdbcType=INTEGER},
-      </if>
-      <if test="payOrderId != null" >
-        #{payOrderId,jdbcType=INTEGER},
+      <if test="storeOrderCode != null" >
+        #{storeOrderCode,jdbcType=VARCHAR},
       </if>
       <if test="goodsId != null" >
         #{goodsId,jdbcType=INTEGER},
@@ -152,8 +155,14 @@
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=INTEGER},
+      </if>
       <if test="sellerId != null" >
         #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
       </if>
       <if test="skuId != null" >
         #{skuId,jdbcType=INTEGER},
@@ -211,11 +220,8 @@
       <if test="orderCode != null" >
         order_code = #{orderCode,jdbcType=VARCHAR},
       </if>
-      <if test="storeOrderId != null" >
-        store_order_id = #{storeOrderId,jdbcType=INTEGER},
-      </if>
-      <if test="payOrderId != null" >
-        pay_order_id = #{payOrderId,jdbcType=INTEGER},
+      <if test="storeOrderCode != null" >
+        store_order_code = #{storeOrderCode,jdbcType=VARCHAR},
       </if>
       <if test="goodsId != null" >
         goods_id = #{goodsId,jdbcType=INTEGER},
@@ -223,8 +229,14 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="addressId != null" >
+        address_id = #{addressId,jdbcType=INTEGER},
+      </if>
       <if test="sellerId != null" >
         seller_id = #{sellerId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=INTEGER},
       </if>
       <if test="skuId != null" >
         sku_id = #{skuId,jdbcType=INTEGER},
@@ -280,11 +292,12 @@
   <update id="updateByPrimaryKey" parameterType="com.qhtr.model.GoodsOrder" >
     update order_goods_order
     set order_code = #{orderCode,jdbcType=VARCHAR},
-      store_order_id = #{storeOrderId,jdbcType=INTEGER},
-      pay_order_id = #{payOrderId,jdbcType=INTEGER},
+      store_order_code = #{storeOrderCode,jdbcType=VARCHAR},
       goods_id = #{goodsId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
       seller_id = #{sellerId,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
       sku_id = #{skuId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
@@ -303,7 +316,7 @@
       after_sale_time = #{afterSaleTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
+
   <!--以下自定义方法 --> 
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.GoodsOrder" >
     select 
@@ -317,10 +330,7 @@
         and order_code = #{orderCode,jdbcType=VARCHAR}
       </if>
       <if test="storeOrderId != null" >
-        and store_order_id = #{storeOrderId,jdbcType=INTEGER}
-      </if>
-      <if test="payOrderId != null" >
-        and pay_order_id = #{payOrderId,jdbcType=INTEGER}
+        and store_order_code = #{storeOrderCode,jdbcType=VARCHAR}
       </if>
       <if test="goodsId != null" >
         and goods_id = #{goodsId,jdbcType=INTEGER}
@@ -330,6 +340,9 @@
       </if>
       <if test="sellerId != null" >
         and seller_id = #{sellerId,jdbcType=INTEGER}
+      </if>
+      <if test="storeId != null" >
+        and store_id = #{storeId,jdbcType=INTEGER}
       </if>
       <if test="skuId != null" >
         and sku_id = #{skuId,jdbcType=INTEGER}
@@ -381,4 +394,5 @@
       </if>
     </where>
   	</select>
+
 </mapper>
