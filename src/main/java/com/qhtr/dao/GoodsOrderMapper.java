@@ -1,5 +1,7 @@
 package com.qhtr.dao;
 
+import java.util.List;
+
 import com.qhtr.model.GoodsOrder;
 
 public interface GoodsOrderMapper {
@@ -14,4 +16,7 @@ public interface GoodsOrderMapper {
     int updateByPrimaryKeySelective(GoodsOrder record);
 
     int updateByPrimaryKey(GoodsOrder record);
+    
+  //自定义方法
+    List<GoodsOrder> selectByConditions(GoodsOrder record);
 }

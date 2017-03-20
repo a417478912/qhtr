@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.User;
 import com.qhtr.service.UserService;
@@ -88,9 +89,11 @@ public class App_UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/login")
-	public Json login(Json j,@RequestParam String phone,@RequestParam String password){
-		int result = userService.login(phone,password);
-		if(result == 1){
+	public Json login(Json j,@RequestParam String phone,@RequestParam String password,HttpServletRequest request){
+		User user = userService.login(phone,password);
+		if(user != null){
+			request.getSession().setAttribute(Constants.USER_KEY, user);
+			j.setData(user.getId());
 			j.setMessage("登录成功");
 		}else{
 			j.setSuccess(false);
@@ -118,6 +121,20 @@ public class App_UserController {
 			j.setSuccess(false);
 			j.setMessage("更新失败!");
 		}
+		return j;
+	}
+	
+	/**
+	 * 查询用户信息
+	 * @param j
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getUserInfo")
+	public Json getUserInfo(Json j,@RequestParam int id){
+		User user = userService.getUserById(id);
+		j.setData(user);
 		return j;
 	}
 }

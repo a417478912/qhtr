@@ -23,7 +23,7 @@ public interface UserService {
 	    * @param password
 	    * @return
 	    */
-	   int login(String phone, String password);
+	   User login(String phone, String password);
 	   
 	   /**
 	    * 条件查找用户

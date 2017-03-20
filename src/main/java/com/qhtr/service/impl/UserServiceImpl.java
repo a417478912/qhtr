@@ -60,15 +60,15 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int login(String phone, String password) {
+	public User login(String phone, String password) {
 		User user = new User();
 		user.setPhone(phone);
 		user.setPassword(MD5Utils.getString(password));
 		List<User> users = userMapper.selectByConditions(user);
 		if(users.isEmpty()){
-			return 0;
+			return null;
 		}else{
-			return 1;
+			return users.get(0);
 		}
 	}
 

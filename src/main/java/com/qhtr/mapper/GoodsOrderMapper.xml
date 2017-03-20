@@ -7,9 +7,12 @@
     <result column="store_order_id" property="storeOrderId" jdbcType="INTEGER" />
     <result column="pay_order_id" property="payOrderId" jdbcType="INTEGER" />
     <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
     <result column="sku_id" property="skuId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="user_remark" property="userRemark" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="distribution_type" property="distributionType" jdbcType="INTEGER" />
     <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
@@ -24,9 +27,10 @@
     <result column="after_sale_time" property="afterSaleTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_code, store_order_id, pay_order_id, goods_id, sku_id, status, num, price, 
-    distribution_type, goods_name, goods_code, sku__attr_details, total_price, create_time, 
-    cancal_time, payment_time, receive_time, comment_time, after_sale_time
+    id, order_code, store_order_id, pay_order_id, goods_id, user_id, seller_id, sku_id, 
+    status, num, user_remark, price, distribution_type, goods_name, goods_code, sku__attr_details, 
+    total_price, create_time, cancal_time, payment_time, receive_time, comment_time, 
+    after_sale_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -40,15 +44,17 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.GoodsOrder" >
     insert into order_goods_order (id, order_code, store_order_id, 
-      pay_order_id, goods_id, sku_id, 
-      status, num, price, 
+      pay_order_id, goods_id, user_id, 
+      seller_id, sku_id, status, 
+      num, user_remark, price, 
       distribution_type, goods_name, goods_code, 
       sku__attr_details, total_price, create_time, 
       cancal_time, payment_time, receive_time, 
       comment_time, after_sale_time)
     values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{storeOrderId,jdbcType=INTEGER}, 
-      #{payOrderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, 
+      #{payOrderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{sellerId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{userRemark,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
       #{distributionType,jdbcType=INTEGER}, #{goodsName,jdbcType=VARCHAR}, #{goodsCode,jdbcType=VARCHAR}, 
       #{skuAttrDetails,jdbcType=VARCHAR}, #{totalPrice,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{cancalTime,jdbcType=TIMESTAMP}, #{paymentTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, 
@@ -72,6 +78,12 @@
       <if test="goodsId != null" >
         goods_id,
       </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="sellerId != null" >
+        seller_id,
+      </if>
       <if test="skuId != null" >
         sku_id,
       </if>
@@ -80,6 +92,9 @@
       </if>
       <if test="num != null" >
         num,
+      </if>
+      <if test="userRemark != null" >
+        user_remark,
       </if>
       <if test="price != null" >
         price,
@@ -134,6 +149,12 @@
       <if test="goodsId != null" >
         #{goodsId,jdbcType=INTEGER},
       </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sellerId != null" >
+        #{sellerId,jdbcType=INTEGER},
+      </if>
       <if test="skuId != null" >
         #{skuId,jdbcType=INTEGER},
       </if>
@@ -142,6 +163,9 @@
       </if>
       <if test="num != null" >
         #{num,jdbcType=INTEGER},
+      </if>
+      <if test="userRemark != null" >
+        #{userRemark,jdbcType=VARCHAR},
       </if>
       <if test="price != null" >
         #{price,jdbcType=INTEGER},
@@ -196,6 +220,12 @@
       <if test="goodsId != null" >
         goods_id = #{goodsId,jdbcType=INTEGER},
       </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="sellerId != null" >
+        seller_id = #{sellerId,jdbcType=INTEGER},
+      </if>
       <if test="skuId != null" >
         sku_id = #{skuId,jdbcType=INTEGER},
       </if>
@@ -204,6 +234,9 @@
       </if>
       <if test="num != null" >
         num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="userRemark != null" >
+        user_remark = #{userRemark,jdbcType=VARCHAR},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=INTEGER},
@@ -250,9 +283,12 @@
       store_order_id = #{storeOrderId,jdbcType=INTEGER},
       pay_order_id = #{payOrderId,jdbcType=INTEGER},
       goods_id = #{goodsId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      seller_id = #{sellerId,jdbcType=INTEGER},
       sku_id = #{skuId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       num = #{num,jdbcType=INTEGER},
+      user_remark = #{userRemark,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
       distribution_type = #{distributionType,jdbcType=INTEGER},
       goods_name = #{goodsName,jdbcType=VARCHAR},
@@ -267,4 +303,82 @@
       after_sale_time = #{afterSaleTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!--以下自定义方法 --> 
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.GoodsOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_goods_order
+    <where>
+   	 <if test="1 == 1" >
+        1 = 1
+      </if>
+     <if test="orderCode != null" >
+        and order_code = #{orderCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeOrderId != null" >
+        and store_order_id = #{storeOrderId,jdbcType=INTEGER}
+      </if>
+      <if test="payOrderId != null" >
+        and pay_order_id = #{payOrderId,jdbcType=INTEGER}
+      </if>
+      <if test="goodsId != null" >
+        and goods_id = #{goodsId,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="sellerId != null" >
+        and seller_id = #{sellerId,jdbcType=INTEGER}
+      </if>
+      <if test="skuId != null" >
+        and sku_id = #{skuId,jdbcType=INTEGER}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="num != null" >
+        and num = #{num,jdbcType=INTEGER}
+      </if>
+      <if test="userRemark != null" >
+        and user_remark = #{userRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="price != null" >
+        and price = #{price,jdbcType=INTEGER}
+      </if>
+      <if test="distributionType != null" >
+        and distribution_type = #{distributionType,jdbcType=INTEGER}
+      </if>
+      <if test="goodsName != null" >
+        and goods_name = #{goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="goodsCode != null" >
+        and goods_code = #{goodsCode,jdbcType=VARCHAR}
+      </if>
+      <if test="skuAttrDetails != null" >
+        and sku__attr_details = #{skuAttrDetails,jdbcType=VARCHAR}
+      </if>
+      <if test="totalPrice != null" >
+        and total_price = #{totalPrice,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cancalTime != null" >
+        and cancal_time = #{cancalTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="paymentTime != null" >
+        and payment_time = #{paymentTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="receiveTime != null" >
+        and receive_time = #{receiveTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="commentTime != null" >
+        and comment_time = #{commentTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="afterSaleTime != null" >
+        and after_sale_time = #{afterSaleTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  	</select>
 </mapper>

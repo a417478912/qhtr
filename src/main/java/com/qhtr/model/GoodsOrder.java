@@ -13,14 +13,23 @@ public class GoodsOrder {
 
     private Integer goodsId;
 
+    private Integer userId;
+
+    private Integer sellerId;
+
     private Integer skuId;
 
     private Integer status;
 
     private Integer num;
 
-    private Integer price;
+    private String userRemark;
 
+    private Integer price;
+    
+    /**
+     * 取货方式/配送方式    1.快递   2.自取
+     */
     private Integer distributionType;
 
     private String goodsName;
@@ -83,6 +92,22 @@ public class GoodsOrder {
         this.goodsId = goodsId;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Integer sellerId) {
+        this.sellerId = sellerId;
+    }
+
     public Integer getSkuId() {
         return skuId;
     }
@@ -105,6 +130,14 @@ public class GoodsOrder {
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public String getUserRemark() {
+        return userRemark;
+    }
+
+    public void setUserRemark(String userRemark) {
+        this.userRemark = userRemark == null ? null : userRemark.trim();
     }
 
     public Integer getPrice() {

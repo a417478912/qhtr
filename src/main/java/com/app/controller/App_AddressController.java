@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +21,7 @@ public class App_AddressController {
 	public AddressService addressService;
 	
 	@ResponseBody
-	@RequestMapping(value="/addAddress")
+	@RequestMapping(value="/addAddress",method=RequestMethod.POST)
 	public Json addAddress(Json j,Address address) throws Exception{
 		int result = addressService.addAddress(address);
 		if(result == 0){
@@ -33,7 +34,7 @@ public class App_AddressController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/deleteAddress")
+	@RequestMapping(value="/deleteAddress",method=RequestMethod.POST)
 	public Json deleteAddress(Json j,@RequestParam int id){
 		int result = addressService.deleteAddressById(id);
 		if(result == 0){
@@ -46,7 +47,7 @@ public class App_AddressController {
 	}
 	
 	@ResponseBody
-	@RequestMapping(value="/updateAddress")
+	@RequestMapping(value="/updateAddress",method=RequestMethod.POST)
 	public Json updateAddress(Json j,Address address){
 		int result = addressService.updateAddress(address);
 		if(result == 0){
@@ -67,7 +68,7 @@ public class App_AddressController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value="/setAddressDefault")
+	@RequestMapping(value="/setAddressDefault",method=RequestMethod.POST)
 	public Json setAddressDefault(Json j,@RequestParam int id){
 		int result = addressService.updateToDeafult(id);
 		if(result == 0){
