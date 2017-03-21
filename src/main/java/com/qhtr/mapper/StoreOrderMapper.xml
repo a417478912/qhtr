@@ -15,6 +15,26 @@
     <result column="cancal_time" property="cancalTime" jdbcType="TIMESTAMP" />
     <result column="user_remark" property="userRemark" jdbcType="VARCHAR" />
   </resultMap>
+  
+  
+  <resultMap id="BaseResultMap1" type="com.app.dto.GoodsOrderDto" >
+    <result column="goodsOrderId" property="goodsOrderId" jdbcType="INTEGER" />
+    <result column="thumb" property="thumb" jdbcType="VARCHAR" />
+    <result column="skuDetails" property="skuDetails" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="num" property="num" jdbcType="INTEGER" />
+    <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+  </resultMap>
+   <resultMap id="StoreOrderMap" type="com.app.dto.StoreOrderDto" >
+    <result column="storeId" property="storeId" jdbcType="INTEGER" />
+    <result column="storeOrderId" property="storeOrderId" jdbcType="INTEGER" />
+    <result column="storeName" property="storeName" jdbcType="VARCHAR" />
+    <result column="totalPrice" property="totalPrice" jdbcType="INTEGER" />
+    <result column="storeAvatar" property="storeAvatar" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <collection property="goodsOrders" resultMap="BaseResultMap1" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, order_code, pay_order_code, seller_id, store_id, user_id, total_price, status, 
     creat_time, payment_time, cancal_time, user_remark
@@ -213,5 +233,24 @@
       </if>
     </where>
   </select>
-
+  
+  
+    <select id="selectByUser" resultMap="StoreOrderMap" parameterType="java.util.Map">
+	    select s.id as storeOrderId,s.total_price as totalPrice,s.store_id as storeId,s.status as status,
+	    	   e.name as storeName,e.avatar as storeAvatar,
+	    	   g.id as goodsOrderId,g.price as price,g.num as num,
+	    	   o.name as goodsName,o.thumb as thumb,
+	    	   u.attr_details as skuDetails
+	    from order_store_order s,
+	    	 order_goods_order g,
+	    	 goods_goods o,
+	    	 goods_sku u,
+	    	 seller_store e
+		where s.order_code = g.store_order_code and g.goods_id = o.id and g.sku_id = u.id ands.store_id = e.id
+		and   s.userId = userId
+		 <if test="status != null" >
+       		 and s.status = #{status,jdbcType=INTEGER}
+    	 </if>
+		order by s.create_time desc
+  </select>
 </mapper>

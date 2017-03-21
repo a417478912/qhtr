@@ -84,7 +84,7 @@ public class AlipayServiceImpl implements AlipayService {
 						GoodsOrder goTem = new GoodsOrder();
 						goTem.setOrderCode(out_trade_no);
 						List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
-						if(!goList.isEmpty()){
+						/*if(!goList.isEmpty()){
 							GoodsOrder go = goList.get(0);
 							int goPrice = go.getTotalPrice();
 							float goPriceF = goPrice/100;
@@ -93,7 +93,7 @@ public class AlipayServiceImpl implements AlipayService {
 								 go.setPaymentTime(new Date());
 								 out.write("success".getBytes("UTF-8"));//请不要修改或删除
 							}
-						}
+						}*/
 						//判断该笔订单是否在商户网站中已经做过处理
 							//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 							//如果有做过处理，不执行商户的业务程序

@@ -15,8 +15,6 @@ public class GoodsOrder {
 
     private Integer addressId;
 
-    private Integer sellerId;
-
     private Integer storeId;
 
     private Integer skuId;
@@ -33,14 +31,6 @@ public class GoodsOrder {
      * 取货方式/配送方式    1.快递   2.自取
      */
     private Integer distributionType;
-
-    private String goodsName;
-
-    private String goodsCode;
-
-    private String skuAttrDetails;
-
-    private Integer totalPrice;
 
     private Date createTime;
 
@@ -102,14 +92,6 @@ public class GoodsOrder {
         this.addressId = addressId;
     }
 
-    public Integer getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
-    }
-
     public Integer getStoreId() {
         return storeId;
     }
@@ -164,38 +146,6 @@ public class GoodsOrder {
 
     public void setDistributionType(Integer distributionType) {
         this.distributionType = distributionType;
-    }
-
-    public String getGoodsName() {
-        return goodsName;
-    }
-
-    public void setGoodsName(String goodsName) {
-        this.goodsName = goodsName == null ? null : goodsName.trim();
-    }
-
-    public String getGoodsCode() {
-        return goodsCode;
-    }
-
-    public void setGoodsCode(String goodsCode) {
-        this.goodsCode = goodsCode == null ? null : goodsCode.trim();
-    }
-
-    public String getSkuAttrDetails() {
-        return skuAttrDetails;
-    }
-
-    public void setSkuAttrDetails(String skuAttrDetails) {
-        this.skuAttrDetails = skuAttrDetails == null ? null : skuAttrDetails.trim();
-    }
-
-    public Integer getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Integer totalPrice) {
-        this.totalPrice = totalPrice;
     }
 
     public Date getCreateTime() {

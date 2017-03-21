@@ -1,12 +1,15 @@
 package com.qhtr.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.app.dto.StoreOrderDto;
 import com.qhtr.dao.StoreOrderMapper;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.StoreOrder;
@@ -24,7 +27,6 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public String insertByGoodsOrder(GoodsOrder go) {
 		StoreOrder so = new StoreOrder();
 		so.setOrderCode(GenerationUtils.getGenerationCode("SO", go.getUserId()+""));
-		so.setSellerId(go.getSellerId());
 		so.setStoreId(go.getStoreId());
 		so.setUserId(go.getUserId());
 		so.setTotalPrice(go.getPrice() * go.getNum());
@@ -62,5 +64,15 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	@Override
 	public int updateByCondition(StoreOrder record) {
 		return storeOrderMapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public List<StoreOrderDto> getOrdersByUser(int userId, int status) {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("userId", userId);
+		if(status != 0){
+			map.put("status", status);
+		}
+		return storeOrderMapper.selectByUser(map);
 	}
 }

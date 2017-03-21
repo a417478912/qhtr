@@ -40,18 +40,9 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 	
 	@Override
 	public String addGoodsOrder(GoodsOrder goodsOrder) {
-		Goods goods = goodsService.selectGoodsByGoodsId(goodsOrder.getGoodsId()).getGoods();
-		goodsOrder.setGoodsName(goods.getName());
-		goodsOrder.setGoodsCode(goods.getGoodsCode());
-		
-		Sku sku = skuService.selectSkuBySkuId(goodsOrder.getSkuId());
-		goodsOrder.setSkuAttrDetails(sku.getAttrDetails());
-		
-		
 		goodsOrder.setOrderCode(GenerationUtils.getGenerationCode("GO", goodsOrder.getUserId()+""));
 		goodsOrder.setCreateTime(new Date());
 		goodsOrder.setStatus(1);
-		goodsOrder.setTotalPrice(goodsOrder.getPrice() * goodsOrder.getNum());
 		int result = goodsOrderMapper.insert(goodsOrder);
 		if(result == 1){
 			return goodsOrder.getOrderCode();
@@ -118,10 +109,6 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 				go.setUserRemark(userRemark[theIndex]);
 				go.setPrice(Integer.parseInt(bc1.getString3()));
 				go.setDistributionType(distributionType);
-				go.setGoodsName(bc1.getString1());
-				go.setGoodsCode(bc1.getString4());
-				go.setSkuAttrDetails(bc1.getString2());
-				go.setTotalPrice(Integer.parseInt(bc1.getString3()) * bc1.getNum());
 				go.setCreateTime(new Date());
 				totalPrice += Integer.parseInt(bc1.getString3()) * bc1.getNum();
 				goodsOrderMapper.insert(go);

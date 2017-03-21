@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.app.dto.BuyCartDto;
+import com.app.dto.StoreOrderDto;
 import com.qhtr.common.Json;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
@@ -27,7 +28,7 @@ public class App_OrderController {
 	public PayOrderService payOrderService;
 	@Resource
 	public StoreOrderService storeOrderService;
-
+	
 	/**
 	 * 直接下单
 	 * 
@@ -111,6 +112,12 @@ public class App_OrderController {
 			j.setSuccess(false);
 			j.setMessage("失败!");
 		}
+		return j;
+	}
+	
+	public Json getOrdersByUser(Json j,@RequestParam int userId,@RequestParam int status){
+		List<StoreOrderDto> dto = storeOrderService.getOrdersByUser(userId,status);
+		j.setData(dto);
 		return j;
 	}
 }
