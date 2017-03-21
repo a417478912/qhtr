@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.BuyCartDto;
+import com.app.dto.GoodsDto;
 import com.qhtr.dao.BuyCartMapper;
-import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.BuyCart;
 import com.qhtr.model.Sku;
 import com.qhtr.service.BuyCartService;

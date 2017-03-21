@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.dto.GoodsDto;
 import com.qhtr.common.Json;
-import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.Goods;
 import com.qhtr.service.GoodsService;
 

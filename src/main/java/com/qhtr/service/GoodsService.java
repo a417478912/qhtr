@@ -2,7 +2,7 @@ package com.qhtr.service;
 
 import java.util.List;
 
-import com.qhtr.dto.GoodsDto;
+import com.app.dto.GoodsDto;
 import com.qhtr.model.Goods;
 
 public interface GoodsService {

@@ -6,11 +6,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.app.dto.GoodsDto;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.AttrMapper;
 import com.qhtr.dao.GoodsMapper;
 import com.qhtr.dao.SkuMapper;
-import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.Attr;
 import com.qhtr.model.Goods;
 import com.qhtr.model.Sku;

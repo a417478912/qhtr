@@ -1,4 +1,4 @@
-package com.qhtr.dto;
+package com.app.dto;
 
 import com.qhtr.model.Store;
 
