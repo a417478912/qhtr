@@ -220,7 +220,7 @@
   
   <!-- 通过购物车ids查找购物车信息  -->
   <select id="selectByIds" resultMap="StoreMap" parameterType="java.lang.Integer" >
-    select  u.id as id,u.goods_id as goods_id,u.sku_id as sku_id,u.num as num,u.user_id as user_id,
+    select  u.id as id,u.goods_id as goods_id,u.sku_id as sku_id,u.num as num,u.user_id as user_id,u.string1 as string1,u.string2 as string2,u.string3 as string3,u.string4 as string4,u.string5 as string5,
     s.id as store_id,s.name as store_name
     from user_buycart u,seller_store s
     where u.store_id = s.id and u.id in

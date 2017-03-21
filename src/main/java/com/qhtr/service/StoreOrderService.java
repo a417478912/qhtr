@@ -11,4 +11,6 @@ public interface StoreOrderService {
 	StoreOrder selectByOrderCode(String soCode);
 
 	StoreOrder selectById(int storeOrderId);
+	
+	int updateByCondition(StoreOrder record);
 }

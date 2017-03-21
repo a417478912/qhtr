@@ -25,7 +25,7 @@ public interface BuyCartService {
 	 * @param ids
 	 * @return
 	 */
-	int deleteByIds(String[] ids);
+	int deleteByIds(int[] ids);
 	/**
 	 * 增加
 	 * @param cart

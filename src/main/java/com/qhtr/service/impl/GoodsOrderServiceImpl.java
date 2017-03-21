@@ -1,6 +1,5 @@
 package com.qhtr.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,15 +10,18 @@ import org.springframework.stereotype.Service;
 import com.app.dto.BuyCartDto;
 import com.qhtr.dao.GoodsOrderMapper;
 import com.qhtr.model.BuyCart;
+import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
+import com.qhtr.model.Sku;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.service.BuyCartService;
 import com.qhtr.service.GoodsOrderService;
+import com.qhtr.service.GoodsService;
 import com.qhtr.service.PayOrderService;
+import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreOrderService;
 import com.qhtr.utils.GenerationUtils;
-import com.sun.tools.doclets.internal.toolkit.resources.doclets;
 
 @Service
 public class GoodsOrderServiceImpl implements GoodsOrderService {
@@ -31,10 +33,21 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 	public StoreOrderService storeOrderService;
 	@Resource
 	public PayOrderService payOrderService;
-	
+	@Resource
+	public GoodsService goodsService;
+	@Resource
+	public SkuService skuService;
 	
 	@Override
 	public String addGoodsOrder(GoodsOrder goodsOrder) {
+		Goods goods = goodsService.selectGoodsByGoodsId(goodsOrder.getGoodsId()).getGoods();
+		goodsOrder.setGoodsName(goods.getName());
+		goodsOrder.setGoodsCode(goods.getGoodsCode());
+		
+		Sku sku = skuService.selectSkuBySkuId(goodsOrder.getSkuId());
+		goodsOrder.setSkuAttrDetails(sku.getAttrDetails());
+		
+		
 		goodsOrder.setOrderCode(GenerationUtils.getGenerationCode("GO", goodsOrder.getUserId()+""));
 		goodsOrder.setCreateTime(new Date());
 		goodsOrder.setStatus(1);
@@ -74,8 +87,12 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 		po.setUserId(userId);
 		int payOrderPrice = 0;
  		List<BuyCartDto> bcDtoList = buyCartService.selectByIds(ids);
+ 		if(bcDtoList.isEmpty()){
+ 			return null;
+ 		}
 		for (BuyCartDto bc : bcDtoList) {
 			StoreOrder so = new StoreOrder();
+			so.setPayOrderCode(po.getOrderCode());
 			so.setOrderCode(GenerationUtils.getGenerationCode("SO", userId+""));
 			so.setStoreId(bc.getStoreId());
 			so.setUserId(userId);
@@ -119,6 +136,7 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 		po.setCreateTime(new Date());
 		int result = payOrderService.insert(po);
 		if(result == 1){
+			buyCartService.deleteByIds(ids);
 			return po.getOrderCode();
 		}else{
 			return null;

@@ -88,7 +88,7 @@ public class App_BuyCartController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteBatchBuyCart",method=RequestMethod.POST)
-	public Json deleteBatchBuyCart(Json j,@RequestParam String[] ids){
+	public Json deleteBatchBuyCart(Json j,@RequestParam int[] ids){
 		int result = buyCartService.deleteByIds(ids);
 		if(result == 0){
 			j.setSuccess(false);

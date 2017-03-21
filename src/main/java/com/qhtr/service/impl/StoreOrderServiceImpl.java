@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.qhtr.dao.StoreOrderMapper;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.StoreOrder;
+import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.StoreOrderService;
 import com.qhtr.utils.GenerationUtils;
 
@@ -17,7 +18,8 @@ import com.qhtr.utils.GenerationUtils;
 public class StoreOrderServiceImpl implements StoreOrderService {
 	@Resource
 	public StoreOrderMapper storeOrderMapper;
-	
+	@Resource
+	public GoodsOrderService goodsOrderService;
 	@Override
 	public String insertByGoodsOrder(GoodsOrder go) {
 		StoreOrder so = new StoreOrder();
@@ -28,12 +30,11 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		so.setTotalPrice(go.getPrice() * go.getNum());
 		so.setStatus(1);
 		so.setCreatTime(new Date());
-		int result = storeOrderMapper.insert(so);
-		if(result == 1){
-			return so.getOrderCode();
-		}else{
-			return null;
-		}
+		storeOrderMapper.insert(so);
+		go.setStoreOrderCode(so.getOrderCode());
+		goodsOrderService.addGoodsOrder(go);
+		return so.getOrderCode();
+		
 	}
 
 	@Override
@@ -56,5 +57,10 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	@Override
 	public int insert(StoreOrder record) {
 		return storeOrderMapper.insert(record);
+	}
+
+	@Override
+	public int updateByCondition(StoreOrder record) {
+		return storeOrderMapper.updateByPrimaryKeySelective(record);
 	}
 }

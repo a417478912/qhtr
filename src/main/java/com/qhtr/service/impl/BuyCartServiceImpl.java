@@ -37,7 +37,7 @@ public class BuyCartServiceImpl implements BuyCartService{
 	}
 
 	@Override
-	public int deleteByIds(String[] ids) {
+	public int deleteByIds(int[] ids) {
 		return buyCartMapper.deleteByIds(ids);
 	}
 

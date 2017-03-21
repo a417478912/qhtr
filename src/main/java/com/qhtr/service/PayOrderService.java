@@ -11,7 +11,7 @@ public interface PayOrderService {
 	 * @param type
 	 * @return
 	 */
-	String addOrder(int goodsOrderId, int type,int userId);
+	String addOrder(String storeOrderCode, int type,int userId);
 
 	List<PayOrder> selectByConditions(PayOrder poTem);
 

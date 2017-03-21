@@ -24,7 +24,7 @@ public interface BuyCartMapper {
     
     List<BuyCartDto> selectCartsByUserId(BuyCart record);
     
-	int deleteByIds(String[] ids);
+	int deleteByIds(int[] ids);
 	/**
 	 * 通过ids查找购物车信息
 	 * @param ids

@@ -22,10 +22,10 @@ public class PayOrderServiceImpl implements PayOrderService {
 	public StoreOrderService storeOrderService;
 
 	@Override
-	public String addOrder(int storeOrderId, int type,int userId) {
+	public String addOrder(String storeOrderCode, int type,int userId) {
 		PayOrder po = new PayOrder();
 		po.setOrderCode(GenerationUtils.getGenerationCode("PO", userId+""));
-		StoreOrder so = storeOrderService.selectById(storeOrderId);
+		StoreOrder so = storeOrderService.selectByOrderCode(storeOrderCode);
 		po.setTotalPrice(so.getTotalPrice());
 		po.setStatus(1);
 		po.setUserId(userId);
@@ -33,6 +33,9 @@ public class PayOrderServiceImpl implements PayOrderService {
 		po.setPayType(type);
 		int result = payOrderMapper.insert(po);
 		if(result == 1){
+			StoreOrder so1 = storeOrderService.selectByOrderCode(storeOrderCode);
+			so1.setPayOrderCode(po.getOrderCode());
+			storeOrderService.updateByCondition(so1);
 			return po.getOrderCode();
 		}else{
 			return null;
