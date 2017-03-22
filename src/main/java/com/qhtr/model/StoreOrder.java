@@ -19,7 +19,7 @@ public class StoreOrder {
 
     private Integer status;
 
-    private Date creatTime;
+    private Date createTime;
 
     private Date paymentTime;
 
@@ -91,12 +91,12 @@ public class StoreOrder {
         this.status = status;
     }
 
-    public Date getCreatTime() {
-        return creatTime;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.creatTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Date getPaymentTime() {

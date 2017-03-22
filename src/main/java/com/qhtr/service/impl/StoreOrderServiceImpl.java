@@ -31,7 +31,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		so.setUserId(go.getUserId());
 		so.setTotalPrice(go.getPrice() * go.getNum());
 		so.setStatus(1);
-		so.setCreatTime(new Date());
+		so.setCreateTime(new Date());
 		storeOrderMapper.insert(so);
 		go.setStoreOrderCode(so.getOrderCode());
 		goodsOrderService.addGoodsOrder(go);

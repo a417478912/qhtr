@@ -247,7 +247,7 @@
 	    	 goods_sku u,
 	    	 seller_store e
 		where s.order_code = g.store_order_code and g.goods_id = o.id and g.sku_id = u.id ands.store_id = e.id
-		and   s.userId = userId
+		and   s.userId = #{userId,jdbcType=INTEGER}
 		 <if test="status != null" >
        		 and s.status = #{status,jdbcType=INTEGER}
     	 </if>

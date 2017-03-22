@@ -1,5 +1,11 @@
 package com.app.controller;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -33,14 +39,30 @@ public class App_UserController {
 	 * @param code
 	 * @param request
 	 * @return
+	 * @throws ParseException 
 	 */
 	@ResponseBody
-	@RequestMapping(value="/register",method=RequestMethod.POST)
-	public Json register(Json j,@RequestParam String phone,@RequestParam String password,@RequestParam String phone_code,HttpServletRequest request){
-		String theCode = (String)request.getSession().getAttribute("user_register_code");
-		theCode = "1234";
-		phone_code = "1234";
-		if (theCode != null && theCode.equals(phone_code)) {
+	@RequestMapping(value="/register")
+	public Json register(Json j,@RequestParam String phone,@RequestParam String password,@RequestParam String phone_code,HttpServletRequest request) throws ParseException{
+		@SuppressWarnings("unchecked")
+		Map<String,String> theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_RIGIST_CODE);
+		if(theCode == null){
+			j.setSuccess(false);
+			j.setMessage("没有发送验证码!");
+			return j;
+		}else{
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+			Long createTime = df.parse(theCode.get("time")).getTime();
+			Long nowTime = df.parse(df.format(new Date())).getTime();
+			if(nowTime - createTime > 5*60*1000){
+				request.getSession().removeAttribute(Constants.USER_RIGIST_CODE);
+				j.setSuccess(false);
+				j.setMessage("验证码超时!");
+				return j;
+			}
+		}
+		String code = (String) theCode.get("code");
+		if (code != null && code.equals(phone_code)) {
 			int result = userService.addUser(phone, password);
 			if(result == 2){
 				j.setSuccess(false);

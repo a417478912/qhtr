@@ -115,6 +115,8 @@ public class App_OrderController {
 		return j;
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "/getOrdersByUser")
 	public Json getOrdersByUser(Json j,@RequestParam int userId,@RequestParam int status){
 		List<StoreOrderDto> dto = storeOrderService.getOrdersByUser(userId,status);
 		j.setData(dto);

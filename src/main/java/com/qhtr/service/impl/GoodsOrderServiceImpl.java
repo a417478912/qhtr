@@ -116,6 +116,7 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 			payOrderPrice += totalPrice;
 			so.setTotalPrice(totalPrice);
 			so.setStatus(1);
+			so.setCreateTime(new Date());
 			storeOrderService.insert(so);
 		}
 		po.setTotalPrice(payOrderPrice);
