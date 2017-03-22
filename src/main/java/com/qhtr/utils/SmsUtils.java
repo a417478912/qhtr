@@ -39,7 +39,7 @@ public class SmsUtils {
 	    /**
 	     * 模板CODE
 	     */
-	    querys.put("TemplateCode", "SMS_57205002");
+	    querys.put("TemplateCode", "SMS_57225002");
 	    
 	    try {
 	    	
