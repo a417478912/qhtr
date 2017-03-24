@@ -42,6 +42,7 @@ public class App_UserController {
 	@ResponseBody
 	@RequestMapping(value="/register")
 	public Json register(Json j,@RequestParam String phone,@RequestParam String password,@RequestParam String phone_code,HttpServletRequest request) throws ParseException{
+		System.out.println("++++"+phone+"++++++++");
 		@SuppressWarnings("unchecked")
 		Map<String,String> theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_RIGIST_CODE);
 		if(theCode == null){
@@ -96,6 +97,52 @@ public class App_UserController {
 		}else{
 			j.setSuccess(false);
 			j.setMessage("更新失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 修改密码
+	 * @param j
+	 * @param id
+	 * @param nickName
+	 * @param sex
+	 * @param birthday
+	 * @return
+	 * @throws ParseException 
+	 */
+	@ResponseBody
+	@RequestMapping(value="/changePwd",method=RequestMethod.POST)
+	public Json changePwd(Json j,@RequestParam String phone,@RequestParam String password,@RequestParam String phone_code,HttpServletRequest request) throws ParseException{
+		@SuppressWarnings("unchecked")
+		Map<String,String> theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_CHANGE_PWD_CODE);
+		if(theCode == null){
+			j.setSuccess(false);
+			j.setMessage("没有发送验证码!");
+			return j;
+		}else{
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+			Long createTime = df.parse(theCode.get("time")).getTime();
+			Long nowTime = df.parse(df.format(new Date())).getTime();
+			if(nowTime - createTime > 5*60*1000){
+				request.getSession().removeAttribute(Constants.USER_RIGIST_CODE);
+				j.setSuccess(false);
+				j.setMessage("验证码超时!");
+				return j;
+			}
+		}
+		String code = (String) theCode.get("code");
+		if (code != null && code.equals(phone_code)) {
+			int result = userService.updatePwd(phone, password);
+			if (result == 1) {
+				j.setMessage("修改成功!");
+			} else {
+				j.setSuccess(false);
+				j.setMessage("修改失败!");
+			}
+		}else{
+			j.setSuccess(false);
+			j.setMessage("验证码输入错误!");
 		}
 		return j;
 	}

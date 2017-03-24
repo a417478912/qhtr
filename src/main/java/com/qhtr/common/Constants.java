@@ -11,6 +11,10 @@ public class Constants {
 	 */
 	public final static String USER_RIGIST_CODE = "userRegistCode";
 	/**
+	 * 修改密码 短信码
+	 */
+	public final static String USER_CHANGE_PWD_CODE = "userChangePwdCode";
+	/**
 	 * 购物车ids
 	 */
 	public final static String CART_IDS = "cartIds";

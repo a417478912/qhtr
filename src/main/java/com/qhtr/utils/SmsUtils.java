@@ -16,12 +16,24 @@ public class SmsUtils {
 	static String host = "http://sms.market.alicloudapi.com";
 	static String path = "/singleSendSms";
 	static String method = "GET";
-
-	public static String send(String phone,HttpServletRequest request){
+	
+	/**
+	 * @param phone
+	 * @param request
+	 * @param type 短信类型 1：用户注册   2：修改密码
+	 * @return
+	 */
+	public static String send(String phone,HttpServletRequest request,int type){
+		String templateCode = "";
+		if(type == 1){
+			templateCode = "SMS_57225002";
+		}else if(type == 2){
+			templateCode = "SMS_57715164";
+		}
 	    Map<String, String> headers = new HashMap<String, String>();
 	    
 	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-	    headers.put("Authorization","APPCODE 6ae24879146747909f74d514547125ab");
+	    headers.put("Authorization","APPCODE 40734cf9225442cea08a0eec90146149");
 	    Map<String, String> querys = new HashMap<String, String>();
 	    String yanzhengCode = SmsUtils.getNum();
 	    
@@ -39,7 +51,7 @@ public class SmsUtils {
 	    /**
 	     * 模板CODE
 	     */
-	    querys.put("TemplateCode", "SMS_57225002");
+	    querys.put("TemplateCode", templateCode);
 	    
 	    try {
 	    	
@@ -50,7 +62,11 @@ public class SmsUtils {
 	    	Map<String,String> map = new HashMap<String,String>();
 	    	map.put("code",yanzhengCode);
 	    	map.put("time",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-	    	request.getSession().setAttribute(Constants.USER_RIGIST_CODE, map);
+	    	if(type == 1){
+	    		request.getSession().setAttribute(Constants.USER_RIGIST_CODE, map);
+	    	}else if(type == 2){
+	    		request.getSession().setAttribute(Constants.USER_CHANGE_PWD_CODE, map);
+	    	}
 	    	return "success";
 	    } catch (Exception e) {
 	    	e.printStackTrace();

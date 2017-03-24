@@ -97,5 +97,19 @@ public class UserServiceImpl implements UserService{
 		}
 		return userMapper.updateByPrimaryKeySelective(user);
 	}
+
+	@Override
+	public int updatePwd(String phone, String pwd) {
+		User userTem = new User();
+		userTem.setPhone(phone);
+		List<User> userList = userMapper.selectByConditions(userTem);
+		if(userList.isEmpty()){
+			return 0;
+		}else{
+			User user = userList.get(0);
+			user.setPassword(MD5Utils.getString(pwd));
+			return userMapper.updateByPrimaryKey(user);
+		}
+	}
 }
 	

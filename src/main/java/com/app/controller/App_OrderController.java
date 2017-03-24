@@ -115,7 +115,7 @@ public class App_OrderController {
 
 	/**
 	 * 购物车结算
-	 * 
+	 * http://localhost:8080/app_order/selectFromBuyCartIds.do?userId=1&ids=1,2,3,4,5&distributionType=1
 	 * @param j
 	 * @param userId
 	 * @param ids
@@ -144,12 +144,12 @@ public class App_OrderController {
 	}
 
 	/**
-	 * 提交订单
+	 * 购物车-->提交订单
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addOrders")
-	public Json addOrders(Json j, @RequestBody Param1[] params,HttpServletRequest request) {
-		String PayCode = storeOrderService.addOrders(params,request);
+	public Json addOrders(Json j, @RequestBody Param1[] params,@RequestParam int userId,HttpServletRequest request) {
+		String PayCode = storeOrderService.addOrders(params,userId,request);
 		if (StringUtils.isNotBlank(PayCode)) {
 			PayOrder poTem = new PayOrder();
 			poTem.setOrderCode(PayCode);

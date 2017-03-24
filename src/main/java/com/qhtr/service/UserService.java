@@ -32,7 +32,7 @@ public interface UserService {
 	    */
 	   public PageBean<User> getUserListByConditions(User user,int pageNum,int rows);
 	   /**
-	    * 修改用户
+	    * 修改用户信息
 	    * @param id
 	    * @param nickName
 	    * @param sex
@@ -40,5 +40,7 @@ public interface UserService {
 	    * @return
 	    */
 	   int updateUser(int id, String nickName, String sex, String birthday,String avatar);
+	   
+	   int updatePwd(String phone,String pwd);
 }
 	

@@ -266,14 +266,13 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	 * 购物车确认订单
 	 */
 	@Override
-	public String addOrders(Param1[] params,HttpServletRequest request) {
+	public String addOrders(Param1[] params,int userId,HttpServletRequest request) {
 		PayOrder po = new PayOrder();
 		@SuppressWarnings("unchecked")
 		List<StoreOrder> soList = (List<StoreOrder>)request.getSession().getAttribute(Constants.STORE_ORDER_BUYCART);
-		User user = (User)request.getSession().getAttribute(Constants.USER_KEY);
 		
-		po.setOrderCode(GenerationUtils.getGenerationCode("PO", user.getId()+""));
-		po.setUserId(user.getId());
+		po.setOrderCode(GenerationUtils.getGenerationCode("PO",userId+""));
+		po.setUserId(userId);
 		int payOrderPrice = 0;
 		for (Param1 p: params) {
 			StoreOrder so = null;
@@ -282,13 +281,13 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 					so = storeOrder;
 					break;
 				}
+			}
 			so.setUserRemark(p.getUserRemark());
 			so.setStatus(1);
 			so.setCreateTime(new Date());
 			so.setTotalPrice(so.getTotalPrice() + so.getExpressPrice() - so.getCouponPrice());
 			storeOrderMapper.insert(so);
 			payOrderPrice += so.getTotalPrice();
-			}
 		}
 		po.setStatus(1);
 		po.setCreateTime(new Date());

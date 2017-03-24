@@ -58,5 +58,5 @@ public interface StoreOrderService {
 	 * @param distributionType
 	 * @return
 	 */
-	String addOrders(Param1[] params,HttpServletRequest request);
+	String addOrders(Param1[] params,int userId,HttpServletRequest request);
 }

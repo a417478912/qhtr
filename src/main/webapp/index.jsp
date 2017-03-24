@@ -5,7 +5,8 @@
 <body>
 <h2>Hello World!</h2><c:if test="${1 == 1 }">xxxxxxxxxxxx</c:if>
 <input id ="a" value="xxxxxxxxxxxxx" >
-<input id ="a" value="XXXXXXXXXXXXXX" >
+<input id ="b" value="yyyyyyyyyyyyyyyy" >
+<input id ="c" value="zzzzzzzzzzzzzzz" >
 <form action="${rootPath}app_buycart/addBuyCart.do" method="post">
 	<input type="text" name="skuId" value=100>
 	<input type="text" name="goodsId" value=1010>
@@ -26,6 +27,26 @@
 </html>
 <script>
 var a = new Object();
+$("#c").click(function(){
+	var customerArray = new Array();
+    customerArray.push({orderCode: "QHTRSO0000000120170324173451295",userRemark:"df方式撒的"}); 
+    customerArray.push({orderCode: "QHTRSO0000000120170324173451387",userRemark:"不得不告诉你"});
+    alert(JSON.stringify(customerArray))
+	$.ajax({
+        url: "${rootPath}app_order/addOrders.do?userId=1",
+        type: "POST",
+        contentType : 'application/json;charset=utf-8', //设置请求头信息
+        dataType:"json",
+        data: JSON.stringify(customerArray),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
+        success: function(data){
+            alert(data);
+        },
+        error: function(res){
+            alert(res.responseText);
+        }
+    });
+})
+
 $("#a").click(function(){
 	var customerArray = new Array();
 /*     customerArray.push({id: "1", goodsId: "333", skuId: "33333"});
@@ -44,6 +65,20 @@ $("#a").click(function(){
         data: JSON.stringify(a),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
         success: function(data){
             alert(data);
+        },
+        error: function(res){
+            alert(res.responseText);
+        }
+    });
+})
+
+$("#b").click(function(){
+	$.ajax({
+        url: "${rootPath}app_user/changePwd.do",
+        type: "POST",
+        data: "phone=15324932625&password=222&phone_code=6285",  /*   //将Json对象序列化成Json字符串，JSON.stringify()原生态方法 */
+        success: function(data){
+            alert(data.message);
         },
         error: function(res){
             alert(res.responseText);
