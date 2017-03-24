@@ -3,7 +3,6 @@ package com.qhtr.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.junit.runners.Parameterized.Parameter;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.qhtr.common.Constants;
 import com.qhtr.model.Admin;
 import com.qhtr.service.AdminService;
-import com.qhtr.utils.MD5Utils;
 
 @Controller
 @RequestMapping("/admin")

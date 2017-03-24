@@ -1,8 +1,5 @@
 package com.app.param;
 
-import java.util.List;
-
-import com.app.dto.StoreOrderDto1;
 /**
  * 购物车提交订单需要的参数
  * @author wjx

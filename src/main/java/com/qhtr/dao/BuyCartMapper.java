@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.app.dto.BuyCartDto;
 import com.qhtr.model.BuyCart;
-import com.qhtr.model.Category;
 
 public interface BuyCartMapper {
     int deleteByPrimaryKey(Integer id);

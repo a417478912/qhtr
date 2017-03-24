@@ -12,7 +12,6 @@ import com.qhtr.common.Json;
 import com.qhtr.model.Store;
 import com.qhtr.service.SellerService;
 import com.qhtr.service.StoreService;
-import com.qhtr.utils.DistributionUtils;
 
 @Controller
 @RequestMapping("/app_seller")
