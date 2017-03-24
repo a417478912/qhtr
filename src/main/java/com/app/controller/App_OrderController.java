@@ -3,18 +3,23 @@ package com.app.controller;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.app.dto.BuyCartDto;
 import com.app.dto.StoreOrderDto;
+import com.app.dto.StoreOrderDto1;
+import com.app.param.Param1;
+import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
-import com.qhtr.model.GoodsOrder;
+import com.qhtr.model.Address;
 import com.qhtr.model.PayOrder;
+import com.qhtr.service.AddressService;
 import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.StoreOrderService;
@@ -28,28 +33,62 @@ public class App_OrderController {
 	public PayOrderService payOrderService;
 	@Resource
 	public StoreOrderService storeOrderService;
+	@Resource
+	public AddressService addressService;
 	
 	/**
-	 * 直接下单
-	 * 
+	 * 立刻购买
 	 * @param j
-	 * @param goodsOrder
-	 * @return 返回storeOrder 的 Code
+	 * @param request
+	 * @param skuId
+	 * @param num
+	 * @param distributionType
+	 * @param userId
+	 * @param addressId
+	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/addGoodsOrder")
-	public Json addGoodsOrder(Json j, GoodsOrder goodsOrder) {
-		String soCode = storeOrderService.insertByGoodsOrder(goodsOrder);
-		if (StringUtils.isNotBlank(soCode)) {
-			j.setData(soCode);
-			j.setMessage("下单成功!");
-		} else {
+	@RequestMapping(value = "/toBuy")
+	public Json toBuy(Json j,HttpServletRequest request,@RequestParam int skuId,@RequestParam int num,@RequestParam int distributionType,@RequestParam int userId,Integer addressId){
+		if(addressId == null || addressId== 0){
+			List<Address> adds = addressService.selectAddressByUserId(userId);
+			if(adds.isEmpty()){
+				j.setSuccess(false);
+				j.setMessage("没有默认地址!");
+				return j;
+			}else{
+				addressId = adds.get(0).getId();
+			}
+		}
+		StoreOrderDto1 result = storeOrderService.addtoBuy(skuId,num,distributionType,userId,addressId,request);
+		if(result != null){
+			j.setData(result);
+			j.setMessage("成功!");
+		}else{
 			j.setSuccess(false);
-			j.setMessage("下单失败!");
+			j.setMessage("失败!");
 		}
 		return j;
 	}
-
+	
+	
+	/**
+	 * 立刻购买 -->提交订单
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addOrder")
+	public Json addOrder(Json j,String userRemark,HttpServletRequest request) {
+		String code = storeOrderService.addOrder(userRemark,request);
+		if (StringUtils.isNotBlank(code)) {
+			j.setData(code);
+			j.setMessage("成功!");
+		} else {
+			j.setSuccess(false);
+			j.setMessage("失败!");
+		}
+		return j;
+	}
+	
 	/**
 	 * 确认支付
 	 * 
@@ -62,8 +101,7 @@ public class App_OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/surePay")
-	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,
-			@RequestParam int userId) {
+	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId) {
 		String PayCode = payOrderService.addOrder(orderCode, type, userId);
 		if (StringUtils.isNotBlank(PayCode)) {
 			j.setData(PayCode);
@@ -76,7 +114,7 @@ public class App_OrderController {
 	}
 
 	/**
-	 * 购物车去下单
+	 * 购物车结算
 	 * 
 	 * @param j
 	 * @param userId
@@ -88,20 +126,30 @@ public class App_OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/selectFromBuyCartIds")
-	public Json selectFromBuyCartIds(Json j, @RequestParam int userId, @RequestParam int[] ids) {
-		List<BuyCartDto> buyCarts = goodsOrderService.selectFromBuyCartIds(userId, ids);
-		j.setData(buyCarts);
+	public Json selectFromBuyCartIds(Json j, @RequestParam int userId, @RequestParam int[] ids,@RequestParam int distributionType,Integer addressId,HttpServletRequest request) {
+		if(addressId == null || addressId== 0){
+			List<Address> adds = addressService.selectAddressByUserId(userId);
+			if(adds.isEmpty()){
+				j.setSuccess(false);
+				j.setMessage("没有默认地址!");
+				return j;
+			}else{
+				addressId = adds.get(0).getId();
+			}
+		}
+		List<StoreOrderDto1> dtoList = storeOrderService.selectFromBuyCartIds(userId, ids,distributionType,addressId,request);
+		request.getSession().setAttribute(Constants.CART_IDS,ids);
+		j.setData(dtoList);
 		return j;
 	}
 
 	/**
-	 *  购物车结算
+	 * 提交订单
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/addGoodsOrders")
-	public Json addGoodsOrders(Json j, @RequestParam int userId, @RequestParam int[] ids, String[] userRemark,
-			int distributionType, @RequestParam int addressId) {
-		String PayCode = goodsOrderService.addGoodsOrders(userId, ids, userRemark, distributionType, addressId);
+	@RequestMapping(value = "/addOrders")
+	public Json addOrders(Json j, @RequestBody Param1[] params,HttpServletRequest request) {
+		String PayCode = storeOrderService.addOrders(params,request);
 		if (StringUtils.isNotBlank(PayCode)) {
 			PayOrder poTem = new PayOrder();
 			poTem.setOrderCode(PayCode);

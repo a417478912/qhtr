@@ -7,7 +7,7 @@ public class Goods {
 
     private String goodsCode;
 
-    private Integer sellerId;
+    private Integer storeId;
 
     private String name;
 
@@ -32,10 +32,10 @@ public class Goods {
     private String details;
 
     private Integer isdefault;
-	
 	/**
      * 1.待审核  2已上架  3,审核失败  4.已下架  5.已删除
      */
+
     private Integer status;
 
     private Date createTime;
@@ -80,12 +80,12 @@ public class Goods {
         this.goodsCode = goodsCode == null ? null : goodsCode.trim();
     }
 
-    public Integer getSellerId() {
-        return sellerId;
+    public Integer getStoreId() {
+        return storeId;
     }
 
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
+    public void setStoreId(Integer storeId) {
+        this.storeId = storeId;
     }
 
     public String getName() {

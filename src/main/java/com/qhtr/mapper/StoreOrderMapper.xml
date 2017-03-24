@@ -5,18 +5,23 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
     <result column="pay_order_code" property="payOrderCode" jdbcType="VARCHAR" />
-    <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="distribution_type" property="distributionType" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="coupon_id" property="couponId" jdbcType="INTEGER" />
     <result column="total_price" property="totalPrice" jdbcType="INTEGER" />
+    <result column="address_id" property="addressId" jdbcType="INTEGER" />
+    <result column="express_price" property="expressPrice" jdbcType="INTEGER" />
+    <result column="coupon_price" property="couponPrice" jdbcType="INTEGER" />
+    <result column="refund_price" property="refundPrice" jdbcType="INTEGER" />
+    <result column="result_price" property="resultPrice" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
-    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
     <result column="cancal_time" property="cancalTime" jdbcType="TIMESTAMP" />
     <result column="user_remark" property="userRemark" jdbcType="VARCHAR" />
   </resultMap>
-  
-  
+
   <resultMap id="BaseResultMap1" type="com.app.dto.GoodsOrderDto" >
     <result column="goodsOrderId" property="goodsOrderId" jdbcType="INTEGER" />
     <result column="thumb" property="thumb" jdbcType="VARCHAR" />
@@ -34,10 +39,10 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <collection property="goodsOrders" resultMap="BaseResultMap1" />
   </resultMap>
-  
   <sql id="Base_Column_List" >
-    id, order_code, pay_order_code, seller_id, store_id, user_id, total_price, status, 
-    creat_time, payment_time, cancal_time, user_remark
+    id, order_code, pay_order_code, store_id, distribution_type, user_id, coupon_id, 
+    total_price, address_id, express_price, coupon_price, refund_price, result_price, 
+    status, create_time, payment_time, cancal_time, user_remark
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -51,13 +56,17 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.StoreOrder" >
     insert into order_store_order (id, order_code, pay_order_code, 
-      seller_id, store_id, user_id, 
-      total_price, status, creat_time, 
+      store_id, distribution_type, user_id, 
+      coupon_id, total_price, address_id, 
+      express_price, coupon_price, refund_price, 
+      result_price, status, create_time, 
       payment_time, cancal_time, user_remark
       )
     values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{payOrderCode,jdbcType=VARCHAR}, 
-      #{sellerId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{totalPrice,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{creatTime,jdbcType=TIMESTAMP}, 
+      #{storeId,jdbcType=INTEGER}, #{distributionType,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{couponId,jdbcType=INTEGER}, #{totalPrice,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
+      #{expressPrice,jdbcType=INTEGER}, #{couponPrice,jdbcType=INTEGER}, #{refundPrice,jdbcType=INTEGER}, 
+      #{resultPrice,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{paymentTime,jdbcType=TIMESTAMP}, #{cancalTime,jdbcType=TIMESTAMP}, #{userRemark,jdbcType=VARCHAR}
       )
   </insert>
@@ -73,23 +82,41 @@
       <if test="payOrderCode != null" >
         pay_order_code,
       </if>
-      <if test="sellerId != null" >
-        seller_id,
-      </if>
       <if test="storeId != null" >
         store_id,
+      </if>
+      <if test="distributionType != null" >
+        distribution_type,
       </if>
       <if test="userId != null" >
         user_id,
       </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
       <if test="totalPrice != null" >
         total_price,
+      </if>
+      <if test="addressId != null" >
+        address_id,
+      </if>
+      <if test="expressPrice != null" >
+        express_price,
+      </if>
+      <if test="couponPrice != null" >
+        coupon_price,
+      </if>
+      <if test="refundPrice != null" >
+        refund_price,
+      </if>
+      <if test="resultPrice != null" >
+        result_price,
       </if>
       <if test="status != null" >
         status,
       </if>
-      <if test="creatTime != null" >
-        creat_time,
+      <if test="createTime != null" >
+        create_time,
       </if>
       <if test="paymentTime != null" >
         payment_time,
@@ -111,23 +138,41 @@
       <if test="payOrderCode != null" >
         #{payOrderCode,jdbcType=VARCHAR},
       </if>
-      <if test="sellerId != null" >
-        #{sellerId,jdbcType=INTEGER},
-      </if>
       <if test="storeId != null" >
         #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="distributionType != null" >
+        #{distributionType,jdbcType=INTEGER},
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
       <if test="totalPrice != null" >
         #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null" >
+        #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="expressPrice != null" >
+        #{expressPrice,jdbcType=INTEGER},
+      </if>
+      <if test="couponPrice != null" >
+        #{couponPrice,jdbcType=INTEGER},
+      </if>
+      <if test="refundPrice != null" >
+        #{refundPrice,jdbcType=INTEGER},
+      </if>
+      <if test="resultPrice != null" >
+        #{resultPrice,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         #{status,jdbcType=INTEGER},
       </if>
-      <if test="creatTime != null" >
-        #{creatTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paymentTime != null" >
         #{paymentTime,jdbcType=TIMESTAMP},
@@ -149,23 +194,41 @@
       <if test="payOrderCode != null" >
         pay_order_code = #{payOrderCode,jdbcType=VARCHAR},
       </if>
-      <if test="sellerId != null" >
-        seller_id = #{sellerId,jdbcType=INTEGER},
-      </if>
       <if test="storeId != null" >
         store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="distributionType != null" >
+        distribution_type = #{distributionType,jdbcType=INTEGER},
       </if>
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
       <if test="totalPrice != null" >
         total_price = #{totalPrice,jdbcType=INTEGER},
+      </if>
+      <if test="addressId != null" >
+        address_id = #{addressId,jdbcType=INTEGER},
+      </if>
+      <if test="expressPrice != null" >
+        express_price = #{expressPrice,jdbcType=INTEGER},
+      </if>
+      <if test="couponPrice != null" >
+        coupon_price = #{couponPrice,jdbcType=INTEGER},
+      </if>
+      <if test="refundPrice != null" >
+        refund_price = #{refundPrice,jdbcType=INTEGER},
+      </if>
+      <if test="resultPrice != null" >
+        result_price = #{resultPrice,jdbcType=INTEGER},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="creatTime != null" >
-        creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="paymentTime != null" >
         payment_time = #{paymentTime,jdbcType=TIMESTAMP},
@@ -183,19 +246,25 @@
     update order_store_order
     set order_code = #{orderCode,jdbcType=VARCHAR},
       pay_order_code = #{payOrderCode,jdbcType=VARCHAR},
-      seller_id = #{sellerId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},
+      distribution_type = #{distributionType,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      coupon_id = #{couponId,jdbcType=INTEGER},
       total_price = #{totalPrice,jdbcType=INTEGER},
+      address_id = #{addressId,jdbcType=INTEGER},
+      express_price = #{expressPrice,jdbcType=INTEGER},
+      coupon_price = #{couponPrice,jdbcType=INTEGER},
+      refund_price = #{refundPrice,jdbcType=INTEGER},
+      result_price = #{resultPrice,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
-      creat_time = #{creatTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       payment_time = #{paymentTime,jdbcType=TIMESTAMP},
       cancal_time = #{cancalTime,jdbcType=TIMESTAMP},
       user_remark = #{userRemark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-	
-	 <!-- 自定义方法 -->
+
+  <!-- 自定义方法 -->
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.StoreOrder" >
     select 
     <include refid="Base_Column_List" />
@@ -206,9 +275,6 @@
       </if>
       <if test="payOrderCode != null" >
         and pay_order_code = #{payOrderCode,jdbcType=VARCHAR}
-      </if>
-      <if test="sellerId != null" >
-        and seller_id = #{sellerId,jdbcType=INTEGER}
       </if>
       <if test="storeId != null" >
         and store_id = #{storeId,jdbcType=INTEGER}
@@ -222,8 +288,8 @@
       <if test="status != null" >
         and status = #{status,jdbcType=INTEGER}
       </if>
-      <if test="creatTime != null" >
-        and creat_time = #{creatTime,jdbcType=TIMESTAMP}
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
       </if>
       <if test="paymentTime != null" >
         and payment_time = #{paymentTime,jdbcType=TIMESTAMP}

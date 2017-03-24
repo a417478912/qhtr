@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.CouponTemplateMapper" >
+  <resultMap id="BaseResultMap" type="com.qhtr.model.CouponTemplate" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+    <result column="limit_money" property="limitMoney" jdbcType="INTEGER" />
+    <result column="color" property="color" jdbcType="VARCHAR" />
+    <result column="validity_time_begin" property="validityTimeBegin" jdbcType="TIMESTAMP" />
+    <result column="validity_time_end" property="validityTimeEnd" jdbcType="TIMESTAMP" />
+    <result column="time1" property="time1" jdbcType="INTEGER" />
+    <result column="time2" property="time2" jdbcType="INTEGER" />
+    <result column="effective_time" property="effectiveTime" jdbcType="VARCHAR" />
+    <result column="limit_num" property="limitNum" jdbcType="INTEGER" />
+    <result column="total_num" property="totalNum" jdbcType="INTEGER" />
+    <result column="is_share" property="isShare" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, name, money, limit_money, color, validity_time_begin, validity_time_end, time1, 
+    time2, effective_time, limit_num, total_num, is_share, create_time, store_id, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from seller_coupon_template
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from seller_coupon_template
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qhtr.model.CouponTemplate" >
+    insert into seller_coupon_template (id, name, money, 
+      limit_money, color, validity_time_begin, 
+      validity_time_end, time1, time2, 
+      effective_time, limit_num, total_num, 
+      is_share, create_time, store_id, 
+      status)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{money,jdbcType=INTEGER}, 
+      #{limitMoney,jdbcType=INTEGER}, #{color,jdbcType=VARCHAR}, #{validityTimeBegin,jdbcType=TIMESTAMP}, 
+      #{validityTimeEnd,jdbcType=TIMESTAMP}, #{time1,jdbcType=INTEGER}, #{time2,jdbcType=INTEGER}, 
+      #{effectiveTime,jdbcType=VARCHAR}, #{limitNum,jdbcType=INTEGER}, #{totalNum,jdbcType=INTEGER}, 
+      #{isShare,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{storeId,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qhtr.model.CouponTemplate" >
+    insert into seller_coupon_template
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="limitMoney != null" >
+        limit_money,
+      </if>
+      <if test="color != null" >
+        color,
+      </if>
+      <if test="validityTimeBegin != null" >
+        validity_time_begin,
+      </if>
+      <if test="validityTimeEnd != null" >
+        validity_time_end,
+      </if>
+      <if test="time1 != null" >
+        time1,
+      </if>
+      <if test="time2 != null" >
+        time2,
+      </if>
+      <if test="effectiveTime != null" >
+        effective_time,
+      </if>
+      <if test="limitNum != null" >
+        limit_num,
+      </if>
+      <if test="totalNum != null" >
+        total_num,
+      </if>
+      <if test="isShare != null" >
+        is_share,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="limitMoney != null" >
+        #{limitMoney,jdbcType=INTEGER},
+      </if>
+      <if test="color != null" >
+        #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="validityTimeBegin != null" >
+        #{validityTimeBegin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityTimeEnd != null" >
+        #{validityTimeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="time1 != null" >
+        #{time1,jdbcType=INTEGER},
+      </if>
+      <if test="time2 != null" >
+        #{time2,jdbcType=INTEGER},
+      </if>
+      <if test="effectiveTime != null" >
+        #{effectiveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="limitNum != null" >
+        #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="isShare != null" >
+        #{isShare,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.CouponTemplate" >
+    update seller_coupon_template
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="limitMoney != null" >
+        limit_money = #{limitMoney,jdbcType=INTEGER},
+      </if>
+      <if test="color != null" >
+        color = #{color,jdbcType=VARCHAR},
+      </if>
+      <if test="validityTimeBegin != null" >
+        validity_time_begin = #{validityTimeBegin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validityTimeEnd != null" >
+        validity_time_end = #{validityTimeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="time1 != null" >
+        time1 = #{time1,jdbcType=INTEGER},
+      </if>
+      <if test="time2 != null" >
+        time2 = #{time2,jdbcType=INTEGER},
+      </if>
+      <if test="effectiveTime != null" >
+        effective_time = #{effectiveTime,jdbcType=VARCHAR},
+      </if>
+      <if test="limitNum != null" >
+        limit_num = #{limitNum,jdbcType=INTEGER},
+      </if>
+      <if test="totalNum != null" >
+        total_num = #{totalNum,jdbcType=INTEGER},
+      </if>
+      <if test="isShare != null" >
+        is_share = #{isShare,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.CouponTemplate" >
+    update seller_coupon_template
+    set name = #{name,jdbcType=VARCHAR},
+      money = #{money,jdbcType=INTEGER},
+      limit_money = #{limitMoney,jdbcType=INTEGER},
+      color = #{color,jdbcType=VARCHAR},
+      validity_time_begin = #{validityTimeBegin,jdbcType=TIMESTAMP},
+      validity_time_end = #{validityTimeEnd,jdbcType=TIMESTAMP},
+      time1 = #{time1,jdbcType=INTEGER},
+      time2 = #{time2,jdbcType=INTEGER},
+      effective_time = #{effectiveTime,jdbcType=VARCHAR},
+      limit_num = #{limitNum,jdbcType=INTEGER},
+      total_num = #{totalNum,jdbcType=INTEGER},
+      is_share = #{isShare,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      store_id = #{storeId,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

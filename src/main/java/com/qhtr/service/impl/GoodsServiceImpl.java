@@ -31,9 +31,9 @@ public class GoodsServiceImpl implements GoodsService {
 	 * @return
 	 */
 	@Override
-	public List<Goods> selectGoodsBySellerId(int sellerId,int type) {
+	public List<Goods> selectGoodsBySellerId(int storeId,int type) {
 		Goods goods = new Goods();
-			goods.setSellerId(sellerId);
+			goods.setStoreId(storeId);
 			goods.setStatus(2);
 		if(type == 0){
 		}else if(type == 1){

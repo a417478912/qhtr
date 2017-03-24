@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -63,7 +62,7 @@ public class App_SearchController {
 		List<StoreGoodsDto> sgDto = new ArrayList<StoreGoodsDto>();
 		for (Store store : storeList) {
 			Goods goodsTem = new Goods();
-			goodsTem.setSellerId(store.getSellerId());
+			goodsTem.setStoreId(store.getId());
 			List<Goods> goodsList1 = goodsService.selectGoodsByCondition(goodsTem, page, 5);
 			StoreGoodsDto dto1 = new StoreGoodsDto();
 			dto1.setGoodsList(goodsList1);

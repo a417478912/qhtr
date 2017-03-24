@@ -6,6 +6,7 @@ import com.qhtr.model.BuyCart;
 
 public class BuyCartDto {
 	public int storeId;
+	public String storeAvatar;
 	public String storeName;
 	public List<BuyCart> buyCartList;
 	public int getStoreId() {
@@ -25,5 +26,11 @@ public class BuyCartDto {
 	}
 	public void setBuyCartList(List<BuyCart> buyCartList) {
 		this.buyCartList = buyCartList;
+	}
+	public String getStoreAvatar() {
+		return storeAvatar;
+	}
+	public void setStoreAvatar(String storeAvatar) {
+		this.storeAvatar = storeAvatar;
 	}
 }

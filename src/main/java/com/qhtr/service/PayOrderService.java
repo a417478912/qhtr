@@ -11,10 +11,16 @@ public interface PayOrderService {
 	 * @param type
 	 * @return
 	 */
-	String addOrder(String storeOrderCode, int type,int userId);
+	String addOrder(String orderCode, int type,int userId);
 
 	List<PayOrder> selectByConditions(PayOrder poTem);
 
 	int insert(PayOrder po);
 	
+	/**
+	 * 通过单号查找订单
+	 * @param code
+	 * @return
+	 */
+	PayOrder selectByOrderCode(String code);
 }

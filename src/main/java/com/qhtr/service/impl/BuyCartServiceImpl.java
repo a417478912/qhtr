@@ -54,6 +54,7 @@ public class BuyCartServiceImpl implements BuyCartService{
 			cart.setString2(sku.getAttrDetails());
 			cart.setString3(sku.getPrice()+"");
 			cart.setString4(goods.getGoods().getGoodsCode());
+			cart.setString5(goods.getGoods().getThumb());
 			return buyCartMapper.insert(cart);
 		}else{
 			BuyCart cart1 = buyCartList.get(0);

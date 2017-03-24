@@ -9,7 +9,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +21,6 @@ import com.qhtr.common.Json;
 import com.qhtr.model.User;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.FileUploadUtils;
-import com.sun.tools.internal.xjc.model.SymbolSpace;
 
 @Controller
 @RequestMapping("/app_user")

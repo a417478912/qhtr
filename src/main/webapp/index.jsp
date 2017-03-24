@@ -25,18 +25,23 @@
 </body>
 </html>
 <script>
+var a = new Object();
 $("#a").click(function(){
 	var customerArray = new Array();
-    customerArray.push({id: "1", goodsId: "333", skuId: "33333"});
-    customerArray.push({id: "2", goodsId: "444", skuId: "44444"});
-    alert(JSON.stringify(customerArray))
+/*     customerArray.push({id: "1", goodsId: "333", skuId: "33333"});
+    customerArray.push({id: "2", goodsId: "444", skuId: "44444"}); */
+    customerArray.push({storeName: "QHTRSO0000000120170323151438565",storeAvatar:"333"}); 
+    customerArray.push({storeOrder: "QHTRSO0000000120170323151438823",storeAvatar:"5555"});
+    a.dto1List = customerArray;
+    a.addressId = 1;
+    a.userId = 1;
+    alert(JSON.stringify(a))
 	$.ajax({
-        url: "${rootPath}app_buycart/updateBatchBuyCart.do",
+        url: "${rootPath}app_order/addGoodsOrders.do",
         type: "POST",
         contentType : 'application/json;charset=utf-8', //设置请求头信息
-        
         dataType:"json",
-        data: JSON.stringify(customerArray),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
+        data: JSON.stringify(a),    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
         success: function(data){
             alert(data);
         },

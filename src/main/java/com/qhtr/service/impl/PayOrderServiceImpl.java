@@ -1,6 +1,5 @@
 package com.qhtr.service.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -9,10 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.qhtr.dao.PayOrderMapper;
 import com.qhtr.model.PayOrder;
-import com.qhtr.model.StoreOrder;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.StoreOrderService;
-import com.qhtr.utils.GenerationUtils;
 
 @Service
 public class PayOrderServiceImpl implements PayOrderService {
@@ -22,20 +19,11 @@ public class PayOrderServiceImpl implements PayOrderService {
 	public StoreOrderService storeOrderService;
 
 	@Override
-	public String addOrder(String storeOrderCode, int type,int userId) {
-		PayOrder po = new PayOrder();
-		po.setOrderCode(GenerationUtils.getGenerationCode("PO", userId+""));
-		StoreOrder so = storeOrderService.selectByOrderCode(storeOrderCode);
-		po.setTotalPrice(so.getTotalPrice());
-		po.setStatus(1);
-		po.setUserId(userId);
-		po.setCreateTime(new Date());
+	public String addOrder(String orderCode, int type,int userId) {
+		PayOrder po = this.selectByOrderCode(orderCode);
 		po.setPayType(type);
 		int result = payOrderMapper.insert(po);
 		if(result == 1){
-			StoreOrder so1 = storeOrderService.selectByOrderCode(storeOrderCode);
-			so1.setPayOrderCode(po.getOrderCode());
-			storeOrderService.updateByCondition(so1);
 			return po.getOrderCode();
 		}else{
 			return null;
@@ -50,6 +38,18 @@ public class PayOrderServiceImpl implements PayOrderService {
 	@Override
 	public int insert(PayOrder po) {
 		return payOrderMapper.insert(po);
+	}
+
+	@Override
+	public PayOrder selectByOrderCode(String code) {
+		PayOrder po = new PayOrder();
+		po.setOrderCode(code);
+		List<PayOrder> list = payOrderMapper.selectByConditions(po);
+		if(list.isEmpty()){
+			return null;
+		}else{
+			return list.get(0);
+		}
 	}
 
 }

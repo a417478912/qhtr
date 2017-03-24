@@ -2,9 +2,15 @@ package com.app.dto;
 
 import java.util.List;
 
+/**
+ * 查询的时的订单dto
+ * @author wjx
+ *
+ * @date  2017年3月23日
+ */
 public class StoreOrderDto {
 	List<GoodsOrderDto> goodsOrders;
-	public int storeOrderId;
+	public String storeOrderCode;
 	public int storeId;
 	public String storeName;
 	public String storeAvatar;
@@ -48,10 +54,10 @@ public class StoreOrderDto {
 	public void setStoreAvatar(String storeAvatar) {
 		this.storeAvatar = storeAvatar;
 	}
-	public int getStoreOrderId() {
-		return storeOrderId;
+	public String getStoreOrderCode() {
+		return storeOrderCode;
 	}
-	public void setStoreOrderId(int storeOrderId) {
-		this.storeOrderId = storeOrderId;
+	public void setStoreOrderCode(String storeOrderCode) {
+		this.storeOrderCode = storeOrderCode;
 	}
 }

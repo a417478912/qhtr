@@ -13,8 +13,6 @@ public class GoodsOrder {
 
     private Integer userId;
 
-    private Integer addressId;
-
     private Integer storeId;
 
     private Integer skuId;
@@ -23,14 +21,7 @@ public class GoodsOrder {
 
     private Integer num;
 
-    private String userRemark;
-
     private Integer price;
-	
-	/**
-     * 取货方式/配送方式    1.快递   2.自取
-     */
-    private Integer distributionType;
 
     private Date createTime;
 
@@ -84,14 +75,6 @@ public class GoodsOrder {
         this.userId = userId;
     }
 
-    public Integer getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(Integer addressId) {
-        this.addressId = addressId;
-    }
-
     public Integer getStoreId() {
         return storeId;
     }
@@ -124,28 +107,12 @@ public class GoodsOrder {
         this.num = num;
     }
 
-    public String getUserRemark() {
-        return userRemark;
-    }
-
-    public void setUserRemark(String userRemark) {
-        this.userRemark = userRemark == null ? null : userRemark.trim();
-    }
-
     public Integer getPrice() {
         return price;
     }
 
     public void setPrice(Integer price) {
         this.price = price;
-    }
-
-    public Integer getDistributionType() {
-        return distributionType;
-    }
-
-    public void setDistributionType(Integer distributionType) {
-        this.distributionType = distributionType;
     }
 
     public Date getCreateTime() {

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.qhtr.model.Goods" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
-    <result column="seller_id" property="sellerId" jdbcType="INTEGER" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="thumb" property="thumb" jdbcType="VARCHAR" />
@@ -33,7 +33,7 @@
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_code, seller_id, name, category_id, thumb, picture1, picture2, picture3, 
+    id, goods_code, store_id, name, category_id, thumb, picture1, picture2, picture3, 
     price, vip_price, special_selling_price, stock, details, isDefault, status, create_time, 
     pull_on_time, new_pull_on_time, start_time, end_time, is_new_pull_on, is_recommended_by_store_manager, 
     is_special_selling, string1, string2, string3, collect_num, sell_num
@@ -49,7 +49,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Goods" >
-    insert into goods_goods (id, goods_code, seller_id, 
+    insert into goods_goods (id, goods_code, store_id, 
       name, category_id, thumb, 
       picture1, picture2, picture3, 
       price, vip_price, special_selling_price, 
@@ -60,7 +60,7 @@
       is_special_selling, string1, string2, 
       string3, collect_num, sell_num
       )
-    values (#{id,jdbcType=INTEGER}, #{goodsCode,jdbcType=VARCHAR}, #{sellerId,jdbcType=INTEGER}, 
+    values (#{id,jdbcType=INTEGER}, #{goodsCode,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, 
       #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, 
       #{price,jdbcType=INTEGER}, #{vipPrice,jdbcType=INTEGER}, #{specialSellingPrice,jdbcType=INTEGER}, 
@@ -81,8 +81,8 @@
       <if test="goodsCode != null" >
         goods_code,
       </if>
-      <if test="sellerId != null" >
-        seller_id,
+      <if test="storeId != null" >
+        store_id,
       </if>
       <if test="name != null" >
         name,
@@ -170,8 +170,8 @@
       <if test="goodsCode != null" >
         #{goodsCode,jdbcType=VARCHAR},
       </if>
-      <if test="sellerId != null" >
-        #{sellerId,jdbcType=INTEGER},
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -259,8 +259,8 @@
       <if test="goodsCode != null" >
         goods_code = #{goodsCode,jdbcType=VARCHAR},
       </if>
-      <if test="sellerId != null" >
-        seller_id = #{sellerId,jdbcType=INTEGER},
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -346,7 +346,7 @@
   <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Goods" >
     update goods_goods
     set goods_code = #{goodsCode,jdbcType=VARCHAR},
-      seller_id = #{sellerId,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       category_id = #{categoryId,jdbcType=INTEGER},
       thumb = #{thumb,jdbcType=VARCHAR},
@@ -376,7 +376,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--以下自定义方法 --> 
+   <!--以下自定义方法 --> 
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Goods" >
     select 
     <include refid="Base_Column_List" />
@@ -385,8 +385,8 @@
    	 <if test="1 == 1" >
         1 = 1
       </if>
-     <if test="sellerId != null">
-        and seller_id = #{sellerId,jdbcType=INTEGER}
+     <if test="storeId != null">
+        and store_id = #{storeId,jdbcType=INTEGER}
       </if>
      <if test="goodsCode != null">
         and goods_code = #{goodsCode,jdbcType=VARCHAR}

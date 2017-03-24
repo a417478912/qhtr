@@ -29,7 +29,9 @@ public class BuyCart {
      * goods code
      */
     private String string4;
-
+    /**
+     * 商品图片
+     */
     private String string5;
 
     public Integer getId() {

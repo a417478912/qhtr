@@ -9,13 +9,29 @@ public class StoreOrder {
 
     private String payOrderCode;
 
-    private Integer sellerId;
-
     private Integer storeId;
+
+	/**
+     * 取货方式/配送方式    1.快递   2.自取
+     */
+
+    private Integer distributionType;
 
     private Integer userId;
 
+    private Integer couponId;
+
     private Integer totalPrice;
+
+    private Integer addressId;
+
+    private Integer expressPrice;
+
+    private Integer couponPrice;
+
+    private Integer refundPrice;
+
+    private Integer resultPrice;
 
     private Integer status;
 
@@ -51,20 +67,20 @@ public class StoreOrder {
         this.payOrderCode = payOrderCode == null ? null : payOrderCode.trim();
     }
 
-    public Integer getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
-    }
-
     public Integer getStoreId() {
         return storeId;
     }
 
     public void setStoreId(Integer storeId) {
         this.storeId = storeId;
+    }
+
+    public Integer getDistributionType() {
+        return distributionType;
+    }
+
+    public void setDistributionType(Integer distributionType) {
+        this.distributionType = distributionType;
     }
 
     public Integer getUserId() {
@@ -75,12 +91,60 @@ public class StoreOrder {
         this.userId = userId;
     }
 
+    public Integer getCouponId() {
+        return couponId;
+    }
+
+    public void setCouponId(Integer couponId) {
+        this.couponId = couponId;
+    }
+
     public Integer getTotalPrice() {
         return totalPrice;
     }
 
     public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
+
+    public Integer getExpressPrice() {
+        return expressPrice;
+    }
+
+    public void setExpressPrice(Integer expressPrice) {
+        this.expressPrice = expressPrice;
+    }
+
+    public Integer getCouponPrice() {
+        return couponPrice;
+    }
+
+    public void setCouponPrice(Integer couponPrice) {
+        this.couponPrice = couponPrice;
+    }
+
+    public Integer getRefundPrice() {
+        return refundPrice;
+    }
+
+    public void setRefundPrice(Integer refundPrice) {
+        this.refundPrice = refundPrice;
+    }
+
+    public Integer getResultPrice() {
+        return resultPrice;
+    }
+
+    public void setResultPrice(Integer resultPrice) {
+        this.resultPrice = resultPrice;
     }
 
     public Integer getStatus() {
