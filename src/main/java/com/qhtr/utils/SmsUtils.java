@@ -20,7 +20,7 @@ public class SmsUtils {
 	/**
 	 * @param phone
 	 * @param request
-	 * @param type 短信类型 1：用户注册   2：修改密码
+	 * @param type 短信类型 1：用户注册   2：修改密码 .3.手机号绑定
 	 * @return
 	 */
 	public static String send(String phone,HttpServletRequest request,int type){
@@ -29,6 +29,8 @@ public class SmsUtils {
 			templateCode = "SMS_57225002";
 		}else if(type == 2){
 			templateCode = "SMS_57715164";
+		}else if(type == 3){
+			templateCode = "SMS_58385092";
 		}
 	    Map<String, String> headers = new HashMap<String, String>();
 	    
@@ -61,11 +63,14 @@ public class SmsUtils {
 	    //	System.out.println(EntityUtils.toString(response.getEntity()));
 	    	Map<String,String> map = new HashMap<String,String>();
 	    	map.put("code",yanzhengCode);
+	    	map.put("phone", phone);
 	    	map.put("time",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 	    	if(type == 1){
 	    		request.getSession().setAttribute(Constants.USER_RIGIST_CODE, map);
 	    	}else if(type == 2){
 	    		request.getSession().setAttribute(Constants.USER_CHANGE_PWD_CODE, map);
+	    	}else if(type == 3){
+	    		request.getSession().setAttribute(Constants.BIND_PHONE_CODE, map);
 	    	}
 	    	return "success";
 	    } catch (Exception e) {

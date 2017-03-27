@@ -6,6 +6,7 @@ public class Constants {
 	 * 用户信息
 	 */
 	public final static String USER_KEY = "userName";
+	
 	/**
 	 * 用户注册码
 	 */
@@ -14,6 +15,11 @@ public class Constants {
 	 * 修改密码 短信码
 	 */
 	public final static String USER_CHANGE_PWD_CODE = "userChangePwdCode";
+	/**
+	 * 绑定手机号 短信吗
+	 */
+	public final static String BIND_PHONE_CODE = "bindPhoneCode";
+	
 	/**
 	 * 购物车ids
 	 */

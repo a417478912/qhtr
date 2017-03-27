@@ -23,6 +23,12 @@ public class User {
 
     private String birthday;
 
+    private String qqCode;
+
+    private String weixinCode;
+
+    private String sinaCode;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +107,29 @@ public class User {
 
     public void setBirthday(String birthday) {
         this.birthday = birthday == null ? null : birthday.trim();
+    }
+
+    public String getQqCode() {
+        return qqCode;
+    }
+
+    public void setQqCode(String qqCode) {
+        this.qqCode = qqCode == null ? null : qqCode.trim();
+    }
+
+    public String getWeixinCode() {
+        return weixinCode;
+    }
+
+    public void setWeixinCode(String weixinCode) {
+        this.weixinCode = weixinCode == null ? null : weixinCode.trim();
+    }
+
+    public String getSinaCode() {
+        return sinaCode;
+    }
+
+    public void setSinaCode(String sinaCode) {
+        this.sinaCode = sinaCode == null ? null : sinaCode.trim();
     }
 }

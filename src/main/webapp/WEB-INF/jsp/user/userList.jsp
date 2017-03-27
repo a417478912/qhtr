@@ -4,8 +4,8 @@
 <form id="pagerForm" method="post" action="${rootPath}/user/userList.do">
 	<input type="hidden" name="status" value="${param.status}">
 	<input type="hidden" name="keywords" value="${param.keywords}" />
-	<input type="hidden" name="pageNum" value="1" />
-	<input type="hidden" name="numPerPage" value="${userList.numPerPage}" />
+	<input type="hidden" name="pageNum" value="${data.pageNum}" />
+	<input type="hidden" name="numPerPage" value="${data.numPerPage}" />
 	<input type="hidden" name="orderField" value="${param.orderField}" />
 </form>
 
@@ -69,7 +69,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${userList.list}" var="user" varStatus="xh">
+			<c:forEach items="${data.list}" var="user" varStatus="xh">
 			<tr>
 				<td>${xh.count }</td>
 				<td>${user.name }</td>
@@ -94,10 +94,10 @@
 				<option value="100">100</option>
 				<option value="200">200</option>
 			</select>
-			<span>条，共${userList.total}条</span>
+			<span>条，共${data.total}条</span>
 		</div>
 	
-	<div class="pagination" targetType="navTab" totalCount="200" numPerPage="20" pageNumShown="10" currentPage="1"></div>
+	<div class="pagination" targetType="navTab" totalCount="${data.total}" numPerPage="${data.numPerPage}" pageNumShown="10" currentPage="${data.pageNum}"></div>
 	</div>
 	
 </div>

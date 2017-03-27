@@ -21,7 +21,7 @@ public class UserController {
 	public String userList(HttpServletRequest request,@RequestParam(defaultValue="1") int pageNum,@RequestParam(defaultValue="20") int numPerPage){
 		User user = new User();
 		PageBean<User> userList = userService.getUserListByConditions(user,pageNum,numPerPage);
-		request.setAttribute("userList", userList);
+		request.setAttribute("data", userList);
 		return "user/userList";
 	}
 	

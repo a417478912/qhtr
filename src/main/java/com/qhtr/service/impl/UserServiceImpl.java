@@ -111,5 +111,18 @@ public class UserServiceImpl implements UserService{
 			return userMapper.updateByPrimaryKey(user);
 		}
 	}
+
+	@Override
+	public int addBindPhone(User user) {
+		User userTem = new User();
+		userTem.setPhone(user.getPhone());
+		List<User> list = userMapper.selectByConditions(userTem);
+		if(!list.isEmpty()){
+			user.setId(list.get(0).getId());
+			return userMapper.updateByPrimaryKeySelective(user);
+		}else{
+			return userMapper.insert(user);
+		}
+	}
 }
 	

@@ -42,5 +42,10 @@ public interface UserService {
 	   int updateUser(int id, String nickName, String sex, String birthday,String avatar);
 	   
 	   int updatePwd(String phone,String pwd);
+	   
+	   /**
+	    * 绑定手机
+	    */
+	   int addBindPhone(User user);
 }
 	

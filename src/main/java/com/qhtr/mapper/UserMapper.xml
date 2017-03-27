@@ -12,9 +12,13 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="birthday" property="birthday" jdbcType="VARCHAR" />
+    <result column="qq_code" property="qqCode" jdbcType="VARCHAR" />
+    <result column="weixin_code" property="weixinCode" jdbcType="VARCHAR" />
+    <result column="sina_code" property="sinaCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, nick_name, phone, password, sex, avatar, status, create_time, birthday
+    id, name, nick_name, phone, password, sex, avatar, status, create_time, birthday, 
+    qq_code, weixin_code, sina_code
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -30,11 +34,13 @@
     insert into user (id, name, nick_name, 
       phone, password, sex, 
       avatar, status, create_time, 
-      birthday)
+      birthday, qq_code, weixin_code, 
+      sina_code)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{avatar,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{birthday,jdbcType=VARCHAR})
+      #{birthday,jdbcType=VARCHAR}, #{qqCode,jdbcType=VARCHAR}, #{weixinCode,jdbcType=VARCHAR}, 
+      #{sinaCode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.User" >
     insert into user
@@ -69,6 +75,15 @@
       <if test="birthday != null" >
         birthday,
       </if>
+      <if test="qqCode != null" >
+        qq_code,
+      </if>
+      <if test="weixinCode != null" >
+        weixin_code,
+      </if>
+      <if test="sinaCode != null" >
+        sina_code,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -100,6 +115,15 @@
       </if>
       <if test="birthday != null" >
         #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="qqCode != null" >
+        #{qqCode,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinCode != null" >
+        #{weixinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCode != null" >
+        #{sinaCode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -133,6 +157,15 @@
       <if test="birthday != null" >
         birthday = #{birthday,jdbcType=VARCHAR},
       </if>
+      <if test="qqCode != null" >
+        qq_code = #{qqCode,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinCode != null" >
+        weixin_code = #{weixinCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sinaCode != null" >
+        sina_code = #{sinaCode,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -146,7 +179,10 @@
       avatar = #{avatar,jdbcType=VARCHAR},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      birthday = #{birthday,jdbcType=VARCHAR}
+      birthday = #{birthday,jdbcType=VARCHAR},
+      qq_code = #{qqCode,jdbcType=VARCHAR},
+      weixin_code = #{weixinCode,jdbcType=VARCHAR},
+      sina_code = #{sinaCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -176,6 +212,15 @@
       </if>
       <if test="createTime != null" >
         and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+       <if test="qqCode != null" >
+        and qq_code = #{qqCode,jdbcType=VARCHAR}
+      </if>
+      <if test="weixinCode != null" >
+        and weixin_code = #{weixinCode,jdbcType=VARCHAR}
+      </if>
+      <if test="sinaCode != null" >
+        and sina_code = #{sinaCode,jdbcType=VARCHAR}
       </if>
     </where>
     order by create_time desc,status desc
