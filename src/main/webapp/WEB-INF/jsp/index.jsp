@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <head>
 <%@ include file="/common/base.jsp"%>
+<script language="javascript" src="<%=basePath%>js/jquery-2.1.4.min.js"> </script>
 <%@ include file="/common/baseDwzJs.jsp"%>
 <%@ include file="/common/baseDwzCss.jsp"%>
 

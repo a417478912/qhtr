@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -160,7 +161,9 @@ public class App_UserController {
 		User user = userService.login(phone,password);
 		if(user != null){
 			request.getSession().setAttribute(Constants.USER_KEY, user);
-			j.setData(user.getId());
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("id", user.getId());
+			j.setData(map);
 			j.setMessage("登录成功");
 		}else{
 			j.setCode(0);

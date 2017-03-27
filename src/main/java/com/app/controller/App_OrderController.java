@@ -1,6 +1,8 @@
 package com.app.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -80,7 +82,9 @@ public class App_OrderController {
 	public Json addOrder(Json j,String userRemark,HttpServletRequest request) {
 		String code = storeOrderService.addOrder(userRemark,request);
 		if (StringUtils.isNotBlank(code)) {
-			j.setData(code);
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("code", code);
+			j.setData(map);
 			j.setMessage("成功!");
 		} else {
 			j.setCode(0);
@@ -104,7 +108,9 @@ public class App_OrderController {
 	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId) {
 		String PayCode = payOrderService.addOrder(orderCode, type, userId);
 		if (StringUtils.isNotBlank(PayCode)) {
-			j.setData(PayCode);
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("code", PayCode);
+			j.setData(map);
 			j.setMessage("成功!");
 		} else {
 			j.setCode(0);

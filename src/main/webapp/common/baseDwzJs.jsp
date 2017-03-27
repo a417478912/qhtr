@@ -1,5 +1,3 @@
-<script src="${rootPath}dwz/js/speedup.js" type="text/javascript"></script>
-
 <script src="${rootPath}dwz/js/jquery.cookie.js" type="text/javascript"></script>
 <script src="${rootPath}dwz/js/jquery.validate.js" type="text/javascript"></script>
 <script src="${rootPath}dwz/js/jquery.bgiframe.js" type="text/javascript"></script>
