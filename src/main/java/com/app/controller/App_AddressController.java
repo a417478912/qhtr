@@ -25,7 +25,7 @@ public class App_AddressController {
 	public Json addAddress(Json j,Address address) throws Exception{
 		int result = addressService.addAddress(address);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("增加地址失败!");
 		}else{
 			j.setMessage("增加成功!");
@@ -38,7 +38,7 @@ public class App_AddressController {
 	public Json deleteAddress(Json j,@RequestParam int id){
 		int result = addressService.deleteAddressById(id);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("删除地址失败!");
 		}else{
 			j.setMessage("删除成功!");
@@ -51,7 +51,7 @@ public class App_AddressController {
 	public Json updateAddress(Json j,Address address){
 		int result = addressService.updateAddress(address);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("修改地址失败!");
 		}else{
 			j.setMessage("修改成功!");
@@ -72,7 +72,7 @@ public class App_AddressController {
 	public Json setAddressDefault(Json j,@RequestParam int id){
 		int result = addressService.updateToDeafult(id);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("设置失败!");
 		}else{
 			j.setMessage("设置成功!");

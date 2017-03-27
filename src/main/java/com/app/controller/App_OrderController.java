@@ -53,7 +53,7 @@ public class App_OrderController {
 		if(addressId == null || addressId== 0){
 			List<Address> adds = addressService.selectAddressByUserId(userId);
 			if(adds.isEmpty()){
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("没有默认地址!");
 				return j;
 			}else{
@@ -65,7 +65,7 @@ public class App_OrderController {
 			j.setData(result);
 			j.setMessage("成功!");
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("失败!");
 		}
 		return j;
@@ -83,7 +83,7 @@ public class App_OrderController {
 			j.setData(code);
 			j.setMessage("成功!");
 		} else {
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("失败!");
 		}
 		return j;
@@ -107,7 +107,7 @@ public class App_OrderController {
 			j.setData(PayCode);
 			j.setMessage("成功!");
 		} else {
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("失败!");
 		}
 		return j;
@@ -130,7 +130,7 @@ public class App_OrderController {
 		if(addressId == null || addressId== 0){
 			List<Address> adds = addressService.selectAddressByUserId(userId);
 			if(adds.isEmpty()){
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("没有默认地址!");
 				return j;
 			}else{
@@ -157,7 +157,7 @@ public class App_OrderController {
 			j.setData(poList.get(0).getId());
 			j.setMessage("成功!");
 		} else {
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("失败!");
 		}
 		return j;

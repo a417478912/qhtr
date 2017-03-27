@@ -35,7 +35,7 @@ public class App_GoodsController {
 		if(goods != null){
 			j.setData(goods);
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 		}
 		return j;
 	}
@@ -53,7 +53,7 @@ public class App_GoodsController {
 		if(dto != null){
 			j.setData(dto);
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 		}
 		return j;
 	}

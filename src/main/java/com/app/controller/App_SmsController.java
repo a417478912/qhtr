@@ -32,7 +32,7 @@ public class App_SmsController {
 			Long createTime = df.parse(theCode.get("time")).getTime();
 			Long nowTime = df.parse(df.format(new Date())).getTime();
 			if(nowTime - createTime < 60*1000){
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("请1分钟后再试!");
 				return j;
 			}
@@ -40,7 +40,7 @@ public class App_SmsController {
 		
 		String result = SmsUtils.send(phone, request,1);
 		if(StringUtils.isBlank(result)){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("发送失败!");
 		}else if(result.equals("success")){
 			j.setMessage("发送成功!");
@@ -59,7 +59,7 @@ public class App_SmsController {
 			Long createTime = df.parse(theCode.get("time")).getTime();
 			Long nowTime = df.parse(df.format(new Date())).getTime();
 			if(nowTime - createTime < 60*1000){
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("请1分钟后再试!");
 				return j;
 			}
@@ -67,7 +67,7 @@ public class App_SmsController {
 		
 		String result = SmsUtils.send(phone, request,2);
 		if(StringUtils.isBlank(result)){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("发送失败!");
 		}else if(result.equals("success")){
 			j.setMessage("发送成功!");

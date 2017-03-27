@@ -74,11 +74,15 @@ $("#a").click(function(){
 
 $("#b").click(function(){
 	$.ajax({
-        url: "${rootPath}app_user/changePwd.do",
+        url: "${rootPath}app_user/login.do",
         type: "POST",
-        data: "phone=15324932625&password=222&phone_code=6285",  /*   //将Json对象序列化成Json字符串，JSON.stringify()原生态方法 */
+        data: "phone=124111&password=222",  /*   //将Json对象序列化成Json字符串，JSON.stringify()原生态方法 */
         success: function(data){
-            alert(data.message);
+           	if(data.success){
+           		alert("成功！！！！");
+           	}else{
+           		alert("失败!");
+           	}
         },
         error: function(res){
             alert(res.responseText);

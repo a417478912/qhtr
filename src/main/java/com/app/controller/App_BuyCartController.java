@@ -33,7 +33,7 @@ public class App_BuyCartController {
 	public Json selectCartsByUserId(Json j,@RequestParam int userId){
 		List<BuyCartDto> carts = buyCartService.selectCartsByUserId(userId);
 		if(carts.isEmpty()){
-			j.setSuccess(false);
+			j.setCode(0);
 		}else{
 			j.setData(carts);
 		}
@@ -51,7 +51,7 @@ public class App_BuyCartController {
 	public Json addBuyCart(Json j,BuyCart cart){
 		int result = buyCartService.addById(cart);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("添加购物车失败!");
 		}else{
 			j.setMessage("添加购物车成功!");
@@ -70,7 +70,7 @@ public class App_BuyCartController {
 	public Json deleteBuyCart(Json j,@RequestParam int cartId){
 		int result = buyCartService.deleteById(cartId);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("删除失败!");
 		}else{
 			j.setMessage("删除成功!");
@@ -89,7 +89,7 @@ public class App_BuyCartController {
 	public Json deleteBatchBuyCart(Json j,@RequestParam int[] ids){
 		int result = buyCartService.deleteByIds(ids);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("删除失败!");
 		}else{
 			j.setMessage("删除成功!");
@@ -108,7 +108,7 @@ public class App_BuyCartController {
 	public Json updateBuyCart(Json j,BuyCart cart){
 		int result = buyCartService.updateById(cart);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("修改失败!");
 		}else{
 			j.setMessage("修改成功!");
@@ -127,7 +127,7 @@ public class App_BuyCartController {
 	public Json updateBatchBuyCart(Json j,@RequestBody List<BuyCart> cart){
 		int result = buyCartService.updateBatch(cart);
 		if(result == 0){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("修改失败!");
 		}else{
 			j.setMessage("修改成功!");

@@ -46,7 +46,7 @@ public class App_UserController {
 		@SuppressWarnings("unchecked")
 		Map<String,String> theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_RIGIST_CODE);
 		if(theCode == null){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("没有发送验证码!");
 			return j;
 		}else{
@@ -55,7 +55,7 @@ public class App_UserController {
 			Long nowTime = df.parse(df.format(new Date())).getTime();
 			if(nowTime - createTime > 5*60*1000){
 				request.getSession().removeAttribute(Constants.USER_RIGIST_CODE);
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("验证码超时!");
 				return j;
 			}
@@ -64,16 +64,16 @@ public class App_UserController {
 		if (code != null && code.equals(phone_code)) {
 			int result = userService.addUser(phone, password);
 			if(result == 2){
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("手机号已被注册!");
 			}else if (result == 1) {
 				j.setMessage("注册成功!");
 			} else {
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("注册失败!");
 			}
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("验证码输入错误!");
 		}
 		return j;
@@ -95,7 +95,7 @@ public class App_UserController {
 		if(result == 1){
 			j.setMessage("更新成功!");
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("更新失败!");
 		}
 		return j;
@@ -117,7 +117,7 @@ public class App_UserController {
 		@SuppressWarnings("unchecked")
 		Map<String,String> theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_CHANGE_PWD_CODE);
 		if(theCode == null){
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("没有发送验证码!");
 			return j;
 		}else{
@@ -126,7 +126,7 @@ public class App_UserController {
 			Long nowTime = df.parse(df.format(new Date())).getTime();
 			if(nowTime - createTime > 5*60*1000){
 				request.getSession().removeAttribute(Constants.USER_RIGIST_CODE);
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("验证码超时!");
 				return j;
 			}
@@ -137,11 +137,11 @@ public class App_UserController {
 			if (result == 1) {
 				j.setMessage("修改成功!");
 			} else {
-				j.setSuccess(false);
+				j.setCode(0);
 				j.setMessage("修改失败!");
 			}
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("验证码输入错误!");
 		}
 		return j;
@@ -163,7 +163,7 @@ public class App_UserController {
 			j.setData(user.getId());
 			j.setMessage("登录成功");
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("登录失败");
 		}
 		return j;
@@ -185,7 +185,7 @@ public class App_UserController {
 		if(result == 1){
 			j.setMessage("更新成功!");
 		}else{
-			j.setSuccess(false);
+			j.setCode(0);
 			j.setMessage("更新失败!");
 		}
 		return j;

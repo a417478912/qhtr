@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.RefundOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.qhtr.model.RefundOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="refund_type" property="refundType" jdbcType="INTEGER" />
+    <result column="refund_reason" property="refundReason" jdbcType="VARCHAR" />
+    <result column="refund_money" property="refundMoney" jdbcType="INTEGER" />
+    <result column="refund_remark" property="refundRemark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="approve_time" property="approveTime" jdbcType="TIMESTAMP" />
+    <result column="express_name" property="expressName" jdbcType="VARCHAR" />
+    <result column="express_code" property="expressCode" jdbcType="VARCHAR" />
+    <result column="express_time" property="expressTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_code, refund_type, refund_reason, refund_money, refund_remark, status, 
+    create_time, approve_time, express_name, express_code, express_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_refund_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_refund_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qhtr.model.RefundOrder" >
+    insert into order_refund_order (id, order_code, refund_type, 
+      refund_reason, refund_money, refund_remark, 
+      status, create_time, approve_time, 
+      express_name, express_code, express_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{refundType,jdbcType=INTEGER}, 
+      #{refundReason,jdbcType=VARCHAR}, #{refundMoney,jdbcType=INTEGER}, #{refundRemark,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{approveTime,jdbcType=TIMESTAMP}, 
+      #{expressName,jdbcType=VARCHAR}, #{expressCode,jdbcType=VARCHAR}, #{expressTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qhtr.model.RefundOrder" >
+    insert into order_refund_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="refundType != null" >
+        refund_type,
+      </if>
+      <if test="refundReason != null" >
+        refund_reason,
+      </if>
+      <if test="refundMoney != null" >
+        refund_money,
+      </if>
+      <if test="refundRemark != null" >
+        refund_remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="approveTime != null" >
+        approve_time,
+      </if>
+      <if test="expressName != null" >
+        express_name,
+      </if>
+      <if test="expressCode != null" >
+        express_code,
+      </if>
+      <if test="expressTime != null" >
+        express_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="refundType != null" >
+        #{refundType,jdbcType=INTEGER},
+      </if>
+      <if test="refundReason != null" >
+        #{refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="refundMoney != null" >
+        #{refundMoney,jdbcType=INTEGER},
+      </if>
+      <if test="refundRemark != null" >
+        #{refundRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveTime != null" >
+        #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressName != null" >
+        #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null" >
+        #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressTime != null" >
+        #{expressTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.RefundOrder" >
+    update order_refund_order
+    <set >
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="refundType != null" >
+        refund_type = #{refundType,jdbcType=INTEGER},
+      </if>
+      <if test="refundReason != null" >
+        refund_reason = #{refundReason,jdbcType=VARCHAR},
+      </if>
+      <if test="refundMoney != null" >
+        refund_money = #{refundMoney,jdbcType=INTEGER},
+      </if>
+      <if test="refundRemark != null" >
+        refund_remark = #{refundRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="approveTime != null" >
+        approve_time = #{approveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="expressName != null" >
+        express_name = #{expressName,jdbcType=VARCHAR},
+      </if>
+      <if test="expressCode != null" >
+        express_code = #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressTime != null" >
+        express_time = #{expressTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.RefundOrder" >
+    update order_refund_order
+    set order_code = #{orderCode,jdbcType=VARCHAR},
+      refund_type = #{refundType,jdbcType=INTEGER},
+      refund_reason = #{refundReason,jdbcType=VARCHAR},
+      refund_money = #{refundMoney,jdbcType=INTEGER},
+      refund_remark = #{refundRemark,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      approve_time = #{approveTime,jdbcType=TIMESTAMP},
+      express_name = #{expressName,jdbcType=VARCHAR},
+      express_code = #{expressCode,jdbcType=VARCHAR},
+      express_time = #{expressTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <!--以下自定义方法 --> 
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.RefundOrder" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_refund_order
+    <where>
+   	 <if test="1 == 1" >
+        1 = 1
+      </if>
+     <if test="orderCode != null" >
+        and order_code = #{orderCode,jdbcType=VARCHAR}
+      </if>
+      <if test="refundType != null" >
+        and refund_type = #{refundType,jdbcType=INTEGER}
+      </if>
+      <if test="refundReason != null" >
+        and refund_reason = #{refundReason,jdbcType=VARCHAR}
+      </if>
+      <if test="refundMoney != null" >
+        and refund_money = #{refundMoney,jdbcType=INTEGER}
+      </if>
+      <if test="refundRemark != null" >
+        and refund_remark = #{refundRemark,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="approveTime != null" >
+        and approve_time = #{approveTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="expressName != null" >
+        and express_name = #{expressName,jdbcType=VARCHAR}
+      </if>
+      <if test="expressCode != null" >
+        and express_code = #{expressCode,jdbcType=VARCHAR}
+      </if>
+      <if test="expressTime != null" >
+        and express_time = #{expressTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  	</select>
+</mapper>

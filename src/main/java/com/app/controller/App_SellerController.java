@@ -32,7 +32,7 @@ public class App_SellerController {
 	public Json getStoreBysSoreId(Json j,@RequestParam Integer storeId){
 		Store s = storeService.getStoreBysSoreId(storeId);
 		if(s == null){
-			j.setSuccess(false);
+			j.setCode(0);
 		}else{
 			j.setData(new StoreDto(s));
 		}
@@ -50,7 +50,7 @@ public class App_SellerController {
 	public Json getStoreBysSellerId(Json j,@RequestParam Integer sellerId){
 		Store s = storeService.getStoreBySellerId(sellerId);
 		if(s == null){
-			j.setSuccess(false);
+			j.setCode(0);
 		}else{
 			j.setData(new StoreDto(s));
 		}
