@@ -2,6 +2,7 @@ package com.app.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -98,11 +99,18 @@ public class App_UserController {
 	 * @param sex
 	 * @param birthday
 	 * @return
+	 * @throws IOException 
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-	public Json updateUser(Json j, @RequestParam int id, String nickName, String sex, String birthday) {
-		int result = userService.updateUser(id, nickName, sex, birthday, "");
+	public Json updateUser(Json j, @RequestParam int id, String nickName, String sex, String birthday,String avatar) throws IOException {
+		String path= "";
+		if(avatar != null){
+			path = FileUploadUtils.saveFromBase64String(avatar);
+		}else{
+			path = "";
+		}
+		int result = userService.updateUser(id, nickName, sex, birthday, path);
 		if (result == 1) {
 			j.setMessage("更新成功!");
 		} else {
@@ -183,29 +191,6 @@ public class App_UserController {
 		} else {
 			j.setCode(0);
 			j.setMessage("登录失败");
-		}
-		return j;
-	}
-
-	/**
-	 * 用户头像上传
-	 * 
-	 * @param j
-	 * @param id
-	 * @param avatar
-	 * @return
-	 * @throws Exception
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/updateAvatar", method = RequestMethod.POST)
-	public Json updateAvatar(Json j, @RequestParam int id, @RequestParam String avatar) throws Exception {
-		String path = FileUploadUtils.saveFromBase64String(avatar);
-		int result = userService.updateUser(id, "", "", "", path);
-		if (result == 1) {
-			j.setMessage("更新成功!");
-		} else {
-			j.setCode(0);
-			j.setMessage("更新失败!");
 		}
 		return j;
 	}
