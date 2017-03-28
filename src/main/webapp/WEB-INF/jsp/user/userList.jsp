@@ -101,3 +101,8 @@
 	</div>
 	
 </div>
+<script type="text/javascript">
+$(function(){
+	$(".combox").val('${data.numPerPage}');
+});
+</script>
