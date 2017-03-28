@@ -1,13 +1,22 @@
 <%@ page language="java" pageEncoding="UTF-8"%> 
 <html>
 <%@ include file="common/base.jsp"%>
+<script language="javascript" src="<%=basePath%>js/jquery-2.1.4.min.js"> </script>
 <!DOCTYPE>
 <body>
 <h2>Hello World!</h2><c:if test="${1 == 1 }">xxxxxxxxxxxx</c:if>
 <input id ="a" value="xxxxxxxxxxxxx" >
 <input id ="b" value="yyyyyyyyyyyyyyyy" >
 <input id ="c" value="zzzzzzzzzzzzzzz" >
-<form action="${rootPath}app_buycart/addBuyCart.do" method="post">
+
+<form action="${rootPath}/app_user/updateAvatar.do" id="d_id" method="post" enctype="multipart/form-data">
+<input id ="d" name="avatar"  type="file">
+<img alt="" src="/upload/userAvatar/20170328/20170328153240_249.png">
+<input name="id" value="3" type="hidden">
+<input type="submit" value="提交图片 ">
+</form>
+
+<form action="${rootPath}app_buycart/addBuyCart.do" method="post" >
 	<input type="text" name="skuId" value=100>
 	<input type="text" name="goodsId" value=1010>
 	<input type="text" name=num value=12>

@@ -1,5 +1,8 @@
 package com.app.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,6 +13,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -194,8 +198,8 @@ public class App_UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/updateAvatar", method = RequestMethod.POST)
-	public Json updateAvatar(Json j, @RequestParam int id, @RequestParam MultipartFile avatar) throws Exception {
-		String path = FileUploadUtils.uploadFile(avatar);
+	public Json updateAvatar(Json j, @RequestParam int id, @RequestParam String avatar) throws Exception {
+		String path = FileUploadUtils.saveFromBase64String(avatar);
 		int result = userService.updateUser(id, "", "", "", path);
 		if (result == 1) {
 			j.setMessage("更新成功!");

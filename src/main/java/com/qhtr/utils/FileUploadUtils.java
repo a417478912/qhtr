@@ -1,35 +1,36 @@
 package com.qhtr.utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-
+import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.multipart.MultipartFile;
 
 public class FileUploadUtils {
-		// 文件保存目录路径
-		static String savePath =  "G:/upload/userAvatar/";//request.getServletContext().getRealPath("/")
+		//request.getServletContext().getRealPath("/")
+		// 文件保存目录路径 
+		//static String baseSavePath =  "G:/upload/userAvatar/";   //localhost
+		static String baseSavePath =  "/app/upload/userAvatar/";   //localhost
 
 		// 文件保存目录URL
-		static String saveUrl = "/upload/userAvatar/";
-		static String newFileName = "";
+		static String baseSaveUrl = "/upload/userAvatar/";
 		public static String uploadFile(MultipartFile excelFile) throws Exception {
+		String newFileName = "";
 		// 创建文件夹
-		File saveDirFile = new File(savePath);
+		File saveDirFile = new File(baseSavePath);
 		if (!saveDirFile.exists()) {
 			saveDirFile.mkdirs();
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String ymd = sdf.format(new Date());
-		savePath += ymd + "/";
-		saveUrl += ymd + "/";
+		String savePath = baseSavePath + ymd + "/";
+		String saveUrl = baseSaveUrl + ymd + "/";
 		File dirFile = new File(savePath);
 		if (!dirFile.exists()) {
 			dirFile.mkdirs();
@@ -64,5 +65,32 @@ public class FileUploadUtils {
 		       } 
 		       fs.close();
 		       stream.close();      
-		   }       
+		   }
+		
+		public static String saveFromBase64String(String string) throws IOException{
+			File saveDirFile = new File(baseSavePath);
+			if (!saveDirFile.exists()) {
+				saveDirFile.mkdirs();
+			}
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String ymd = sdf.format(new Date());
+			String savePath = baseSavePath + ymd + "/";
+			String saveUrl = baseSaveUrl + ymd + "/";
+			File dirFile = new File(savePath);
+			if (!dirFile.exists()) {
+				dirFile.mkdirs();
+			}	
+			
+			
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+			String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + ".png" ;
+
+			 // 将base64 转 字节数组
+			Base64 base = new Base64();
+            byte[] decode = base.decode(string);
+            InputStream fin = new ByteArrayInputStream(decode);
+            SaveFileFromInputStream(fin, savePath, newFileName);
+            return saveUrl+newFileName;
+		}
 }
