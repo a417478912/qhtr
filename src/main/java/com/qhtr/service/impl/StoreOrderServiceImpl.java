@@ -19,7 +19,6 @@ import com.qhtr.common.Constants;
 import com.qhtr.dao.StoreOrderMapper;
 import com.qhtr.model.BuyCart;
 import com.qhtr.model.Coupon;
-import com.qhtr.model.CouponTemplate;
 import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
@@ -35,7 +34,6 @@ import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreOrderService;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.GenerationUtils;
-import com.sun.tools.doclets.internal.toolkit.resources.doclets;
 
 @Service
 public class StoreOrderServiceImpl implements StoreOrderService {

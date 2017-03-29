@@ -10,11 +10,11 @@ import com.qhtr.dao.AdminMapper;
 import com.qhtr.model.Admin;
 import com.qhtr.service.AdminService;
 import com.qhtr.utils.MD5Utils;
-
 @Service
 public class AdminServiceImpl implements AdminService {
 	@Resource
 	private AdminMapper adminMapper;
+	
 	@Override
 	public Admin getValidation(String name, String password) {
 		Admin admin = new Admin();

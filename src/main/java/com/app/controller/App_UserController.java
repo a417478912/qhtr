@@ -16,16 +16,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.User;
+import com.qhtr.service.SystemLogService;
 import com.qhtr.service.UserService;
 
 @Controller
 @RequestMapping("/app_user")
 public class App_UserController {
+	@Resource
+	public SystemLogService systemLogService;
 
 	@Resource
 	private UserService userService;
@@ -102,6 +104,7 @@ public class App_UserController {
 	public Json updateUser(Json j, @RequestParam int id, String nickName, String sex, String birthday,String avatar) throws IOException{
 		int result = userService.updateUser(id, nickName, sex, birthday, avatar);
 		if (result == 1) {
+			systemLogService.add("", id, 1, "更新用户信息：昵称"+nickName+" 性别:"+sex+" 生日:"+birthday+"头像"+avatar);
 			j.setMessage("更新成功!");
 		} else {
 			j.setCode(0);
@@ -151,6 +154,7 @@ public class App_UserController {
 		} else {
 			int result = userService.updatePwd(phone, password);
 			if (result == 1) {
+				systemLogService.add("", 0, 1,"手机号为:"+phone +"用户修改了密码!" );
 				j.setMessage("修改成功!");
 			} else {
 				j.setCode(0);
@@ -177,6 +181,8 @@ public class App_UserController {
 			Map<String, Integer> map = new HashMap<String, Integer>();
 			map.put("id", user.getId());
 			j.setData(map);
+			
+			systemLogService.add(user.getName(), user.getId(),1, "登陆系统!");
 			j.setMessage("登录成功");
 		} else {
 			j.setCode(0);
@@ -256,6 +262,7 @@ public class App_UserController {
 		} else {
 			int result = userService.addBindPhone(user);
 			if (result == 1) {
+				systemLogService.add(user.getName(),0,1, "用户绑定手机号："+user.getPhone());
 				j.setMessage("绑定成功!");
 			} else {
 				j.setCode(0);

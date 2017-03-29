@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.qhtr.dao.AddressMapper;
 import com.qhtr.model.Address;
 import com.qhtr.service.AddressService;
-
 @Service
 public class AddressServiceImpl implements AddressService {
 	@Resource
@@ -23,6 +22,7 @@ public class AddressServiceImpl implements AddressService {
 		if(address.getIsdefault() == 1){
 			updateCheckIsDeafult(address);
 		}
+		
 			return addressMapper.insert(address);
 	}
 
