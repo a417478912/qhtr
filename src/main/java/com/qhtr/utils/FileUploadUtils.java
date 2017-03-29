@@ -15,22 +15,31 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUploadUtils {
 		//request.getServletContext().getRealPath("/")
 		// 文件保存目录路径 
-		//static String baseSavePath =  "G:/upload/userAvatar/";   //localhost
-		static String baseSavePath =  "/app/upload/userAvatar/";   //localhost
+		//static String baseSavePath =  "G:";   //localhost
+		static String baseSavePath =  "/app";   //localhost
 
 		// 文件保存目录URL
-		static String baseSaveUrl = "/upload/userAvatar/";
-		public static String uploadFile(MultipartFile excelFile) throws Exception {
+		static String baseSaveUrl = "/upload/";
+		
+		/**
+		 * 文件上传
+		 * @param excelFile
+		 * @return
+		 * @throws Exception
+		 */
+		public static String uploadFile(MultipartFile excelFile,String thePath) throws Exception {
+		String baseSavePath1 = baseSavePath + "/upload/" + thePath+"/";
+		String baseSaveUrl1 = baseSaveUrl + thePath + "/";
 		String newFileName = "";
 		// 创建文件夹
-		File saveDirFile = new File(baseSavePath);
+		File saveDirFile = new File(baseSavePath1);
 		if (!saveDirFile.exists()) {
 			saveDirFile.mkdirs();
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		String ymd = sdf.format(new Date());
-		String savePath = baseSavePath + ymd + "/";
-		String saveUrl = baseSaveUrl + ymd + "/";
+		String savePath = baseSavePath1 + ymd + "/";
+		String saveUrl = baseSaveUrl1 + ymd + "/";
 		File dirFile = new File(savePath);
 		if (!dirFile.exists()) {
 			dirFile.mkdirs();
@@ -49,7 +58,13 @@ public class FileUploadUtils {
 		return saveUrl+newFileName;
 		}
 
-		//将MultipartFile 转换为File
+		/**
+		 * 流写入文件
+		 * @param stream
+		 * @param path
+		 * @param savefile
+		 * @throws IOException
+		 */
 		private static void SaveFileFromInputStream(InputStream stream,String path,String savefile) throws IOException
 		   {      
 		       FileOutputStream fs=new FileOutputStream( path + "/"+ savefile);
@@ -67,16 +82,24 @@ public class FileUploadUtils {
 		       stream.close();      
 		   }
 		
-		public static String saveFromBase64String(String string) throws IOException{
-			File saveDirFile = new File(baseSavePath);
+		/**
+		 *  base64字符串文件上传
+		 * @param string
+		 * @return
+		 * @throws IOException
+		 */
+		public static String saveFromBase64String(String baseString,String url) throws IOException{
+			String baseSavePath1 = baseSavePath + "/upload/" + url+"/";
+			String baseSaveUrl1 = baseSaveUrl + url + "/";
+			File saveDirFile = new File(baseSavePath1);
 			if (!saveDirFile.exists()) {
 				saveDirFile.mkdirs();
 			}
 			
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			String ymd = sdf.format(new Date());
-			String savePath = baseSavePath + ymd + "/";
-			String saveUrl = baseSaveUrl + ymd + "/";
+			String savePath = baseSavePath1 + ymd + "/";
+			String saveUrl = baseSaveUrl1 + ymd + "/";
 			File dirFile = new File(savePath);
 			if (!dirFile.exists()) {
 				dirFile.mkdirs();
@@ -88,9 +111,18 @@ public class FileUploadUtils {
 
 			 // 将base64 转 字节数组
 			Base64 base = new Base64();
-            byte[] decode = base.decode(string);
+            byte[] decode = base.decode(baseString);
             InputStream fin = new ByteArrayInputStream(decode);
             SaveFileFromInputStream(fin, savePath, newFileName);
             return saveUrl+newFileName;
+		}
+		
+		public static boolean deleteFile(String url){
+			File file = new File(baseSavePath+url);
+			if(file.exists()){
+				return file.delete();
+			}else{
+				return true;
+			}
 		}
 }

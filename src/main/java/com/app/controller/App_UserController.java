@@ -1,9 +1,6 @@
 package com.app.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,7 +11,6 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,7 +22,6 @@ import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.User;
 import com.qhtr.service.UserService;
-import com.qhtr.utils.FileUploadUtils;
 
 @Controller
 @RequestMapping("/app_user")
@@ -100,17 +95,12 @@ public class App_UserController {
 	 * @param birthday
 	 * @return
 	 * @throws IOException 
+	 * @throws Exception 
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
-	public Json updateUser(Json j, @RequestParam int id, String nickName, String sex, String birthday,String avatar) throws IOException {
-		String path= "";
-		if(avatar != null){
-			path = FileUploadUtils.saveFromBase64String(avatar);
-		}else{
-			path = "";
-		}
-		int result = userService.updateUser(id, nickName, sex, birthday, path);
+	public Json updateUser(Json j, @RequestParam int id, String nickName, String sex, String birthday,String avatar) throws IOException{
+		int result = userService.updateUser(id, nickName, sex, birthday, avatar);
 		if (result == 1) {
 			j.setMessage("更新成功!");
 		} else {

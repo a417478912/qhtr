@@ -1,5 +1,7 @@
 package com.qhtr.service;
 
+import java.io.IOException;
+
 import com.qhtr.common.PageBean;
 import com.qhtr.model.User;
 
@@ -38,8 +40,9 @@ public interface UserService {
 	    * @param sex
 	    * @param birthday
 	    * @return
+	 * @throws IOException 
 	    */
-	   int updateUser(int id, String nickName, String sex, String birthday,String avatar);
+	   int updateUser(int id, String nickName, String sex, String birthday,String avatar) throws IOException;
 	   
 	   int updatePwd(String phone,String pwd);
 	   
