@@ -234,35 +234,50 @@ public class App_UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/bindPhone")
-	public Json bindPhone(Json j, User user, @RequestParam String phone_code, HttpServletRequest request)
+	public Json bindPhone(Json j, User user,String phone_code, HttpServletRequest request)
 			throws ParseException {
-		@SuppressWarnings("unchecked")
-		Map<String, String> theCode = (Map<String, String>) request.getSession()
-				.getAttribute(Constants.BIND_PHONE_CODE);
-		if (theCode == null) {
-			j.setCode(0);
-			j.setMessage("没有发送验证码!");
-			return j;
-		} else {
-			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Long createTime = df.parse(theCode.get("time")).getTime();
-			Long nowTime = df.parse(df.format(new Date())).getTime();
-			if (nowTime - createTime > 5 * 60 * 1000) {
-				request.getSession().removeAttribute(Constants.BIND_PHONE_CODE);
+		Integer id = user.getId();
+		if (id == null || id.equals(0)) {
+			@SuppressWarnings("unchecked")
+			Map<String, String> theCode = (Map<String, String>) request.getSession()
+					.getAttribute(Constants.BIND_PHONE_CODE);
+			if (theCode == null) {
 				j.setCode(0);
-				j.setMessage("验证码超时!");
+				j.setMessage("没有发送验证码!");
 				return j;
+			} else {
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				Long createTime = df.parse(theCode.get("time")).getTime();
+				Long nowTime = df.parse(df.format(new Date())).getTime();
+				if (nowTime - createTime > 5 * 60 * 1000) {
+					request.getSession().removeAttribute(Constants.BIND_PHONE_CODE);
+					j.setCode(0);
+					j.setMessage("验证码超时!");
+					return j;
+				}
 			}
-		}
-		String code = (String) theCode.get("code");
-		String thePhone = (String) theCode.get("phone");
-		if (code == null || thePhone == null || !code.equals(phone_code) || !thePhone.equals(user.getPhone())) {
-			j.setCode(0);
-			j.setMessage("手机号或者验证码输入错误!");
-		} else {
-			int result = userService.addBindPhone(user);
+			String code = (String) theCode.get("code");
+			String thePhone = (String) theCode.get("phone");
+			if (code == null || thePhone == null || !code.equals(phone_code) || !thePhone.equals(user.getPhone())) {
+				j.setCode(0);
+				j.setMessage("手机号或者验证码输入错误!");
+			} else {
+				int result = userService.addBindPhone(user);
+				if (result == 1) {
+					User theUser = userService.getUsersByConditions(user).get(0);
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("userId", theUser.getId()+"");
+					systemLogService.add(user.getName(), 0, 1, "用户绑定手机号：" + user.getPhone());
+					j.setMessage("绑定成功!");
+				} else {
+					j.setCode(0);
+					j.setMessage("绑定失败!");
+				}
+			}
+		}else{
+			int result = userService.updateUserByConditions(user);
 			if (result == 1) {
-				systemLogService.add(user.getName(),0,1, "用户绑定手机号："+user.getPhone());
+				systemLogService.add(user.getName(), 0, 1, "用户绑定其他信息：" + user.getPhone());
 				j.setMessage("绑定成功!");
 			} else {
 				j.setCode(0);

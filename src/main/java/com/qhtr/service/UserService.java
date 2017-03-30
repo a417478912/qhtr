@@ -1,6 +1,7 @@
 package com.qhtr.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.qhtr.common.PageBean;
 import com.qhtr.model.User;
@@ -28,7 +29,7 @@ public interface UserService {
 	   User login(String phone, String password);
 	   
 	   /**
-	    * 条件查找用户
+	    * 条件查找用户（管理后台查询）
 	    * @param user
 	    * @return
 	    */
@@ -50,5 +51,13 @@ public interface UserService {
 	    * 绑定手机
 	    */
 	   int addBindPhone(User user);
+	   
+	   /**
+	    * 条件查找用户
+	    */
+	    List<User> getUsersByConditions(User user);
+	    
+	    int updateUser(User user);
+	    int updateUserByConditions(User user);
 }
 	

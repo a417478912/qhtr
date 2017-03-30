@@ -137,5 +137,20 @@ public class UserServiceImpl implements UserService{
 			return userMapper.insert(user);
 		}
 	}
+
+	@Override
+	public List<User> getUsersByConditions(User user) {
+		return userMapper.selectByConditions(user);
+	}
+
+	@Override
+	public int updateUser(User user) {
+		return userMapper.updateByPrimaryKey(user);
+	}
+
+	@Override
+	public int updateUserByConditions(User user) {
+		return userMapper.updateByPrimaryKeySelective(user);
+	}
 }
 	
