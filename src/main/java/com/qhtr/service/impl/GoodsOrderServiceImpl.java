@@ -21,7 +21,7 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 
 	@Override
 	public int updateGoodsOrder(GoodsOrder goodsOrder) {
-		return goodsOrderMapper.updateByPrimaryKeySelective(goodsOrder);
+		return goodsOrderMapper.updateByPrimaryKey(goodsOrder);
 	}
 
 	@Override

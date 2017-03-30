@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService{
 		User user = new User();
 		user.setPhone(phone);
 		user.setPassword(MD5Utils.getString(password));
+		user.setStatus(1);
 		user.setCreateTime(new Date());
 		return userMapper.insert(user);
 	}

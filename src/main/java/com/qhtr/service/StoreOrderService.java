@@ -19,6 +19,11 @@ public interface StoreOrderService {
 	int updateByCondition(StoreOrder record);
 	
 	/**
+	 * 条件查询
+	 */
+	List<StoreOrder> selectByConditions(StoreOrder storeOrder);
+	
+	/**
 	 * 用户查询订单
 	 * @param userId
 	 * @param status

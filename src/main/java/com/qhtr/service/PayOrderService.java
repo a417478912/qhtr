@@ -23,4 +23,7 @@ public interface PayOrderService {
 	 * @return
 	 */
 	PayOrder selectByOrderCode(String code);
+	
+	int updateByConditions(PayOrder payOrder);
+	int update(PayOrder payOrder);
 }

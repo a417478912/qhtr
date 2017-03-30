@@ -52,4 +52,14 @@ public class PayOrderServiceImpl implements PayOrderService {
 		}
 	}
 
+	@Override
+	public int updateByConditions(PayOrder payOrder) {
+		return payOrderMapper.updateByPrimaryKeySelective(payOrder);
+	}
+
+	@Override
+	public int update(PayOrder payOrder) {
+		return payOrderMapper.updateByPrimaryKey(payOrder);
+	}
+
 }

@@ -14,40 +14,14 @@
 	<div class="searchBar">
 		<ul class="searchContent">
 			<li>
-				<label>我的客户：</label>
-				<input type="text"/>
+				<label>名字：</label>
+				<input type="text" name="name" value="${user.name }"/>
 			</li>
 			<li>
-			<select class="combox" name="province">
-				<option value="">所有省市</option>
-				<option value="北京">北京</option>
-				<option value="上海">上海</option>
-				<option value="天津">天津</option>
-				<option value="重庆">重庆</option>
-				<option value="广东">广东</option>
-			</select>
+				<label>手机号：</label>
+				<input type="text" name="phone" value="${user.phone }"/>
 			</li>
 		</ul>
-		<table class="searchContent">
-			<tr>
-				<td>
-					我的客户：<input type="text" name="keyword" />
-				</td>
-				<td>
-					<select class="combox" name="province">
-						<option value="">所有省市</option>
-						<option value="北京">北京</option>
-						<option value="上海">上海</option>
-						<option value="天津">天津</option>
-						<option value="重庆">重庆</option>
-						<option value="广东">广东</option>
-					</select>
-				</td>
-				<td>
-					建档日期：<input type="text" class="date" readonly="true" />
-				</td>
-			</tr>
-		</table>
 		<div class="subBar">
 			<ul>
 				<li><div class="buttonActive"><div class="buttonContent"><button type="submit">检索</button></div></div></li>
@@ -57,15 +31,15 @@
 	</form>
 </div>
 <div class="pageContent">
-	<table class="list" width="100%" layoutH="118">
+	<table class="list" width="100%" layoutH="88">
 		<thead>
 			<tr>
 				<th width="40">序号</th>
 				<th width="80">用户名</th>
-				<th>手机号</th>
+				<th width="80">手机号</th>
 				<th width="80">状态</th>
 				<th width="80">创建时间</th>
-				<th>操作</th>
+				<th width="80">操作</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -74,11 +48,13 @@
 				<td>${xh.count }</td>
 				<td>${user.name }</td>
 				<td>${user.phone }</td>
-				<td>${user.status }</td>
+				<c:if test="${user.status == 1}">
+				<td>正常</td>
+				</c:if>
 				<td><fmt:formatDate value="${user.createTime}" pattern="yyyy/MM/dd  HH:mm:ss"/></td>
 				<td>
-				<a title="删除" target="ajaxTodo" href="demo/common/ajaxDone.html?id=xxx" class="btnDel">删除</a>
-				<a title="编辑" target="navTab" href="demo_page4.html?id=xxx" class="btnEdit">编辑</a>
+				<!-- <a title="删除" target="ajaxTodo" href="demo/common/ajaxDone.html?id=xxx" class="btnDel">删除</a>
+				<a title="编辑" target="navTab" href="demo_page4.html?id=xxx" class="btnEdit">编辑</a> -->
 			</td>
 			</tr>
 			</c:forEach>

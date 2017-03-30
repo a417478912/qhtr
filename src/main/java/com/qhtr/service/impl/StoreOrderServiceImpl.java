@@ -309,4 +309,9 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 			return null;
 		}
 	}
+
+	@Override
+	public List<StoreOrder> selectByConditions(StoreOrder storeOrder) {
+		return storeOrderMapper.selectByConditions(storeOrder);
+	}
 }

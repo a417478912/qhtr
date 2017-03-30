@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Json;
 import com.qhtr.model.Address;
 import com.qhtr.service.AddressService;
-import com.qhtr.service.SystemLogService;
 
 @Controller
 @RequestMapping("/app_address")
