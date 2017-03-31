@@ -9,7 +9,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import com.qhtr.model.Admin;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
-	 private static final String[] IGNORE_URI = {"/admin/loginUI.do","/admin/login.do","app_"};
+	 private static final String[] IGNORE_URI = {"/admin/loginUI.do","/admin/login.do","app_","sell_"};
 	 
 	    @Override
 	    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

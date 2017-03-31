@@ -32,6 +32,8 @@ public class Store {
 
     private String location;
 
+    private String longitudeLatitude;
+
     private Integer type;
 
     public Integer getId() {
@@ -136,6 +138,14 @@ public class Store {
 
     public void setLocation(String location) {
         this.location = location == null ? null : location.trim();
+    }
+
+    public String getLongitudeLatitude() {
+        return longitudeLatitude;
+    }
+
+    public void setLongitudeLatitude(String longitudeLatitude) {
+        this.longitudeLatitude = longitudeLatitude == null ? null : longitudeLatitude.trim();
     }
 
     public Integer getType() {

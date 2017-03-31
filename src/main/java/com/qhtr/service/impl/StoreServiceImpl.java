@@ -40,7 +40,7 @@ public class StoreServiceImpl implements StoreService {
 		List<Store> allStores = storeMapper.selectByConditions(new Store());
 		List<Store> stores = new ArrayList<Store>();
 		for (Store store : allStores) {
-			String[] s = store.getLocation().split(",");
+			String[] s = store.getLongitudeLatitude().split(",");
 			String[] s1 = location.split(",");
 			if( DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]), Double.parseDouble(s1[0]), Double.parseDouble(s1[1])) <= distance){
 				stores.add(store);

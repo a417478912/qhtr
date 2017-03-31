@@ -15,11 +15,12 @@
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
     <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="longitude_latitude" property="longitudeLatitude" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, seller_id, categore_id, name, phone, avatar, picture1, picture2, picture3, details, 
-    collect_num, sell_num, location, type
+    collect_num, sell_num, location, longitude_latitude, type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -36,12 +37,14 @@
       name, phone, avatar, 
       picture1, picture2, picture3, 
       details, collect_num, sell_num, 
-      location, type)
+      location, longitude_latitude, type
+      )
     values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{categoreId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, 
       #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
-      #{location,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
+      #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Store" >
     insert into seller_store
@@ -84,6 +87,9 @@
       </if>
       <if test="location != null" >
         location,
+      </if>
+      <if test="longitudeLatitude != null" >
+        longitude_latitude,
       </if>
       <if test="type != null" >
         type,
@@ -129,6 +135,9 @@
       <if test="location != null" >
         #{location,jdbcType=VARCHAR},
       </if>
+      <if test="longitudeLatitude != null" >
+        #{longitudeLatitude,jdbcType=VARCHAR},
+      </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
@@ -173,6 +182,9 @@
       <if test="location != null" >
         location = #{location,jdbcType=VARCHAR},
       </if>
+      <if test="longitudeLatitude != null" >
+        longitude_latitude = #{longitudeLatitude,jdbcType=VARCHAR},
+      </if>
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
@@ -193,6 +205,7 @@
       collect_num = #{collectNum,jdbcType=INTEGER},
       sell_num = #{sellNum,jdbcType=INTEGER},
       location = #{location,jdbcType=VARCHAR},
+      longitude_latitude = #{longitudeLatitude,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
