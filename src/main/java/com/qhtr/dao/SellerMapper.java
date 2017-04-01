@@ -1,5 +1,7 @@
 package com.qhtr.dao;
 
+import java.util.List;
+
 import com.qhtr.model.Seller;
 
 public interface SellerMapper {
@@ -14,4 +16,6 @@ public interface SellerMapper {
     int updateByPrimaryKeySelective(Seller record);
 
     int updateByPrimaryKey(Seller record);
+
+	List<Seller> selectByConditions(Seller record);
 }

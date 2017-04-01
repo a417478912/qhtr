@@ -16,6 +16,7 @@ import com.qhtr.model.User;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.FileUploadUtils;
 import com.qhtr.utils.MD5Utils;
+import com.sun.tools.doclets.internal.toolkit.resources.doclets;
 /**
  * 
  * @author wjx
@@ -126,15 +127,16 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public int addBindPhone(User user) {
+	public int addBindPhone(int id,String phone) {
 		User userTem = new User();
-		userTem.setPhone(user.getPhone());
-		List<User> list = userMapper.selectByConditions(userTem);
-		if(!list.isEmpty()){
-			user.setId(list.get(0).getId());
-			return userMapper.updateByPrimaryKeySelective(user);
+		userTem.setPhone(phone);
+		List<User> userList = userMapper.selectByConditions(userTem);
+		if(userList.isEmpty()){
+			User user = userMapper.selectByPrimaryKey(id);
+			user.setPhone(phone);
+			return userMapper.updateByPrimaryKey(user);
 		}else{
-			return userMapper.insert(user);
+			return 2;
 		}
 	}
 
@@ -151,6 +153,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int updateUserByConditions(User user) {
 		return userMapper.updateByPrimaryKeySelective(user);
+	}
+
+	@Override
+	public List<User> selectByConditions(User user) {
+		return userMapper.selectByConditions(user);
+	}
+
+	@Override
+	public int addUser(User user) {
+		return userMapper.insert(user);
 	}
 }
 	

@@ -13,6 +13,7 @@ public interface UserService {
 	    * @param user
 	    */
 	   int addUser(String phone,String password);
+	   int addUser(User user);
 	   
 	   /**
 	    * 根据用户id获取用户
@@ -20,6 +21,10 @@ public interface UserService {
 	    * @return
 	    */
 	   User getUserById(int userId);
+	   /**
+	    * 条件查找用户
+	    */
+	    List<User> getUsersByConditions(User user);
 	   /**
 	    * 用户登录验证
 	    * @param phone
@@ -45,19 +50,29 @@ public interface UserService {
 	    */
 	   int updateUser(int id, String nickName, String sex, String birthday,String avatar) throws IOException;
 	   
+	   /**
+	    * 条件查找
+	    * @param user
+	    * @return
+	    */
+	   List<User> selectByConditions(User user);
+	   
 	   int updatePwd(String phone,String pwd);
 	   
 	   /**
 	    * 绑定手机
 	    */
-	   int addBindPhone(User user);
+	   int addBindPhone(int id,String phone);
 	   
-	   /**
-	    * 条件查找用户
-	    */
-	    List<User> getUsersByConditions(User user);
+	 
 	    
 	    int updateUser(User user);
 	    int updateUserByConditions(User user);
+	    /**
+	     * 三方登陆增加账号
+	     * @param user
+	     * @param type
+	     * @return
+	     */
 }
 	

@@ -6,11 +6,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -234,10 +236,7 @@ public class App_UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/bindPhone")
-	public Json bindPhone(Json j, User user,String phone_code, HttpServletRequest request)
-			throws ParseException {
-		Integer id = user.getId();
-		if (id == null || id.equals(0)) {
+	public Json bindPhone(Json j,@RequestParam int id,@RequestParam String phone,@RequestParam String phone_code, HttpServletRequest request) throws ParseException {
 			@SuppressWarnings("unchecked")
 			Map<String, String> theCode = (Map<String, String>) request.getSession()
 					.getAttribute(Constants.BIND_PHONE_CODE);
@@ -258,31 +257,79 @@ public class App_UserController {
 			}
 			String code = (String) theCode.get("code");
 			String thePhone = (String) theCode.get("phone");
-			if (code == null || thePhone == null || !code.equals(phone_code) || !thePhone.equals(user.getPhone())) {
+			if (code == null || thePhone == null || !code.equals(phone_code) || !thePhone.equals(phone)) {
 				j.setCode(0);
 				j.setMessage("手机号或者验证码输入错误!");
 			} else {
-				int result = userService.addBindPhone(user);
+				int result = userService.addBindPhone(id,phone);
 				if (result == 1) {
-					User theUser = userService.getUsersByConditions(user).get(0);
-					Map<String, String> map = new HashMap<String, String>();
-					map.put("userId", theUser.getId()+"");
-					systemLogService.add(user.getName(), 0, 1, "用户绑定手机号：" + user.getPhone());
+					systemLogService.add("", 0, 1, "用户:"+id+"绑定手机号：" + phone+"成功!");
 					j.setMessage("绑定成功!");
-				} else {
+				} else if(result == 0){
 					j.setCode(0);
 					j.setMessage("绑定失败!");
+				} else if(result == 2){
+					j.setCode(0);
+					j.setMessage("此手机号已绑定!");
 				}
 			}
+			return j;
+	}
+	
+	/**
+	 * 绑定其他三方登陆
+	 * @param j
+	 * @param user
+	 * @param type
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/bindThirdLogin")
+	public Json bindThirdLogin(Json j,User user){
+		int result = userService.updateUserByConditions(user);
+		if(result == 1){
+			j.setMessage("绑定成功");
 		}else{
-			int result = userService.updateUserByConditions(user);
-			if (result == 1) {
-				systemLogService.add(user.getName(), 0, 1, "用户绑定其他信息：" + user.getPhone());
-				j.setMessage("绑定成功!");
-			} else {
-				j.setCode(0);
-				j.setMessage("绑定失败!");
-			}
+			j.setCode(0);
+			j.setMessage("绑定失败!");
+		}
+		return j;
+	}
+	
+	
+	/**
+	 * 三方登陆
+	 * @param j  1.qq登陆  2 微信登陆 3微博
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/thirdLogin")
+	public Json thirdLogin(Json j,User user){
+		int result = 1;
+		User userTem = new User();
+		if(StringUtils.isNotBlank(user.getQqCode())){
+			userTem.setQqCode(user.getQqCode());
+		}else if(StringUtils.isNotBlank(user.getWeixinCode())){
+			userTem.setWeixinCode(user.getWeixinCode());
+		}else if(StringUtils.isNotBlank(user.getSinaCode())){
+			userTem.setSinaCode(user.getSinaCode());
+		}else{
+			j.setCode(0);
+			j.setMessage("请求有问题!");
+			return j;
+		}
+		List<User> userList = userService.selectByConditions(userTem);
+		if(userList.isEmpty()){
+			result = userService.addUser(user);
+		}
+		if(result == 1){
+			User theUser = userService.selectByConditions(userTem).get(0);
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("userId", theUser.getId());
+			j.setData(map);
+		}else{
+			j.setCode(0);
+			j.setMessage("登陆失败!");
 		}
 		return j;
 	}
