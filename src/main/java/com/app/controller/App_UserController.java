@@ -106,7 +106,7 @@ public class App_UserController {
 	public Json updateUser(Json j, @RequestParam int id, String nickName, String sex, String birthday,String avatar) throws IOException{
 		int result = userService.updateUser(id, nickName, sex, birthday, avatar);
 		if (result == 1) {
-			systemLogService.add("", id, 1, "更新用户信息：昵称"+nickName+" 性别:"+sex+" 生日:"+birthday+"头像"+avatar);
+			systemLogService.add("", id, 1, "更新用户信息：昵称"+nickName+" 性别:"+sex+" 生日:"+birthday+"头像:");
 			j.setMessage("更新成功!");
 		} else {
 			j.setCode(0);

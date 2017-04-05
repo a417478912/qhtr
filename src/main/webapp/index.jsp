@@ -23,6 +23,7 @@
 	<input type="submit" value="确定">
 	
 </form>
+<div style="display: none" id="qq">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
 
 <form action="${rootPath}app_user/updateAvatar.do" method="post" enctype="multipart/form-data">
 	<div>
@@ -35,6 +36,9 @@
 </body>
 </html>
 <script>
+$(function(){
+	alert($("#qq").html());
+});
 var a = new Object();
 $("#c").click(function(){
 	var customerArray = new Array();
@@ -98,4 +102,5 @@ $("#b").click(function(){
         }
     });
 })
+
 </script>
