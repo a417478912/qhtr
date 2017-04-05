@@ -17,10 +17,11 @@
     <result column="location" property="location" jdbcType="VARCHAR" />
     <result column="longitude_latitude" property="longitudeLatitude" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, seller_id, categore_id, name, phone, avatar, picture1, picture2, picture3, details, 
-    collect_num, sell_num, location, longitude_latitude, type
+    collect_num, sell_num, location, longitude_latitude, type, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,21 +33,21 @@
     delete from seller_store
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qhtr.model.Store" >
+  <insert id="insert" parameterType="com.qhtr.model.Store"  useGeneratedKeys="true" keyProperty="id">
     insert into seller_store (id, seller_id, categore_id, 
       name, phone, avatar, 
       picture1, picture2, picture3, 
       details, collect_num, sell_num, 
-      location, longitude_latitude, type
-      )
+      location, longitude_latitude, type, 
+      create_time)
     values (#{id,jdbcType=INTEGER}, #{sellerId,jdbcType=INTEGER}, #{categoreId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, 
       #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
-      #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}
-      )
+      #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.qhtr.model.Store" >
+  <insert id="insertSelective" parameterType="com.qhtr.model.Store">
     insert into seller_store
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -93,6 +94,9 @@
       </if>
       <if test="type != null" >
         type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -141,6 +145,9 @@
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Store" >
@@ -188,6 +195,9 @@
       <if test="type != null" >
         type = #{type,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -206,7 +216,8 @@
       sell_num = #{sellNum,jdbcType=INTEGER},
       location = #{location,jdbcType=VARCHAR},
       longitude_latitude = #{longitudeLatitude,jdbcType=VARCHAR},
-      type = #{type,jdbcType=INTEGER}
+      type = #{type,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

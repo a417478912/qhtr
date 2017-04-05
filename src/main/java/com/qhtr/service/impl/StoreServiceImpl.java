@@ -1,6 +1,7 @@
 package com.qhtr.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -64,6 +65,15 @@ public class StoreServiceImpl implements StoreService {
 	public List<Store> selectStoreBySearch(String searchContent, int page, int num) {
 		PageHelper.startPage(page, num);
 		return storeMapper.selectStoreBySearch(searchContent);
+	}
+	@Override
+	public int insert(Store store) {
+		store.setCreateTime(new Date());
+		return storeMapper.insert(store);
+	}
+	@Override
+	public int updateByConditions(Store store) {
+		return storeMapper.updateByPrimaryKeySelective(store);
 	}
 
 }

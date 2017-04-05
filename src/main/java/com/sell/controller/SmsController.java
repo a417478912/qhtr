@@ -20,7 +20,7 @@ import com.qhtr.utils.SmsUtils;
 
 @Controller
 @RequestMapping("/sell_sms")
-public class Sell_SmsController {
+public class SmsController {
 	/**
 	 * type  1.用户注册 2.修改密码 3.绑定手机号
 	 * @param j

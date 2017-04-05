@@ -17,9 +17,9 @@ public class FileUploadUtils {
 		// 文件保存目录路径 
 		//static String baseSavePath =  "G:";   //localhost
 		static String baseSavePath =  "/app";   //localhost
-
+		
 		// 文件保存目录URL
-		static String baseSaveUrl = "/upload/";
+		static String baseSaveUrl = "http://114.55.248.53:8080/qhtr"+"/upload/";
 		
 		/**
 		 * 文件上传

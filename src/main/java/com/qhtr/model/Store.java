@@ -1,5 +1,7 @@
 package com.qhtr.model;
 
+import java.util.Date;
+
 public class Store {
     private Integer id;
 
@@ -35,6 +37,8 @@ public class Store {
     private String longitudeLatitude;
 
     private Integer type;
+
+    private Date createTime;
 
     public Integer getId() {
         return id;
@@ -154,5 +158,13 @@ public class Store {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

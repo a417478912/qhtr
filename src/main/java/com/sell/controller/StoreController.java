@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,21 +17,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
+import com.qhtr.model.Store;
 import com.qhtr.service.SellerService;
+import com.qhtr.service.StoreService;
 
 @Controller
 @RequestMapping("/sell_stroe")
 public class StoreController {
 	@Resource
 	public SellerService sellService;
+	@Resource
+	public StoreService storeService;
 	
 	/**
 	 * 卖家注册
 	 * 
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/register")
-	public Json register(Json j, @RequestParam String phone, @RequestParam String password,
+	@RequestMapping(value = "/registerSeller")
+	public Json registerSeller(Json j, @RequestParam String phone, @RequestParam String password,
 			@RequestParam String phone_code, HttpServletRequest request) throws ParseException {
 		System.out.println("++++" + phone + "++++++++");
 		@SuppressWarnings("unchecked")
@@ -69,6 +74,40 @@ public class StoreController {
 			}
 
 		}
+		return j;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/registerStore")
+	public Json registerStore(Json j,Store store){
+		int result = storeService.insert(store);
+		if(result == 1){
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("storeId", store.getId());
+			j.setData(map);
+			j.setMessage("注册成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("注册失败!");
+		}
+		
+		return j;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/updateStore")
+	public Json updateStore(Json j,Store store){
+		int result = storeService.updateByConditions(store);
+		if(result == 1){
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("storeId", store.getId());
+			j.setData(map);
+			j.setMessage("注册成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("注册失败!");
+		}
+		
 		return j;
 	}
 }

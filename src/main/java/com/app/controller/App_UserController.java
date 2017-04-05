@@ -277,7 +277,7 @@ public class App_UserController {
 	}
 	
 	/**
-	 * 绑定其他三方登陆
+	 * 绑定其他三方
 	 * @param j
 	 * @param user
 	 * @param type

@@ -45,4 +45,8 @@ public interface StoreService {
 	 * @return
 	 */
 	List<Store> selectStoreBySearch(String searchContent, int page, int num);
+	
+	int insert(Store store);
+	
+	int updateByConditions(Store store);
 }
