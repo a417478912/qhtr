@@ -80,6 +80,19 @@ public class App_UserController {
 				j.setMessage("手机号已被注册!");
 			} else if (result == 1) {
 				j.setMessage("注册成功!");
+				User user = userService.login(phone, password);
+				if (user != null) {
+					request.getSession().setAttribute(Constants.USER_KEY, user);
+					Map<String, Integer> map = new HashMap<String, Integer>();
+					map.put("id", user.getId());
+					j.setData(map);
+					
+					systemLogService.add(user.getName(), user.getId(),1, "登陆系统!");
+					j.setMessage("登录成功");
+				} else {
+					j.setCode(0);
+					j.setMessage("登录失败");
+				}
 			} else {
 				j.setCode(0);
 				j.setMessage("注册失败!");
