@@ -127,7 +127,7 @@ public class App_SmsController {
 	}
 	
 	/**
-	 * 接触绑定手机号 短信
+	 * 解除绑定手机号 短信
 	 * @param j
 	 * @param phone
 	 * @param request
