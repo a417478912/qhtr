@@ -21,6 +21,11 @@ public class Constants {
 	public final static String BIND_PHONE_CODE = "bindPhoneCode";
 	
 	/**
+	 * 解绑手机号 短信吗
+	 */
+	public final static String UN_BIND_PHONE_CODE = "unBindPhoneCode";
+	
+	/**
 	 * 购物车ids
 	 */
 	public final static String CART_IDS = "cartIds";

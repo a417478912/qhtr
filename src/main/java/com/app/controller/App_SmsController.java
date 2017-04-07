@@ -125,4 +125,39 @@ public class App_SmsController {
 		}
 		return j;
 	}
+	
+	/**
+	 * 接触绑定手机号 短信
+	 * @param j
+	 * @param phone
+	 * @param request
+	 * @return
+	 * @throws ParseException
+	 */
+	@ResponseBody
+	@RequestMapping(value="unBindPhone")
+	public Json unBindPhone(Json j,@RequestParam String phone,HttpServletRequest request) throws ParseException{
+		System.out.println("++"+phone+"++");
+		@SuppressWarnings("unchecked")
+		Map<String,String> theCode = (Map<String, String>)request.getSession().getAttribute(Constants.UN_BIND_PHONE_CODE);
+		if(theCode != null){
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+			Long createTime = df.parse(theCode.get("time")).getTime();
+			Long nowTime = df.parse(df.format(new Date())).getTime();
+			if(nowTime - createTime < 60*1000){
+				j.setCode(0);
+				j.setMessage("请1分钟后再试!");
+				return j;
+			}
+		}
+		
+		String result = SmsUtils.send(phone, request,4);
+		if(StringUtils.isBlank(result)){
+			j.setCode(0);
+			j.setMessage("发送失败!");
+		}else if(result.equals("success")){
+			j.setMessage("发送成功!");
+		}
+		return j;
+	}
 }

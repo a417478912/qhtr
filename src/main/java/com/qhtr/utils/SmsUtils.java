@@ -29,7 +29,7 @@ public class SmsUtils {
 			templateCode = "SMS_57225002";
 		}else if(type == 2){
 			templateCode = "SMS_57715164";
-		}else if(type == 3){
+		}else if(type == 3 || type == 4){
 			templateCode = "SMS_58385092";
 		}
 	    Map<String, String> headers = new HashMap<String, String>();
@@ -71,6 +71,8 @@ public class SmsUtils {
 	    		request.getSession().setAttribute(Constants.USER_CHANGE_PWD_CODE, map);
 	    	}else if(type == 3){
 	    		request.getSession().setAttribute(Constants.BIND_PHONE_CODE, map);
+	    	}else if(type == 4){
+	    		request.getSession().setAttribute(Constants.UN_BIND_PHONE_CODE, map);
 	    	}
 	    	return "success";
 	    } catch (Exception e) {
