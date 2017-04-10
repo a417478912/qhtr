@@ -33,6 +33,10 @@
 	<img alt="" src="${rootPath}/upload/userAvatar/20170316/20170316/20170316181239_832.png">
 	</div>
 	</form>
+	
+	<input type="radio" name="a" value=“你才1" >
+	<input type="radio" name="a" value=“你才1" checked="checked">
+	<input type="radio" name="a" value=“你才1">
 </body>
 </html>
 <script>
