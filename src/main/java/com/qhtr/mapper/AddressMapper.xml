@@ -8,13 +8,13 @@
     <result column="receiving_phone" property="receivingPhone" jdbcType="VARCHAR" />
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
-    <result column="xian" property="xian" jdbcType="VARCHAR" />
-    <result column="jiedao" property="jiedao" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="street" property="street" jdbcType="VARCHAR" />
     <result column="details" property="details" jdbcType="VARCHAR" />
     <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, receiving_name, receiving_phone, province, city, xian, jiedao, details, 
+    id, user_id, receiving_name, receiving_phone, province, city, country, street, details, 
     isDefault
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -30,11 +30,11 @@
   <insert id="insert" parameterType="com.qhtr.model.Address" >
     insert into user_address (id, user_id, receiving_name, 
       receiving_phone, province, city, 
-      xian, jiedao, details, 
+      country, street, details, 
       isDefault)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receivingName,jdbcType=VARCHAR}, 
       #{receivingPhone,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{xian,jdbcType=VARCHAR}, #{jiedao,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
       #{isdefault,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Address" >
@@ -58,11 +58,11 @@
       <if test="city != null" >
         city,
       </if>
-      <if test="xian != null" >
-        xian,
+      <if test="country != null" >
+        country,
       </if>
-      <if test="jiedao != null" >
-        jiedao,
+      <if test="street != null" >
+        street,
       </if>
       <if test="details != null" >
         details,
@@ -90,11 +90,11 @@
       <if test="city != null" >
         #{city,jdbcType=VARCHAR},
       </if>
-      <if test="xian != null" >
-        #{xian,jdbcType=VARCHAR},
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
       </if>
-      <if test="jiedao != null" >
-        #{jiedao,jdbcType=VARCHAR},
+      <if test="street != null" >
+        #{street,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         #{details,jdbcType=VARCHAR},
@@ -122,11 +122,11 @@
       <if test="city != null" >
         city = #{city,jdbcType=VARCHAR},
       </if>
-      <if test="xian != null" >
-        xian = #{xian,jdbcType=VARCHAR},
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
       </if>
-      <if test="jiedao != null" >
-        jiedao = #{jiedao,jdbcType=VARCHAR},
+      <if test="street != null" >
+        street = #{street,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         details = #{details,jdbcType=VARCHAR},
@@ -144,14 +144,14 @@
       receiving_phone = #{receivingPhone,jdbcType=VARCHAR},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
-      xian = #{xian,jdbcType=VARCHAR},
-      jiedao = #{jiedao,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      street = #{street,jdbcType=VARCHAR},
       details = #{details,jdbcType=VARCHAR},
       isDefault = #{isdefault,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  <!-- 自定义方法 -->
+
+   <!-- 自定义方法 -->
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Address" >
     select 
     <include refid="Base_Column_List" />
@@ -172,11 +172,11 @@
       <if test="city != null" >
         and city = #{city,jdbcType=VARCHAR}
       </if>
-      <if test="xian != null" >
-        and xian = #{xian,jdbcType=VARCHAR}
+      <if test="country != null" >
+        and country = #{country,jdbcType=VARCHAR}
       </if>
-      <if test="jiedao != null" >
-        and jiedao = #{jiedao,jdbcType=VARCHAR}
+      <if test="street != null" >
+        and street = #{street,jdbcType=VARCHAR}
       </if>
       <if test="details != null" >
         and details = #{details,jdbcType=VARCHAR}

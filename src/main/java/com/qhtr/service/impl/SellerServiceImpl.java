@@ -9,14 +9,17 @@ import org.springframework.stereotype.Service;
 
 import com.qhtr.dao.SellerMapper;
 import com.qhtr.model.Seller;
-import com.qhtr.model.User;
+import com.qhtr.model.Store;
 import com.qhtr.service.SellerService;
+import com.qhtr.service.StoreService;
 import com.qhtr.utils.MD5Utils;
 
 @Service
 public class SellerServiceImpl implements SellerService {
 	@Resource
 	private SellerMapper sellerMapper;
+	@Resource
+	public StoreService storeService;
 
 	@Override
 	public Seller getSellerById(int id) {
@@ -33,6 +36,9 @@ public class SellerServiceImpl implements SellerService {
 		seller.setPhone(phone);
 		seller.setPassword(MD5Utils.getString(password));
 		seller.setCreateTime(new Date());
+		
+		Store store = new Store();
+		storeService.insert(store);
 		return sellerMapper.insert(seller);
 	}
 	

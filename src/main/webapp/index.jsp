@@ -35,13 +35,15 @@
 	</form>
 	
 	<input type="radio" name="a" value=“你才1" >
-	<input type="radio" name="a" value=“你才1" checked="checked">
-	<input type="radio" name="a" value=“你才1">
+	<input type="radio" name="a" value=“你才1" disabled="disabled">
+	<input type="radio" name="a" value=“你才1" id="aaa_1">
 </body>
 </html>
 <script>
 $(function(){
 	alert($("#qq").html());
+	alert("撒地方"+"Asda"+"阿斯顿"+"爱飞");
+	$("#aaa_1").attr("disabled","disabled");
 });
 var a = new Object();
 $("#c").click(function(){

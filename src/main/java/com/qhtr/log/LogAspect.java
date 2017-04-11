@@ -1,7 +1,6 @@
 package com.qhtr.log;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 
 import javax.annotation.Resource;
 
@@ -10,9 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
 
-import com.qhtr.model.SystemLog;
 import com.qhtr.service.SystemLogService;
-import com.qhtr.utils.ContextUtil;
 
 public class LogAspect {
 	@Resource  
@@ -29,7 +26,7 @@ public class LogAspect {
             // set与get方法除外  
             if (!(methodName.startsWith("set") || methodName.startsWith("get"))) {  
   
-                Class targetClass = point.getTarget().getClass();  
+                Class<? extends Object> targetClass = point.getTarget().getClass();  
                 Method method = targetClass.getMethod(methodName);  
   
                 if (method != null) {  

@@ -13,11 +13,9 @@ public class Address {
 
     private String city;
 
-    private String xian;
-    /**
-     * 街道
-     */
-    private String jiedao;
+    private String country;
+
+    private String street;
 
     private String details;
 
@@ -71,20 +69,20 @@ public class Address {
         this.city = city == null ? null : city.trim();
     }
 
-    public String getXian() {
-        return xian;
+    public String getCountry() {
+        return country;
     }
 
-    public void setXian(String xian) {
-        this.xian = xian == null ? null : xian.trim();
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
     }
 
-    public String getJiedao() {
-        return jiedao;
+    public String getStreet() {
+        return street;
     }
 
-    public void setJiedao(String jiedao) {
-        this.jiedao = jiedao == null ? null : jiedao.trim();
+    public void setStreet(String street) {
+        this.street = street == null ? null : street.trim();
     }
 
     public String getDetails() {
