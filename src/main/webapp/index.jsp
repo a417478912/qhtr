@@ -9,7 +9,7 @@
 <input id ="b" value="yyyyyyyyyyyyyyyy" >
 <input id ="c" value="zzzzzzzzzzzzzzz" >
 
-<form action="${rootPath}/app_user/updateUser.do" id="d_id" method="post" enctype="multipart/form-data">
+<form action="${rootPath}/sell_picture/updateAvatar.do" id="d_id" method="post" enctype="multipart/form-data">
 <input id ="d" name="avatar"  type="file">
 <img alt="" src="/upload/userAvatar/20170328/20170328153240_249.png">
 <input name="id" value="3" type="hidden">

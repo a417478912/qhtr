@@ -5,16 +5,21 @@ import java.util.Date;
 public class Store {
     private Integer id;
 
-    private Integer sellerId;
-
     private Integer categoreId;
 
     private String name;
 
     private String phone;
 
+    private String password;
+
+    private String sex;
+
+    private String age;
+
+    private String otherShop;
+
     private String avatar;
-	
 	/**
      * banner轮播图(pictureid)
      */
@@ -48,14 +53,6 @@ public class Store {
         this.id = id;
     }
 
-    public Integer getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Integer sellerId) {
-        this.sellerId = sellerId;
-    }
-
     public Integer getCategoreId() {
         return categoreId;
     }
@@ -78,6 +75,38 @@ public class Store {
 
     public void setPhone(String phone) {
         this.phone = phone == null ? null : phone.trim();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password == null ? null : password.trim();
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age == null ? null : age.trim();
+    }
+
+    public String getOtherShop() {
+        return otherShop;
+    }
+
+    public void setOtherShop(String otherShop) {
+        this.otherShop = otherShop == null ? null : otherShop.trim();
     }
 
     public String getAvatar() {

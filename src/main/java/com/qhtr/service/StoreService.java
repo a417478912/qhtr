@@ -2,6 +2,8 @@ package com.qhtr.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import com.qhtr.model.Store;
 
 public interface StoreService {
@@ -46,7 +48,9 @@ public interface StoreService {
 	 */
 	List<Store> selectStoreBySearch(String searchContent, int page, int num);
 	
-	int insert(Store store);
-	
+	public int addRegister(String phone, String password);
+			
 	int updateByConditions(Store store);
+	
+	public int login(String phone, String password,HttpServletResponse response);
 }

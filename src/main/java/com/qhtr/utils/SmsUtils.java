@@ -20,7 +20,7 @@ public class SmsUtils {
 	/**
 	 * @param phone
 	 * @param request
-	 * @param type 短信类型 1：用户注册   2：修改密码 .3.手机号绑定
+	 * @param type 短信类型 1：用户注册   2：修改密码 .3.手机号绑定 4.确认/取消绑定手机号
 	 * @return
 	 */
 	public static String send(String phone,HttpServletRequest request,int type){

@@ -19,7 +19,6 @@ public class StoreDto {
     
     public StoreDto(Store store){
     	this.id = store.getId();
-    	this.sellerId = store.getSellerId();
     	this.name = store.getName();
     	this.phone = store.getPhone();
     	this.avatar = store.getAvatar();

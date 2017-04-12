@@ -1,5 +1,9 @@
 package com.sell.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -12,7 +16,16 @@ import com.qhtr.utils.CookieUtils;
 public class IndexController{
 	@RequestMapping(value="/index")
 	public String index(HttpServletRequest request){
-		request.setAttribute("user", CookieUtils.getCookieByName(request,"user"));
+		Map<String,String> map = new HashMap<String,String>(); 
+		Cookie sellerPhone = CookieUtils.getCookieByName(request,"sellerPhone");
+		if(sellerPhone != null){
+			map.put("login", sellerPhone.getValue());
+		}
+		Cookie storeId = CookieUtils.getCookieByName(request,"storeId");
+		if(storeId != null){
+			map.put("store", storeId.getValue());
+		}
+		request.setAttribute("user", map);
 		return "seller/index";
 	}
 }
