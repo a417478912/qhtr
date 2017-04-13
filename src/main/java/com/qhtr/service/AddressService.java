@@ -21,4 +21,6 @@ public interface AddressService {
 	 */
 	public Address getDeafault(int userId);
 	
+	public Address getAddressByid(int id);
+	
 }

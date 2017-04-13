@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.ActivityMapper" >
+  <resultMap id="BaseResultMap" type="com.qhtr.model.Activity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="model_id" property="modelId" jdbcType="INTEGER" />
+    <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMap1" type="com.qhtr.model.Goods" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="goods_classes_id" property="goodsClassesId" jdbcType="INTEGER" />
+    <result column="thumb" property="thumb" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="vip_price" property="vipPrice" jdbcType="INTEGER" />
+    <result column="special_selling_price" property="specialSellingPrice" jdbcType="INTEGER" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="details" property="details" jdbcType="VARCHAR" />
+    <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
+    <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, model_id, goods_id, store_id, create_time, start_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from activity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from activity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qhtr.model.Activity" >
+    insert into activity (id, model_id, goods_id, 
+      store_id, create_time, start_time, 
+      end_time)
+    values (#{id,jdbcType=INTEGER}, #{modelId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
+      #{storeId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qhtr.model.Activity" >
+    insert into activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="modelId != null" >
+        model_id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="storeId != null" >
+        store_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="modelId != null" >
+        #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Activity" >
+    update activity
+    <set >
+      <if test="modelId != null" >
+        model_id = #{modelId,jdbcType=INTEGER},
+      </if>
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=INTEGER},
+      </if>
+      <if test="storeId != null" >
+        store_id = #{storeId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Activity" >
+    update activity
+    set model_id = #{modelId,jdbcType=INTEGER},
+      goods_id = #{goodsId,jdbcType=INTEGER},
+      store_id = #{storeId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- 以下是自定义方法  -->
+  <select id="getGoodsNumByModelId" resultType="java.lang.Integer" parameterType="java.util.Map">
+  select count(id) 
+  from activity
+  where model_id = #{modelId,jdbcType=INTEGER} 
+  		and store_id = #{storeId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 通过商铺id 和 活动模版id 查找活动商品 -->
+  <select id="selectByStoreIdAndModelId" resultMap="BaseResultMap1" parameterType="java.util.Map">
+  select g.*
+  from activity a,goods_goods g
+  where a.goods_id = g.id
+  a.model_id = #{modelId,jdbcType=INTEGER} 
+  and a.store_id = #{storeId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 通过商铺id 和 活动模版id 查找活动 -->
+  <delete id="deleteByStroeIdAndModelId" parameterType="java.util.Map">
+  delete from activity
+  where model_id = #{modelId,jdbcType=INTEGER} 
+  and store_id = #{storeId,jdbcType=INTEGER}
+  </delete>
+</mapper>

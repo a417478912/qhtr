@@ -7,6 +7,15 @@
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>
+  
+  <resultMap id="BaseResultMap1" type="com.sell.dto.GoodsClassesDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="store_id" property="storeId" jdbcType="INTEGER" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="goods_num" property="goodsNum" jdbcType="INTEGER" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, name, store_id, sort
   </sql>
@@ -78,5 +87,47 @@
       store_id = #{storeId,jdbcType=INTEGER},
       sort = #{sort,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
-  </update>
+  </update>  
+  
+  <!-- 以下为自定义方法 -->
+  <!-- 中间表中删除类别为id的数据 -->
+  <delete id="deleteFromMidByClassId" parameterType="java.lang.Integer" >
+    delete from goods_mid_goods_classes
+    where goods_classes_id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+	<!-- 条件查找          selectByConditions  -->                    
+	<select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.GoodsClasses" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_goods_classes
+    <where>
+   	 <if test="1 == 1" >
+        1 = 1
+      </if>
+     <if test="name != null" >
+        and name = #{name,jdbcType=VARCHAR}
+      </if>
+      <if test="storeId != null" >
+        and store_id = #{storeId,jdbcType=INTEGER}
+      </if>
+      <if test="sort != null" >
+        and sort = #{sort,jdbcType=INTEGER}
+      </if>
+    </where>
+  	</select>
+  	
+  	
+  	
+	<!-- 条件查找(查询出来的结果带商品数量)          selectByConditions1  -->                    
+	<select id="selectByConditions1" resultMap="BaseResultMap1" parameterType="java.lang.Integer" >
+	SELECT c.*,COUNT(m.id) as goods_num
+	from goods_goods_classes c LEFT JOIN goods_mid_goods_classes m
+	on c.id = m.goods_classes_id
+	WHERE c.store_id = #{storeId,jdbcType=INTEGER}
+	GROUP BY c.id
+    order by c.sort desc
+  	</select>
+	
+  	
 </mapper>

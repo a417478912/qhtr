@@ -4,13 +4,9 @@ import java.util.List;
 
 import com.app.dto.GoodsDto;
 import com.qhtr.model.Goods;
+import com.sell.param.GoodsParam;
 
 public interface GoodsService {
-	/**
-	 * 通过卖家id  获取商品信息
-	 * @param type 类型: 0.全部  1. 新品上架  2. 特卖    3 店长推荐
-	 */
-	public List<Goods> selectGoodsBySellerId(int sellerId,int type);
 	/**
 	 * 通过商品id  获取商品详情
 	 */
@@ -31,4 +27,22 @@ public interface GoodsService {
 	 * @return
 	 */
 	public List<Goods> selectGoodsBySearch(String searchContent, int page, int num);
+	
+	public int add(GoodsParam goodsParam);
+	public int delete(int id);
+	public int update(GoodsParam goodsParam);
+	
+	/**
+	 * 通过卖家id和商品状态查找商品
+	 * @param storeId
+	 * @param type
+	 * @return
+	 */
+	public List<Goods> selectListByStoreAndType(int storeId, int status);
+	/**
+	 * 置顶/取消置顶
+	 * @param goodsId
+	 * @return
+	 */
+	public int toTop(int goodsId);
 }

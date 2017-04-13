@@ -80,4 +80,9 @@ public class AddressServiceImpl implements AddressService {
 		return addressMapper.updateByPrimaryKey(address);
 	}
 
+	@Override
+	public Address getAddressByid(int id) {
+		return addressMapper.selectByPrimaryKey(id);
+	}
+
 }

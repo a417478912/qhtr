@@ -78,7 +78,8 @@ public class StoreServiceImpl implements StoreService {
 		store.setPhone(phone);
 		store.setPassword(MD5Utils.getString(password));
 		store.setCreateTime(new Date());
-		return storeMapper.insert(store);
+		storeMapper.insert(store);
+		return store.getId();
 	}
 	
 	/**

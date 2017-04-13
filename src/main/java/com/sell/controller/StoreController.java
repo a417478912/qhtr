@@ -109,6 +109,11 @@ public class StoreController {
 	@RequestMapping(value="/updateStore")
 	public Json updateStore(Json j,Store store){
 		int result = storeService.updateByConditions(store);
+		String pwd = store.getPassword();
+		if(pwd != null){
+			j.setCode(0);
+			j.setMessage("参数错误!");
+		}
 		if(result == 1){
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("storeId", store.getId());

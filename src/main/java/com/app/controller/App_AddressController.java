@@ -87,4 +87,12 @@ public class App_AddressController {
 		j.setData(addr);
 		return j;
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getAddressByid")
+	public Json getAddressByid(Json j,@RequestParam int id){
+		Address addr = addressService.getAddressByid(id);
+		j.setData(addr);
+		return j;
+	}
 }

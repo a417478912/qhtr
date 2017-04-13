@@ -17,4 +17,14 @@ public class SkuServiceImpl implements SkuService {
 		return skuMapper.selectByPrimaryKey(skuId);
 	}
 
+	@Override
+	public int insert(Sku sku) {
+		return skuMapper.insert(sku);
+	}
+
+	@Override
+	public int update(Sku sku) {
+		return skuMapper.updateByPrimaryKey(sku);
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.qhtr.service.impl;
 
+
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,8 +17,8 @@ public class CategoryServiceImpl implements CategoryService {
 	public CategoryMapper categoryMapper;
 
 	@Override
-	public List<Category> getCategorysByConditions(Category c) {
-		return categoryMapper.selectByConditions(c);
+	public List<Category> selectAll() {
+		return categoryMapper.selectByConditions(new Category());
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.qhtr.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.qhtr.model.Goods;
 
@@ -36,5 +37,12 @@ public interface GoodsMapper {
 	 * @return
 	 */
 	List<Goods> selectGoodsBySearch(String searchContent);
+	/**
+	 * 通过商铺id和商品状态查找商品
+	 * @param storeId
+	 * @param status
+	 * @return
+	 */
+	List<Goods> selectListByStoreAndType(Map<String,String> map);
     
 }

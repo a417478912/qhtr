@@ -36,7 +36,7 @@
     delete from seller_store
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qhtr.model.Store" >
+  <insert id="insert" parameterType="com.qhtr.model.Store" useGeneratedKeys="true" keyProperty="id">
     insert into seller_store (id, categore_id, name, 
       phone, password, sex, 
       age, other_shop, avatar, 
@@ -270,6 +270,9 @@
       </if>
       <if test="phone != null" >
         and phone = #{phone,jdbcType=VARCHAR}
+      </if>
+      <if test="password != null" >
+        and password = #{password,jdbcType=VARCHAR}
       </if>
       <if test="avatar != null" >
         and avatar = #{avatar,jdbcType=VARCHAR}
