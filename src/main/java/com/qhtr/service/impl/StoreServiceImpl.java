@@ -2,7 +2,9 @@ package com.qhtr.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -36,17 +38,29 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 	@Override
-	public List<Store> getStoresByDistance(String location, int distance) {
+	public List<Map<String,String>> getStoresByDistance(String longitude,String latitude,int distance) {
 		if(distance == 0){
 			distance = 1000;
 		}
 		List<Store> allStores = storeMapper.selectByConditions(new Store());
-		List<Store> stores = new ArrayList<Store>();
+		List<Map<String,String>> stores = new ArrayList<Map<String,String>>();
 		for (Store store : allStores) {
+			if(store.getLongitudeLatitude() == null){
+				continue;
+			}
 			String[] s = store.getLongitudeLatitude().split(",");
-			String[] s1 = location.split(",");
-			if( DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]), Double.parseDouble(s1[0]), Double.parseDouble(s1[1])) <= distance){
-				stores.add(store);
+			if( DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]), Double.parseDouble(longitude), Double.parseDouble(latitude)) <= distance){
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("id", store.getId() + "");
+				map.put("name", store.getName());
+				map.put("avatar", store.getAvatar());
+				map.put("bannerPic", store.getPicture1());
+				map.put("showPic", store.getPicture2());
+				map.put("detail", store.getDetails());
+				map.put("collect_num", store.getCollectNum() + "");
+				map.put("sell_num", store.getSellNum() + "");
+				map.put("location", store.getLocation());
+				stores.add(map);
 			}
 		}
 		return stores;

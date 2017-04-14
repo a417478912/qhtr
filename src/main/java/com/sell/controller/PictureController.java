@@ -2,6 +2,7 @@ package com.sell.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
@@ -35,4 +36,27 @@ public class PictureController {
 		}
 		return j;
 	}
+	
+	/**
+	 * 图片剪切
+	 * @param j
+	 * @param url
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param thePath
+	 * @return
+	 * @throws Exception
+	 */
+	@ResponseBody
+	@RequestMapping(value="/pictureCut")
+	public Json pictureCut(Json j,@RequestParam String url,@RequestParam int x,@RequestParam int y,@RequestParam int width,@RequestParam int height,@RequestParam String thePath) throws Exception{
+		String path = FileUploadUtils.cut(url, x, y, width, height, "goods");
+		FileUploadUtils.deleteFile(url);
+		j.setData(path);
+		return j;
+	}
+	
+	
 }

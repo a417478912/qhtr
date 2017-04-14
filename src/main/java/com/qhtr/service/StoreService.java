@@ -1,6 +1,7 @@
 package com.qhtr.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -25,7 +26,7 @@ public interface StoreService {
 	 * @param distance 距离/默认1000米
 	 * @return
 	 */
-	List<Store> getStoresByDistance(String location,int distance);
+	List<Map<String,String>> getStoresByDistance(String longitude,String latitude,int distance);
 	/**
 	 * 通过分类查找店铺
 	 * @param type

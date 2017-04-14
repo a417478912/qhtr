@@ -1,6 +1,7 @@
 package com.app.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
-import com.qhtr.model.Store;
 import com.qhtr.service.StoreService;
 
 @Controller
@@ -28,11 +28,11 @@ public class App_StoreController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/getStoresByDistance")
-	public Json getStoresByDistance(Json j,@RequestParam String location,Integer distance){
+	public Json getStoresByDistance(Json j,@RequestParam String longitude,@RequestParam String latitude,Integer distance){
 		if(distance == null || distance == 0){
 			distance = 1000;
 		}
-		List<Store> stores = storeService.getStoresByDistance(location, distance);
+		List<Map<String,String>> stores = storeService.getStoresByDistance(longitude,latitude,distance);
 		j.setData(stores);
 		return j;
 	}
