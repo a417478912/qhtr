@@ -13,7 +13,15 @@ import com.qhtr.utils.FileUploadUtils;
 public class PictureController {
 	@ResponseBody
 	@RequestMapping(value="/upLoad")
-	public Json upLoad(Json j,@RequestParam String picture,@RequestParam String thePath,Integer x,Integer y,Integer width,Integer height) throws Exception{
+	public Json upLoad(Json j,@RequestParam String picture,@RequestParam int type,Integer x,Integer y,Integer width,Integer height) throws Exception{
+		String thePath = "";
+		if(type == 1){
+			thePath = "userAvatar";
+		}else if(type == 2){
+			thePath = "store";
+		}else if(type == 3){
+			thePath = "goods";
+		}
 		String url = FileUploadUtils.saveFromBase64String(picture,thePath);
 		if(url != null){
 			j.setData(url);

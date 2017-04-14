@@ -16,7 +16,6 @@ import com.qhtr.model.User;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.FileUploadUtils;
 import com.qhtr.utils.MD5Utils;
-import com.sun.tools.doclets.internal.toolkit.resources.doclets;
 /**
  * 
  * @author wjx
