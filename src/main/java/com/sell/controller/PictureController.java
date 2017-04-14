@@ -12,51 +12,24 @@ import com.qhtr.utils.FileUploadUtils;
 @RequestMapping("/sell_picture")
 public class PictureController {
 	@ResponseBody
-	@RequestMapping(value="/updateAvatar")
-	public Json updateAvatar(Json j,String avatar) throws Exception{
-		String url = FileUploadUtils.saveFromBase64String(avatar,"sellerAvatar");
+	@RequestMapping(value="/upLoad")
+	public Json upLoad(Json j,@RequestParam String picture,@RequestParam String thePath,Integer x,Integer y,Integer width,Integer height) throws Exception{
+		String url = FileUploadUtils.saveFromBase64String(picture,thePath);
 		if(url != null){
 			j.setData(url);
 		}else{
 			j.setCode(0);
 			j.setMessage("图片上传失败!");
 		}
-		return j;
-	}
-	
-	@ResponseBody
-	@RequestMapping(value="/updateGoodsPicture")
-	public Json updateGoodsPicture(Json j,String picture) throws Exception{
-		String url = FileUploadUtils.saveFromBase64String(picture,"goods");
-		if(url != null){
-			j.setData(url);
-		}else{
-			j.setCode(0);
-			j.setMessage("图片上传失败!");
+		
+		/**
+		 * 图片剪切
+		 */
+		if(x != null){
+			String path = FileUploadUtils.cut(url, x, y, width, height, thePath);
+			FileUploadUtils.deleteFile(url);
+			j.setData(path);
 		}
 		return j;
 	}
-	
-	/**
-	 * 图片剪切
-	 * @param j
-	 * @param url
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
-	 * @param thePath
-	 * @return
-	 * @throws Exception
-	 */
-	@ResponseBody
-	@RequestMapping(value="/pictureCut")
-	public Json pictureCut(Json j,@RequestParam String url,@RequestParam int x,@RequestParam int y,@RequestParam int width,@RequestParam int height,@RequestParam String thePath) throws Exception{
-		String path = FileUploadUtils.cut(url, x, y, width, height, "goods");
-		FileUploadUtils.deleteFile(url);
-		j.setData(path);
-		return j;
-	}
-	
-	
 }

@@ -25,7 +25,7 @@ public class Store {
      */
     private String picture1;
 	/**
-     * 地图上的展示图
+     * 地图上的展示大图(封面图)
      */
     private String picture2;
 
