@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
+import com.qhtr.model.Category;
 import com.qhtr.model.Store;
+import com.qhtr.service.CategoryService;
 import com.qhtr.service.StoreService;
 import com.qhtr.utils.CookieUtils;
 import com.qhtr.utils.DistributionUtils;
@@ -22,7 +24,9 @@ import com.qhtr.utils.MD5Utils;
 @Service
 public class StoreServiceImpl implements StoreService {
 	@Resource
-	private StoreMapper storeMapper;
+	public StoreMapper storeMapper;
+	@Resource
+	public CategoryService categoryService;
 	@Override
 	public Store getStoreByIdOrPhone(Store store) {
 		List<Store> list = storeMapper.selectByConditions(store);
@@ -57,7 +61,12 @@ public class StoreServiceImpl implements StoreService {
 			if( DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]), Double.parseDouble(longitude), Double.parseDouble(latitude)) <= distance){
 				Map<String,String> map = new HashMap<String,String>();
 				map.put("id", store.getId() + "");
+				
+				//行业分类
+				Category category = categoryService.getById(store.getCategoreId());
+				map.put("category",category.getName());
 				map.put("name", store.getName());
+				map.put("phone", store.getPhone());
 				map.put("avatar", store.getAvatar());
 				map.put("bannerPic", store.getPicture1());
 				map.put("showPic", store.getPicture2());
@@ -65,6 +74,9 @@ public class StoreServiceImpl implements StoreService {
 				map.put("collect_num", store.getCollectNum() + "");
 				map.put("sell_num", store.getSellNum() + "");
 				map.put("location", store.getLocation());
+				map.put("longitude", store.getLongitudeLatitude().split(",")[0]);
+				map.put("latitude", store.getLongitudeLatitude().split(",")[1]);
+				map.put("score", store.getScore() + "");
 				stores.add(map);
 			}
 		}

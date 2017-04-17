@@ -15,8 +15,12 @@ import com.app.dto.BuyCartDto;
 import com.app.dto.StoreOrderDto;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Constants;
 import com.qhtr.dao.StoreOrderMapper;
+import com.qhtr.dto.StoreOrderDetailsDto;
+import com.qhtr.model.Address;
 import com.qhtr.model.BuyCart;
 import com.qhtr.model.Coupon;
 import com.qhtr.model.Goods;
@@ -25,6 +29,7 @@ import com.qhtr.model.PayOrder;
 import com.qhtr.model.Sku;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.model.User;
+import com.qhtr.service.AddressService;
 import com.qhtr.service.BuyCartService;
 import com.qhtr.service.CouponService;
 import com.qhtr.service.GoodsOrderService;
@@ -53,6 +58,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public BuyCartService buyCartService;
 	@Resource
 	public PayOrderService payOrderService;
+	@Resource
+	public AddressService addressService;
 
 	@Override
 	public StoreOrder selectByOrderCode(String soCode) {
@@ -316,12 +323,44 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	}
 
 	@Override
-	public List<Map<String, Object>> selectMapByConditions(StoreOrder so) {
-		return storeOrderMapper.selectMapByConditions(so);
+	public List<Map<String, Object>> selectMapByConditions(StoreOrder so,int page) {
+		Page<?> startPage = PageHelper.startPage(page, 10);
+		List<Map<String, Object>> list = storeOrderMapper.selectMapByConditions(so);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("total",startPage.getTotal());
+		list.add(map);
+		return list;
 	}
 
 	@Override
 	public int selectCountByConditions(Map<String,Object> map) {
 		return storeOrderMapper.selectCountByConditions(map);
+	}
+
+	@Override
+	public int setSellerRemark(int orderId, String remark) {
+		StoreOrder so = storeOrderMapper.selectByPrimaryKey(orderId);
+		so.setSellerRemark(remark);
+		return storeOrderMapper.updateByPrimaryKey(so);
+	}
+
+	@Override
+	public StoreOrderDetailsDto selectStoreOrderDetailsById(int orderId) {
+		StoreOrder so = storeOrderMapper.selectByPrimaryKey(orderId);
+		StoreOrderDetailsDto soDto = new StoreOrderDetailsDto();
+		soDto.setStordeOrder(so);
+		
+		//地址
+		Address address = addressService.getAddressByid(so.getAddressId());
+		soDto.setAddress(address.getProvince()+address.getCity()+address.getCountry()+address.getDetails());
+		soDto.setReceivingName(address.getReceivingName());
+		soDto.setReceivingPhone(address.getReceivingPhone());
+		
+		//商品订单
+		GoodsOrder goTem = new GoodsOrder();
+		goTem.setStoreOrderCode(so.getOrderCode());
+		List<GoodsOrder> goodsOrderList = goodsOrderService.selectByCondictions(goTem);
+		soDto.setGoodsOrderList(goodsOrderList);
+		return soDto;
 	}
 }

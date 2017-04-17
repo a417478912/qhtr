@@ -35,6 +35,10 @@ public class GoodsOrder {
 
     private Date afterSaleTime;
 
+    private String goodsName;
+
+    private String goodsPicture;
+
     public Integer getId() {
         return id;
     }
@@ -161,5 +165,21 @@ public class GoodsOrder {
 
     public void setAfterSaleTime(Date afterSaleTime) {
         this.afterSaleTime = afterSaleTime;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName == null ? null : goodsName.trim();
+    }
+
+    public String getGoodsPicture() {
+        return goodsPicture;
+    }
+
+    public void setGoodsPicture(String goodsPicture) {
+        this.goodsPicture = goodsPicture == null ? null : goodsPicture.trim();
     }
 }

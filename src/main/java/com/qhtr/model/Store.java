@@ -40,10 +40,14 @@ public class Store {
     private String location;
 
     private String longitudeLatitude;
-
+    /**
+     * 0 1  2 - 新店 普通 热销
+     */
     private Integer type;
 
     private Date createTime;
+
+    private Integer score;
 
     public Integer getId() {
         return id;
@@ -195,5 +199,13 @@ public class Store {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
     }
 }

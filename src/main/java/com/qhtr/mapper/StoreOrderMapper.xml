@@ -20,6 +20,7 @@
     <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
     <result column="cancal_time" property="cancalTime" jdbcType="TIMESTAMP" />
     <result column="user_remark" property="userRemark" jdbcType="VARCHAR" />
+    <result column="seller_remark" property="sellerRemark" jdbcType="VARCHAR" />
   </resultMap>
 
   <resultMap id="BaseResultMap1" type="com.app.dto.GoodsOrderDto" >
@@ -60,14 +61,14 @@
       coupon_id, total_price, address_id, 
       express_price, coupon_price, refund_price, 
       result_price, status, create_time, 
-      payment_time, cancal_time, user_remark
+      payment_time, cancal_time, user_remark,seller_remark
       )
     values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{payOrderCode,jdbcType=VARCHAR}, 
       #{storeId,jdbcType=INTEGER}, #{distributionType,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{couponId,jdbcType=INTEGER}, #{totalPrice,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
       #{expressPrice,jdbcType=INTEGER}, #{couponPrice,jdbcType=INTEGER}, #{refundPrice,jdbcType=INTEGER}, 
       #{resultPrice,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{paymentTime,jdbcType=TIMESTAMP}, #{cancalTime,jdbcType=TIMESTAMP}, #{userRemark,jdbcType=VARCHAR}
+      #{paymentTime,jdbcType=TIMESTAMP}, #{cancalTime,jdbcType=TIMESTAMP}, #{userRemark,jdbcType=VARCHAR}, #{sellerRemark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.StoreOrder" >
@@ -239,6 +240,9 @@
       <if test="userRemark != null" >
         user_remark = #{userRemark,jdbcType=VARCHAR},
       </if>
+      <if test="sellerRemark != null" >
+        seller_remark = #{sellerRemark,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -260,7 +264,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       payment_time = #{paymentTime,jdbcType=TIMESTAMP},
       cancal_time = #{cancalTime,jdbcType=TIMESTAMP},
-      user_remark = #{userRemark,jdbcType=VARCHAR}
+      user_remark = #{userRemark,jdbcType=VARCHAR},
+      seller_remark = #{sellerRemark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

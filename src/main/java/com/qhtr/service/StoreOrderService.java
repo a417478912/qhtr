@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.app.dto.StoreOrderDto;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
+import com.qhtr.dto.StoreOrderDetailsDto;
 import com.qhtr.model.StoreOrder;
 
 public interface StoreOrderService {
@@ -23,10 +24,10 @@ public interface StoreOrderService {
 	 * 条件查询
 	 */
 	List<StoreOrder> selectByConditions(StoreOrder storeOrder);
-	List<Map<String, Object>> selectMapByConditions(StoreOrder so);
+	List<Map<String, Object>> selectMapByConditions(StoreOrder so,int page);
 	
 	/**
-	 * 用户查询订单
+	 * 用户查询订单列表
 	 * @param userId
 	 * @param status
 	 * @return
@@ -71,5 +72,17 @@ public interface StoreOrderService {
 	 * 查询数量
 	 */
 	int selectCountByConditions(Map<String,Object> map);
-
+	/**
+	 * 增加卖家备注
+	 * @param orderId
+	 * @param remark
+	 * @return
+	 */
+	int setSellerRemark(int orderId, String remark);
+	/**
+	 * 
+	 * @param orderId
+	 * @return
+	 */
+	StoreOrderDetailsDto selectStoreOrderDetailsById(int orderId);
 }

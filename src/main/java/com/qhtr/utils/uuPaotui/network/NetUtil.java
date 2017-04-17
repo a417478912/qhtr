@@ -1,4 +1,4 @@
-/*package com.qhtr.utils.uuPaotui;
+package com.qhtr.utils.uuPaotui.network;
 
 
 import java.net.HttpURLConnection;
@@ -16,8 +16,8 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 
-import com.uupt.openapi.Log;
-import com.uupt.openapi.TextUtils;
+import com.qhtr.utils.uuPaotui.openapi.Log;
+import com.qhtr.utils.uuPaotui.openapi.TextUtils;
 
 public class NetUtil {
 
@@ -44,13 +44,13 @@ public class NetUtil {
 
 	public static Map<String, String> headsMap;
 
-	*//**
+	/**
 	 * 得到URL连接
 	 * 
 	 * @param url
 	 * @param type
 	 * @return
-	 *//*
+	 */
 	public static HttpURLConnection GetHttpURLConnection(String url, String type) {
 		if (TextUtils.isEmpty(url)) {
 			Log.e("Finals", "URL 为空");
@@ -87,11 +87,11 @@ public class NetUtil {
 		return connection;
 	}
 
-	*//**
+	/**
 	 * 得到HTTPS连接
 	 * 
 	 * @param url
-	 *//*
+	 */
 	private static HttpURLConnection GetHttpsURLConnection(URL url) {
 		HttpsURLConnection sconn = null;
 		try {
@@ -131,12 +131,12 @@ public class NetUtil {
 		return sconn;
 	}
 
-	*//**
+	/**
 	 * 得到HTTP连接
 	 * 
 	 * @param url
 	 * @return
-	 *//*
+	 */
 	private static HttpURLConnection GetHttpURLConnection(URL url) {
 		HttpURLConnection conn = null;
 		try {
@@ -149,11 +149,11 @@ public class NetUtil {
 		return conn;
 	}
 
-	*//**
+	/**
 	 * 初始化网络连接
 	 * 
 	 * @param connection
-	 *//*
+	 */
 	private static void InitUrlConnection(HttpURLConnection connection, String type) {
 		connection.setConnectTimeout(CONNECTTIMEOUT);
 		connection.setReadTimeout(READTIMEOUT);
@@ -186,4 +186,3 @@ public class NetUtil {
 		NetUtil.headsMap = headsMap;
 	}
 }
-*/

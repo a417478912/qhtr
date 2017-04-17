@@ -42,6 +42,8 @@ public class StoreOrder {
     private Date cancalTime;
 
     private String userRemark;
+    
+    private String sellerRemark;
 
     public Integer getId() {
         return id;
@@ -186,4 +188,12 @@ public class StoreOrder {
     public void setUserRemark(String userRemark) {
         this.userRemark = userRemark == null ? null : userRemark.trim();
     }
+
+	public String getSellerRemark() {
+		return sellerRemark;
+	}
+
+	public void setSellerRemark(String sellerRemark) {
+		this.sellerRemark = sellerRemark;
+	}
 }

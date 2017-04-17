@@ -21,10 +21,12 @@
     <result column="longitude_latitude" property="longitudeLatitude" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="score" property="score" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, categore_id, name, phone, password, sex, age, other_shop, avatar, picture1, picture2, 
-    picture3, details, collect_num, sell_num, location, longitude_latitude, type, create_time
+    picture3, details, collect_num, sell_num, location, longitude_latitude, type, create_time, 
+    score
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -43,14 +45,14 @@
       picture1, picture2, picture3, 
       details, collect_num, sell_num, 
       location, longitude_latitude, type, 
-      create_time)
+      create_time, score)
     values (#{id,jdbcType=INTEGER}, #{categoreId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{age,jdbcType=VARCHAR}, #{otherShop,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, 
       #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
       #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Store" >
     insert into seller_store
@@ -112,6 +114,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="score != null" >
+        score,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -170,6 +175,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -230,6 +238,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -252,7 +263,8 @@
       location = #{location,jdbcType=VARCHAR},
       longitude_latitude = #{longitudeLatitude,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      score = #{score,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 

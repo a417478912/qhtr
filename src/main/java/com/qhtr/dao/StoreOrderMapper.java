@@ -3,7 +3,6 @@ package com.qhtr.dao;
 import java.util.List;
 import java.util.Map;
 
-import com.app.dto.StoreOrderDto;
 import com.qhtr.model.StoreOrder;
 
 public interface StoreOrderMapper {
@@ -27,7 +26,7 @@ public interface StoreOrderMapper {
      * @param map
      * @return
      */
-    List<StoreOrderDto> selectByUser(Map<String,Object> map);
+    List<com.app.dto.StoreOrderDto> selectByUser(Map<String,Object> map);
     /*
      * 查询数量 
      */
