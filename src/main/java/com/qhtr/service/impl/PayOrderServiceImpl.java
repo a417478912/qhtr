@@ -19,15 +19,21 @@ public class PayOrderServiceImpl implements PayOrderService {
 	public StoreOrderService storeOrderService;
 
 	@Override
-	public String addOrder(String orderCode, int type,int userId) {
+	public String addOrder(String orderCode, int type, int userId) {
 		PayOrder po = this.selectByOrderCode(orderCode);
 		po.setPayType(type);
-		int result = payOrderMapper.insert(po);
-		if(result == 1){
-			return po.getOrderCode();
-		}else{
-			return null;
+		if (type == 1) {
+			int result = payOrderMapper.insert(po);
+			if (result == 1) {
+				return po.getOrderCode();
+			} else {
+				return null;
+			}
+		} else if (type == 2) {
+			String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+			String appid = "";
 		}
+		return null;
 	}
 
 	@Override

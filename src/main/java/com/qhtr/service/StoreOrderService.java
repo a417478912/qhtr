@@ -1,6 +1,7 @@
 package com.qhtr.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +23,7 @@ public interface StoreOrderService {
 	 * 条件查询
 	 */
 	List<StoreOrder> selectByConditions(StoreOrder storeOrder);
+	List<Map<String, Object>> selectMapByConditions(StoreOrder so);
 	
 	/**
 	 * 用户查询订单
@@ -64,4 +66,10 @@ public interface StoreOrderService {
 	 * @return
 	 */
 	String addOrders(Param1[] params,int userId,HttpServletRequest request);
+	
+	/**
+	 * 查询数量
+	 */
+	int selectCountByConditions(Map<String,Object> map);
+
 }

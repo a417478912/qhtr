@@ -21,10 +21,15 @@ public interface StoreOrderMapper {
     
     //自定义方法
     List<StoreOrder> selectByConditions(StoreOrder record);
+    List<Map<String,Object>> selectMapByConditions(StoreOrder record);
     /**
      * 用户查找订单/买家
      * @param map
      * @return
      */
     List<StoreOrderDto> selectByUser(Map<String,Object> map);
+    /*
+     * 查询数量 
+     */
+    int selectCountByConditions(Map<String,Object> map);
 }

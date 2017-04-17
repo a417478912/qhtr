@@ -314,4 +314,14 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public List<StoreOrder> selectByConditions(StoreOrder storeOrder) {
 		return storeOrderMapper.selectByConditions(storeOrder);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectMapByConditions(StoreOrder so) {
+		return storeOrderMapper.selectMapByConditions(so);
+	}
+
+	@Override
+	public int selectCountByConditions(Map<String,Object> map) {
+		return storeOrderMapper.selectCountByConditions(map);
+	}
 }

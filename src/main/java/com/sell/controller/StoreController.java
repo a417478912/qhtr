@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.Store;
+import com.qhtr.model.StoreOrder;
 import com.qhtr.service.StoreService;
 
 @Controller
@@ -124,6 +125,18 @@ public class StoreController {
 			j.setMessage("修改失败!");
 		}
 		
+		return j;
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getStore")
+	public Json getStore(Json j,String phone,Integer id){
+		Store storeTem = new Store();
+		storeTem.setPhone(phone);
+		storeTem.setId(id);
+		Store store = storeService.getStoreByIdOrPhone(storeTem);
+		store.setPassword(null);
+		j.setData(store);
 		return j;
 	}
 }

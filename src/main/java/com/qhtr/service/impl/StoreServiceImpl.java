@@ -24,8 +24,13 @@ public class StoreServiceImpl implements StoreService {
 	@Resource
 	private StoreMapper storeMapper;
 	@Override
-	public Store getStoreBysSoreId(Integer storeId) {
-		return storeMapper.selectByPrimaryKey(storeId);
+	public Store getStoreByIdOrPhone(Store store) {
+		List<Store> list = storeMapper.selectByConditions(store);
+		if(list.isEmpty()){
+			return null;
+		}else{
+			return list.get(0);
+		}
 	}
 	@Override
 	public Store getStoreBySellerId(Integer sellerId) {

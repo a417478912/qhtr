@@ -270,6 +270,46 @@
     <include refid="Base_Column_List" />
     from order_store_order
     <where>
+   	  <if test="1 == 1">
+   			1 = 1
+      </if>
+      <if test="orderCode != null" >
+        and order_code = #{orderCode,jdbcType=VARCHAR}
+      </if>
+      <if test="payOrderCode != null" >
+        and pay_order_code = #{payOrderCode,jdbcType=VARCHAR}
+      </if>
+      <if test="storeId != null" >
+        and store_id = #{storeId,jdbcType=INTEGER}
+      </if>
+      <if test="userId != null" >
+        and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="totalPrice != null" >
+        and total_price = #{totalPrice,jdbcType=INTEGER}
+      </if>
+      <if test="status != null" >
+        and status = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null" >
+        and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="paymentTime != null" >
+        and payment_time = #{paymentTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="cancalTime != null" >
+        and cancal_time = #{cancalTime,jdbcType=TIMESTAMP}
+      </if>
+    </where>
+  </select>
+  
+  <select id="selectMapByConditions" resultType="java.util.Map" parameterType="com.qhtr.model.StoreOrder" >
+    select o.id,o.order_code,o.pay_order_code,o.store_id,o.distribution_type,o.user_id,o.coupon_id,o.total_price,o.address_id,o.express_price,o.coupon_price,o.refund_price,o.result_price,o.status,o.create_time,o.user_remark
+    from order_store_order o,user_address a
+    <where>
+   	  <if test="1 == 1">
+   			o.address_id = a.id
+      </if>
       <if test="orderCode != null" >
         and order_code = #{orderCode,jdbcType=VARCHAR}
       </if>
@@ -318,5 +358,25 @@
        		 and s.status = #{status,jdbcType=INTEGER}
     	 </if>
 		order by s.create_time desc
+  </select>
+  	
+  	<!-- 查询数量 -->
+   <select id="selectCountByConditions" resultType="java.lang.Integer" parameterType="java.util.Map">
+	    select count(id)
+	    from order_store_order
+		<where>
+   	 	 <if test="1 == 1">
+   			1 = 1
+     	 </if>
+     	  <if test="status != null">
+   			status = #{status,jdbcType=INTEGER} 
+     	 </if>
+     	  <if test="userId != null">
+   			userId = #{userId,jdbcType=INTEGER} 
+     	 </if>
+     	  <if test="storeId != null">
+   			storeId = #{storeId,jdbcType=INTEGER} 
+     	 </if>
+     	 </where>
   </select>
 </mapper>

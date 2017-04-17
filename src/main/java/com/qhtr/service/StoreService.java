@@ -13,7 +13,7 @@ public interface StoreService {
 	 * @param storeId
 	 * @return
 	 */
-	Store getStoreBysSoreId(Integer storeId);
+	Store getStoreByIdOrPhone(Store store);
 	/**
 	 * 通过卖家id  查找商铺
 	 * @param sellerId
