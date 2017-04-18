@@ -363,4 +363,27 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		soDto.setGoodsOrderList(goodsOrderList);
 		return soDto;
 	}
+
+	@Override
+	public void changeToSendOutTask() {
+		StoreOrder soTem = new StoreOrder();
+		soTem.setStatus(31);
+		List<StoreOrder> list = storeOrderMapper.selectByConditions(soTem);
+		for (StoreOrder storeOrder : list) {
+			GoodsOrder goTem = new GoodsOrder();
+			goTem.setStoreOrderCode(storeOrder.getOrderCode());
+			List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+			boolean tag = true;
+			for (GoodsOrder goodsOrder : goList) {
+				if(goodsOrder.getStatus() == 20){
+					tag = false;
+					break;
+				}
+			}
+			if(tag) {
+				storeOrder.setStatus(30);
+				storeOrderMapper.updateByPrimaryKey(storeOrder);
+			}
+		}
+	}
 }

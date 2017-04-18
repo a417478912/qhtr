@@ -9,7 +9,7 @@ public class Express {
 
     private String code;
 
-    private Integer storeOrderId;
+    private Integer goodsOrderId;
 
     private Date createTime;
 
@@ -37,12 +37,12 @@ public class Express {
         this.code = code == null ? null : code.trim();
     }
 
-    public Integer getStoreOrderId() {
-        return storeOrderId;
+    public Integer getGoodsOrderId() {
+        return goodsOrderId;
     }
 
-    public void setStoreOrderId(Integer storeOrderId) {
-        this.storeOrderId = storeOrderId;
+    public void setGoodsOrderId(Integer goodsOrderId) {
+        this.goodsOrderId = goodsOrderId;
     }
 
     public Date getCreateTime() {

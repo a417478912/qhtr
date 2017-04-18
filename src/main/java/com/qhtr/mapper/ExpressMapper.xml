@@ -5,11 +5,11 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="store_order_id" property="storeOrderId" jdbcType="INTEGER" />
+    <result column="goods_order_id" property="goodsOrderId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, code, store_order_id, create_time
+    id, name, code, goods_order_id, create_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +23,9 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Express" >
     insert into order_express (id, name, code, 
-      store_order_id, create_time)
+      goods_order_id, create_time)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{storeOrderId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{goodsOrderId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Express" >
     insert into order_express
@@ -39,8 +39,8 @@
       <if test="code != null" >
         code,
       </if>
-      <if test="storeOrderId != null" >
-        store_order_id,
+      <if test="goodsOrderId != null" >
+        goods_order_id,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -56,8 +56,8 @@
       <if test="code != null" >
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="storeOrderId != null" >
-        #{storeOrderId,jdbcType=INTEGER},
+      <if test="goodsOrderId != null" >
+        #{goodsOrderId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -73,8 +73,8 @@
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="storeOrderId != null" >
-        store_order_id = #{storeOrderId,jdbcType=INTEGER},
+      <if test="goodsOrderId != null" >
+        goods_order_id = #{goodsOrderId,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -86,7 +86,7 @@
     update order_express
     set name = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
-      store_order_id = #{storeOrderId,jdbcType=INTEGER},
+      goods_order_id = #{goodsOrderId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>

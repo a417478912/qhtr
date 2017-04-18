@@ -85,4 +85,9 @@ public interface StoreOrderService {
 	 * @return
 	 */
 	StoreOrderDetailsDto selectStoreOrderDetailsById(int orderId);
+	
+	/**
+	 * 统计商家部分发货的变成已发货
+	 */
+	void changeToSendOutTask();
 }
