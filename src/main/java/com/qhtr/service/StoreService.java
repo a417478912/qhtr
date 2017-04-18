@@ -26,7 +26,7 @@ public interface StoreService {
 	 * @param distance 距离/默认1000米
 	 * @return
 	 */
-	List<Map<String,String>> getStoresByDistance(String longitude,String latitude,int distance);
+	List<Map<String,String>> getStoresByDistance(String longitude,String latitude,String distance);
 	/**
 	 * 通过分类查找店铺
 	 * @param type

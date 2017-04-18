@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.Store;
-import com.qhtr.model.StoreOrder;
 import com.qhtr.service.StoreService;
 
 @Controller
@@ -116,9 +115,10 @@ public class StoreController {
 			j.setMessage("参数错误!");
 		}
 		if(result == 1){
-			Map<String,Integer> map = new HashMap<String,Integer>();
+			/*Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("storeId", store.getId());
-			j.setData(map);
+			j.setData(map);*/
+			j.setData(store);
 			j.setMessage("修改成功!");
 		}else{
 			j.setCode(0);

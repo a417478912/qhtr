@@ -28,11 +28,8 @@ public class App_StoreController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/getStoresByDistance")
-	public Json getStoresByDistance(Json j,@RequestParam String longitude,@RequestParam String latitude,Integer distance){
-		if(distance == null || distance == 0){
-			distance = 1000;
-		}
-		List<Map<String,String>> stores = storeService.getStoresByDistance(longitude,latitude,distance);
+	public Json getStoresByDistance(Json j,@RequestParam String longitude,@RequestParam String latitude,@RequestParam(defaultValue="1000")String accuracy){
+		List<Map<String,String>> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
 		j.setData(stores);
 		return j;
 	}

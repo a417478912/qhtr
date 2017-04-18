@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
 import com.qhtr.model.Category;
@@ -47,10 +48,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 	@Override
-	public List<Map<String,String>> getStoresByDistance(String longitude,String latitude,int distance) {
-		if(distance == 0){
-			distance = 1000;
-		}
+	public List<Map<String,String>> getStoresByDistance(String longitude,String latitude,String distance) {
 		List<Store> allStores = storeMapper.selectByConditions(new Store());
 		List<Map<String,String>> stores = new ArrayList<Map<String,String>>();
 		for (Store store : allStores) {
@@ -58,7 +56,7 @@ public class StoreServiceImpl implements StoreService {
 				continue;
 			}
 			String[] s = store.getLongitudeLatitude().split(",");
-			if( DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]), Double.parseDouble(longitude), Double.parseDouble(latitude)) <= distance){
+			if( DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]), Double.parseDouble(longitude), Double.parseDouble(latitude)) <= Double.parseDouble(distance)){
 				Map<String,String> map = new HashMap<String,String>();
 				map.put("id", store.getId() + "");
 				
@@ -68,7 +66,7 @@ public class StoreServiceImpl implements StoreService {
 				map.put("name", store.getName());
 				map.put("phone", store.getPhone());
 				map.put("avatar", store.getAvatar());
-				map.put("bannerPic", store.getPicture1());
+				map.put("bannerPic",store.getPicture1());
 				map.put("showPic", store.getPicture2());
 				map.put("detail", store.getDetails());
 				map.put("collect_num", store.getCollectNum() + "");
@@ -131,6 +129,8 @@ public class StoreServiceImpl implements StoreService {
 	
 	@Override
 	public int updateByConditions(Store store) {
+		String pic1 = store.getPicture1();
+		store.setPicture1(JSONObject.toJSON(pic1).toString());
 		return storeMapper.updateByPrimaryKeySelective(store);
 	}
 	@Override

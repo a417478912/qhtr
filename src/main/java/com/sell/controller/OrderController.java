@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Json;
 import com.qhtr.dto.StoreOrderDetailsDto;
 import com.qhtr.model.StoreOrder;
+import com.qhtr.service.ExpressService;
 import com.qhtr.service.StoreOrderService;
 
 @Controller
@@ -20,6 +21,8 @@ import com.qhtr.service.StoreOrderService;
 public class OrderController {
 	@Resource
 	public StoreOrderService storeOrderService;
+	@Resource
+	public ExpressService expressService;
 	
 	/**
 	 * 订单列表
@@ -61,6 +64,22 @@ public class OrderController {
 	public Json getStoreOrderDetails(Json j,@RequestParam int orderId){
 		StoreOrderDetailsDto dto = storeOrderService.selectStoreOrderDetailsById(orderId);
 		j.setData(dto);
+		return j;
+	}
+	
+	/**
+	 * 增加快递信息
+	 */
+	@ResponseBody
+	@RequestMapping("/addExpress")
+	public Json addExpress(Json j,@RequestParam int orderId,@RequestParam String name,@RequestParam String code){
+		int result = expressService.add(orderId,name,code);
+		if(result == 1){
+			j.setMessage("成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("失败!");
+		}
 		return j;
 	}
 }
