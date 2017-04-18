@@ -49,15 +49,29 @@ $(function(){
 				console.log(data);
 			     alert("Data Loaded: " + data.data);
 			   }); */
-	$.post("${rootPath}sell_stroe/updateStore.do",
+	/* $.post("${rootPath}sell_stroe/updateStore.do",
 	{ id: "1", 
 		picture1: '[{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"product","id":"1"}},{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"store","id":"2"}},{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"category","id":"3"}},{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"promotion","id":"1"}}]'
 		},
 	   function(data){
+		alert(data);
 		console.log(data);
 		var a = data.data.picture1;
 		var b = eval(a)
 		alert(b[0].imageURL + "*******" + b[0].link.type + "++++++++" +b[0].link.id   + "--------------------------"+ b[3].imageURL + "*******" + b[3].link.type + "++++++++" +b[3].link.id)
+		for(i in a){
+			//alert(i)
+		}
+	   });    */
+	 $.post("${rootPath}app_store/getStoresByDistance.do",
+	{ longitude: "113.657658", 
+		 latitude: "34.787778"
+		},
+	   function(data){
+		alert(data.data[0].bannerPic);
+		console.log(data.data);
+		var a = data.data.picture1;
+		var b = eval(a)
 		for(i in a){
 			//alert(i)
 		}

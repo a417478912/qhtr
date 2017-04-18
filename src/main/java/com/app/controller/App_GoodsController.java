@@ -28,8 +28,8 @@ public class App_GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/selectGoodsBySellerId")
-	public Json selectGoodsBySellerId(Json j,@RequestParam int storeId){
-		List<Goods> goods = goodsService.selectListByStoreAndType(storeId,1);
+	public Json selectGoodsBySellerId(Json j,@RequestParam int storeId,@RequestParam(defaultValue="1") int type){
+		List<Goods> goods = goodsService.selectListByStoreAndType(storeId,type);
 		if(goods != null){
 			j.setData(goods);
 		}else{

@@ -29,7 +29,7 @@ public class App_StoreController {
 	@ResponseBody
 	@RequestMapping(value="/getStoresByDistance")
 	public Json getStoresByDistance(Json j,@RequestParam String longitude,@RequestParam String latitude,@RequestParam(defaultValue="1000")String accuracy){
-		List<Map<String,String>> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
+		List<Map<String,Object>> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
 		j.setData(stores);
 		return j;
 	}

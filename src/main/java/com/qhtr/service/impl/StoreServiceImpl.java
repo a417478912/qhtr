@@ -48,16 +48,16 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 	@Override
-	public List<Map<String,String>> getStoresByDistance(String longitude,String latitude,String distance) {
+	public List<Map<String,Object>> getStoresByDistance(String longitude,String latitude,String distance) {
 		List<Store> allStores = storeMapper.selectByConditions(new Store());
-		List<Map<String,String>> stores = new ArrayList<Map<String,String>>();
+		List<Map<String,Object>> stores = new ArrayList<Map<String,Object>>();
 		for (Store store : allStores) {
 			if(store.getLongitudeLatitude() == null){
 				continue;
 			}
 			String[] s = store.getLongitudeLatitude().split(",");
 			if( DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]), Double.parseDouble(longitude), Double.parseDouble(latitude)) <= Double.parseDouble(distance)){
-				Map<String,String> map = new HashMap<String,String>();
+				Map<String,Object> map = new HashMap<String,Object>();
 				map.put("id", store.getId() + "");
 				
 				//行业分类
@@ -74,7 +74,8 @@ public class StoreServiceImpl implements StoreService {
 				map.put("location", store.getLocation());
 				map.put("longitude", store.getLongitudeLatitude().split(",")[0]);
 				map.put("latitude", store.getLongitudeLatitude().split(",")[1]);
-				map.put("score", store.getScore() + "");
+				map.put("score", store.getScore());
+				map.put("type", store.getType());
 				stores.add(map);
 			}
 		}
