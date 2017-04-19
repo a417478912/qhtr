@@ -1,22 +1,12 @@
-package com.qhtr.utils.uuPaotui.openapi.net;
+package com.qhtr.utils;
 
 import com.qhtr.utils.uuPaotui.openapi.ApiConfig;
 import com.qhtr.utils.uuPaotui.openapi.Dictionary;
 import com.qhtr.utils.uuPaotui.openapi.UUCommonFun;
 import com.qhtr.utils.uuPaotui.openapi.UUHttpRequestHelper;
-/**
- * 添加订单
- * @author wjx
- *
- * @date  2017年4月17日
- */
-public class addorder {
 
-	public static void main(String[] args) {
-		Page_Load();
-	}
-
-	private static void Page_Load() {
+public class UUPaotuiUtils {
+	public static void addOrder() {
 		Dictionary<String, String> mydic = new Dictionary<String, String>();
 		mydic.Add("appid", ApiConfig.AppID);
 		mydic.Add("nonce_str", UUCommonFun.NewGuid());
@@ -37,5 +27,4 @@ public class addorder {
 		String result = UUHttpRequestHelper.HttpPost(ApiConfig.HOST+ApiConfig.AddOrderUrl, mydic);
 		System.out.println(result);
 	}
-
 }

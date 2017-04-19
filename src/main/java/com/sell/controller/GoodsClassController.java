@@ -1,6 +1,7 @@
 package com.sell.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -28,7 +29,7 @@ public class GoodsClassController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/add")
-	public Json add(Json j,@RequestParam String name,@RequestParam int storeId){
+	public Json add(Json j,@RequestParam String name,@RequestParam int storeId,@RequestParam int type){
 		int result = goodsClassService.add(name,storeId);
 		if(result == 1){
 			j.setMessage("添加成功!");
@@ -81,6 +82,17 @@ public class GoodsClassController {
 	@RequestMapping(value="/getList")
 	public Json getList(Json j,@RequestParam int storeId){
 		List<GoodsClassesDto> list= goodsClassService.selectListByStoreId(storeId);
+		j.setData(list);
+		return j;
+	}
+	
+	/**
+	 * 通过分类查询商品
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getGoodsByClass")
+	public Json getGoodsByClass(Json j,@RequestParam int storeId,@RequestParam int classId){
+		List<Map<String,Object>> list = goodsClassService.getGoodsByClass(storeId,classId);
 		j.setData(list);
 		return j;
 	}

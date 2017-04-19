@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,8 +30,8 @@ public class GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/addGoods")
-	public Json addGoods(Json j, GoodsParam goodsParam) {
-		int result = goodsService.add(goodsParam);
+	public Json addGoods(Json j, @RequestBody String goods) {
+		int result = goodsService.add(goods);
 		if (result == 1) {
 			j.setMessage("商品添加成功!");
 		} else {
@@ -69,7 +70,7 @@ public class GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/updateGoods")
-	public Json updateGoods(Json j, GoodsParam goodsParam) {
+	public Json updateGoods(Json j, String goodsParam) {
 		int result = goodsService.update(goodsParam);
 		if (result == 1) {
 			j.setMessage("商品修改成功!");

@@ -28,9 +28,9 @@ public interface GoodsService {
 	 */
 	public List<Goods> selectGoodsBySearch(String searchContent, int page, int num);
 	
-	public int add(GoodsParam goodsParam);
+	public int add(String goodsParam);
 	public int delete(int id);
-	public int update(GoodsParam goodsParam);
+	public int update(String goodsParam);
 	
 	/**
 	 * 通过卖家id和商品状态查找商品

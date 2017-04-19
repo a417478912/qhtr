@@ -23,10 +23,10 @@ public class cancelorder {
 		mydic.Add("nonce_str", UUCommonFun.NewGuid());
 		mydic.Add("timestamp", UUCommonFun.getTimeStamp());
 		mydic.Add("openid", ApiConfig.OpenID);
-		mydic.Add("order_code", "1481");
+		mydic.Add("order_code", "U37908001704191351189522499");
 		mydic.Add("reason", "用户需求变更，订单取消");
 		mydic.Add("sign", UUCommonFun.CreateMd5Sign(mydic, ApiConfig.AppSecret));
-		String result = UUHttpRequestHelper.HttpPost(ApiConfig.CancelOrderUrl, mydic);
+		String result = UUHttpRequestHelper.HttpPost(ApiConfig.HOST+ApiConfig.CancelOrderUrl, mydic);
 		Response.Write(result);
 	}
 }

@@ -10,17 +10,15 @@ public class Goods {
     private Integer storeId;
 
     private String name;
-
-    private Integer goodsClassesId;
-    /**
+	/**
      * 缩略图
      */
     private String thumb;
-    /**
+	/**
      * 效果图
      */
     private String resultPicture;
-    /**
+	/**
      * 详情图
      */
     private String detailPictures;
@@ -79,14 +77,6 @@ public class Goods {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
-    }
-
-    public Integer getGoodsClassesId() {
-        return goodsClassesId;
-    }
-
-    public void setGoodsClassesId(Integer goodsClassesId) {
-        this.goodsClassesId = goodsClassesId;
     }
 
     public String getThumb() {

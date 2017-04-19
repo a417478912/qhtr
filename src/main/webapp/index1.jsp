@@ -49,7 +49,7 @@ $(function(){
 				console.log(data);
 			     alert("Data Loaded: " + data.data);
 			   }); */
-	/* $.post("${rootPath}sell_stroe/updateStore.do",
+	/*  $.post("${rootPath}sell_stroe/updateStore.do",
 	{ id: "1", 
 		picture1: '[{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"product","id":"1"}},{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"store","id":"2"}},{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"category","id":"3"}},{"imageURL":"http://www.xiaoguang.com/bannerpic.jpg","link":{"type":"promotion","id":"1"}}]'
 		},
@@ -62,8 +62,9 @@ $(function(){
 		for(i in a){
 			//alert(i)
 		}
-	   });    */
-	 $.post("${rootPath}app_store/getStoresByDistance.do",
+	   });  */
+	   
+	/*  $.post("${rootPath}app_store/getStoresByDistance.do",
 	{ longitude: "113.657658", 
 		 latitude: "34.787778"
 		},
@@ -75,7 +76,7 @@ $(function(){
 		for(i in a){
 			//alert(i)
 		}
-	   });   
+	   });    */
 	
 });
 var a = new Object();

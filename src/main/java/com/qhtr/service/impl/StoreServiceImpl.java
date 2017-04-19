@@ -3,17 +3,22 @@ package com.qhtr.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
+import com.qhtr.dto.LinkDto;
+import com.qhtr.dto.PictureDto;
 import com.qhtr.model.Category;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
@@ -66,7 +71,27 @@ public class StoreServiceImpl implements StoreService {
 				map.put("name", store.getName());
 				map.put("phone", store.getPhone());
 				map.put("avatar", store.getAvatar());
-				map.put("bannerPic",store.getPicture1());
+				
+				List<PictureDto> picList = new ArrayList<PictureDto>();
+				String bannerStr = store.getPicture1();
+				JSONArray jArray = JSONArray.parseArray(bannerStr);
+				for(int i=0;i<jArray.size();i++){
+					PictureDto picDto = new PictureDto();
+					JSONObject jObj = jArray.getJSONObject(i);
+					Object imageURLObj = jObj.get("imageURL");
+					Object linkObj = jObj.get("link");
+					
+					JSONObject link1 = (JSONObject) JSONObject.parse(linkObj.toString());
+					LinkDto linkDto = new LinkDto();
+					linkDto.setId(link1.get("id").toString());
+					linkDto.setType(link1.get("type").toString());
+					
+					picDto.setImageURL(imageURLObj.toString());
+					picDto.setLink(linkDto);
+					
+					picList.add(picDto);
+				}
+				map.put("bannerPic",picList);
 				map.put("showPic", store.getPicture2());
 				map.put("detail", store.getDetails());
 				map.put("collect_num", store.getCollectNum() + "");
@@ -130,8 +155,6 @@ public class StoreServiceImpl implements StoreService {
 	
 	@Override
 	public int updateByConditions(Store store) {
-		String pic1 = store.getPicture1();
-		store.setPicture1(JSONObject.toJSON(pic1).toString());
 		return storeMapper.updateByPrimaryKeySelective(store);
 	}
 	@Override

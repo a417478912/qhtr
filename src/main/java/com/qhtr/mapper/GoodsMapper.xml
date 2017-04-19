@@ -6,7 +6,6 @@
     <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="goods_classes_id" property="goodsClassesId" jdbcType="INTEGER" />
     <result column="thumb" property="thumb" jdbcType="VARCHAR" />
     <result column="result_picture" property="resultPicture" jdbcType="VARCHAR" />
     <result column="detail_pictures" property="detailPictures" jdbcType="VARCHAR" />
@@ -23,9 +22,9 @@
     <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_code, store_id, name, goods_classes_id, thumb, result_picture, detail_pictures, 
-    price, vip_price, special_selling_price, stock, details, isDefault, status, create_time, 
-    collect_num, sell_num, sort
+    id, goods_code, store_id, name, thumb, result_picture, detail_pictures, price, vip_price, 
+    special_selling_price, stock, details, isDefault, status, create_time, collect_num, 
+    sell_num, sort
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -39,19 +38,19 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Goods" useGeneratedKeys="true" keyProperty="id">
     insert into goods_goods (id, goods_code, store_id, 
-      name, goods_classes_id, thumb, 
-      result_picture, detail_pictures, price, 
-      vip_price, special_selling_price, stock, 
-      details, isDefault, status, 
-      create_time, collect_num, sell_num, 
-      sort)
+      name, thumb, result_picture, 
+      detail_pictures, price, vip_price, 
+      special_selling_price, stock, details, 
+      isDefault, status, create_time, 
+      collect_num, sell_num, sort
+      )
     values (#{id,jdbcType=INTEGER}, #{goodsCode,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR}, #{goodsClassesId,jdbcType=INTEGER}, #{thumb,jdbcType=VARCHAR}, 
-      #{resultPicture,jdbcType=VARCHAR}, #{detailPictures,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
-      #{vipPrice,jdbcType=INTEGER}, #{specialSellingPrice,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, 
-      #{details,jdbcType=VARCHAR}, #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
-      #{sort,jdbcType=INTEGER})
+      #{name,jdbcType=VARCHAR}, #{thumb,jdbcType=VARCHAR}, #{resultPicture,jdbcType=VARCHAR}, 
+      #{detailPictures,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{vipPrice,jdbcType=INTEGER}, 
+      #{specialSellingPrice,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{details,jdbcType=VARCHAR}, 
+      #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Goods" >
     insert into goods_goods
@@ -67,9 +66,6 @@
       </if>
       <if test="name != null" >
         name,
-      </if>
-      <if test="goodsClassesId != null" >
-        goods_classes_id,
       </if>
       <if test="thumb != null" >
         thumb,
@@ -127,9 +123,6 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="goodsClassesId != null" >
-        #{goodsClassesId,jdbcType=INTEGER},
-      </if>
       <if test="thumb != null" >
         #{thumb,jdbcType=VARCHAR},
       </if>
@@ -186,9 +179,6 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="goodsClassesId != null" >
-        goods_classes_id = #{goodsClassesId,jdbcType=INTEGER},
-      </if>
       <if test="thumb != null" >
         thumb = #{thumb,jdbcType=VARCHAR},
       </if>
@@ -239,7 +229,6 @@
     set goods_code = #{goodsCode,jdbcType=VARCHAR},
       store_id = #{storeId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
-      goods_classes_id = #{goodsClassesId,jdbcType=INTEGER},
       thumb = #{thumb,jdbcType=VARCHAR},
       result_picture = #{resultPicture,jdbcType=VARCHAR},
       detail_pictures = #{detailPictures,jdbcType=VARCHAR},
@@ -274,9 +263,6 @@
       </if>
       <if test="name != null">
         and name = #{name,jdbcType=VARCHAR}
-      </if>
-      <if test="goodsClassesId != null">
-        and goods_classes_id = #{goodsClassesId,jdbcType=INTEGER}
       </if>
       <if test="thumb != null">
         and thumb = #{thumb,jdbcType=VARCHAR}

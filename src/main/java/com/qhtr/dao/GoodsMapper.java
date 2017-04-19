@@ -44,5 +44,12 @@ public interface GoodsMapper {
 	 * @return
 	 */
 	List<Goods> selectListByStoreAndType(Map<String,String> map);
+	/**
+	 * 活动商品列表
+	 * @param storeId
+	 * @param activityId
+	 * @return
+	 */
+	List<Goods> getActivityGoods(Map<String,Integer> map);
     
 }

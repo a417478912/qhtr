@@ -7,11 +7,15 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.app.dto.GoodsDto;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.AttrMapper;
+import com.qhtr.dao.GoodsClassesMapper;
 import com.qhtr.dao.GoodsMapper;
 import com.qhtr.dao.SkuMapper;
 import com.qhtr.model.Attr;
@@ -26,6 +30,8 @@ import com.sell.param.GoodsParam;
 public class GoodsServiceImpl implements GoodsService {
 	@Resource
 	private GoodsMapper goodsMapper;
+	@Resource
+	private GoodsClassesMapper goodsClassesMapper;
 	@Resource
 	private AttrMapper attrMapper;
 	@Resource
@@ -70,21 +76,39 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public int add(GoodsParam goodsParam) {
+	public int add(String goodsParam) {
+		JSONObject obj = JSONObject.parseObject(goodsParam);
 		Goods goods = new Goods();
 		goods.setCreateTime(new Date());
 		goods.setCollectNum(0);
-		goods.setDetails(goodsParam.getDescript());
-		goods.setGoodsClassesId(goodsParam.getGoodsClassId());
-		goods.setGoodsCode(GenerationUtils.getGenerationCode("GOODS", goodsParam.getStoreId()+""));
-		goods.setName(goodsParam.getName());
+		goods.setDetails(obj.getString("descript"));
+	
+		goods.setGoodsCode(GenerationUtils.getGenerationCode("GOODS", obj.getString("StoreId")));
+		goods.setName(obj.getString("name"));
 		goods.setSellNum(0);
 		goods.setStatus(1);
-		goods.setStoreId(goodsParam.getStoreId());
-		goods.setThumb(goodsParam.getPicture());
+		goods.setStoreId(Integer.parseInt(obj.getString("StoreId")));
+		goods.setDetailPictures(obj.getString("detail_pictures"));
+		goods.setThumb(obj.getString("thumb"));
+		goods.setResultPicture(obj.getString("resultPicture"));
 		goodsMapper.insert(goods);
 		
-		List<Sku> skus = goodsParam.getSkus();
+		
+		
+		//商品分类
+		String classStr = obj.getString("classId");
+		if(StringUtils.isNotBlank(classStr)){
+			for (String s : classStr.split(",")) {
+				Map<String,Integer> map = new HashMap<String,Integer>();
+				map.put("goodsId", goods.getId());
+				map.put("classId", Integer.parseInt(s));
+				goodsClassesMapper.insertGoodsMidGoodsClass(map);
+			}
+		}
+		
+		//sku
+		String skuStr = obj.getString("sku");
+		List<Sku> skus = JSONArray.parseArray(skuStr,Sku.class);
 		for (Sku sku : skus) {
 			sku.setGoodsId(goods.getId());
 			skuService.insert(sku);
@@ -108,29 +132,47 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public int update(GoodsParam goodsParam) {
-		Goods goods = goodsMapper.selectByPrimaryKey(goodsParam.getId());
-		goods.setDetails(goodsParam.getDescript());
-		goods.setGoodsClassesId(goodsParam.getGoodsClassId());
-		goods.setGoodsCode(GenerationUtils.getGenerationCode("GOODS", goodsParam.getStoreId()+""));
-		goods.setName(goodsParam.getName());
-		goods.setStoreId(goodsParam.getStoreId());
-		goods.setThumb(goodsParam.getPicture());
-		if(goodsParam.getStatus() != 0){
-			goods.setStatus(goodsParam.getStatus());
-		}
+	public int update(String goodsParam) {
+		JSONObject obj = JSONObject.parseObject(goodsParam);
+		Goods goods = goodsMapper.selectByPrimaryKey(Integer.parseInt(obj.getString("id")));
+		
+		goods.setDetails(obj.getString("descript"));
+	
+		goods.setGoodsCode(GenerationUtils.getGenerationCode("GOODS", obj.getString("StoreId")));
+		goods.setName(obj.getString("name"));
+		goods.setStoreId(Integer.parseInt(obj.getString("StoreId")));
+		goods.setDetailPictures(obj.getString("detail_pictures"));
+		goods.setThumb(obj.getString("thumb"));
+		goods.setResultPicture(obj.getString("resultPicture"));
 		goodsMapper.updateByPrimaryKey(goods);
 		
-		List<Sku> skus = goodsParam.getSkus();
+		
+		
+		//商品分类  (需要删除之前的分类关联)
+		goodsClassesMapper.deleteFromMidByGoodsId(Integer.parseInt(obj.getString("id")));
+		
+		String classStr = obj.getString("classId");
+		if(StringUtils.isNotBlank(classStr)){
+			for (String s : classStr.split(",")) {
+				Map<String,Integer> map = new HashMap<String,Integer>();
+				map.put("goodsId", goods.getId());
+				map.put("classId", Integer.parseInt(s));
+				goodsClassesMapper.insertGoodsMidGoodsClass(map);
+			}
+		}
+		
+		//sku
+		String skuStr = obj.getString("sku");
+		List<Sku> skus = JSONArray.parseArray(skuStr, Sku.class);
 		for (Sku sku : skus) {
-			if (sku.getId() == 0) {
+			if (sku.getId() != 0) {
 				sku.setGoodsId(goods.getId());
 				skuService.insert(sku);
 			} else {
 				skuService.update(sku);
 			}
 		}
-		return 0;
+		return 1;
 	}
 
 	@Override

@@ -115,10 +115,6 @@ public class StoreController {
 			j.setMessage("参数错误!");
 		}
 		if(result == 1){
-			/*Map<String,Integer> map = new HashMap<String,Integer>();
-			map.put("storeId", store.getId());
-			j.setData(map);*/
-			j.setData(store);
 			j.setMessage("修改成功!");
 		}else{
 			j.setCode(0);
@@ -131,12 +127,21 @@ public class StoreController {
 	@ResponseBody
 	@RequestMapping(value="/getStore")
 	public Json getStore(Json j,String phone,Integer id){
+		if(phone == null && id == null){
+			j.setCode(0);
+			j.setMessage("参数错误!");
+			return j;
+		}
 		Store storeTem = new Store();
 		storeTem.setPhone(phone);
 		storeTem.setId(id);
 		Store store = storeService.getStoreByIdOrPhone(storeTem);
-		store.setPassword(null);
-		j.setData(store);
+		if(store!=null){
+			store.setPassword(null);
+			j.setData(store);
+		}else{
+			j.setMessage("没有查到信息!");
+		}
 		return j;
 	}
 }

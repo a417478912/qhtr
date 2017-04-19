@@ -13,6 +13,8 @@ public class Sku {
 
     private Integer stock;
 
+    private Integer status;
+
     public Integer getId() {
         return id;
     }
@@ -59,5 +61,13 @@ public class Sku {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

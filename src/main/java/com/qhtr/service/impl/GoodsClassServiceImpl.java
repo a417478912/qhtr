@@ -1,12 +1,15 @@
 package com.qhtr.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.qhtr.dao.GoodsClassesMapper;
+import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
 import com.qhtr.service.GoodsClassService;
 import com.sell.dto.GoodsClassesDto;
@@ -50,6 +53,14 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 	@Override
 	public List<GoodsClassesDto> selectListByStoreId(int storeId) {
 		return goodsClassesMapper.selectByConditions1(storeId);
+	}
+
+	@Override
+	public List<Map<String,Object>> getGoodsByClass(int storeId, int classId) {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("storeId", storeId);
+		map.put("classId", classId);
+		return goodsClassesMapper.getGoodsByClass(map);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.qhtr.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
@@ -28,6 +29,12 @@ public interface GoodsClassesMapper {
      */
 	int deleteFromMidByClassId(int id);
 	/**
+	 * 中间表中删除商品为id的 数据
+	 * @param id
+	 * @return
+	 */
+	int deleteFromMidByGoodsId(int id);
+	/**
 	 * 条件查找
 	 * @param gs
 	 * @return
@@ -39,4 +46,17 @@ public interface GoodsClassesMapper {
 	 * @return
 	 */
 	List<GoodsClassesDto> selectByConditions1(int storeId);
+	/**
+	 * 通过商铺和分类查找商品
+	 * @param map
+	 * @return
+	 */
+	List<Map<String,Object>> getGoodsByClass(Map<String, Integer> map);
+	/**
+	 * 向商品和分类中间表中插入一个
+	 * @param id
+	 * @param parseInt
+	 * @return
+	 */
+	int insertGoodsMidGoodsClass(Map<String,Integer> map);
 }

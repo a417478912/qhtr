@@ -96,6 +96,14 @@
     where goods_classes_id = #{id,jdbcType=INTEGER}
   </delete>
   
+  <!-- 中间表中删除商品为id的数据 -->
+  <delete id="deleteFromMidByGoodsId" parameterType="java.lang.Integer" >
+    delete from goods_mid_goods_classes
+    where goods_id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+
+  
 	<!-- 条件查找          selectByConditions  -->                    
 	<select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.GoodsClasses" >
     select 
@@ -128,6 +136,20 @@
 	GROUP BY c.id
     order by c.sort desc
   	</select>
-	
   	
+	<!-- 条件查找(查询出来的结果带商品数量)            -->                    
+	<select id="getGoodsByClass" resultType="java.util.Map" parameterType="java.util.Map" >
+	SELECT g.id id,g.thumb thumb,g.name name
+	from goods_goods g,goods_mid_goods_classes c
+	WHERE g.id = c.goods_id
+	AND g.store_id = #{storeId,jdbcType=INTEGER}
+	AND c.goods_classes_id = #{classId,jdbcType=INTEGER}
+	GROUP BY c.id
+  	</select>
+	
+	<!-- 添加商品和分类中间表的数据 -->
+  	 <insert id="insertGoodsMidGoodsClass" parameterType="java.util.Map">
+    insert into goods_mid_goods_classes (id, goods_id, goods_classes_id)
+    values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER})
+  	</insert>
 </mapper>

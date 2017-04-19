@@ -8,9 +8,10 @@
     <result column="attr_details" property="attrDetails" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_id, attr_value, attr_details, price, stock
+    id, goods_id, attr_value, attr_details, price, stock, status
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,11 +25,11 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Sku" >
     insert into goods_sku (id, goods_id, attr_value, 
-      attr_details, price, stock
-      )
+      attr_details, price, stock, 
+      status)
     values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{attrValue,jdbcType=VARCHAR}, 
-      #{attrDetails,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}
-      )
+      #{attrDetails,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, 
+      #{status,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Sku" >
     insert into goods_sku
@@ -51,6 +52,9 @@
       <if test="stock != null" >
         stock,
       </if>
+      <if test="status != null" >
+        status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -70,6 +74,9 @@
       </if>
       <if test="stock != null" >
         #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -91,6 +98,9 @@
       <if test="stock != null" >
         stock = #{stock,jdbcType=INTEGER},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -100,11 +110,11 @@
       attr_value = #{attrValue,jdbcType=VARCHAR},
       attr_details = #{attrDetails,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
-      stock = #{stock,jdbcType=INTEGER}
+      stock = #{stock,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  
-  
+
    <!-- 自定义方法 -->
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Sku" >
     select 
