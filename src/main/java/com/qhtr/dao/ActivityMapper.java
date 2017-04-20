@@ -30,10 +30,16 @@ public interface ActivityMapper {
 	 */
 	List<Goods> selectByStoreIdAndModelId(Map<String,String> map);
 	/**
-	 * 通过商铺id 和 活动模版id 删除活动
+	 * 删除  通过 商铺id 和 活动模版id 商品活动
 	 * @param storeId
 	 * @param modelId
 	 * @return
 	 */
-	List<Activity> deleteByStroeIdAndModelId(Map<String, String> map);
+	int deleteByStroeIdAndModelId(Map<String, Integer> map);
+	/**
+	 * 查询不在此活动中的商品
+	 * @param map
+	 * @return
+	 */
+	List<Goods> selectByStoreIdAndModelIdExcept(Map<String, String> map);
 }

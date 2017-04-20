@@ -3,7 +3,6 @@ package com.qhtr.service;
 import java.util.List;
 import java.util.Map;
 
-import com.qhtr.model.Goods;
 import com.sell.dto.GoodsClassesDto;
 
 public interface GoodsClassService {
@@ -22,4 +21,13 @@ public interface GoodsClassService {
 	 * @return
 	 */
 	List<Map<String,Object>> getGoodsByClass(int storeId, int classId);
+	/**
+	 * 查找不在分类中的商品
+	 * @param storeId
+	 * @param classId
+	 * @return
+	 */
+	List<Map<String, Object>> getGoodsByClassExcept(int storeId, int classId);
+
+	int addGoodsByClass(int[] goodsIds, int classId);
 }

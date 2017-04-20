@@ -27,4 +27,11 @@ public class SkuServiceImpl implements SkuService {
 		return skuMapper.updateByPrimaryKey(sku);
 	}
 
+	@Override
+	public int delete(int skuId) {
+		Sku sku = skuMapper.selectByPrimaryKey(skuId);
+		sku.setStatus(2);
+		return skuMapper.updateByPrimaryKey(sku);
+	}
+
 }

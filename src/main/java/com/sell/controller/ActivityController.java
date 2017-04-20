@@ -71,4 +71,19 @@ public class ActivityController {
 		return j;
 	}
 	
+	/**
+	 * 查询不在此活动中的商品列表
+	 * @param j
+	 * @param goodsIds
+	 * @param storeId
+	 * @param modelId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getGoodsListExcept")
+	public Json getGoodsListExcept(Json j,@RequestParam int storeId,@RequestParam int modelId){
+		List<Goods> goodsList = activityService.selectByStoreIdAndModelIdExcept(storeId, modelId);
+		j.setData(goodsList);
+		return j;
+	}
 }

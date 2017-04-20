@@ -152,7 +152,16 @@
   and a.store_id = #{storeId,jdbcType=INTEGER}
   </select>
   
-  <!-- 通过商铺id 和 活动模版id 查找活动 -->
+  <!-- 通过商铺id 和 活动模版id 查找不在此活动中商品 -->
+  <select id="selectByStoreIdAndModelIdExcept" resultMap="BaseResultMap1" parameterType="java.util.Map">
+  select g.*
+  from activity a,goods_goods g
+  where a.goods_id = g.id
+  a.model_id != #{modelId,jdbcType=INTEGER} 
+  and a.store_id = #{storeId,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 删除活动关联-->
   <delete id="deleteByStroeIdAndModelId" parameterType="java.util.Map">
   delete from activity
   where model_id = #{modelId,jdbcType=INTEGER} 

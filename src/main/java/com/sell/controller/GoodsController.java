@@ -14,6 +14,7 @@ import com.app.dto.GoodsDto;
 import com.qhtr.common.Json;
 import com.qhtr.model.Goods;
 import com.qhtr.service.GoodsService;
+import com.qhtr.service.SkuService;
 import com.sell.param.GoodsParam;
 
 @Controller
@@ -21,6 +22,8 @@ import com.sell.param.GoodsParam;
 public class GoodsController {
 	@Resource
 	public GoodsService goodsService;
+	@Resource
+	public SkuService skuService;
 	
 	/**
 	 * 添加商品
@@ -123,6 +126,22 @@ public class GoodsController {
 	@RequestMapping(value="/toTop")
 	public Json toTop(Json j,@RequestParam int goodsId){
 		int result = goodsService.toTop(goodsId);
+		if(result == 1){
+			j.setMessage("成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 删除sku
+	 */
+	@ResponseBody
+	@RequestMapping(value="/deleteSku")
+	public Json deleteSku(Json j,@RequestParam int skuId){
+		int result = skuService.delete(skuId);
 		if(result == 1){
 			j.setMessage("成功!");
 		}else{

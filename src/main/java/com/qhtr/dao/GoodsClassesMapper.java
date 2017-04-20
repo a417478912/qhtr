@@ -59,4 +59,10 @@ public interface GoodsClassesMapper {
 	 * @return
 	 */
 	int insertGoodsMidGoodsClass(Map<String,Integer> map);
+	/**
+	 * 查找除了此分类的商品
+	 * @param map
+	 * @return
+	 */
+	List<Map<String, Object>> getGoodsByClassExcept(Map<String, Integer> map);
 }

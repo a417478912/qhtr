@@ -63,4 +63,26 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 		return goodsClassesMapper.getGoodsByClass(map);
 	}
 
+	@Override
+	public List<Map<String, Object>> getGoodsByClassExcept(int storeId, int classId) {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("storeId", storeId);
+		map.put("classId", classId);
+		return goodsClassesMapper.getGoodsByClassExcept(map);
+	}
+
+	@Override
+	public int addGoodsByClass(int[] goodsIds, int classId) {
+		goodsClassesMapper.deleteFromMidByClassId(classId);
+		for (int i : goodsIds) {
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("storeId", i);
+			map.put("classId", classId);
+			int result = goodsClassesMapper.insertGoodsMidGoodsClass(map);
+			if(result == 0)
+				return 0;
+		}
+		return 1;
+	}
+
 }

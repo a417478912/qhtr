@@ -10,4 +10,6 @@ public interface SkuService {
 
 	int update(Sku sku);
 
+	int delete(int skuId);
+
 }

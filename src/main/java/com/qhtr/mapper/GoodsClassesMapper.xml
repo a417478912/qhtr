@@ -137,13 +137,23 @@
     order by c.sort desc
   	</select>
   	
-	<!-- 条件查找(查询出来的结果带商品数量)            -->                    
+	<!-- 查找分类中的商品            -->                    
 	<select id="getGoodsByClass" resultType="java.util.Map" parameterType="java.util.Map" >
 	SELECT g.id id,g.thumb thumb,g.name name
 	from goods_goods g,goods_mid_goods_classes c
 	WHERE g.id = c.goods_id
 	AND g.store_id = #{storeId,jdbcType=INTEGER}
 	AND c.goods_classes_id = #{classId,jdbcType=INTEGER}
+	GROUP BY c.id
+  	</select>
+  	
+	<!-- 查找不在此分类中的商品            -->                    
+	<select id="getGoodsByClassExcept" resultType="java.util.Map" parameterType="java.util.Map" >
+	SELECT g.id id,g.thumb thumb,g.name name
+	from goods_goods g,goods_mid_goods_classes c
+	WHERE g.id = c.goods_id
+	AND g.store_id = #{storeId,jdbcType=INTEGER}
+	AND c.goods_classes_id != #{classId,jdbcType=INTEGER}
 	GROUP BY c.id
   	</select>
 	

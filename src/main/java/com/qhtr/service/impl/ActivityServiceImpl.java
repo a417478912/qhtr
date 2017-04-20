@@ -43,10 +43,13 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public int addGoods(int[] goodsIds, int storeId, int modelId) {
-		Map<String,String> map = new HashMap<String,String>();
-		map.put("modelId", modelId + "");
-		map.put("storeId", storeId + "");
-		activityMapper.deleteByStroeIdAndModelId(map);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("modelId", modelId);
+		map.put("storeId", storeId);
+		int result = activityMapper.deleteByStroeIdAndModelId(map);
+		if(result == 0){
+			return 0;
+		}
 		
 		for (int gId : goodsIds) {
 			Activity activity = new Activity();
@@ -54,11 +57,13 @@ public class ActivityServiceImpl implements ActivityService {
 			activity.setGoodsId(gId);
 			activity.setStoreId(storeId);
 			activity.setModelId(modelId);
-			activityMapper.insert(activity);
+			int result1 = activityMapper.insert(activity);
+			if(result1 == 0){
+				return 0;
+			}
 		}
 		return 1;
 	}
-
 	@Override
 	public List<Goods> selectByStoreIdAndModelId(int storeId, int modelId) {
 		Map<String,String> map = new HashMap<String,String>();
@@ -66,5 +71,12 @@ public class ActivityServiceImpl implements ActivityService {
 		map.put("storeId", storeId + "");
 		return activityMapper.selectByStoreIdAndModelId(map);
 	}
-	
+
+	@Override
+	public List<Goods> selectByStoreIdAndModelIdExcept(int storeId, int modelId) {
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("modelId", modelId + "");
+		map.put("storeId", storeId + "");
+		return activityMapper.selectByStoreIdAndModelIdExcept(map);
+	}
 }

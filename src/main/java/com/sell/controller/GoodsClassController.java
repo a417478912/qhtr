@@ -96,4 +96,31 @@ public class GoodsClassController {
 		j.setData(list);
 		return j;
 	}
+	
+	/**
+	 * 通过分类查询(不在分类中的)商品
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getGoodsByClassExcept")
+	public Json getGoodsByClassExcept(Json j,@RequestParam int storeId,@RequestParam int classId){
+		List<Map<String,Object>> list = goodsClassService.getGoodsByClassExcept(storeId,classId);
+		j.setData(list);
+		return j;
+	}
+	
+	/**
+	 * 分类编辑商品/增加商品
+	 */
+	@ResponseBody
+	@RequestMapping(value="/addGoodsByClass")
+	public Json addGoodsByClass(Json j,@RequestParam int[] goodsIds,@RequestParam int classId){
+		int result = goodsClassService.addGoodsByClass(goodsIds,classId);
+		if(result == 0){
+			j.setCode(0);
+			j.setMessage("更新失败!");
+		}else{
+			j.setMessage("更新成功!");
+		}
+		return j;
+	}
 }
