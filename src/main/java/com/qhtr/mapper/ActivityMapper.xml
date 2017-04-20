@@ -147,7 +147,7 @@
   <select id="selectByStoreIdAndModelId" resultMap="BaseResultMap1" parameterType="java.util.Map">
   select g.*
   from activity a,goods_goods g
-  where a.goods_id = g.id
+  where a.goods_id = g.id and
   a.model_id = #{modelId,jdbcType=INTEGER} 
   and a.store_id = #{storeId,jdbcType=INTEGER}
   </select>

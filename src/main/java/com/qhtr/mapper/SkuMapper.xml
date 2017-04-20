@@ -139,6 +139,7 @@
       <if test="stock != null" >
         and stock = #{stock,jdbcType=INTEGER}
       </if>
+      and status = 1
     </where>
   </select>
 </mapper>

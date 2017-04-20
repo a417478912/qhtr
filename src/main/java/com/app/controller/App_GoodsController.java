@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.app.dto.GoodsDto;
 import com.qhtr.common.Json;
 import com.qhtr.model.Goods;
+import com.qhtr.service.ActivityService;
 import com.qhtr.service.GoodsService;
 
 @Controller
@@ -19,6 +20,8 @@ import com.qhtr.service.GoodsService;
 public class App_GoodsController {
 	@Resource
 	private GoodsService goodsService;
+	@Resource
+	private ActivityService activityService;
 	
 	/**
 	 * 通过商品id  获取商品详情
@@ -37,6 +40,23 @@ public class App_GoodsController {
 		}
 		return j;
 	}
+	
+	/**
+	 * 查询活动商品  selectByStoreIdAndModelId
+	 */
+	@ResponseBody
+	@RequestMapping(value="/selectByStoreIdAndModelId")
+	public Json selectByStoreIdAndModelId(Json j,@RequestParam int storeId,@RequestParam int modelId){
+		List<Goods> list = activityService.selectByStoreIdAndModelId(storeId,modelId);
+		if(list != null){
+			j.setData(list);
+		}else{
+			j.setCode(0);
+		}
+		return j;
+	}
+	
+	
 	
 	/**
 	 * 通过商铺id  获取商品列表

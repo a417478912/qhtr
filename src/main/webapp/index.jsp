@@ -42,18 +42,20 @@
 <script>
 $(function(){
 	var ajaxData = {
+			id: 20,
 			storeId: 19,
 			descript:"简介简介简介简介简介简介简介简介",
-			name:"商品名称",
-			detail_pictures:"http://www.xiaoguang.com/image-1.jpg,http://www.xiaoguang.com/image-2.jpg",
+			name:"商品名称xxxx",
+			detail_pictures:"http://www.xiaoguang.com/image-1xxx.jpg,http://www.xiaoguang.com/image-2xxx.jpg",
 			thumb:"http://www.xiaoguang.com/thumb.jpg",
 			resultPicture:"http://www.xiaoguang.com/result.jpg",
 			classId:"1,2",
-			sku:'[{"name":"红色","stock":"30","price":28},{"name":"白色","stock":"55","price":35},{"name":"黑色","stock":"88","price":42.5}]',
+			sku:'[{"id":"39","attrDetails":"红色","stock":"33","price":28},{"id":"40","attrDetails":"白色","stock":"88","price":35},{"id":"41","attrDetails":"黑色","stock":"99","price":42.5}]',
 			activityId:"1,2"
 		}
+
 		$.ajax({
-	        url: "${rootPath}sell_goods/addGoods.do?userId=1",
+	        url: "${rootPath}sell_goods/updateGoods.do?userId=1",
 	        type: "POST",
 	        dataType:"json",
 	        data: ajaxData,    //将Json对象序列化成Json字符串，JSON.stringify()原生态方法
