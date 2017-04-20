@@ -86,11 +86,11 @@
   </filter-mapping>
   <display-name>qhtr</display-name>
   <welcome-file-list>
-    <welcome-file>index/index.html</welcome-file>
-    <welcome-file>index/index.htm</welcome-file>
-    <welcome-file>index/index.jsp</welcome-file>
-    <welcome-file>index/default.html</welcome-file>
-    <welcome-file>index/default.htm</welcome-file>
-    <welcome-file>index/default.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
 </web-app>
