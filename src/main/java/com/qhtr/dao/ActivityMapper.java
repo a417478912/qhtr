@@ -42,4 +42,16 @@ public interface ActivityMapper {
 	 * @return
 	 */
 	List<Goods> selectByStoreIdAndModelIdExcept(Map<String, String> map);
+	/**
+	 * 删除活动商品
+	 * @param map
+	 * @return
+	 */
+	int deleteGoods(Map<String, Integer> map);
+	/**
+	 * 通过商品id查找活动
+	 * @param goodsId
+	 * @return
+	 */
+	List<Map<String,Object>> selectByGoodsId(int goodsId);
 }

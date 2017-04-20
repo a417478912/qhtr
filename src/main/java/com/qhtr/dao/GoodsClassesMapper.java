@@ -65,4 +65,16 @@ public interface GoodsClassesMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> getGoodsByClassExcept(Map<String, Integer> map);
+	/**
+	 * 从分类中删除商品
+	 * @param map goodsId,classId
+	 * @return
+	 */
+	int deleteGoodsByClass(Map<String, Integer> map);
+	/**
+	 * 查询商品分类
+	 * @param goodsId
+	 * @return
+	 */
+	List<GoodsClasses> selectClassByGoodsId(int goodsId);
 }

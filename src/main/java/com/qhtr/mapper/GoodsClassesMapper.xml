@@ -162,4 +162,18 @@
     insert into goods_mid_goods_classes (id, goods_id, goods_classes_id)
     values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER})
   	</insert>
+  	
+  	<!-- 从分类中删除商品 -->
+  	<delete id="deleteGoodsByClass" parameterType="java.util.Map" >
+    delete from goods_mid_goods_classes
+    where goods_id = #{goodsId,jdbcType=INTEGER} and goods_classes_id = #{classId,jdbcType=INTEGER}
+  </delete>
+  
+  <!-- 查找商品分类信息 -->                    
+	<select id="selectClassByGoodsId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	SELECT c.*
+	from goods_mid_goods_classes m,goods_goods_classes c
+	where m.goods_classes_id = c.id and m.goods_id = #{goodsId,jdbcType=INTEGER}
+	WHERE goods_id = #{goodsId,jdbcType=INTEGER}
+  	</select>
 </mapper>

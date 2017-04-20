@@ -5,21 +5,23 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.qhtr.dto.StoreDto;
 import com.qhtr.model.Store;
 
 public interface StoreService {
 	/**
-	 * 通过商铺id查找商铺
+	 * 通过商铺id或者手机号查找商铺(卖家版)
 	 * @param storeId
 	 * @return
 	 */
-	Store getStoreByIdOrPhone(Store store);
+	StoreDto getStoreByIdOrPhone(Store store);
+	
 	/**
-	 * 通过卖家id  查找商铺
-	 * @param sellerId
+	 * 通过商铺id查找店铺（买家）
+	 * @param id
 	 * @return
 	 */
-	Store getStoreBySellerId(Integer sellerId);
+	public StoreDto getStoreById(int id);
 	/**
 	 * 根据经纬度，返回商铺信息
 	 * @param location 经纬度

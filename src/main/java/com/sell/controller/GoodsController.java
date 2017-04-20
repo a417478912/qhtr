@@ -1,6 +1,8 @@
 package com.sell.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -33,9 +35,12 @@ public class GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/addGoods")
-	public Json addGoods(Json j, @RequestBody String goods) {
+	public Json addGoods(Json j,GoodsParam goods) {
 		int result = goodsService.add(goods);
-		if (result == 1) {
+		if (result != 0) {
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("goodsId", result);
+			j.setData(map);
 			j.setMessage("商品添加成功!");
 		} else {
 			j.setCode(0);
@@ -73,9 +78,10 @@ public class GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/updateGoods")
-	public Json updateGoods(Json j, String goodsParam) {
+	public Json updateGoods(Json j, GoodsParam goodsParam) {
 		int result = goodsService.update(goodsParam);
 		if (result == 1) {
+			j.setData(result);
 			j.setMessage("商品修改成功!");
 		} else {
 			j.setCode(0);

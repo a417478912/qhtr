@@ -56,6 +56,27 @@ public class ActivityController {
 	}
 	
 	/**
+	 * 删除活动商品
+	 * @param j
+	 * @param goodsIds
+	 * @param storeId
+	 * @param modelId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/deleteGoods")
+	public Json deleteGoods(Json j,@RequestParam int goodsIds,@RequestParam int modelId){
+		int result = activityService.deleteGoods(goodsIds,modelId);
+		if(result == 1){
+			j.setMessage("成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("失败!");
+		}
+		return j;
+	}
+	
+	/**
 	 * 查询活动商品列表
 	 * @param j
 	 * @param goodsIds

@@ -167,4 +167,18 @@
   where model_id = #{modelId,jdbcType=INTEGER} 
   and store_id = #{storeId,jdbcType=INTEGER}
   </delete>
+  
+  <!-- 通过商品id查找活动-->
+  <select id="selectByGoodsId" resultType="java.util.Map" parameterType="java.lang.Integer">
+  select m.*
+  from activity a,activity_model m
+  where a.model_id = m.id
+  and a.goodsId = #{goodsId,jdbcType=INTEGER}
+  </select>
+  
+  
+  <delete id="deleteGoods" parameterType="java.util.Map" >
+    delete from activity
+    where goods_id = #{goodsId,jdbcType=INTEGER} and model_id = #{modelId,jdbcType=INTEGER}
+  </delete>
 </mapper>

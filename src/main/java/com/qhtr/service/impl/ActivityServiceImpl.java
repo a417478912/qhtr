@@ -43,14 +43,6 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public int addGoods(int[] goodsIds, int storeId, int modelId) {
-		Map<String,Integer> map = new HashMap<String,Integer>();
-		map.put("modelId", modelId);
-		map.put("storeId", storeId);
-		int result = activityMapper.deleteByStroeIdAndModelId(map);
-		if(result == 0){
-			return 0;
-		}
-		
 		for (int gId : goodsIds) {
 			Activity activity = new Activity();
 			activity.setCreateTime(new Date());
@@ -78,5 +70,13 @@ public class ActivityServiceImpl implements ActivityService {
 		map.put("modelId", modelId + "");
 		map.put("storeId", storeId + "");
 		return activityMapper.selectByStoreIdAndModelIdExcept(map);
+	}
+
+	@Override
+	public int deleteGoods(int goodsIds, int modelId) {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("modelId", modelId);
+		map.put("goodsId", goodsIds);
+		return activityMapper.deleteGoods(map);
 	}
 }

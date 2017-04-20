@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
+import com.qhtr.dto.StoreDto;
+import com.qhtr.model.Store;
 import com.qhtr.service.StoreService;
 
 @Controller
@@ -31,6 +33,22 @@ public class App_StoreController {
 	public Json getStoresByDistance(Json j,@RequestParam String longitude,@RequestParam String latitude,@RequestParam(defaultValue="1000")String accuracy){
 		List<Map<String,Object>> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
 		j.setData(stores);
+		return j;
+	}
+	
+	/**
+	 * 通过id获取店铺信息
+	 * @param j
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getStoreById")
+	public Json getStoreById(Json j,@RequestParam int id){
+		Store storeTem = new Store();
+		storeTem.setId(id);
+		StoreDto dto = storeService.getStoreById(id);
+		j.setData(dto);
 		return j;
 	}
 }

@@ -73,7 +73,6 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 
 	@Override
 	public int addGoodsByClass(int[] goodsIds, int classId) {
-		goodsClassesMapper.deleteFromMidByClassId(classId);
 		for (int i : goodsIds) {
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("storeId", i);
@@ -83,6 +82,14 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 				return 0;
 		}
 		return 1;
+	}
+
+	@Override
+	public int deleteGoodsByClass(int goodsIds, int classId) {
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("goodsIds", goodsIds);
+		map.put("classId", classId);
+		return goodsClassesMapper.deleteGoodsByClass(map);
 	}
 
 }

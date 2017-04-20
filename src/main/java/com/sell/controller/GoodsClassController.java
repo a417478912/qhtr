@@ -123,4 +123,20 @@ public class GoodsClassController {
 		}
 		return j;
 	}
+	
+	/**
+	 * 分类删除商品
+	 */
+	@ResponseBody
+	@RequestMapping(value="/deleteGoodsByClass")
+	public Json deleteGoodsByClass(Json j,@RequestParam int goodsIds,@RequestParam int classId){
+		int result = goodsClassService.deleteGoodsByClass(goodsIds,classId);
+		if(result == 0){
+			j.setCode(0);
+			j.setMessage("删除失败!");
+		}else{
+			j.setMessage("删除成功!");
+		}
+		return j;
+	}
 }

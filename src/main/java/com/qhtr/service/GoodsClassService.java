@@ -30,4 +30,11 @@ public interface GoodsClassService {
 	List<Map<String, Object>> getGoodsByClassExcept(int storeId, int classId);
 
 	int addGoodsByClass(int[] goodsIds, int classId);
+	/**
+	 * 从分类中删除商品
+	 * @param goodsIds
+	 * @param classId
+	 * @return
+	 */
+	int deleteGoodsByClass(int goodsIds, int classId);
 }

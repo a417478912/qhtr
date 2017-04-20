@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
+import com.qhtr.dto.StoreDto;
 import com.qhtr.model.Store;
 import com.qhtr.service.StoreService;
 
@@ -135,10 +136,9 @@ public class StoreController {
 		Store storeTem = new Store();
 		storeTem.setPhone(phone);
 		storeTem.setId(id);
-		Store store = storeService.getStoreByIdOrPhone(storeTem);
-		if(store!=null){
-			store.setPassword(null);
-			j.setData(store);
+		StoreDto dto = storeService.getStoreByIdOrPhone(storeTem);
+		if(dto!=null){
+			j.setData(dto);
 		}else{
 			j.setMessage("没有查到信息!");
 		}

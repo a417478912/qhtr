@@ -1,36 +1,22 @@
 package com.sell.param;
 
-import java.util.List;
-
-import com.qhtr.model.Sku;
 
 public class GoodsParam {
 	public int id;
-	public int storeId;
-	public String picture;
-	public String name;
-	public List<Sku> skus;
 	public String descript;
-	public int goodsClassId;
-	public int[] activity;
-	public int status;
-	public String getPicture() {
-		return picture;
+	public int storeId;
+	public String name;
+	public String detail_pictures;
+	public String thumb;
+	public String resultPicture;
+	public int[] classId;
+	public String sku; 
+	public int[] activityId;
+	public int getId() {
+		return id;
 	}
-	public void setPicture(String picture) {
-		this.picture = picture;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public List<Sku> getSkus() {
-		return skus;
-	}
-	public void setSkus(List<Sku> skus) {
-		this.skus = skus;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getDescript() {
 		return descript;
@@ -38,35 +24,52 @@ public class GoodsParam {
 	public void setDescript(String descript) {
 		this.descript = descript;
 	}
-	public int getGoodsClassId() {
-		return goodsClassId;
-	}
-	public void setGoodsClassId(int goodsClassId) {
-		this.goodsClassId = goodsClassId;
-	}
-	public int[] getActivity() {
-		return activity;
-	}
-	public void setActivity(int[] activity) {
-		this.activity = activity;
-	}
 	public int getStoreId() {
 		return storeId;
 	}
 	public void setStoreId(int storeId) {
 		this.storeId = storeId;
 	}
-	public int getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public int getStatus() {
-		return status;
+	public String getDetail_pictures() {
+		return detail_pictures;
 	}
-	public void setStatus(int status) {
-		this.status = status;
+	public void setDetail_pictures(String detail_pictures) {
+		this.detail_pictures = detail_pictures;
 	}
-	
+	public String getThumb() {
+		return thumb;
+	}
+	public void setThumb(String thumb) {
+		this.thumb = thumb;
+	}
+	public String getResultPicture() {
+		return resultPicture;
+	}
+	public void setResultPicture(String resultPicture) {
+		this.resultPicture = resultPicture;
+	}
+	public int[] getClassId() {
+		return classId;
+	}
+	public void setClassId(int[] classId) {
+		this.classId = classId;
+	}
+	public int[] getActivityId() {
+		return activityId;
+	}
+	public void setActivityId(int[] activityId) {
+		this.activityId = activityId;
+	}
+	public String getSku() {
+		return sku;
+	}
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
 }

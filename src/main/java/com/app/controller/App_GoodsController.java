@@ -21,24 +21,6 @@ public class App_GoodsController {
 	private GoodsService goodsService;
 	
 	/**
-	 * 通过卖家id获取商品信息
-	 * @param j
-	 * @param sellerId
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/selectGoodsBySellerId")
-	public Json selectGoodsBySellerId(Json j,@RequestParam int storeId,@RequestParam(defaultValue="1") int type){
-		List<Goods> goods = goodsService.selectListByStoreAndType(storeId,type);
-		if(goods != null){
-			j.setData(goods);
-		}else{
-			j.setCode(0);
-		}
-		return j;
-	}
-	
-	/**
 	 * 通过商品id  获取商品详情
 	 * @param j
 	 * @param goodsId
@@ -50,6 +32,24 @@ public class App_GoodsController {
 		GoodsDto dto = goodsService.selectGoodsByGoodsId(goodsId);
 		if(dto != null){
 			j.setData(dto);
+		}else{
+			j.setCode(0);
+		}
+		return j;
+	}
+	
+	/**
+	 * 通过商铺id  获取商品列表
+	 * @param j
+	 * @param goodsId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/selectGoodsBystoreId")
+	public Json selectGoodsBystoreId(Json j,@RequestParam int storeId){
+		List<Goods> list = goodsService.selectListByStoreAndType(storeId,1);
+		if(list != null){
+			j.setData(list);
 		}else{
 			j.setCode(0);
 		}

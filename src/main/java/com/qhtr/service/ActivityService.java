@@ -31,4 +31,11 @@ public interface ActivityService {
 	 * @return
 	 */
 	List<Goods> selectByStoreIdAndModelIdExcept(int storeId, int modelId);
+	/**
+	 * 删除活动商品
+	 * @param goodsIds
+	 * @param modelId
+	 * @return
+	 */
+	int deleteGoods(int goodsIds, int modelId);
 }
