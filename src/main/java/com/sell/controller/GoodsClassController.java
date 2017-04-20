@@ -29,7 +29,7 @@ public class GoodsClassController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/add")
-	public Json add(Json j,@RequestParam String name,@RequestParam int storeId,@RequestParam int type){
+	public Json add(Json j,@RequestParam String name,@RequestParam int storeId){
 		int result = goodsClassService.add(name,storeId);
 		if(result == 1){
 			j.setMessage("添加成功!");

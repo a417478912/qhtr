@@ -173,7 +173,7 @@
   select m.*
   from activity a,activity_model m
   where a.model_id = m.id
-  and a.goodsId = #{goodsId,jdbcType=INTEGER}
+  and a.goods_id = #{goodsId,jdbcType=INTEGER}
   </select>
   
   
