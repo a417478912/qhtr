@@ -77,6 +77,6 @@ public class ActivityServiceImpl implements ActivityService {
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		map.put("modelId", modelId);
 		map.put("goodsId", goodsIds);
-		return activityMapper.deleteGoods(map);
+		return activityMapper.deleteByConditions(map);
 	}
 }

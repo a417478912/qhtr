@@ -9,7 +9,8 @@ public interface SkuService {
 	int insert(Sku sku);
 
 	int update(Sku sku);
-
+	int updateByPrimaryKeySelective(Sku sku);
+	
 	int delete(int skuId);
 
 }

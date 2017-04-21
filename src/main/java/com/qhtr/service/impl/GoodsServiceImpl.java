@@ -164,15 +164,14 @@ public class GoodsServiceImpl implements GoodsService {
 		goods.setThumb(goodsParam.getThumb());
 
 		goodsMapper.updateByPrimaryKeySelective(goods);
-		// 活动分类  需要删除之前的分类关系
+		// 活动分类  需要删除之前的活动关系
+		Map<String,Integer> map1 = new HashMap<String,Integer>();
+		map1.put("goodsId", goodsParam.getStoreId());
+		activityMapper.deleteByConditions(map1);
+		
 		int[] sArr = goodsParam.getActivityId();
 		if (sArr != null) {
 			for (int s1 : sArr) {
-				Map<String,Integer> map1 = new HashMap<String,Integer>();
-				map1.put("storeId", goodsParam.getStoreId());
-				map1.put("modelId", s1);
-				activityMapper.deleteByStroeIdAndModelId(map1);
-				
 				Activity activity = new Activity();
 				activity.setCreateTime(new Date());
 				activity.setGoodsId(goods.getId());
@@ -181,14 +180,14 @@ public class GoodsServiceImpl implements GoodsService {
 				activityMapper.insert(activity);
 			}
 		}
-		int[] cArr = goodsParam.getClassId();
+		
+		
 		// 商品分类  需要删除之前的分类关系
+		goodsClassesMapper.deleteFromMidByGoodsId(goodsParam.getId());
+		
+		int[] cArr = goodsParam.getClassId();
 		if (cArr != null) {
 			for (int s : cArr) {
-				Map<String,Integer> map2 = new HashMap<String,Integer>();
-				map2.put("goodsId", goodsParam.getStoreId());
-				map2.put("classId", s);
-				goodsClassesMapper.deleteGoodsByClass(map2);
 				Map<String, Integer> map = new HashMap<String, Integer>();
 				map.put("goodsId", goods.getId());
 				map.put("classId", s);
@@ -204,7 +203,7 @@ public class GoodsServiceImpl implements GoodsService {
 					sku.setGoodsId(goods.getId());
 					skuService.insert(sku);
 				}else{
-					skuService.update(sku);
+					skuService.updateByPrimaryKeySelective(sku);
 				}
 			}
 		}

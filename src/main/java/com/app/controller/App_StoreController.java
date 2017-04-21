@@ -1,7 +1,6 @@
 package com.app.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -31,7 +30,7 @@ public class App_StoreController {
 	@ResponseBody
 	@RequestMapping(value="/getStoresByDistance")
 	public Json getStoresByDistance(Json j,@RequestParam String longitude,@RequestParam String latitude,@RequestParam(defaultValue="1000")String accuracy){
-		List<Map<String,Object>> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
+		List<StoreDto> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
 		j.setData(stores);
 		return j;
 	}

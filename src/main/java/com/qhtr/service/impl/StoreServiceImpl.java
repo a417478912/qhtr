@@ -56,9 +56,9 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getStoresByDistance(String longitude, String latitude, String distance) {
+	public List<StoreDto> getStoresByDistance(String longitude, String latitude, String distance) {
 		List<Store> allStores = storeMapper.selectByConditions(new Store());
-		List<Map<String, Object>> stores = new ArrayList<Map<String, Object>>();
+		List<StoreDto> stores = new ArrayList<StoreDto>();
 		for (Store store : allStores) {
 			if (store.getLongitudeLatitude() == null) {
 				continue;
@@ -66,46 +66,8 @@ public class StoreServiceImpl implements StoreService {
 			String[] s = store.getLongitudeLatitude().split(",");
 			if (DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]),
 					Double.parseDouble(longitude), Double.parseDouble(latitude)) <= Double.parseDouble(distance)) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("id", store.getId() + "");
-
-				// 行业分类
 				Category category = categoryService.getById(store.getCategoreId());
-				map.put("category", category.getName());
-				map.put("name", store.getName());
-				map.put("phone", store.getPhone());
-				map.put("avatar", store.getAvatar());
-
-				List<PictureDto> picList = new ArrayList<PictureDto>();
-				String bannerStr = store.getPicture1();
-				JSONArray jArray = JSONArray.parseArray(bannerStr);
-				for (int i = 0; i < jArray.size(); i++) {
-					PictureDto picDto = new PictureDto();
-					JSONObject jObj = jArray.getJSONObject(i);
-					Object imageURLObj = jObj.get("imageURL");
-					Object linkObj = jObj.get("link");
-
-					JSONObject link1 = (JSONObject) JSONObject.parse(linkObj.toString());
-					LinkDto linkDto = new LinkDto();
-					linkDto.setId(link1.get("id").toString());
-					linkDto.setType(link1.get("type").toString());
-
-					picDto.setImageURL(imageURLObj.toString());
-					picDto.setLink(linkDto);
-
-					picList.add(picDto);
-				}
-				map.put("bannerPic", picList);
-				map.put("showPic", store.getPicture2());
-				map.put("detail", store.getDetails());
-				map.put("collect_num", store.getCollectNum() + "");
-				map.put("sell_num", store.getSellNum() + "");
-				map.put("location", store.getLocation());
-				map.put("longitude", store.getLongitudeLatitude().split(",")[0]);
-				map.put("latitude", store.getLongitudeLatitude().split(",")[1]);
-				map.put("score", store.getScore());
-				map.put("type", store.getType());
-				stores.add(map);
+				stores.add(new StoreDto(store,category.getName()));
 			}
 		}
 		return stores;

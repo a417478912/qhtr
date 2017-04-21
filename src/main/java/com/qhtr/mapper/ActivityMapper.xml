@@ -161,13 +161,6 @@
   and a.store_id = #{storeId,jdbcType=INTEGER}
   </select>
   
-  <!-- 删除活动关联-->
-  <delete id="deleteByStroeIdAndModelId" parameterType="java.util.Map">
-  delete from activity
-  where model_id = #{modelId,jdbcType=INTEGER} 
-  and store_id = #{storeId,jdbcType=INTEGER}
-  </delete>
-  
   <!-- 通过商品id查找活动-->
   <select id="selectByGoodsId" resultType="java.util.Map" parameterType="java.lang.Integer">
   select m.*
@@ -176,9 +169,22 @@
   and a.goods_id = #{goodsId,jdbcType=INTEGER}
   </select>
   
-  
-  <delete id="deleteGoods" parameterType="java.util.Map" >
-    delete from activity
-    where goods_id = #{goodsId,jdbcType=INTEGER} and model_id = #{modelId,jdbcType=INTEGER}
+ <!-- 	删除活动和商品的关系   goodsId,storeId,modelId-->
+  <delete id="deleteByConditions" parameterType="java.util.Map" >
+  	delete from activity
+  	<where>
+		<if test="1 == 1">
+			1 = 1		
+		</if> 	
+	    <if test="goodsId != null" >
+        and goods_id = #{goodsId,jdbcType=VARCHAR}
+        </if>
+      	<if test="storeId != null" >
+        and store_id = #{storeId,jdbcType=VARCHAR}
+        </if>
+        <if test="modelId != null" >
+        and model_id = #{modelId,jdbcType=VARCHAR}
+        </if>
+  	</where>
   </delete>
 </mapper>

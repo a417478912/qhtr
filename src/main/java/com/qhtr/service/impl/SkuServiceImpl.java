@@ -19,6 +19,7 @@ public class SkuServiceImpl implements SkuService {
 
 	@Override
 	public int insert(Sku sku) {
+		sku.setStatus(1);
 		return skuMapper.insert(sku);
 	}
 
@@ -32,6 +33,11 @@ public class SkuServiceImpl implements SkuService {
 		Sku sku = skuMapper.selectByPrimaryKey(skuId);
 		sku.setStatus(2);
 		return skuMapper.updateByPrimaryKey(sku);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(Sku sku) {
+		return skuMapper.updateByPrimaryKeySelective(sku);
 	}
 
 }
