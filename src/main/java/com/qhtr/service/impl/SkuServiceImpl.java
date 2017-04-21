@@ -19,7 +19,6 @@ public class SkuServiceImpl implements SkuService {
 
 	@Override
 	public int insert(Sku sku) {
-		sku.setStatus(1);
 		return skuMapper.insert(sku);
 	}
 

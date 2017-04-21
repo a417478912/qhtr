@@ -145,9 +145,9 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public int delete(int id) {
+	public int delete(int id,int status) {
 		Goods goods = goodsMapper.selectByPrimaryKey(id);
-		goods.setStatus(3);
+		goods.setStatus(status);
 		return goodsMapper.updateByPrimaryKey(goods);
 	}
 

@@ -42,16 +42,16 @@
 <script>
 $(function(){
 	var ajaxData = {
-			id: 20,
-			storeId: 19,
-			descript:"简介简介简介简介简介简介简介简介",
-			name:"商品名称xxxx",
-			detail_pictures:"http://www.xiaoguang.com/image-1xxx.jpg,http://www.xiaoguang.com/image-2xxx.jpg",
-			thumb:"http://www.xiaoguang.com/thumb.jpg",
-			resultPicture:"http://www.xiaoguang.com/result.jpg",
-			classId:"1,2",
-			sku:'[{"id":"39","attrDetails":"红色","stock":"33","price":28},{"id":"40","attrDetails":"白色","stock":"88","price":35},{"id":"41","attrDetails":"黑色","stock":"99","price":42.5}]',
-			activityId:"1,2"
+			id: 28,
+			storeId: "19",
+			descript: "简介简介简介简介简介简介简介简介xxxxxx",
+			name: "商品名称xxx",
+			detail_pictures: "http://www.xiaoguang.com/imageeee-1.jpg,http://www.xiaoguang.com/imageeee-2.jpg",
+			thumb: "http://www.xiaoguang.com/thumbs.jpg",
+			resultPicture: "http://www.xiaoguang.com/resultsss.jpg",
+			classId: "16",
+			sku: '[{"id":"63","attrDetails":"红色xxx","stock":"33","price":28,"status":1},{"id":"64","attrDetails":"白色dd","stock":"88","price":35,"status":1},{"id":"65","attrDetails":"黑色aa","stock":"99","price":42.5,"status":2},{"attrDetails":"编辑新增","stock":"99","price":42.5,"status":1}]',
+			activityId: "1,2"
 		}
 
 		$.ajax({

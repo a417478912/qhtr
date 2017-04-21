@@ -58,13 +58,13 @@ public class GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteGoods")
-	public Json deleteGoods(Json j, @RequestParam int id) {
-		int result = goodsService.delete(id);
+	public Json deleteGoods(Json j, @RequestParam int id,@RequestParam int status) {
+		int result = goodsService.delete(id,status);
 		if (result == 1) {
-			j.setMessage("商品删除成功!");
+			j.setMessage("商品状态修改成功!");
 		} else {
 			j.setCode(0);
-			j.setMessage("商品删除失败!");
+			j.setMessage("商品状态修改失败!");
 			return j;
 		}
 		return j;
@@ -80,8 +80,10 @@ public class GoodsController {
 	@RequestMapping(value="/updateGoods")
 	public Json updateGoods(Json j, GoodsParam goodsParam) {
 		int result = goodsService.update(goodsParam);
-		if (result == 1) {
-			j.setData(result);
+		if (result != 0) {
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("goodsId", result);
+			j.setData(map);
 			j.setMessage("商品修改成功!");
 		} else {
 			j.setCode(0);

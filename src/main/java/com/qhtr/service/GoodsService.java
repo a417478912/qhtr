@@ -29,7 +29,7 @@ public interface GoodsService {
 	public List<Goods> selectGoodsBySearch(String searchContent, int page, int num);
 	
 	public int add(GoodsParam goodsParam);
-	public int delete(int id);
+	public int delete(int id,int status);
 	public int update(GoodsParam goodsParam);
 	
 	/**

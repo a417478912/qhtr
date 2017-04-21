@@ -291,6 +291,7 @@
       <if test="details != null">
         and details = #{details,jdbcType=LONGVARCHAR}
       </if>
+      and status = 1
     </where>
   	</select>
   	
@@ -322,5 +323,6 @@
     <include refid="Base_Column_List" />
     from goods_goods
     where name like CONCAT("%",#{searchContent,jdbcType=VARCHAR},"%")
+    and status = 1 
   	</select>
 </mapper>
