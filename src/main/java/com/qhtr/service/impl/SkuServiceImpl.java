@@ -1,5 +1,7 @@
 package com.qhtr.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -37,6 +39,13 @@ public class SkuServiceImpl implements SkuService {
 	@Override
 	public int updateByPrimaryKeySelective(Sku sku) {
 		return skuMapper.updateByPrimaryKeySelective(sku);
+	}
+
+	@Override
+	public List<Sku> selectListByGoodsId(Integer id) {
+		Sku skuTem = new Sku();
+		skuTem.setGoodsId(id);
+		return skuMapper.selectByConditions(skuTem);
 	}
 
 }

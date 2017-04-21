@@ -58,7 +58,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 	@Override
 	public List<Goods> selectByStoreIdAndModelId(int storeId, int modelId) {
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("modelId", modelId + "");
 		map.put("storeId", storeId + "");
 		return activityMapper.selectByStoreIdAndModelId(map);

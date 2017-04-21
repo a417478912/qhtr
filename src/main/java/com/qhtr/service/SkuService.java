@@ -1,5 +1,7 @@
 package com.qhtr.service;
 
+import java.util.List;
+
 import com.qhtr.model.Sku;
 
 public interface SkuService {
@@ -12,5 +14,7 @@ public interface SkuService {
 	int updateByPrimaryKeySelective(Sku sku);
 	
 	int delete(int skuId);
+
+	List<Sku> selectListByGoodsId(Integer id);
 
 }

@@ -24,12 +24,12 @@ import org.springframework.web.multipart.MultipartFile;
 public class PictureUploadUtils {
 		//request.getServletContext().getRealPath("/")
 		// 文件保存目录路径 
-		static String baseSavePath =  "G:";   //localhost
-		//static String baseSavePath =  "/app";   //localhost
+		//static String baseSavePath =  "G:";   //localhost
+		static String baseSavePath =  "/app";   //localhost
 		
 		// 文件保存目录URL
-		//static String baseSaveUrl = "http://114.55.248.53:8080/qhtr"+"/upload/";
-	    static String baseSaveUrl = "localhost:8080"+"/upload/";
+		static String baseSaveUrl = "http://www.7htr.com:8080/qhtr"+"/upload/";
+		//static String baseSaveUrl = "localhost:8080"+"/upload/";
 		
 		/**
 		 * 文件上传
@@ -99,6 +99,14 @@ public class PictureUploadUtils {
 		 * @throws IOException
 		 */
 		public static String saveFromBase64String(String baseString,String url) throws IOException{
+			String str1 = baseString.split(";")[0];
+			String str2 = baseString.split(";")[1];
+			
+			//   出现的位置
+			int locationNum = str1.lastIndexOf("/");
+			//str1是扩展名
+			str1 = str1.substring(locationNum+1, str1.length());
+			baseString = str2.substring(7, str2.length());
 			String baseSavePath1 = baseSavePath + "/upload/" + url+"/";
 			String baseSaveUrl1 = baseSaveUrl + url + "/";
 			File saveDirFile = new File(baseSavePath1);
@@ -117,7 +125,7 @@ public class PictureUploadUtils {
 			
 			
 			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-			String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + ".png" ;
+			String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + "." + str1 ;
 
 			 // 将base64 转 字节数组
 			Base64 base = new Base64();
@@ -148,6 +156,10 @@ public class PictureUploadUtils {
 		 * @throws IOException
 		 */
 	    public static String cut(String srcpathOld,int x,int y,int width,int height,String thePath) throws IOException {
+	    	//   出现的位置
+	   		int locationNum = srcpathOld.lastIndexOf("/");
+	   		//扩展名
+	    	String str1 = srcpathOld.substring(locationNum+1,srcpathOld.length());
 	    	String srcpath = subString(srcpathOld);
 	        FileInputStream is = null;
 	 
@@ -170,7 +182,7 @@ public class PictureUploadUtils {
 	             */
 	 
 	            Iterator<ImageReader> it = ImageIO
-	                    .getImageReadersByFormatName("jpg");
+	                    .getImageReadersByFormatName(str1);
 	 
 	            ImageReader reader = it.next();
 	 
@@ -254,7 +266,7 @@ public class PictureUploadUtils {
 				
 				
 				SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-				String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + ".png" ;
+				String newFileName = df.format(new Date()) + "_" + new Random().nextInt(1000) + "."+str1 ;
 				
 				ImageIO.write(bi, "jpg", new File(savePath + newFileName));
 				return saveUrl+newFileName;
