@@ -14,7 +14,7 @@ import com.qhtr.common.PageBean;
 import com.qhtr.dao.UserMapper;
 import com.qhtr.model.User;
 import com.qhtr.service.UserService;
-import com.qhtr.utils.FileUploadUtils;
+import com.qhtr.utils.PictureUploadUtils;
 import com.qhtr.utils.MD5Utils;
 /**
  * 
@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService{
 	public int updateUser(int id, String nickName, String sex, String birthday,String avatar) throws IOException {
 		String path= "";
 		if(avatar != null){
-			path = FileUploadUtils.saveFromBase64String(avatar,"userAvatar");
+			path = PictureUploadUtils.saveFromBase64String(avatar,"userAvatar");
 		}else{
 			path = "";
 		}
@@ -103,7 +103,7 @@ public class UserServiceImpl implements UserService{
 		}
 		if(StringUtils.isNotBlank(path)){
 			User oldUser = userMapper.selectByPrimaryKey(id);
-			if(!FileUploadUtils.deleteFile(oldUser.getAvatar())){
+			if(!PictureUploadUtils.deleteFile(oldUser.getAvatar())){
 				return 0;
 			};
 			user.setAvatar(path);

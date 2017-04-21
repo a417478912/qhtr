@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
-import com.qhtr.utils.FileUploadUtils;
+import com.qhtr.utils.PictureUploadUtils;
 
 @Controller
 @RequestMapping("/sell_picture")
@@ -22,7 +22,7 @@ public class PictureController {
 		}else if(type == 3){
 			thePath = "goods";
 		}
-		String url = FileUploadUtils.saveFromBase64String(picture,thePath);
+		String url = PictureUploadUtils.saveFromBase64String(picture,thePath);
 		if(url != null){
 			j.setData(url);
 		}else{
@@ -34,8 +34,8 @@ public class PictureController {
 		 * 图片剪切
 		 */
 		if(x != null){
-			String path = FileUploadUtils.cut(url, x, y, width, height, thePath);
-			FileUploadUtils.deleteFile(url);
+			String path = PictureUploadUtils.cut(url, x, y, width, height, thePath);
+			PictureUploadUtils.deleteFile(url);
 			j.setData(path);
 		}
 		return j;

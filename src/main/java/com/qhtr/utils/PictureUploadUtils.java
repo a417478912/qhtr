@@ -21,7 +21,7 @@ import javax.imageio.stream.ImageInputStream;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileUploadUtils {
+public class PictureUploadUtils {
 		//request.getServletContext().getRealPath("/")
 		// 文件保存目录路径 
 		static String baseSavePath =  "G:";   //localhost
@@ -279,4 +279,5 @@ public class FileUploadUtils {
 	    public static String subString(String url){
 	    	return url.substring(url.indexOf("/upload/"),url.length());
 	    }
+	    
 }

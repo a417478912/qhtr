@@ -2,7 +2,7 @@ package com.qhtr.common;
 
 public class Json {
 	private Integer code = 200;
-	private Object data;
+	private Object data = "";
 	private String message;
 	public String getMessage() {
 		return message;
