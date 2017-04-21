@@ -75,7 +75,7 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 	public int addGoodsByClass(int[] goodsIds, int classId) {
 		for (int i : goodsIds) {
 			Map<String,Integer> map = new HashMap<String,Integer>();
-			map.put("storeId", i);
+			map.put("goodsId", i);
 			map.put("classId", classId);
 			int result = goodsClassesMapper.insertGoodsMidGoodsClass(map);
 			if(result == 0)
