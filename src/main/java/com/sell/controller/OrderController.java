@@ -72,8 +72,8 @@ public class OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping("/addExpress")
-	public Json addExpress(Json j,@RequestParam int[] orderId,@RequestParam String name,@RequestParam String code){
-		int result = expressService.add(orderId,name,code);
+	public Json addExpress(Json j,@RequestParam String orderId,@RequestParam String expressName,@RequestParam String expressCode){
+		int result = expressService.add(orderId,expressName,expressCode);
 		if(result == 1){
 			j.setMessage("成功!");
 		}else{

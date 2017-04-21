@@ -9,7 +9,6 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.qhtr.dao.GoodsClassesMapper;
-import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
 import com.qhtr.service.GoodsClassService;
 import com.sell.dto.GoodsClassesDto;

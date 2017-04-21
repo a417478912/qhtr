@@ -24,17 +24,17 @@ public class ExpressServiceImpl implements ExpressService {
 	public StoreOrderService storeOrderService;
 	
 	@Override
-	public int add(int[] orderId, String name, String code) {
+	public int add(String orderId, String name, String code) {
 		Date date = new Date();
-		for (int i : orderId) {
+		for (String i : orderId.split(",")) {
 			Express express = new Express();
 			express.setCode(code);
 			express.setName(name);
-			express.setGoodsOrderId(i);
+			express.setGoodsOrderId(Integer.parseInt(i));
 			express.setCreateTime(date);
 			expressMapper.insert(express);
 			
-			GoodsOrder go = goodsOrderService.selectById(i);
+			GoodsOrder go = goodsOrderService.selectById(Integer.parseInt(i));
 			if(go.getStatus() == 20){
 				go.setStatus(30);
 				StoreOrder so = storeOrderService.selectByOrderCode(go.getStoreOrderCode());

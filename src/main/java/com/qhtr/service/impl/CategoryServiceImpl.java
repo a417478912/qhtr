@@ -11,7 +11,7 @@ import com.qhtr.dao.CategoryMapper;
 import com.qhtr.model.Category;
 import com.qhtr.service.CategoryService;
 
-@Service
+@Service("CategoryService")
 public class CategoryServiceImpl implements CategoryService {
 	@Resource 
 	public CategoryMapper categoryMapper;

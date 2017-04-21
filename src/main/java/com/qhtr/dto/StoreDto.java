@@ -3,9 +3,21 @@ package com.qhtr.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.BeanFactoryUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.qhtr.model.Category;
 import com.qhtr.model.Store;
+import com.qhtr.service.CategoryService;
+import com.qhtr.service.impl.CategoryServiceImpl;
+import com.qhtr.utils.ApplicationContextUtils;
 
 public class StoreDto {
 	public int id;
@@ -26,11 +38,13 @@ public class StoreDto {
 	public StoreDto(){
 		
 	}
-	public StoreDto(Store store,String categoryName){
+	public StoreDto(Store store){
 		this.setId(store.getId());
-
+		
+		CategoryService categoryService = (CategoryService)ApplicationContextUtils.getContext().getBean("CategoryService");
 		// 行业分类
-		this.setCategory(categoryName);
+		Category category = categoryService.getById(store.getCategoreId());
+		this.setCategory(category.getName());
 		this.setName(store.getName());
 		this.setPhone(store.getPhone());
 		this.setAvatar(store.getAvatar());

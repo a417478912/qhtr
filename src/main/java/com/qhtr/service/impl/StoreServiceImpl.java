@@ -2,21 +2,15 @@ package com.qhtr.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
-import com.qhtr.dto.LinkDto;
-import com.qhtr.dto.PictureDto;
 import com.qhtr.dto.StoreDto;
 import com.qhtr.model.Category;
 import com.qhtr.model.Store;
@@ -40,8 +34,7 @@ public class StoreServiceImpl implements StoreService {
 			return null;
 		} else {
 			Store store1 = list.get(0);
-			Category category = categoryService.getById(store1.getCategoreId());
-			return new StoreDto(store1,category.getName());
+			return new StoreDto(store1);
 		}
 	}
 
@@ -50,8 +43,7 @@ public class StoreServiceImpl implements StoreService {
 		if (store == null) {
 			return null;
 		} else {
-			Category category = categoryService.getById(store.getCategoreId());
-			return new StoreDto(store,category.getName());
+			return new StoreDto(store);
 		}
 	}
 
@@ -66,8 +58,7 @@ public class StoreServiceImpl implements StoreService {
 			String[] s = store.getLongitudeLatitude().split(",");
 			if (DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]),
 					Double.parseDouble(longitude), Double.parseDouble(latitude)) <= Double.parseDouble(distance)) {
-				Category category = categoryService.getById(store.getCategoreId());
-				stores.add(new StoreDto(store,category.getName()));
+				stores.add(new StoreDto(store));
 			}
 		}
 		return stores;

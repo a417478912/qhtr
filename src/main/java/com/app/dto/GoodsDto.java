@@ -3,7 +3,6 @@ package com.app.dto;
 import java.util.List;
 import java.util.Map;
 
-import com.qhtr.model.Activity;
 import com.qhtr.model.Attr;
 import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
