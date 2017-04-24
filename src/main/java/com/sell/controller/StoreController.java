@@ -31,7 +31,7 @@ public class StoreController {
 	/**
 	 * 卖家注册
 	 * 
-	 */
+	 *//*
 	@ResponseBody
 	@RequestMapping(value = "/registerSeller")
 	public Json registerSeller(Json j, @RequestParam String phone, @RequestParam String password,
@@ -76,6 +76,30 @@ public class StoreController {
 			}
 
 		}
+		return j;
+	}*/
+	
+	/**
+	 * 卖家注册
+	 * 
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/registerSeller")
+	public Json registerSeller(Json j, @RequestParam String phone, @RequestParam String password,
+			@RequestParam String phone_code, HttpServletRequest request) throws ParseException {
+			int result = storeService.addRegister(phone, password);
+			if (result == -1) {
+				j.setCode(0);
+				j.setMessage("手机号已被注册!");
+			} else if (result == 0) {
+				j.setCode(0);
+				j.setMessage("注册失败!");
+			} else {
+				Map<String,Integer> map = new HashMap<String,Integer>();
+				map.put("storeId", result);
+				j.setData(map);
+				j.setMessage("注册成功!");
+			}
 		return j;
 	}
 	

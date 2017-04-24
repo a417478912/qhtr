@@ -1,5 +1,6 @@
 package com.app.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.app.dto.GoodsDto;
-import com.app.dto.GoodsListDto;
 import com.qhtr.common.Json;
+import com.qhtr.dto.GoodsDto;
+import com.qhtr.dto.GoodsListDto;
 import com.qhtr.model.Goods;
 import com.qhtr.model.Picture;
 import com.qhtr.model.Sku;
@@ -97,8 +98,8 @@ public class App_GoodsController {
 				}
 			}
 			dto.setId(goods.getId());
-			dto.setLowPrice(lowPrice);
-			dto.setTopPrice(topPrice);
+			dto.setLowPrice(new BigDecimal(lowPrice).divide(new BigDecimal(100).setScale(2)));
+			dto.setTopPrice(new BigDecimal(topPrice).divide(new BigDecimal(100).setScale(2)));
 			dto.setName(goods.getName());
 			
 			//详情图

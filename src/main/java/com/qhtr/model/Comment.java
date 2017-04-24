@@ -1,7 +1,12 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * 评论表：  storeId为卖家id /如果userId不为空，为买家留言，如果为空，是卖家留言
+ * @author wjx
+ *
+ * @date  2017年4月24日
+ */
 public class Comment {
     private Integer id;
 
@@ -16,6 +21,12 @@ public class Comment {
     private Integer istop;
 
     private Date createTime;
+
+    private String avatar;
+
+    private Integer replyNum;
+
+    private Integer upvoteNum;
 
     public Integer getId() {
         return id;
@@ -71,5 +82,29 @@ public class Comment {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar == null ? null : avatar.trim();
+    }
+
+    public Integer getReplyNum() {
+        return replyNum;
+    }
+
+    public void setReplyNum(Integer replyNum) {
+        this.replyNum = replyNum;
+    }
+
+    public Integer getUpvoteNum() {
+        return upvoteNum;
+    }
+
+    public void setUpvoteNum(Integer upvoteNum) {
+        this.upvoteNum = upvoteNum;
     }
 }

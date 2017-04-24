@@ -9,9 +9,13 @@
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
     <result column="istop" property="istop" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+    <result column="reply_num" property="replyNum" jdbcType="INTEGER" />
+    <result column="upvote_num" property="upvoteNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, content, user_id, store_id, parent_id, istop, create_time
+    id, content, user_id, store_id, parent_id, istop, create_time, avatar, reply_num, 
+    upvote_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -26,10 +30,12 @@
   <insert id="insert" parameterType="com.qhtr.model.Comment" >
     insert into comment (id, content, user_id, 
       store_id, parent_id, istop, 
-      create_time)
+      create_time, avatar, reply_num, 
+      upvote_num)
     values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
       #{storeId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{istop,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP})
+      #{createTime,jdbcType=TIMESTAMP}, #{avatar,jdbcType=VARCHAR}, #{replyNum,jdbcType=INTEGER}, 
+      #{upvoteNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Comment" >
     insert into comment
@@ -55,6 +61,15 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="avatar != null" >
+        avatar,
+      </if>
+      <if test="replyNum != null" >
+        reply_num,
+      </if>
+      <if test="upvoteNum != null" >
+        upvote_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -77,6 +92,15 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="avatar != null" >
+        #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNum != null" >
+        #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="upvoteNum != null" >
+        #{upvoteNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -101,6 +125,15 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="avatar != null" >
+        avatar = #{avatar,jdbcType=VARCHAR},
+      </if>
+      <if test="replyNum != null" >
+        reply_num = #{replyNum,jdbcType=INTEGER},
+      </if>
+      <if test="upvoteNum != null" >
+        upvote_num = #{upvoteNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -111,7 +144,30 @@
       store_id = #{storeId,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
       istop = #{istop,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      avatar = #{avatar,jdbcType=VARCHAR},
+      reply_num = #{replyNum,jdbcType=INTEGER},
+      upvote_num = #{upvoteNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!-- 以下是自定义方法   -->
+	<!--  查询留言 -->
+  <select id="selectCommentListByStoreId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where store_id = #{storeId,jdbcType=INTEGER}
+    and istop = 1
+    order by create_time desc 
+  </select>
+  
+  <!-- 通过留言id查询下面的回复 -->
+  <select id="getReplyListByCommentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where parent_id = #{commentId,jdbcType=INTEGER}
+    order by create_time desc 
+  </select>
 </mapper>

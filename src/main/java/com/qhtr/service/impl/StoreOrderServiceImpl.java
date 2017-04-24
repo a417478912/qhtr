@@ -19,6 +19,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Constants;
 import com.qhtr.dao.StoreOrderMapper;
+import com.qhtr.dto.GoodsDto;
 import com.qhtr.dto.StoreOrderDetailsDto;
 import com.qhtr.model.Address;
 import com.qhtr.model.BuyCart;
@@ -106,8 +107,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		StoreOrder so = new StoreOrder();
 		so.setOrderCode(GenerationUtils.getGenerationCode("SO", userId+""));
 		Sku sku = skuService.selectSkuBySkuId(skuId);
-		Goods goods = goodsService.selectGoodsByGoodsId(sku.getGoodsId()).getGoods();
-		so.setStoreId(goods.getStoreId());
+		GoodsDto goodsDto = goodsService.selectGoodsByGoodsId(sku.getGoodsId());
+		so.setStoreId(goodsDto.getStoreId());
 		so.setUserId(userId);
 		so.setDistributionType(distributionType);
 		so.setUserId(userId);
@@ -118,7 +119,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		StoreOrderDto1 dto1 = new StoreOrderDto1();
 		
 		Coupon cp = new Coupon();
-		cp.setStoreId(goods.getStoreId());
+		cp.setStoreId(goodsDto.getStoreId());
 		cp.setUserId(userId);
 		cp.setStatus(1);
 		List<Coupon> cps = couponService.selectByConditions(cp);
@@ -146,9 +147,9 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		GoodsOrder go = new GoodsOrder();
 		go.setOrderCode(GenerationUtils.getGenerationCode("GO", userId+""));
 		go.setStoreOrderCode(so.getOrderCode());
-		go.setGoodsId(goods.getId());
+		go.setGoodsId(goodsDto.getId());
 		go.setUserId(userId);
-		go.setStoreId(goods.getStoreId());
+		go.setStoreId(goodsDto.getStoreId());
 		go.setSkuId(skuId);
 		go.setNum(num);
 		go.setPrice(sku.getPrice());

@@ -1,5 +1,7 @@
 package com.sell.controller;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,15 +9,18 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.app.dto.GoodsDto;
 import com.qhtr.common.Json;
+import com.qhtr.dto.GoodsDto;
+import com.qhtr.dto.GoodsListDto;
 import com.qhtr.model.Goods;
+import com.qhtr.model.Picture;
+import com.qhtr.model.Sku;
 import com.qhtr.service.GoodsService;
+import com.qhtr.service.PictureService;
 import com.qhtr.service.SkuService;
 import com.sell.param.GoodsParam;
 
@@ -26,7 +31,8 @@ public class GoodsController {
 	public GoodsService goodsService;
 	@Resource
 	public SkuService skuService;
-	
+	@Resource
+	public PictureService pictureService;
 	/**
 	 * 添加商品
 	 * @param j
@@ -103,8 +109,35 @@ public class GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/getList")
-	public Json getList(Json j,@RequestParam int storeId,@RequestParam int status){
+	public Json getList(Json j,@RequestParam int storeId,@RequestParam(defaultValue="1") int status){
+		List<GoodsListDto> dtoList = new ArrayList<GoodsListDto>();
 		List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId,status); 
+		for (Goods goods : goodsList) {
+			GoodsListDto dto = new GoodsListDto();
+			int topPrice = 0;
+			int lowPrice = 10000000;
+			List<Sku> skuList = skuService.selectListByGoodsId(goods.getId());
+			for (Sku sku : skuList) {
+				if(sku.getPrice() > topPrice){
+					topPrice = sku.getPrice();
+				}
+				if(sku.getPrice() < lowPrice){
+					lowPrice = sku.getPrice();
+				}
+			}
+			dto.setId(goods.getId());
+			dto.setLowPrice(new BigDecimal(lowPrice).divide(new BigDecimal(100).setScale(2)));
+			dto.setTopPrice(new BigDecimal(topPrice).divide(new BigDecimal(100).setScale(2)));
+			dto.setName(goods.getName());
+			
+			//详情图
+			if(goods.getDetailPictures() != null){
+				int picId = Integer.parseInt(goods.getDetailPictures().split(",")[0]);
+				Picture pic = pictureService.getById(picId);
+				dto.setPicture(pic);
+			}
+			dtoList.add(dto);
+		}
 		j.setData(goodsList);
 		return j;
 	}

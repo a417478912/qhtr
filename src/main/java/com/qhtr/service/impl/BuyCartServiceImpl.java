@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.BuyCartDto;
-import com.app.dto.GoodsDto;
 import com.qhtr.dao.BuyCartMapper;
+import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.BuyCart;
 import com.qhtr.model.Sku;
 import com.qhtr.service.BuyCartService;
@@ -49,12 +49,12 @@ public class BuyCartServiceImpl implements BuyCartService{
 		List<BuyCart> buyCartList = buyCartMapper.selectByConditions(buyCartTem);
 		if(buyCartList.isEmpty()){
 			GoodsDto goods = goodsService.selectGoodsByGoodsId(cart.getGoodsId());
-			cart.setString1(goods.getGoods().getName());
+			cart.setString1(goods.getName());
 			Sku sku = skuService.selectSkuBySkuId(cart.getSkuId());
 			cart.setString2(sku.getAttrDetails());
 			cart.setString3(sku.getPrice()+"");
-			cart.setString4(goods.getGoods().getGoodsCode());
-			cart.setString5(goods.getGoods().getThumb());
+			cart.setString4(goods.getGoodsCode());
+			cart.setString5(goods.getThumb());
 			return buyCartMapper.insert(cart);
 		}else{
 			BuyCart cart1 = buyCartList.get(0);

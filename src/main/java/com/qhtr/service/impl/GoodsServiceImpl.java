@@ -1,5 +1,6 @@
 package com.qhtr.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -7,24 +8,22 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.app.dto.GoodsDto;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.ActivityMapper;
 import com.qhtr.dao.AttrMapper;
 import com.qhtr.dao.GoodsClassesMapper;
 import com.qhtr.dao.GoodsMapper;
 import com.qhtr.dao.SkuMapper;
+import com.qhtr.dto.GoodsDto;
+import com.qhtr.dto.SkuDto;
 import com.qhtr.model.Activity;
 import com.qhtr.model.Attr;
 import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
 import com.qhtr.model.Sku;
-import com.qhtr.service.ActivityService;
 import com.qhtr.service.GoodsService;
 import com.qhtr.service.SkuService;
 import com.qhtr.utils.GenerationUtils;
@@ -55,16 +54,19 @@ public class GoodsServiceImpl implements GoodsService {
 		Sku sku = new Sku();
 		sku.setGoodsId(goodsId);
 		List<Sku> skuList = skuMapper.selectByConditions(sku);
-
+		List<SkuDto> skuDtoList = new ArrayList<SkuDto>();
+		for (Sku Sku : skuList) {
+			skuDtoList.add(new SkuDto(sku));
+		}
+		
 		List<GoodsClasses> gcList = goodsClassesMapper.selectClassByGoodsId(goodsId);
 		
 		List<Map<String,Object>> acList = activityMapper.selectByGoodsId(goodsId);
-		GoodsDto dto = new GoodsDto();
+		GoodsDto dto = new GoodsDto(goods);
 		dto.setActivityList(acList);
 		dto.setGoodsClasses(gcList);
-		dto.setGoods(goods);
 		dto.setAttrList(attrList);
-		dto.setSkuList(skuList);
+		dto.setSkuList(skuDtoList);
 		return dto;
 	}
 
@@ -126,9 +128,10 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 		// sku
 		String skuStr = goodsParam.getSku();
-		List<Sku> skus = JSONArray.parseArray(skuStr, Sku.class);
-		if (!skus.isEmpty()) {
-			for (Sku sku : skus) {
+		List<SkuDto> skusDto = JSONArray.parseArray(skuStr, SkuDto.class);
+		if (!skusDto.isEmpty()) {
+			for (SkuDto dto : skusDto) {
+				Sku sku = new SkuDto().dtoToSku(dto);
 				sku.setGoodsId(goods.getId());
 				skuService.insert(sku);
 			}
@@ -196,10 +199,11 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 		// sku
 		String skuStr = goodsParam.getSku();
-		List<Sku> skus = JSONArray.parseArray(skuStr, Sku.class);
-		if (!skus.isEmpty()) {
-			for (Sku sku : skus) {
-				if(sku.getId() == null || sku.getId() == 0){
+		List<SkuDto> skusDto = JSONArray.parseArray(skuStr, SkuDto.class);
+		if (!skusDto.isEmpty()) {
+			for (SkuDto dto : skusDto) {
+				Sku sku = new SkuDto().dtoToSku(dto);
+				if(dto.getId() == null || dto.getId() == 0){
 					sku.setGoodsId(goods.getId());
 					skuService.insert(sku);
 				}else{

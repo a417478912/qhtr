@@ -28,8 +28,8 @@ public class ActivityServiceImpl implements ActivityService {
 	public List<Map<String,String>> selectListByStoreId(int storeId) {
 		List<Map<String,String>> mapList = new ArrayList<Map<String,String>>();
 		List<ActivityModel> amList = activityModelMapper.selectAll();
-		Map<String,String> map = new HashMap<String,String>();
 		for (ActivityModel am : amList) {
+			Map<String,String> map = new HashMap<String,String>();
 			map.put("id", am.getId() + "");
 			map.put("name", am.getName());
 			Map<String,String> mapParam = new HashMap<String,String>();
@@ -37,6 +37,7 @@ public class ActivityServiceImpl implements ActivityService {
 			mapParam.put("storeId", storeId + "");
 			int count = activityMapper.getGoodsNumByModelId(mapParam);
 			map.put("goodsNum", count + "");
+			mapList.add(map);
 		}
 		return mapList;
 	}
