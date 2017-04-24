@@ -37,7 +37,7 @@ public class SmsController {
 		if(type == 1){
 			theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_RIGIST_CODE);
 		}else if(type == 2){
-			theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_RIGIST_CODE);
+			theCode = (Map<String, String>)request.getSession().getAttribute(Constants.USER_CHANGE_PWD_CODE);
 		}else if(type == 3){
 			theCode = (Map<String, String>)request.getSession().getAttribute(Constants.BIND_PHONE_CODE);
 		}

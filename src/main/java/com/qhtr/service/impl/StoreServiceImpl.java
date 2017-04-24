@@ -3,6 +3,7 @@ package com.qhtr.service.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -85,14 +86,18 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	public int addRegister(String phone, String password) {
-		if (verifyPhone(phone) == 2) {
+		/*if (verifyPhone(phone) == 2) {
 			return -1;
-		}
+		}*/
 
 		Store store = new Store();
 		store.setPhone(phone);
 		store.setPassword(MD5Utils.getString(password));
 		store.setCreateTime(new Date());
+		store.setCollectNum(0);
+		store.setType(0);
+		store.setSellNum(0);
+		store.setScore(0);
 		storeMapper.insert(store);
 		return store.getId();
 	}
@@ -139,6 +144,26 @@ public class StoreServiceImpl implements StoreService {
 			CookieUtils.addCookie(response, "storeId", st.getId() + "", 60 * 60 * 24 * 7);
 			return 1;
 		}
+	}
+
+	@Override
+	public int updatePassword(String phone, String password) {
+		Store storeTem = new Store();
+		storeTem.setPhone(phone);
+		List<Store> list = storeMapper.selectByConditions(storeTem);
+		if(list.isEmpty()){
+			return 0;
+		}else{
+			Store store = list.get(0);
+			store.setPassword(MD5Utils.getString(password));
+			storeMapper.updateByPrimaryKey(store);
+		}
+		return 1;
+	}
+
+	@Override
+	public List<Map<String, Object>> getUserListByStoreId(int storeId) {
+		return storeMapper.getUserListByStoreId(storeId);
 	}
 
 }

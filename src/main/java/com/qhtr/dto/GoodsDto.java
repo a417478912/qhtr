@@ -38,7 +38,7 @@ public class GoodsDto {
 	public List<GoodsClasses> goodsClasses;
 	public List<Map<String,Object>> activityList;
 	public List<Attr> attrList;
-	public List<SkuDto> skuList;
+	public List<Sku> skuList;
 	public GoodsDto(){
 	}
 
@@ -174,11 +174,11 @@ public class GoodsDto {
 		this.detailPictures = detailPictures;
 	}
 
-	public List<SkuDto> getSkuList() {
+	public List<Sku> getSkuList() {
 		return skuList;
 	}
 
-	public void setSkuList(List<SkuDto> skuList) {
+	public void setSkuList(List<Sku> skuList) {
 		this.skuList = skuList;
 	}
 }

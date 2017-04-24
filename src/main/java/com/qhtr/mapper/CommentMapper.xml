@@ -7,15 +7,13 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="parent_id" property="parentId" jdbcType="INTEGER" />
-    <result column="istop" property="istop" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="reply_num" property="replyNum" jdbcType="INTEGER" />
     <result column="upvote_num" property="upvoteNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, content, user_id, store_id, parent_id, istop, create_time, avatar, reply_num, 
-    upvote_num
+    id, content, user_id, store_id, parent_id, create_time, avatar, reply_num, upvote_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -29,13 +27,13 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Comment" >
     insert into comment (id, content, user_id, 
-      store_id, parent_id, istop, 
-      create_time, avatar, reply_num, 
-      upvote_num)
+      store_id, parent_id, create_time, 
+      avatar, reply_num, upvote_num
+      )
     values (#{id,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
-      #{storeId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{istop,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{avatar,jdbcType=VARCHAR}, #{replyNum,jdbcType=INTEGER}, 
-      #{upvoteNum,jdbcType=INTEGER})
+      #{storeId,jdbcType=INTEGER}, #{parentId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{avatar,jdbcType=VARCHAR}, #{replyNum,jdbcType=INTEGER}, #{upvoteNum,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Comment" >
     insert into comment
@@ -54,9 +52,6 @@
       </if>
       <if test="parentId != null" >
         parent_id,
-      </if>
-      <if test="istop != null" >
-        istop,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -87,9 +82,6 @@
       <if test="parentId != null" >
         #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="istop != null" >
-        #{istop,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -119,9 +111,6 @@
       <if test="parentId != null" >
         parent_id = #{parentId,jdbcType=INTEGER},
       </if>
-      <if test="istop != null" >
-        istop = #{istop,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -143,7 +132,6 @@
       user_id = #{userId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},
       parent_id = #{parentId,jdbcType=INTEGER},
-      istop = #{istop,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       avatar = #{avatar,jdbcType=VARCHAR},
       reply_num = #{replyNum,jdbcType=INTEGER},
@@ -151,14 +139,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!-- 以下是自定义方法   -->
+   <!-- 以下是自定义方法   -->
 	<!--  查询留言 -->
   <select id="selectCommentListByStoreId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from comment
     where store_id = #{storeId,jdbcType=INTEGER}
-    and istop = 1
+    and parent_id = 0
     order by create_time desc 
   </select>
   

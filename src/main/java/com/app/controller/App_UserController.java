@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
+import com.qhtr.dto.UserDto;
 import com.qhtr.model.User;
 import com.qhtr.service.SystemLogService;
 import com.qhtr.service.UserService;
@@ -218,18 +219,7 @@ public class App_UserController {
 	public Json getUserInfo(Json j, @RequestParam int id) {
 		User user = userService.getUserById(id);
 		if (user != null) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("id", user.getId());
-			map.put("name", user.getName());
-			map.put("nickName", user.getNickName());
-			map.put("phone", user.getPhone());
-			map.put("sex", user.getSex());
-			map.put("avatar", user.getAvatar());
-			map.put("birthday", user.getBirthday());
-			map.put("qqCode", user.getQqCode());
-			map.put("weixinCode", user.getWeixinCode());
-			map.put("sinaCode", user.getSinaCode());
-			j.setData(map);
+			j.setData(new UserDto(user));
 		} else {
 			j.setCode(0);
 			j.setMessage("获取信息失败!");

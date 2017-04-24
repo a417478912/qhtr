@@ -22,4 +22,6 @@ public interface CommentService {
 	 */
 	List<Comment> getReplyListByCommentId(int commentId);
 
+	int updateUpvote(int commentId);
+
 }

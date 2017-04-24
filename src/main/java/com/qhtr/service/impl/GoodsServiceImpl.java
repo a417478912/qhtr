@@ -1,6 +1,5 @@
 package com.qhtr.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +17,6 @@ import com.qhtr.dao.GoodsClassesMapper;
 import com.qhtr.dao.GoodsMapper;
 import com.qhtr.dao.SkuMapper;
 import com.qhtr.dto.GoodsDto;
-import com.qhtr.dto.SkuDto;
 import com.qhtr.model.Activity;
 import com.qhtr.model.Attr;
 import com.qhtr.model.Goods;
@@ -54,10 +52,6 @@ public class GoodsServiceImpl implements GoodsService {
 		Sku sku = new Sku();
 		sku.setGoodsId(goodsId);
 		List<Sku> skuList = skuMapper.selectByConditions(sku);
-		List<SkuDto> skuDtoList = new ArrayList<SkuDto>();
-		for (Sku Sku : skuList) {
-			skuDtoList.add(new SkuDto(sku));
-		}
 		
 		List<GoodsClasses> gcList = goodsClassesMapper.selectClassByGoodsId(goodsId);
 		
@@ -66,7 +60,7 @@ public class GoodsServiceImpl implements GoodsService {
 		dto.setActivityList(acList);
 		dto.setGoodsClasses(gcList);
 		dto.setAttrList(attrList);
-		dto.setSkuList(skuDtoList);
+		dto.setSkuList(skuList);
 		return dto;
 	}
 
@@ -128,10 +122,9 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 		// sku
 		String skuStr = goodsParam.getSku();
-		List<SkuDto> skusDto = JSONArray.parseArray(skuStr, SkuDto.class);
-		if (!skusDto.isEmpty()) {
-			for (SkuDto dto : skusDto) {
-				Sku sku = new SkuDto().dtoToSku(dto);
+		List<Sku> skus = JSONArray.parseArray(skuStr, Sku.class);
+		if (!skus.isEmpty()) {
+			for (Sku sku : skus) {
 				sku.setGoodsId(goods.getId());
 				skuService.insert(sku);
 			}
@@ -199,11 +192,10 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 		// sku
 		String skuStr = goodsParam.getSku();
-		List<SkuDto> skusDto = JSONArray.parseArray(skuStr, SkuDto.class);
-		if (!skusDto.isEmpty()) {
-			for (SkuDto dto : skusDto) {
-				Sku sku = new SkuDto().dtoToSku(dto);
-				if(dto.getId() == null || dto.getId() == 0){
+		List<Sku> skus = JSONArray.parseArray(skuStr, Sku.class);
+		if (!skus.isEmpty()) {
+			for (Sku sku : skus) {
+				if(sku.getId() == null || sku.getId() == 0){
 					sku.setGoodsId(goods.getId());
 					skuService.insert(sku);
 				}else{

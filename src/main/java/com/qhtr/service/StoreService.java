@@ -1,6 +1,8 @@
 package com.qhtr.service;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletResponse;
 
 import com.qhtr.dto.StoreDto;
@@ -54,4 +56,17 @@ public interface StoreService {
 	int updateByConditions(Store store);
 	
 	public int login(String phone, String password,HttpServletResponse response);
+	/**
+	 * 修改密码
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	int updatePassword(String phone, String password);
+	/**
+	 * 查询商铺的 购买用户信息
+	 * @param storeId
+	 * @return
+	 */
+	List<Map<String, Object>> getUserListByStoreId(int storeId);
 }

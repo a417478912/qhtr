@@ -1,6 +1,7 @@
 package com.qhtr.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.qhtr.model.Store;
 
@@ -30,4 +31,10 @@ public interface StoreMapper {
 	 * @return
 	 */
 	List<Store> selectStoreBySearch(String searchContent);
+	/**
+	 * 查询商铺的 购买用户信息
+	 * @param storeId
+	 * @return
+	 */
+	List<Map<String, Object>> getUserListByStoreId(int storeId);
 }
