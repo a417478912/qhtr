@@ -1,5 +1,6 @@
 package com.sell.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -60,7 +61,10 @@ public class CommentController {
 	@RequestMapping(value="/getReplyList")
 	public Json getReplyList(Json j,@RequestParam int commentId){
 		List<Comment> list = commentService.getReplyListByCommentId(commentId);
-		j.setData(list);
+		List<Comment> list1 = new ArrayList<Comment>();
+		list1.add(commentService.getByCommentId(commentId));
+		list1.addAll(list);
+		j.setData(list1);
 		return j;
 	}
 }

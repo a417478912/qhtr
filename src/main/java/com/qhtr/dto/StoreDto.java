@@ -3,21 +3,14 @@ package com.qhtr.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.Resource;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.qhtr.model.Category;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
-import com.qhtr.service.impl.CategoryServiceImpl;
 import com.qhtr.utils.ApplicationContextUtils;
 
 public class StoreDto {
@@ -25,6 +18,9 @@ public class StoreDto {
 	public String category;
 	public String name;
 	public String phone;
+	public String sex;
+	public String age;
+	public String otherShop;
 	public String avatar;
 	public List<PictureDto> bannerPic;
 	public String showPic;
@@ -43,7 +39,8 @@ public class StoreDto {
 
 	public StoreDto(Store store) {
 		this.setId(store.getId());
-
+		this.setAge(store.getAge());
+		this.setSex(store.getSex());
 		CategoryService categoryService = (CategoryService) ApplicationContextUtils.getContext()
 				.getBean("CategoryService");
 		// 行业分类
@@ -56,7 +53,7 @@ public class StoreDto {
 		this.setAvatar(store.getAvatar());
 
 		List<PictureDto> picList = new ArrayList<PictureDto>();
-		String bannerStr = store.getPicture1();
+		String bannerStr = store.getBannerPic();
 		if (StringUtils.isNotBlank(bannerStr)) {
 			JSONArray jArray = JSONArray.parseArray(bannerStr);
 			for (int i = 0; i < jArray.size(); i++) {
@@ -77,7 +74,7 @@ public class StoreDto {
 			}
 		}
 		this.setBannerPic(picList);
-		this.setShowPic(store.getPicture2());
+		this.setShowPic(store.getShowPic());
 		this.setDetail(store.getDetails());
 		this.setCollect_num(store.getCollectNum());
 		this.setSell_num(store.getSellNum());
@@ -208,5 +205,29 @@ public class StoreDto {
 
 	public void setBannerPic(List<PictureDto> bannerPic) {
 		this.bannerPic = bannerPic;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getOtherShop() {
+		return otherShop;
+	}
+
+	public void setOtherShop(String otherShop) {
+		this.otherShop = otherShop;
 	}
 }

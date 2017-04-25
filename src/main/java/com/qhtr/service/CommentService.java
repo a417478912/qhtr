@@ -24,4 +24,6 @@ public interface CommentService {
 
 	int updateUpvote(int commentId);
 
+	Comment getByCommentId(int commentId);
+
 }

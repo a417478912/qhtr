@@ -310,6 +310,7 @@
   
   <select id="selectMapByConditions" resultType="java.util.Map" parameterType="com.qhtr.model.StoreOrder" >
     select o.id,o.order_code,o.pay_order_code,o.store_id,o.distribution_type,o.user_id,o.coupon_id,o.total_price,o.address_id,o.express_price,o.coupon_price,o.refund_price,o.result_price,o.status,o.create_time,o.user_remark
+    ,a.receiving_name,a.receiving_phone
     from order_store_order o,user_address a
     <where>
    	  <if test="1 == 1">

@@ -23,13 +23,11 @@ public class Store {
 	/**
      * banner轮播图(pictureid)
      */
-    private String picture1;
+    private String bannerPic;
 	/**
      * 地图上的展示大图(封面图)
      */
-    private String picture2;
-
-    private String picture3;
+    private String showPic;
 
     private String details;
 
@@ -40,7 +38,7 @@ public class Store {
     private String location;
 
     private String longitudeLatitude;
-    /**
+	 /**
      * 0 1  2 - 新店 普通 热销
      */
     private Integer type;
@@ -121,28 +119,20 @@ public class Store {
         this.avatar = avatar == null ? null : avatar.trim();
     }
 
-    public String getPicture1() {
-        return picture1;
+    public String getBannerPic() {
+        return bannerPic;
     }
 
-    public void setPicture1(String picture1) {
-        this.picture1 = picture1 == null ? null : picture1.trim();
+    public void setBannerPic(String bannerPic) {
+        this.bannerPic = bannerPic == null ? null : bannerPic.trim();
     }
 
-    public String getPicture2() {
-        return picture2;
+    public String getShowPic() {
+        return showPic;
     }
 
-    public void setPicture2(String picture2) {
-        this.picture2 = picture2 == null ? null : picture2.trim();
-    }
-
-    public String getPicture3() {
-        return picture3;
-    }
-
-    public void setPicture3(String picture3) {
-        this.picture3 = picture3 == null ? null : picture3.trim();
+    public void setShowPic(String showPic) {
+        this.showPic = showPic == null ? null : showPic.trim();
     }
 
     public String getDetails() {

@@ -327,6 +327,19 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public List<Map<String, Object>> selectMapByConditions(StoreOrder so,int page) {
 		Page<?> startPage = PageHelper.startPage(page, 10);
 		List<Map<String, Object>> list = storeOrderMapper.selectMapByConditions(so);
+		for (Map<String, Object> map : list) {
+			//第一个小商品的缩略图
+			int storeId = Integer.parseInt(map.get("id").toString());
+			GoodsOrder goTem = new GoodsOrder();
+			goTem.setStoreId(storeId);
+			List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+			if (!goList.isEmpty()) {
+				String avatar = goList.get(0).getGoodsPicture();
+				map.put("avatar", avatar);
+			}else{
+				map.put("avatar", "");
+			}
+		}
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("total",startPage.getTotal());
 		list.add(map);

@@ -11,9 +11,8 @@
     <result column="age" property="age" jdbcType="VARCHAR" />
     <result column="other_shop" property="otherShop" jdbcType="VARCHAR" />
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
-    <result column="picture1" property="picture1" jdbcType="VARCHAR" />
-    <result column="picture2" property="picture2" jdbcType="VARCHAR" />
-    <result column="picture3" property="picture3" jdbcType="VARCHAR" />
+    <result column="banner_pic" property="bannerPic" jdbcType="VARCHAR" />
+    <result column="show_pic" property="showPic" jdbcType="VARCHAR" />
     <result column="details" property="details" jdbcType="VARCHAR" />
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
@@ -24,8 +23,8 @@
     <result column="score" property="score" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, categore_id, name, phone, password, sex, age, other_shop, avatar, picture1, picture2, 
-    picture3, details, collect_num, sell_num, location, longitude_latitude, type, create_time, 
+    id, categore_id, name, phone, password, sex, age, other_shop, avatar, banner_pic, 
+    show_pic, details, collect_num, sell_num, location, longitude_latitude, type, create_time, 
     score
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -42,17 +41,17 @@
     insert into seller_store (id, categore_id, name, 
       phone, password, sex, 
       age, other_shop, avatar, 
-      picture1, picture2, picture3, 
-      details, collect_num, sell_num, 
-      location, longitude_latitude, type, 
-      create_time, score)
+      banner_pic, show_pic, details, 
+      collect_num, sell_num, location, 
+      longitude_latitude, type, create_time, 
+      score)
     values (#{id,jdbcType=INTEGER}, #{categoreId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{age,jdbcType=VARCHAR}, #{otherShop,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{picture1,jdbcType=VARCHAR}, #{picture2,jdbcType=VARCHAR}, #{picture3,jdbcType=VARCHAR}, 
-      #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
-      #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER})
+      #{bannerPic,jdbcType=VARCHAR}, #{showPic,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
+      #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, 
+      #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{score,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Store" >
     insert into seller_store
@@ -84,14 +83,11 @@
       <if test="avatar != null" >
         avatar,
       </if>
-      <if test="picture1 != null" >
-        picture1,
+      <if test="bannerPic != null" >
+        banner_pic,
       </if>
-      <if test="picture2 != null" >
-        picture2,
-      </if>
-      <if test="picture3 != null" >
-        picture3,
+      <if test="showPic != null" >
+        show_pic,
       </if>
       <if test="details != null" >
         details,
@@ -146,14 +142,11 @@
       <if test="avatar != null" >
         #{avatar,jdbcType=VARCHAR},
       </if>
-      <if test="picture1 != null" >
-        #{picture1,jdbcType=VARCHAR},
+      <if test="bannerPic != null" >
+        #{bannerPic,jdbcType=VARCHAR},
       </if>
-      <if test="picture2 != null" >
-        #{picture2,jdbcType=VARCHAR},
-      </if>
-      <if test="picture3 != null" >
-        #{picture3,jdbcType=VARCHAR},
+      <if test="showPic != null" >
+        #{showPic,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         #{details,jdbcType=VARCHAR},
@@ -208,14 +201,11 @@
       <if test="avatar != null" >
         avatar = #{avatar,jdbcType=VARCHAR},
       </if>
-      <if test="picture1 != null" >
-        picture1 = #{picture1,jdbcType=VARCHAR},
+      <if test="bannerPic != null" >
+        banner_pic = #{bannerPic,jdbcType=VARCHAR},
       </if>
-      <if test="picture2 != null" >
-        picture2 = #{picture2,jdbcType=VARCHAR},
-      </if>
-      <if test="picture3 != null" >
-        picture3 = #{picture3,jdbcType=VARCHAR},
+      <if test="showPic != null" >
+        show_pic = #{showPic,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         details = #{details,jdbcType=VARCHAR},
@@ -254,9 +244,8 @@
       age = #{age,jdbcType=VARCHAR},
       other_shop = #{otherShop,jdbcType=VARCHAR},
       avatar = #{avatar,jdbcType=VARCHAR},
-      picture1 = #{picture1,jdbcType=VARCHAR},
-      picture2 = #{picture2,jdbcType=VARCHAR},
-      picture3 = #{picture3,jdbcType=VARCHAR},
+      banner_pic = #{bannerPic,jdbcType=VARCHAR},
+      show_pic = #{showPic,jdbcType=VARCHAR},
       details = #{details,jdbcType=VARCHAR},
       collect_num = #{collectNum,jdbcType=INTEGER},
       sell_num = #{sellNum,jdbcType=INTEGER},
@@ -292,14 +281,11 @@
       <if test="avatar != null" >
         and avatar = #{avatar,jdbcType=VARCHAR}
       </if>
-      <if test="picture1 != null" >
-        and picture1 = #{picture1,jdbcType=VARCHAR}
+      <if test="bannerPic != null" >
+        and banner_pic = #{bannerPic,jdbcType=VARCHAR}
       </if>
-      <if test="picture2 != null" >
-        and picture2 = #{picture2,jdbcType=VARCHAR}
-      </if>
-      <if test="picture3 != null" >
-        and picture3 = #{picture3,jdbcType=VARCHAR}
+      <if test="showPic != null" >
+        and show_pic = #{showPic,jdbcType=VARCHAR}
       </if>
       <if test="details != null" >
         and details = #{details,jdbcType=VARCHAR}

@@ -70,4 +70,9 @@ public class CommentServiceImpl implements CommentService {
 		return commentMapper.updateByPrimaryKey(comment);
 	}
 
+	@Override
+	public Comment getByCommentId(int commentId) {
+		return commentMapper.selectByPrimaryKey(commentId);
+	}
+
 }
