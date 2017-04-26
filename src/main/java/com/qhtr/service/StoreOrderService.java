@@ -82,11 +82,4 @@ public interface StoreOrderService {
 	 * 统计商家部分发货的变成已发货
 	 */
 	void changeToSendOutTask();
-	/**
-	 * 计算邮费
-	 * @param addressId
-	 * @param storeId
-	 * @return
-	 */
-	String getExpressOrderPrice(int addressId, int storeId);
 }

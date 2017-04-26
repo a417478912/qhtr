@@ -9,12 +9,12 @@ public class GenerationUtils {
 	 * @param type 固定字符串；生成前缀
 	 * @param userId 用户id
 	 */
-	public static String getGenerationCode(String type,String userId){
-		String str1 = "QHTR"+type;
+	public synchronized static String getGenerationCode(String type,String userId){
+		String str1 = type;
 		/** 
 		 * 位数
 		 */
-		int s = 8;
+		int s = 6;
 		String str2 = "";
 		if (userId.length() < s) {
             StringBuffer sb = new StringBuffer();
@@ -23,7 +23,8 @@ public class GenerationUtils {
             }
             str2 = sb.toString()+userId;
         }
-		String str3 = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+		//String str3 = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
+		String str3 = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		return str1+str2+str3;
 	}
 }

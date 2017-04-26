@@ -18,7 +18,7 @@ public class StoreDto {
 	public String bannerPic;
 	public String promotionPic;
 	public String showPic;
-	public String detail;
+	public String details;
 	public int collect_num;
 	public int sell_num;
 	public String location;
@@ -45,11 +45,12 @@ public class StoreDto {
 		this.setName(store.getName());
 		this.setPhone(store.getPhone());
 		this.setAvatar(store.getAvatar());
-
+		this.setOtherShop(store.getOtherShop());
+		
 		this.setPromotionPic(store.getPromotionPic());
 		this.setBannerPic(store.getBannerPic());
 		this.setShowPic(store.getShowPic());
-		this.setDetail(store.getDetails());
+		this.setDetails(store.getDetails());
 		this.setCollect_num(store.getCollectNum());
 		this.setSell_num(store.getSellNum());
 		this.setLocation(store.getLocation());
@@ -107,14 +108,6 @@ public class StoreDto {
 
 	public void setShowPic(String showPic) {
 		this.showPic = showPic;
-	}
-
-	public String getDetail() {
-		return detail;
-	}
-
-	public void setDetail(String detail) {
-		this.detail = detail;
 	}
 
 	public int getCollect_num() {
@@ -211,5 +204,13 @@ public class StoreDto {
 
 	public void setPromotionPic(String promotionPic) {
 		this.promotionPic = promotionPic;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
 	}
 }

@@ -151,21 +151,4 @@ public class App_OrderController {
 		j.setData(dto);
 		return j;
 	}
-	
-	/**
-	 * 计算邮费
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/getExpressOrderPrice")
-	public Json getExpressOrderPrice(Json j,@RequestParam int addressId,@RequestParam int storeId){
-		String expressPrice = storeOrderService.getExpressOrderPrice(addressId,storeId);
-		String returnCode = JSONObject.parseObject(expressPrice).getString("return_code");
-		if(returnCode != null && returnCode.equals("ok")){
-			Map<String,Object> map = new HashMap<String,Object>();
-			j.setData(expressPrice);
-		}else{
-			
-		}
-		return j;
-	}
 }

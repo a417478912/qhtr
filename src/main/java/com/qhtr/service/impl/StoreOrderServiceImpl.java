@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.BuyCartDto;
-import com.app.dto.StoreDto;
 import com.app.dto.StoreOrderDto;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
@@ -37,10 +36,8 @@ import com.qhtr.service.GoodsService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreOrderService;
-import com.qhtr.service.StoreService;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.GenerationUtils;
-import com.qhtr.utils.UUPaotuiUtils;
 
 @Service
 public class StoreOrderServiceImpl implements StoreOrderService {
@@ -62,8 +59,6 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public PayOrderService payOrderService;
 	@Resource
 	public AddressService addressService;
-	@Resource
-	public StoreService storeService;
 
 	@Override
 	public StoreOrder selectByOrderCode(String soCode) {
@@ -368,13 +363,5 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 				storeOrderMapper.updateByPrimaryKey(storeOrder);
 			}
 		}
-	}
-
-	@Override
-	public String getExpressOrderPrice(int addressId, int storeId) {
-		Address address = addressService.getAddressByid(addressId);
-		StoreDto store = storeService.getStoreById(storeId);
-		String orderPrice = UUPaotuiUtils.getOrderPrice(store.getLocation(), address.getDetails(), store.getLongitude(), store.getLatitude(), "0", "0");
-		return orderPrice;
 	}
 }

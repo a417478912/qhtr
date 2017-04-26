@@ -27,7 +27,7 @@ public class StoreDto {
 	public List<PictureDto> promotionPic;
 	public List<PictureDto> bannerPic;
 	public String showPic;
-	public String detail;
+	public String details;
 	public int collect_num;
 	public int sell_num;
 	public String location;
@@ -103,7 +103,7 @@ public class StoreDto {
 		this.setPromotionPic(picList1);
 		
 		
-		this.setDetail(store.getDetails());
+		this.setDetails(store.getDetails());
 		this.setBannerPic(picList);
 		this.setShowPic(store.getShowPic());
 		this.setCollect_num(store.getCollectNum());
@@ -165,12 +165,12 @@ public class StoreDto {
 		this.showPic = showPic;
 	}
 
-	public String getDetail() {
-		return detail;
+	public String getDetails() {
+		return details;
 	}
 
-	public void setDetail(String detail) {
-		this.detail = detail;
+	public void setDetails(String details) {
+		this.details = details;
 	}
 
 	public int getCollect_num() {

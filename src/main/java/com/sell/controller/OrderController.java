@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qhtr.common.Json;
 import com.qhtr.dto.StoreOrderDetailsDto;
-import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.service.ExpressService;
 import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.StoreOrderService;
+import com.qhtr.service.UUpaotuiService;
 
 @Controller
 @RequestMapping("/sell_order")
@@ -28,6 +29,8 @@ public class OrderController {
 	public ExpressService expressService;
 	@Resource
 	public GoodsOrderService goodsOrderService;
+	@Resource
+	public UUpaotuiService uUpaotuiService;
 	
 	/**
 	 * 订单列表
@@ -117,6 +120,32 @@ public class OrderController {
 			j.setCode(0);
 			j.setMessage("失败!");
 		}
+		return j;
+	}
+	
+	/**
+	 * 计算邮费
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getExpressOrderPrice")
+	public Json getExpressOrderPrice(Json j,@RequestParam int addressId,@RequestParam int storeId){
+		String expressPrice = uUpaotuiService.getExpressOrderPrice(addressId,storeId);
+		String returnCode = JSONObject.parseObject(expressPrice).getString("return_code");
+		if(returnCode != null && returnCode.equals("ok")){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("need_paymoney", JSONObject.parseObject(expressPrice).getString("need_paymoney"));
+			map.put("price_token", JSONObject.parseObject(expressPrice).getString("price_token"));
+			map.put("total_money", JSONObject.parseObject(expressPrice).getString("total_money"));
+			j.setData(map);
+		}else{
+			j.setCode(0);
+			j.setMessage("查询订单价格失败!");
+		}
+		return j;
+	}
+	
+	public Json addExpressOrder(Json j,@RequestParam String price_token,@RequestParam String order_price,
+			@RequestParam String balance_paymoney,@RequestParam String receiver,@RequestParam String receiver_phone,@RequestParam String pubUserMobile,String note){
 		return j;
 	}
 }
