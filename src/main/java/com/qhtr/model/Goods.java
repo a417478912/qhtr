@@ -41,6 +41,8 @@ public class Goods {
 
     private Date createTime;
 
+    private Date editTime;
+
     private Integer collectNum;
 
     private Integer sellNum;
@@ -165,6 +167,14 @@ public class Goods {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getEditTime() {
+        return editTime;
+    }
+
+    public void setEditTime(Date editTime) {
+        this.editTime = editTime;
     }
 
     public Integer getCollectNum() {

@@ -10,7 +10,7 @@ import com.qhtr.dao.SkuMapper;
 import com.qhtr.model.Sku;
 import com.qhtr.service.SkuService;
 
-@Service
+@Service("SkuService")
 public class SkuServiceImpl implements SkuService {
 	@Resource
 	public SkuMapper skuMapper;

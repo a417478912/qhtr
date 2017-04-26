@@ -1,5 +1,6 @@
 package com.sell.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
 import com.qhtr.dto.StoreOrderDetailsDto;
+import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.service.ExpressService;
+import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.StoreOrderService;
 
 @Controller
@@ -23,6 +26,8 @@ public class OrderController {
 	public StoreOrderService storeOrderService;
 	@Resource
 	public ExpressService expressService;
+	@Resource
+	public GoodsOrderService goodsOrderService;
 	
 	/**
 	 * 订单列表
@@ -30,11 +35,32 @@ public class OrderController {
 	@ResponseBody
 	@RequestMapping("/getOrderList")
 	public Json getOrderList(Json j,@RequestParam int storeId,@RequestParam int status,@RequestParam(defaultValue = "1") int page){
-		StoreOrder so = new StoreOrder();
-		so.setStoreId(storeId);
-		so.setStatus(status);
-		List<Map<String,Object>> list = storeOrderService.selectMapByConditions(so,page);
-		j.setData(list);
+		//全部订单
+		if(status == 0){
+			StoreOrder so = new StoreOrder();
+			so.setStoreId(storeId);
+			List<Map<String,Object>> list = storeOrderService.selectMapByConditions(so,page);
+			j.setData(list);
+			return j;
+		}
+		//代付款订单
+		if(status == 10 || status == 20){
+			StoreOrder so = new StoreOrder();
+			so.setStoreId(storeId);
+			so.setStatus(status);
+			List<Map<String,Object>> list = storeOrderService.selectMapByConditions(so,page);
+			j.setData(list);
+			return j;
+		}
+		if (status == 21 || status == 30 || status == 40 || status == 50 || status == 100 || status == 110) {
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("storeId", storeId);
+			map.put("status", status);
+			map.put("page", page);
+			List<Map<String, Object>> list = goodsOrderService.selectMapByConditions(map);
+			j.setData(list);
+			return j;
+		}
 		return j;
 	}
 	
@@ -57,12 +83,23 @@ public class OrderController {
 	}
 	
 	/**
-	 * 查询订单详情
+	 * 查询订单详情  通过id或者编号
 	 */
 	@ResponseBody
 	@RequestMapping("/getStoreOrderDetails")
-	public Json getStoreOrderDetails(Json j,@RequestParam int orderId){
-		StoreOrderDetailsDto dto = storeOrderService.selectStoreOrderDetailsById(orderId);
+	public Json getStoreOrderDetails(Json j,Integer orderId,String orderCode){
+		if(orderId == null && orderCode == null){
+			j.setCode(0);
+			j.setMessage("参数错误");
+			return j;
+		}
+		if(orderId != null){
+			StoreOrderDetailsDto dto = storeOrderService.selectStoreOrderDetailsById(orderId);
+			j.setData(dto);
+			return j;
+		}
+		StoreOrder so = storeOrderService.selectByOrderCode(orderCode);
+		StoreOrderDetailsDto dto = storeOrderService.selectStoreOrderDetailsById(so.getId());
 		j.setData(dto);
 		return j;
 	}

@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
+import com.app.dto.StoreDto;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
-import com.qhtr.dto.StoreDto;
 import com.qhtr.model.Category;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
@@ -29,13 +29,12 @@ public class StoreServiceImpl implements StoreService {
 	public CategoryService categoryService;
 
 	@Override
-	public StoreDto getStoreByIdOrPhone(Store store) {
+	public Store getStoreByIdOrPhone(Store store) {
 		List<Store> list = storeMapper.selectByConditions(store);
 		if (list.isEmpty()) {
 			return null;
 		} else {
-			Store store1 = list.get(0);
-			return new StoreDto(store1);
+			return list.get(0);
 		}
 	}
 
@@ -68,7 +67,7 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<Store> getStoresByType(int type, int page, int num) {
 		Store s = new Store();
-		s.setCategoreId(type);
+		s.setCategoryId(type);
 		PageHelper.startPage(page, num);
 		return storeMapper.selectByConditions(s);
 	}
@@ -98,6 +97,7 @@ public class StoreServiceImpl implements StoreService {
 		store.setType(0);
 		store.setSellNum(0);
 		store.setScore(0);
+		store.setName("");
 		storeMapper.insert(store);
 		return store.getId();
 	}

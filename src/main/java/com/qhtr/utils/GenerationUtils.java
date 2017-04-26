@@ -11,7 +11,7 @@ public class GenerationUtils {
 	 */
 	public static String getGenerationCode(String type,String userId){
 		String str1 = "QHTR"+type;
-		/**
+		/** 
 		 * 位数
 		 */
 		int s = 8;

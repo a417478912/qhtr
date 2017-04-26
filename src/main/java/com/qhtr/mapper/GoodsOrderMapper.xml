@@ -301,5 +301,26 @@
         and after_sale_time = #{afterSaleTime,jdbcType=TIMESTAMP}
       </if>
     </where>
+    order by id desc
+  	</select>
+  	
+  	<!-- 卖家查询商品订单列表 -->
+  	<select id="selectMapByConditions" resultType="java.util.Map" parameterType="java.util.Map" >
+    select g.id,g.order_code,o.user_id,g.price,g.num,g.goods_name,g.goods_picture
+    		,a.receiving_name,a.receiving_phone
+    from order_goods_order g left join order_store_order o on g.store_order_code = o.order_code
+     						 left join user_address a on o.address_id = a.id
+    <where>
+	     <if test="1 == 1">
+	   		1 = 1
+	      </if>
+    	<if test="storeId != null">
+    		and g.store_id = #{storeId,jdbcType=INTEGER}
+    	</if>
+    	<if test="status != null">
+    		and g.status = #{status,jdbcType=INTEGER}
+    	</if>
+    </where>
+    order by g.create_time desc
   	</select>
 </mapper>

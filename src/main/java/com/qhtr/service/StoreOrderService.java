@@ -34,21 +34,13 @@ public interface StoreOrderService {
 	 */
 	List<StoreOrderDto> getOrdersByUser(int userId, int status);
 	 /**
-	  * 立刻购买
+	  * 立刻购买 ，确认订单
 	  * @param skuId
 	  * @param num
 	  * @param distribution_type
 	  * @return
 	  */
-	StoreOrderDto1 addtoBuy(int skuId, int num, int distributionType,int userId,int addressId,HttpServletRequest request);
-	/**
-	 * 立刻购买 ，确认订单
-	 * @param submitOrderParam
-	 * @param request
-	 * @return
-	 */
-	String addOrder(String userRemark, HttpServletRequest request);
-	
+	StoreOrder addtoBuy(int skuId, int num, int distributionType,int userId,int addressId,String userRemark);
 	/**
 	 * 从购物车结算
 	 * @param userId
@@ -90,4 +82,11 @@ public interface StoreOrderService {
 	 * 统计商家部分发货的变成已发货
 	 */
 	void changeToSendOutTask();
+	/**
+	 * 计算邮费
+	 * @param addressId
+	 * @param storeId
+	 * @return
+	 */
+	String getExpressOrderPrice(int addressId, int storeId);
 }

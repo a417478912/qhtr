@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.app.dto.StoreOrderDto;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
@@ -21,6 +22,7 @@ import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.Address;
 import com.qhtr.model.PayOrder;
+import com.qhtr.model.StoreOrder;
 import com.qhtr.service.AddressService;
 import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.PayOrderService;
@@ -39,7 +41,7 @@ public class App_OrderController {
 	public AddressService addressService;
 	
 	/**
-	 * 立刻购买
+	 * 立刻购买 -->提交订单
 	 * @param j
 	 * @param request
 	 * @param skuId
@@ -51,20 +53,12 @@ public class App_OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/toBuy")
-	public Json toBuy(Json j,HttpServletRequest request,@RequestParam int skuId,@RequestParam int num,@RequestParam int distributionType,@RequestParam int userId,Integer addressId){
-		if(addressId == null || addressId== 0){
-			List<Address> adds = addressService.selectAddressByUserId(userId);
-			if(adds.isEmpty()){
-				j.setCode(0);
-				j.setMessage("没有默认地址!");
-				return j;
-			}else{
-				addressId = adds.get(0).getId();
-			}
-		}
-		StoreOrderDto1 result = storeOrderService.addtoBuy(skuId,num,distributionType,userId,addressId,request);
+	public Json toBuy(Json j,String userRemark,@RequestParam int skuId,@RequestParam int num,@RequestParam int distributionType,@RequestParam int userId,@RequestParam Integer addressId){
+		StoreOrder result = storeOrderService.addtoBuy(skuId,num,distributionType,userId,addressId,userRemark);
 		if(result != null){
-			j.setData(result);
+			Map<String,String> map = new HashMap<String,String>();
+			map.put("orderCode", result.getOrderCode());
+			j.setData(map);
 			j.setMessage("成功!");
 		}else{
 			j.setCode(0);
@@ -73,25 +67,6 @@ public class App_OrderController {
 		return j;
 	}
 	
-	
-	/**
-	 * 立刻购买 -->提交订单
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/addOrder")
-	public Json addOrder(Json j,String userRemark,HttpServletRequest request) {
-		String code = storeOrderService.addOrder(userRemark,request);
-		if (StringUtils.isNotBlank(code)) {
-			Map<String,String> map = new HashMap<String,String>();
-			map.put("code", code);
-			j.setData(map);
-			j.setMessage("成功!");
-		} else {
-			j.setCode(0);
-			j.setMessage("失败!");
-		}
-		return j;
-	}
 	
 	/**
 	 * 确认支付
@@ -174,6 +149,23 @@ public class App_OrderController {
 	public Json getOrdersByUser(Json j,@RequestParam int userId,@RequestParam int status){
 		List<StoreOrderDto> dto = storeOrderService.getOrdersByUser(userId,status);
 		j.setData(dto);
+		return j;
+	}
+	
+	/**
+	 * 计算邮费
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getExpressOrderPrice")
+	public Json getExpressOrderPrice(Json j,@RequestParam int addressId,@RequestParam int storeId){
+		String expressPrice = storeOrderService.getExpressOrderPrice(addressId,storeId);
+		String returnCode = JSONObject.parseObject(expressPrice).getString("return_code");
+		if(returnCode != null && returnCode.equals("ok")){
+			Map<String,Object> map = new HashMap<String,Object>();
+			j.setData(expressPrice);
+		}else{
+			
+		}
 		return j;
 	}
 }

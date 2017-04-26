@@ -3,7 +3,7 @@
 <mapper namespace="com.qhtr.dao.StoreMapper" >
   <resultMap id="BaseResultMap" type="com.qhtr.model.Store" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="categore_id" property="categoreId" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -13,6 +13,7 @@
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="banner_pic" property="bannerPic" jdbcType="VARCHAR" />
     <result column="show_pic" property="showPic" jdbcType="VARCHAR" />
+    <result column="promotion_pic" property="promotionPic" jdbcType="VARCHAR" />
     <result column="details" property="details" jdbcType="VARCHAR" />
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
@@ -23,9 +24,9 @@
     <result column="score" property="score" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, categore_id, name, phone, password, sex, age, other_shop, avatar, banner_pic, 
-    show_pic, details, collect_num, sell_num, location, longitude_latitude, type, create_time, 
-    score
+    id, category_id, name, phone, password, sex, age, other_shop, avatar, banner_pic, 
+    show_pic, promotion_pic, details, collect_num, sell_num, location, longitude_latitude, 
+    type, create_time, score
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -38,29 +39,29 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Store" useGeneratedKeys="true" keyProperty="id">
-    insert into seller_store (id, categore_id, name, 
+    insert into seller_store (id, category_id, name, 
       phone, password, sex, 
       age, other_shop, avatar, 
-      banner_pic, show_pic, details, 
-      collect_num, sell_num, location, 
-      longitude_latitude, type, create_time, 
-      score)
-    values (#{id,jdbcType=INTEGER}, #{categoreId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      banner_pic, show_pic, promotion_pic, 
+      details, collect_num, sell_num, 
+      location, longitude_latitude, type, 
+      create_time, score)
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{age,jdbcType=VARCHAR}, #{otherShop,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{bannerPic,jdbcType=VARCHAR}, #{showPic,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
-      #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, 
-      #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{score,jdbcType=INTEGER})
+      #{bannerPic,jdbcType=VARCHAR}, #{showPic,jdbcType=VARCHAR}, #{promotionPic,jdbcType=VARCHAR}, 
+      #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
+      #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.qhtr.model.Store" >
+  <insert id="insertSelective" parameterType="com.qhtr.model.Store" useGeneratedKeys="true" keyProperty="id">
     insert into seller_store
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="categoreId != null" >
-        categore_id,
+      <if test="categoryId != null" >
+        category_id,
       </if>
       <if test="name != null" >
         name,
@@ -88,6 +89,9 @@
       </if>
       <if test="showPic != null" >
         show_pic,
+      </if>
+      <if test="promotionPic != null" >
+        promotion_pic,
       </if>
       <if test="details != null" >
         details,
@@ -118,8 +122,8 @@
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="categoreId != null" >
-        #{categoreId,jdbcType=INTEGER},
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -147,6 +151,9 @@
       </if>
       <if test="showPic != null" >
         #{showPic,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionPic != null" >
+        #{promotionPic,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         #{details,jdbcType=VARCHAR},
@@ -177,8 +184,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Store" >
     update seller_store
     <set >
-      <if test="categoreId != null" >
-        categore_id = #{categoreId,jdbcType=INTEGER},
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -206,6 +213,9 @@
       </if>
       <if test="showPic != null" >
         show_pic = #{showPic,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionPic != null" >
+        promotion_pic = #{promotionPic,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         details = #{details,jdbcType=VARCHAR},
@@ -236,7 +246,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Store" >
     update seller_store
-    set categore_id = #{categoreId,jdbcType=INTEGER},
+    set category_id = #{categoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -246,6 +256,7 @@
       avatar = #{avatar,jdbcType=VARCHAR},
       banner_pic = #{bannerPic,jdbcType=VARCHAR},
       show_pic = #{showPic,jdbcType=VARCHAR},
+      promotion_pic = #{promotionPic,jdbcType=VARCHAR},
       details = #{details,jdbcType=VARCHAR},
       collect_num = #{collectNum,jdbcType=INTEGER},
       sell_num = #{sellNum,jdbcType=INTEGER},
@@ -290,8 +301,8 @@
       <if test="details != null" >
         and details = #{details,jdbcType=VARCHAR}
       </if>
-	   <if test="categoreId != null" >
-        and categore_id = #{categoreId,jdbcType=VARCHAR}
+	   <if test="categoryId != null" >
+        and category_id = #{categoryId,jdbcType=VARCHAR}
       </if>
 	   <if test="type != null" >
         and type = #{type,jdbcType=VARCHAR}

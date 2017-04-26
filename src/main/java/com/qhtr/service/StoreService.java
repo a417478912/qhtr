@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.qhtr.dto.StoreDto;
+import com.app.dto.StoreDto;
 import com.qhtr.model.Store;
 
 public interface StoreService {
@@ -14,7 +14,7 @@ public interface StoreService {
 	 * @param storeId
 	 * @return
 	 */
-	StoreDto getStoreByIdOrPhone(Store store);
+	Store getStoreByIdOrPhone(Store store);
 	
 	/**
 	 * 通过商铺id查找店铺（买家）

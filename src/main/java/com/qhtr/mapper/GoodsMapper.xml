@@ -17,14 +17,15 @@
     <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="edit_time" property="editTime" jdbcType="TIMESTAMP" />
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
     <result column="sort" property="sort" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, goods_code, store_id, name, thumb, result_picture, detail_pictures, price, vip_price, 
-    special_selling_price, stock, details, isDefault, status, create_time, collect_num, 
-    sell_num, sort
+    special_selling_price, stock, details, isDefault, status, create_time, edit_time, 
+    collect_num, sell_num, sort
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -42,15 +43,15 @@
       detail_pictures, price, vip_price, 
       special_selling_price, stock, details, 
       isDefault, status, create_time, 
-      collect_num, sell_num, sort
-      )
+      edit_time, collect_num, sell_num, 
+      sort)
     values (#{id,jdbcType=INTEGER}, #{goodsCode,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{thumb,jdbcType=VARCHAR}, #{resultPicture,jdbcType=VARCHAR}, 
       #{detailPictures,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{vipPrice,jdbcType=INTEGER}, 
       #{specialSellingPrice,jdbcType=INTEGER}, #{stock,jdbcType=INTEGER}, #{details,jdbcType=VARCHAR}, 
       #{isdefault,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}
-      )
+      #{editTime,jdbcType=TIMESTAMP}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
+      #{sort,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Goods" >
     insert into goods_goods
@@ -99,6 +100,9 @@
       </if>
       <if test="createTime != null" >
         create_time,
+      </if>
+      <if test="editTime != null" >
+        edit_time,
       </if>
       <if test="collectNum != null" >
         collect_num,
@@ -156,6 +160,9 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="editTime != null" >
+        #{editTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="collectNum != null" >
         #{collectNum,jdbcType=INTEGER},
       </if>
@@ -212,6 +219,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="editTime != null" >
+        edit_time = #{editTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="collectNum != null" >
         collect_num = #{collectNum,jdbcType=INTEGER},
       </if>
@@ -240,6 +250,7 @@
       isDefault = #{isdefault,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
+      edit_time = #{editTime,jdbcType=TIMESTAMP},
       collect_num = #{collectNum,jdbcType=INTEGER},
       sell_num = #{sellNum,jdbcType=INTEGER},
       sort = #{sort,jdbcType=INTEGER}
@@ -291,7 +302,8 @@
       <if test="details != null">
         and details = #{details,jdbcType=LONGVARCHAR}
       </if>
-      and status = 1
+      and status = 1 
+      order by create_time desc
     </where>
   	</select>
   	
@@ -304,7 +316,7 @@
   	   store_id = #{storeId,jdbcType=INTEGER}
   	   and status = #{status,jdbcType=INTEGER}
     </where>
-	order by sort desc
+	order by sort desc,edit_time desc
   	</select>
   	
   	
@@ -323,6 +335,7 @@
     <include refid="Base_Column_List" />
     from goods_goods
     where name like CONCAT("%",#{searchContent,jdbcType=VARCHAR},"%")
-    and status = 1 
+    and status = 1
+    order by id desc
   	</select>
 </mapper>

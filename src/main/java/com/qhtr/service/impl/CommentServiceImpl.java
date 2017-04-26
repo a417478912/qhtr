@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.app.dto.StoreDto;
 import com.qhtr.dao.CommentMapper;
-import com.qhtr.dto.StoreDto;
 import com.qhtr.model.Comment;
 import com.qhtr.model.User;
 import com.qhtr.service.CommentService;

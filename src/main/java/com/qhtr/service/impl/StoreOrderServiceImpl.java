@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.BuyCartDto;
+import com.app.dto.StoreDto;
 import com.app.dto.StoreOrderDto;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
@@ -24,12 +25,10 @@ import com.qhtr.dto.StoreOrderDetailsDto;
 import com.qhtr.model.Address;
 import com.qhtr.model.BuyCart;
 import com.qhtr.model.Coupon;
-import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
 import com.qhtr.model.Sku;
 import com.qhtr.model.StoreOrder;
-import com.qhtr.model.User;
 import com.qhtr.service.AddressService;
 import com.qhtr.service.BuyCartService;
 import com.qhtr.service.CouponService;
@@ -38,8 +37,10 @@ import com.qhtr.service.GoodsService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreOrderService;
+import com.qhtr.service.StoreService;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.GenerationUtils;
+import com.qhtr.utils.UUPaotuiUtils;
 
 @Service
 public class StoreOrderServiceImpl implements StoreOrderService {
@@ -61,6 +62,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public PayOrderService payOrderService;
 	@Resource
 	public AddressService addressService;
+	@Resource
+	public StoreService storeService;
 
 	@Override
 	public StoreOrder selectByOrderCode(String soCode) {
@@ -103,7 +106,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	 *  立刻购买
 	 */
 	@Override
-	public StoreOrderDto1 addtoBuy(int skuId, int num, int distributionType,int userId,int addressId,HttpServletRequest request) {
+	public StoreOrder addtoBuy(int skuId, int num, int distributionType,int userId,int addressId,String userRemark) {
 		StoreOrder so = new StoreOrder();
 		so.setOrderCode(GenerationUtils.getGenerationCode("SO", userId+""));
 		Sku sku = skuService.selectSkuBySkuId(skuId);
@@ -112,13 +115,14 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		so.setUserId(userId);
 		so.setDistributionType(distributionType);
 		so.setUserId(userId);
-		
-		so.setTotalPrice(sku.getPrice() * num);
+		so.setUserRemark(userRemark);
+		int totalPrice = sku.getPrice() * num;
+		so.setTotalPrice(totalPrice);
 		so.setAddressId(addressId);
 		
-		StoreOrderDto1 dto1 = new StoreOrderDto1();
-		
-		Coupon cp = new Coupon();
+		/*
+		 * 购物券
+		 Coupon cp = new Coupon();
 		cp.setStoreId(goodsDto.getStoreId());
 		cp.setUserId(userId);
 		cp.setStatus(1);
@@ -131,18 +135,16 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 			so.setCouponId(cps.get(0).getId());
 		}else{
 			so.setCouponPrice(0);
-		}
+		}*/
 		if(distributionType == 1){
 			so.setExpressPrice(8);
-			dto1.setExpressPrice(8);
 		}else if(distributionType == 2){
 			so.setExpressPrice(0);
-			dto1.setExpressPrice(0);
 		}
-		
-		User user = userService.getUserById(userId);
-		dto1.setPhone(user.getPhone());
-		dto1.setStoreOrder(so.getOrderCode());
+		so.setRefundPrice(totalPrice + 8);
+		so.setStatus(10);
+		so.setCreateTime(new Date());
+		storeOrderMapper.insert(so);
 		
 		GoodsOrder go = new GoodsOrder();
 		go.setOrderCode(GenerationUtils.getGenerationCode("GO", userId+""));
@@ -153,45 +155,12 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		go.setSkuId(skuId);
 		go.setNum(num);
 		go.setPrice(sku.getPrice());
-		request.getSession().setAttribute(Constants.STORE_ORDER, so);
-		request.getSession().setAttribute(Constants.GOODS_ORDER, go);
-		return dto1;
-	}
-	
-	/**
-	 * 立刻购买  -->确认订单
-	 */
-	@Override
-	public String addOrder(String userRemark, HttpServletRequest request) {
-		PayOrder po = new PayOrder();
-		StoreOrder so = (StoreOrder)request.getSession().getAttribute(Constants.STORE_ORDER);
-		so.setUserRemark(userRemark);
-		so.setStatus(1);
-		so.setCreateTime(new Date());
-		so.setResultPrice(so.getTotalPrice() + so.getExpressPrice() - so.getCouponPrice());
-		
-		GoodsOrder go = (GoodsOrder)request.getSession().getAttribute(Constants.GOODS_ORDER);
-		go.setStatus(1);
+		go.setStatus(10);
 		go.setCreateTime(new Date());
-		
-		po.setOrderCode(GenerationUtils.getGenerationCode("PO", so.getUserId()+""));
-		po.setUserId(so.getUserId());
-		po.setTotalPrice(so.getTotalPrice());
-		po.setCreateTime(new Date());
-		po.setStatus(1);
-		
-		so.setPayOrderCode(po.getOrderCode());
-		
-		int result1 = storeOrderMapper.insert(so);
-		int result2 = goodsOrderService.addGoodsOrder(go);
-		int result3 = payOrderService.insert(po);
-		if(result1 == 1 && result2 == 1 && result3 == 1){
-			request.getSession().removeAttribute(Constants.STORE_ORDER);
-			request.getSession().removeAttribute(Constants.GOODS_ORDER);
-			return po.getOrderCode();
-		}else{
-			return "";
-		}
+		go.setGoodsName(goodsDto.getName());
+		go.setGoodsPicture(goodsDto.getThumb());
+		goodsOrderService.addGoodsOrder(go);
+		return so;
 	}
 	
 	/**
@@ -241,7 +210,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 			//优惠券默认选择
 			Coupon cpTem = new Coupon();
 			cpTem.setUserId(userId);
-			cpTem.setStatus(1);
+			cpTem.setStatus(10);
 			cpTem.setStoreId(storeIdI);
 			List<Coupon> cps = couponService.selectByConditions(cpTem);
 			if(!cps.isEmpty()){
@@ -289,13 +258,13 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 				}
 			}
 			so.setUserRemark(p.getUserRemark());
-			so.setStatus(1);
+			so.setStatus(10);
 			so.setCreateTime(new Date());
 			so.setTotalPrice(so.getTotalPrice() + so.getExpressPrice() - so.getCouponPrice());
 			storeOrderMapper.insert(so);
 			payOrderPrice += so.getTotalPrice();
 		}
-		po.setStatus(1);
+		po.setStatus(10);
 		po.setCreateTime(new Date());
 		payOrderService.insert(po);
 		
@@ -303,7 +272,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		@SuppressWarnings("unchecked")
 		List<GoodsOrder> goList = (List<GoodsOrder>)request.getSession().getAttribute(Constants.GOODS_ORDER_BUYCART);
 		for (GoodsOrder go1 : goList) {
-				go1.setStatus(1);
+				go1.setStatus(10);
 				go1.setCreateTime(new Date());
 				goodsOrderService.addGoodsOrder(go1);
 		}
@@ -399,5 +368,13 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 				storeOrderMapper.updateByPrimaryKey(storeOrder);
 			}
 		}
+	}
+
+	@Override
+	public String getExpressOrderPrice(int addressId, int storeId) {
+		Address address = addressService.getAddressByid(addressId);
+		StoreDto store = storeService.getStoreById(storeId);
+		String orderPrice = UUPaotuiUtils.getOrderPrice(store.getLocation(), address.getDetails(), store.getLongitude(), store.getLatitude(), "0", "0");
+		return orderPrice;
 	}
 }

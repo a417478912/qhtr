@@ -132,7 +132,7 @@ $(function(){
 	   function(data){
 		alert(data);
 		console.log(data);
-		var a = data.data.picture1;
+		var a = data.data.bannerPic;
 		var b = eval(a)
 		alert(b[0].imageURL + "*******" + b[0].link.type + "++++++++" +b[0].link.id   + "--------------------------"+ b[3].imageURL + "*******" + b[3].link.type + "++++++++" +b[3].link.id)
 		for(i in a){

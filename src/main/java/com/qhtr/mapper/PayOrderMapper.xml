@@ -157,5 +157,6 @@
         and pay_type = #{payType,jdbcType=INTEGER}
       </if>
     </where>
+    order by id desc
   	</select>
 </mapper>

@@ -113,30 +113,7 @@ public class GoodsController {
 		List<GoodsListDto> dtoList = new ArrayList<GoodsListDto>();
 		List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId,status); 
 		for (Goods goods : goodsList) {
-			GoodsListDto dto = new GoodsListDto();
-			int topPrice = 0;
-			int lowPrice = 10000000;
-			List<Sku> skuList = skuService.selectListByGoodsId(goods.getId());
-			for (Sku sku : skuList) {
-				if(sku.getPrice() > topPrice){
-					topPrice = sku.getPrice();
-				}
-				if(sku.getPrice() < lowPrice){
-					lowPrice = sku.getPrice();
-				}
-			}
-			dto.setId(goods.getId());
-			dto.setLowPrice(new BigDecimal(lowPrice).divide(new BigDecimal(100).setScale(2)));
-			dto.setTopPrice(new BigDecimal(topPrice).divide(new BigDecimal(100).setScale(2)));
-			dto.setName(goods.getName());
-			
-			//详情图
-			if(goods.getDetailPictures() != null){
-				int picId = Integer.parseInt(goods.getDetailPictures().split(",")[0]);
-				Picture pic = pictureService.getById(picId);
-				dto.setPicture(pic);
-			}
-			dtoList.add(dto);
+			dtoList.add(new GoodsListDto(goods));
 		}
 		j.setData(goodsList);
 		return j;

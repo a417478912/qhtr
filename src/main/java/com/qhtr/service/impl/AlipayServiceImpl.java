@@ -36,6 +36,7 @@ public class AlipayServiceImpl implements AlipayService {
 	@Override
 	public void payResult(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException {
+		System.out.println("+++++++++++++++++++++++++++++++++             " + "异步接口回调" + "                 ++++++++++++++++++++++");
 		OutputStream out = response.getOutputStream();
 		response.setHeader("content-type", "text/html;charset=UTF-8");
 		// 获取支付宝POST过来反馈信息

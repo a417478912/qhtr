@@ -185,6 +185,6 @@
         and isDefault = #{isdefault,jdbcType=INTEGER}
       </if>
     </where>
-    order by id desc,isDefault desc
+    order by isDefault desc,id desc
   </select>
 </mapper>

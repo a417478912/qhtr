@@ -5,7 +5,7 @@ import java.util.Date;
 public class Store {
     private Integer id;
 
-    private Integer categoreId;
+    private Integer categoryId;
 
     private String name;
 
@@ -20,14 +20,14 @@ public class Store {
     private String otherShop;
 
     private String avatar;
-	/**
-     * banner轮播图(pictureid)
-     */
+
     private String bannerPic;
 	/**
      * 地图上的展示大图(封面图)
      */
     private String showPic;
+
+    private String promotionPic;
 
     private String details;
 
@@ -55,12 +55,12 @@ public class Store {
         this.id = id;
     }
 
-    public Integer getCategoreId() {
-        return categoreId;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoreId(Integer categoreId) {
-        this.categoreId = categoreId;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
     public String getName() {
@@ -133,6 +133,14 @@ public class Store {
 
     public void setShowPic(String showPic) {
         this.showPic = showPic == null ? null : showPic.trim();
+    }
+
+    public String getPromotionPic() {
+        return promotionPic;
+    }
+
+    public void setPromotionPic(String promotionPic) {
+        this.promotionPic = promotionPic == null ? null : promotionPic.trim();
     }
 
     public String getDetails() {

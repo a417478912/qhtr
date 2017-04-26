@@ -1,6 +1,7 @@
 package com.qhtr.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.qhtr.model.GoodsOrder;
 
@@ -24,4 +25,10 @@ public interface GoodsOrderService {
 	int addGoodsOrder(GoodsOrder goodsOrder);
 	
 	GoodsOrder selectById(int id);
+	/**
+	 * 卖家查询商品订单列表
+	 * @param goTem
+	 * @return
+	 */
+	List<Map<String, Object>> selectMapByConditions(Map map);
 }

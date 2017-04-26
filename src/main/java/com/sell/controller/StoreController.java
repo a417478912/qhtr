@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
-import com.qhtr.dto.StoreDto;
 import com.qhtr.model.Store;
 import com.qhtr.service.StoreService;
+import com.sell.dto.StoreDto;
 
 @Controller
 @RequestMapping("/sell_stroe")
@@ -230,9 +230,9 @@ public class StoreController {
 		Store storeTem = new Store();
 		storeTem.setPhone(phone);
 		storeTem.setId(id);
-		StoreDto dto = storeService.getStoreByIdOrPhone(storeTem);
-		if(dto!=null){
-			j.setData(dto);
+		Store store = storeService.getStoreByIdOrPhone(storeTem);
+		if(store!=null){
+			j.setData(new StoreDto(store));
 		}else{
 			j.setMessage("没有查到信息!");
 		}

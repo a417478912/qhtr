@@ -30,14 +30,6 @@ public class Constants {
 	 */
 	public final static String CART_IDS = "cartIds";
 	/**
-	 * 直接购买的订单(商铺订单)
-	 */
-	public final static String STORE_ORDER = "storeOrder";
-	/**
-	 * 直接购买的订单(商品订单)
-	 */
-	public final static String GOODS_ORDER = "goodsOrder";
-	/**
 	 * 购物车生成的订单(商铺订单)
 	 */
 	public final static String STORE_ORDER_BUYCART = "storeOrderBuycart";

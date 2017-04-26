@@ -1,4 +1,4 @@
-package com.qhtr.dto;
+package com.app.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,8 @@ import org.apache.commons.lang.StringUtils;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.qhtr.dto.LinkDto;
+import com.qhtr.dto.PictureDto;
 import com.qhtr.model.Category;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
@@ -22,6 +24,7 @@ public class StoreDto {
 	public String age;
 	public String otherShop;
 	public String avatar;
+	public List<PictureDto> promotionPic;
 	public List<PictureDto> bannerPic;
 	public String showPic;
 	public String detail;
@@ -44,14 +47,15 @@ public class StoreDto {
 		CategoryService categoryService = (CategoryService) ApplicationContextUtils.getContext()
 				.getBean("CategoryService");
 		// 行业分类
-		if (store.getCategoreId() != null && store.getCategoreId() != 0) {
-			Category category = categoryService.getById(store.getCategoreId());
+		if (store.getCategoryId() != null && store.getCategoryId() != 0) {
+			Category category = categoryService.getById(store.getCategoryId());
 			this.setCategory(category.getName());
 		}
 		this.setName(store.getName());
 		this.setPhone(store.getPhone());
 		this.setAvatar(store.getAvatar());
-
+		
+		//banner图
 		List<PictureDto> picList = new ArrayList<PictureDto>();
 		String bannerStr = store.getBannerPic();
 		if (StringUtils.isNotBlank(bannerStr)) {
@@ -73,9 +77,35 @@ public class StoreDto {
 				picList.add(picDto);
 			}
 		}
+		
+		//促销图  promotionPic
+ 		List<PictureDto> picList1 = new ArrayList<PictureDto>();
+		String promotionStr = store.getPromotionPic();
+		if (StringUtils.isNotBlank(promotionStr)) {
+			JSONArray jArray = JSONArray.parseArray(promotionStr);
+			for (int i = 0; i < jArray.size(); i++) {
+				PictureDto picDto = new PictureDto();
+				JSONObject jObj = jArray.getJSONObject(i);
+				Object imageURLObj = jObj.get("imageURL");
+				Object linkObj = jObj.get("link");
+				
+				JSONObject link1 = (JSONObject) JSONObject.parse(linkObj.toString());
+				LinkDto linkDto = new LinkDto();
+				linkDto.setId(link1.get("id").toString());
+				linkDto.setType(link1.get("type").toString());
+				
+				picDto.setImageURL(imageURLObj.toString());
+				picDto.setLink(linkDto);
+				
+				picList1.add(picDto);
+			}
+		}
+		this.setPromotionPic(picList1);
+		
+		
+		this.setDetail(store.getDetails());
 		this.setBannerPic(picList);
 		this.setShowPic(store.getShowPic());
-		this.setDetail(store.getDetails());
 		this.setCollect_num(store.getCollectNum());
 		this.setSell_num(store.getSellNum());
 		this.setLocation(store.getLocation());
@@ -229,5 +259,13 @@ public class StoreDto {
 
 	public void setOtherShop(String otherShop) {
 		this.otherShop = otherShop;
+	}
+
+	public List<PictureDto> getPromotionPic() {
+		return promotionPic;
+	}
+
+	public void setPromotionPic(List<PictureDto> promotionPic) {
+		this.promotionPic = promotionPic;
 	}
 }
