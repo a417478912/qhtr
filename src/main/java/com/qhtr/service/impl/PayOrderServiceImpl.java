@@ -42,6 +42,9 @@ public class PayOrderServiceImpl implements PayOrderService {
 			String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 			String appid = "";
 		}
+		
+		so.setPayOrderCode(po.getOrderCode());
+		storeOrderService.updateByCondition(so);
 		return null;
 	}
 

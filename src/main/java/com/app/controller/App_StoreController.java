@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.app.dto.StoreDto;
+import com.app.dto.StoreDto_App;
 import com.qhtr.common.Json;
 import com.qhtr.model.Store;
 import com.qhtr.service.StoreService;
@@ -30,7 +30,7 @@ public class App_StoreController {
 	@ResponseBody
 	@RequestMapping(value="/getStoresByDistance")
 	public Json getStoresByDistance(Json j,@RequestParam String longitude,@RequestParam String latitude,@RequestParam(defaultValue="1000")String accuracy){
-		List<StoreDto> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
+		List<StoreDto_App> stores = storeService.getStoresByDistance(longitude,latitude,accuracy);
 		j.setData(stores);
 		return j;
 	}
@@ -46,7 +46,7 @@ public class App_StoreController {
 	public Json getStoreById(Json j,@RequestParam int id){
 		Store storeTem = new Store();
 		storeTem.setId(id);
-		StoreDto dto = storeService.getStoreById(id);
+		StoreDto_App dto = storeService.getStoreById(id);
 		j.setData(dto);
 		return j;
 	}

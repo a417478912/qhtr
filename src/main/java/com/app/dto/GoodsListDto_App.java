@@ -1,6 +1,5 @@
-package com.qhtr.dto;
+package com.app.dto;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.qhtr.model.Goods;
@@ -10,18 +9,18 @@ import com.qhtr.service.PictureService;
 import com.qhtr.service.SkuService;
 import com.qhtr.utils.ApplicationContextUtils;
 
-public class GoodsListDto {
+public class GoodsListDto_App {
 	public int id;
 	public Picture picture;
 	public String name;
-	public BigDecimal topPrice;
-	public BigDecimal lowPrice;
-	public int totalStock;
+	public int topPrice;
+	public int lowPrice;
+	public int totalStock = 0;
 	
-	public GoodsListDto(){
+	public GoodsListDto_App(){
 	}
 	
-	public GoodsListDto(Goods goods){
+	public GoodsListDto_App(Goods goods){
 		SkuService skuService = (SkuService) ApplicationContextUtils.getContext().getBean("SkuService");
 		PictureService pictureService = (PictureService) ApplicationContextUtils.getContext().getBean("PictureService");
 		
@@ -40,8 +39,8 @@ public class GoodsListDto {
 			}
 			totalStock += sku.getStock();
 		}
-		this.setLowPrice(new BigDecimal(lowPrice).divide(new BigDecimal(100).setScale(2)));
-		this.setTopPrice(new BigDecimal(topPrice).divide(new BigDecimal(100).setScale(2)));
+		this.setLowPrice(lowPrice);
+		this.setTopPrice(topPrice);
 		this.setName(goods.getName());
 		
 		//详情图
@@ -78,21 +77,6 @@ public class GoodsListDto {
 		this.name = name;
 	}
 
-	public BigDecimal getTopPrice() {
-		return topPrice;
-	}
-
-	public void setTopPrice(BigDecimal topPrice) {
-		this.topPrice = topPrice;
-	}
-
-	public BigDecimal getLowPrice() {
-		return lowPrice;
-	}
-
-	public void setLowPrice(BigDecimal lowPrice) {
-		this.lowPrice = lowPrice;
-	}
 
 	public int getTotalStock() {
 		return totalStock;
@@ -100,5 +84,21 @@ public class GoodsListDto {
 
 	public void setTotalStock(int totalStock) {
 		this.totalStock = totalStock;
+	}
+
+	public int getTopPrice() {
+		return topPrice;
+	}
+
+	public void setTopPrice(int topPrice) {
+		this.topPrice = topPrice;
+	}
+
+	public int getLowPrice() {
+		return lowPrice;
+	}
+
+	public void setLowPrice(int lowPrice) {
+		this.lowPrice = lowPrice;
 	}
 }

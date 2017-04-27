@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.app.dto.StoreDto;
+import com.app.dto.StoreDto_App;
 import com.qhtr.dao.CommentMapper;
 import com.qhtr.model.Comment;
 import com.qhtr.model.User;
@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
 	public int add(Comment comment) {
 		//头像
 		if(comment.getUserId() == null){
-			StoreDto store = storeService.getStoreById(comment.getStoreId());
+			StoreDto_App store = storeService.getStoreById(comment.getStoreId());
 			comment.setAvatar(store.getAvatar());
 		}else{
 			User user = userService.getUserById(comment.getUserId());

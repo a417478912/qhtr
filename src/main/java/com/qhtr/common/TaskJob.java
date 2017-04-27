@@ -1,10 +1,8 @@
 package com.qhtr.common;
 
-import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.qhtr.service.GoodsOrderService;

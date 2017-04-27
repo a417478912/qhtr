@@ -149,16 +149,19 @@
   from activity a,goods_goods g
   where a.goods_id = g.id and
   a.model_id = #{modelId,jdbcType=INTEGER} 
-  and a.store_id = #{storeId,jdbcType=INTEGER}
+  and g.store_id = #{storeId,jdbcType=INTEGER}
+  order by g.id desc
   </select>
   
   <!-- 通过商铺id 和 活动模版id 查找不在此活动中商品 -->
   <select id="selectByStoreIdAndModelIdExcept" resultMap="BaseResultMap1" parameterType="java.util.Map">
-  select g.*
-  from activity a,goods_goods g
-  where a.goods_id = g.id
-  a.model_id != #{modelId,jdbcType=INTEGER} 
-  and a.store_id = #{storeId,jdbcType=INTEGER}
+  select gg.* FROM goods_goods gg WHERE gg.store_id = #{storeId,jdbcType=INTEGER} and gg.id not IN
+  (select g.id
+  from goods_goods g,activity a
+  where	a.goods_id = g.id 
+	and a.model_id = #{modelId,jdbcType=INTEGER} 
+  and g.store_id = #{storeId,jdbcType=INTEGER})
+  order by gg.id desc 
   </select>
   
   <!-- 通过商品id查找活动-->

@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Service;
 
-import com.app.dto.StoreDto;
+import com.app.dto.StoreDto_App;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
 import com.qhtr.model.Category;
@@ -38,19 +38,19 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 
-	public StoreDto getStoreById(int id) {
+	public StoreDto_App getStoreById(int id) {
 		Store store = storeMapper.selectByPrimaryKey(id);
 		if (store == null) {
 			return null;
 		} else {
-			return new StoreDto(store);
+			return new StoreDto_App(store);
 		}
 	}
 
 	@Override
-	public List<StoreDto> getStoresByDistance(String longitude, String latitude, String distance) {
+	public List<StoreDto_App> getStoresByDistance(String longitude, String latitude, String distance) {
 		List<Store> allStores = storeMapper.selectByConditions(new Store());
-		List<StoreDto> stores = new ArrayList<StoreDto>();
+		List<StoreDto_App> stores = new ArrayList<StoreDto_App>();
 		for (Store store : allStores) {
 			if (store.getLongitudeLatitude() == null) {
 				continue;
@@ -58,7 +58,7 @@ public class StoreServiceImpl implements StoreService {
 			String[] s = store.getLongitudeLatitude().split(",");
 			if (DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]),
 					Double.parseDouble(longitude), Double.parseDouble(latitude)) <= Double.parseDouble(distance)) {
-				stores.add(new StoreDto(store));
+				stores.add(new StoreDto_App(store));
 			}
 		}
 		return stores;

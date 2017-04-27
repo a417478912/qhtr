@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
-import com.app.dto.StoreDto;
+import com.app.dto.StoreDto_App;
 import com.qhtr.model.Store;
 
 public interface StoreService {
@@ -21,14 +21,14 @@ public interface StoreService {
 	 * @param id
 	 * @return
 	 */
-	public StoreDto getStoreById(int id);
+	public StoreDto_App getStoreById(int id);
 	/**
 	 * 根据经纬度，返回商铺信息
 	 * @param location 经纬度
 	 * @param distance 距离/默认1000米
 	 * @return
 	 */
-	List<StoreDto> getStoresByDistance(String longitude,String latitude,String distance);
+	List<StoreDto_App> getStoresByDistance(String longitude,String latitude,String distance);
 	/**
 	 * 通过分类查找店铺
 	 * @param type

@@ -1,21 +1,12 @@
-package com.app.dto;
-
-import java.util.ArrayList;
-import java.util.List;
-
+package com.sell.dto;
 
 import org.apache.commons.lang.StringUtils;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.qhtr.dto.LinkDto;
-import com.qhtr.dto.PictureDto;
 import com.qhtr.model.Category;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
 import com.qhtr.utils.ApplicationContextUtils;
 
-public class StoreDto {
+public class StoreDto_Sell {
 	public int id;
 	public String category;
 	public String name;
@@ -24,8 +15,8 @@ public class StoreDto {
 	public String age;
 	public String otherShop;
 	public String avatar;
-	public List<PictureDto> promotionPic;
-	public List<PictureDto> bannerPic;
+	public String bannerPic;
+	public String promotionPic;
 	public String showPic;
 	public String details;
 	public int collect_num;
@@ -36,11 +27,11 @@ public class StoreDto {
 	public int score;
 	public int type;
 
-	public StoreDto() {
+	public StoreDto_Sell() {
 
 	}
 
-	public StoreDto(Store store) {
+	public StoreDto_Sell(Store store) {
 		this.setId(store.getId());
 		this.setAge(store.getAge());
 		this.setSex(store.getSex());
@@ -54,58 +45,12 @@ public class StoreDto {
 		this.setName(store.getName());
 		this.setPhone(store.getPhone());
 		this.setAvatar(store.getAvatar());
+		this.setOtherShop(store.getOtherShop());
 		
-		//banner图
-		List<PictureDto> picList = new ArrayList<PictureDto>();
-		String bannerStr = store.getBannerPic();
-		if (StringUtils.isNotBlank(bannerStr)) {
-			JSONArray jArray = JSONArray.parseArray(bannerStr);
-			for (int i = 0; i < jArray.size(); i++) {
-				PictureDto picDto = new PictureDto();
-				JSONObject jObj = jArray.getJSONObject(i);
-				Object imageURLObj = jObj.get("imageURL");
-				Object linkObj = jObj.get("link");
-
-				JSONObject link1 = (JSONObject) JSONObject.parse(linkObj.toString());
-				LinkDto linkDto = new LinkDto();
-				linkDto.setId(link1.get("id").toString());
-				linkDto.setType(link1.get("type").toString());
-
-				picDto.setImageURL(imageURLObj.toString());
-				picDto.setLink(linkDto);
-
-				picList.add(picDto);
-			}
-		}
-		
-		//促销图  promotionPic
- 		List<PictureDto> picList1 = new ArrayList<PictureDto>();
-		String promotionStr = store.getPromotionPic();
-		if (StringUtils.isNotBlank(promotionStr)) {
-			JSONArray jArray = JSONArray.parseArray(promotionStr);
-			for (int i = 0; i < jArray.size(); i++) {
-				PictureDto picDto = new PictureDto();
-				JSONObject jObj = jArray.getJSONObject(i);
-				Object imageURLObj = jObj.get("imageURL");
-				Object linkObj = jObj.get("link");
-				
-				JSONObject link1 = (JSONObject) JSONObject.parse(linkObj.toString());
-				LinkDto linkDto = new LinkDto();
-				linkDto.setId(link1.get("id").toString());
-				linkDto.setType(link1.get("type").toString());
-				
-				picDto.setImageURL(imageURLObj.toString());
-				picDto.setLink(linkDto);
-				
-				picList1.add(picDto);
-			}
-		}
-		this.setPromotionPic(picList1);
-		
-		
-		this.setDetails(store.getDetails());
-		this.setBannerPic(picList);
+		this.setPromotionPic(store.getPromotionPic());
+		this.setBannerPic(store.getBannerPic());
 		this.setShowPic(store.getShowPic());
+		this.setDetails(store.getDetails());
 		this.setCollect_num(store.getCollectNum());
 		this.setSell_num(store.getSellNum());
 		this.setLocation(store.getLocation());
@@ -165,14 +110,6 @@ public class StoreDto {
 		this.showPic = showPic;
 	}
 
-	public String getDetails() {
-		return details;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
-	}
-
 	public int getCollect_num() {
 		return collect_num;
 	}
@@ -229,14 +166,6 @@ public class StoreDto {
 		this.type = type;
 	}
 
-	public List<PictureDto> getBannerPic() {
-		return bannerPic;
-	}
-
-	public void setBannerPic(List<PictureDto> bannerPic) {
-		this.bannerPic = bannerPic;
-	}
-
 	public String getSex() {
 		return sex;
 	}
@@ -261,11 +190,27 @@ public class StoreDto {
 		this.otherShop = otherShop;
 	}
 
-	public List<PictureDto> getPromotionPic() {
+	public String getBannerPic() {
+		return bannerPic;
+	}
+
+	public void setBannerPic(String bannerPic) {
+		this.bannerPic = bannerPic;
+	}
+
+	public String getPromotionPic() {
 		return promotionPic;
 	}
 
-	public void setPromotionPic(List<PictureDto> promotionPic) {
+	public void setPromotionPic(String promotionPic) {
 		this.promotionPic = promotionPic;
+	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
 	}
 }

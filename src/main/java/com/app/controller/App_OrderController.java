@@ -56,6 +56,7 @@ public class App_OrderController {
 	@ResponseBody
 	@RequestMapping(value = "/toBuy")
 	public Json toBuy(Json j,String userRemark,@RequestParam int skuId,@RequestParam int num,@RequestParam int distributionType,@RequestParam int userId,@RequestParam Integer addressId){
+		System.out.println("++++++++++++++++++++++++++++++++++提交订单+++++++++++++++++++++++++++++++++++++++++++++");
 		StoreOrder result = storeOrderService.addtoBuy(skuId,num,distributionType,userId,addressId,userRemark);
 		if(result != null){
 			Map<String,String> map = new HashMap<String,String>();

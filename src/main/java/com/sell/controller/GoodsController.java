@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
 import com.qhtr.dto.GoodsDto;
-import com.qhtr.dto.GoodsListDto;
 import com.qhtr.model.Goods;
 import com.qhtr.model.Picture;
 import com.qhtr.model.Sku;
 import com.qhtr.service.GoodsService;
 import com.qhtr.service.PictureService;
 import com.qhtr.service.SkuService;
+import com.sell.dto.GoodsListDto_Sell;
 import com.sell.param.GoodsParam;
 
 @Controller
@@ -110,12 +110,12 @@ public class GoodsController {
 	@ResponseBody
 	@RequestMapping(value="/getList")
 	public Json getList(Json j,@RequestParam int storeId,@RequestParam(defaultValue="1") int status){
-		List<GoodsListDto> dtoList = new ArrayList<GoodsListDto>();
+		List<GoodsListDto_Sell> dtoList = new ArrayList<GoodsListDto_Sell>();
 		List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId,status); 
 		for (Goods goods : goodsList) {
-			dtoList.add(new GoodsListDto(goods));
+			dtoList.add(new GoodsListDto_Sell(goods));
 		}
-		j.setData(goodsList);
+		j.setData(dtoList);
 		return j;
 	}
 	

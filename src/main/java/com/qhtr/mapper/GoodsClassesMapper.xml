@@ -149,12 +149,16 @@
   	
 	<!-- 查找不在此分类中的商品            -->                    
 	<select id="getGoodsByClassExcept" resultType="java.util.Map" parameterType="java.util.Map" >
-	SELECT g.id id,g.thumb thumb,g.name name
+	select gg.* from goods_goods gg where gg.store_id = #{storeId,jdbcType=INTEGER} and gg.id not in 
+	(
+	SELECT g.id
 	from goods_goods g,goods_mid_goods_classes c
 	WHERE g.id = c.goods_id
 	AND g.store_id = #{storeId,jdbcType=INTEGER}
-	AND c.goods_classes_id != #{classId,jdbcType=INTEGER}
+	AND c.goods_classes_id = #{classId,jdbcType=INTEGER}
 	GROUP BY c.id
+	)
+	order by gg.id desc
   	</select>
 	
 	<!-- 添加商品和分类中间表的数据 -->

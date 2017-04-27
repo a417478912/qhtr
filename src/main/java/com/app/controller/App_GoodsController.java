@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.dto.GoodsListDto_App;
 import com.qhtr.common.Json;
 import com.qhtr.dto.GoodsDto;
-import com.qhtr.dto.GoodsListDto;
 import com.qhtr.model.Goods;
 import com.qhtr.service.ActivityService;
 import com.qhtr.service.GoodsService;
@@ -74,7 +74,7 @@ public class App_GoodsController {
 	@ResponseBody
 	@RequestMapping(value="/selectGoodsBystoreId")
 	public Json selectGoodsBystoreId(Json j,@RequestParam int storeId,@RequestParam(defaultValue="0") int modelId){
-		List<GoodsListDto> dtoList = new ArrayList<GoodsListDto>();
+		List<GoodsListDto_App> dtoList = new ArrayList<GoodsListDto_App>();
 		List<Goods> list = null;
 		if (modelId != 0) {
 			list = activityService.selectByStoreIdAndModelId(storeId, modelId);
@@ -82,7 +82,7 @@ public class App_GoodsController {
 			list = goodsService.selectListByStoreAndType(storeId, 1);
 		}
 		for (Goods goods : list) {
-			dtoList.add(new GoodsListDto(goods));
+			dtoList.add(new GoodsListDto_App(goods));
 		}
 		j.setData(dtoList);
 		return j;

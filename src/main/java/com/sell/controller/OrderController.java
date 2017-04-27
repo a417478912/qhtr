@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.app.dto.StoreDto;
+import com.app.dto.StoreDto_App;
 import com.qhtr.common.Json;
 import com.qhtr.dto.StoreOrderDetailsDto;
 import com.qhtr.model.Express;
@@ -169,7 +169,7 @@ public class OrderController {
 		
 		StoreOrder so = storeOrderService.selectById(orderId);
 		if(so.getAddressId() != null && so.getStoreId() != null && so.getAddressId() == addressId && so.getStoreId() == storeId){
-			StoreDto store = storeService.getStoreById(so.getStoreId());
+			StoreDto_App store = storeService.getStoreById(so.getStoreId());
 			String result = uUpaotuiService.addOrder(price_token, total_money, need_paymoney, so.getReceivingName(), so.getReceivingPhone(), note, store.getPhone());
 			String returnCode1 = JSONObject.parseObject(result).getString("return_code");
 			String ordercode = JSONObject.parseObject(result).getString("ordercode");
@@ -252,7 +252,19 @@ public class OrderController {
 		int result6 = goodsOrderService.selectCountByConditions(map6);
 		map.put("tk", result6);
 		
+		
+		map.put("today_order_num", 0); //今日订单
+		map.put("sevenday_order_num", 0); //七日订单
+		map.put("total_income", 0);   //总收入
+		map.put("today_income", 0);   //今日收入
+		map.put("yesterday_income", 0);//昨日收入
+		map.put("sevenday_income", 0); //七日总收入
+		map.put("current_month_income", 0); //本月收入
+		map.put("goods_num",0);    //商品数
+		map.put("unRepay_num", 0);  //待回复留言数
+		
 		j.setData(map);
+		
 		return j;
 	}
 }

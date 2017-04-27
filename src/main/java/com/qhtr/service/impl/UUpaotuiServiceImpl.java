@@ -4,7 +4,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.app.dto.StoreDto;
+import com.app.dto.StoreDto_App;
 import com.qhtr.model.Address;
 import com.qhtr.service.AddressService;
 import com.qhtr.service.StoreService;
@@ -21,7 +21,7 @@ public class UUpaotuiServiceImpl implements UUpaotuiService {
 	@Override
 	public String getExpressOrderPrice(int addressId, int storeId) {
 		Address address = addressService.getAddressByid(addressId);
-		StoreDto store = storeService.getStoreById(storeId);
+		StoreDto_App store = storeService.getStoreById(storeId);
 		String result = UUPaotuiUtils.getOrderPrice(store.getLocation(), address.getDetails(), store.getLongitude(), store.getLatitude(), "0", "0");
 		return result;
 	}

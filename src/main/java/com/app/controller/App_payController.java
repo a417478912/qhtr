@@ -20,6 +20,7 @@ public class App_payController {
 	
 	@RequestMapping(value="/alipayResult")
 	public void alipayResult(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException, IOException{
+		System.out.println("++++++++++++++++++++++++++++++++++进入支付回调+++++++++++++++++++++++++++++++++++++++++++++");
 		alipayService.payResult(request, response);
 	}
 }
