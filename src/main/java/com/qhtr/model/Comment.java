@@ -1,6 +1,11 @@
 package com.qhtr.model;
 
 import java.util.Date;
+
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.qhtr.common.CustomDateSerializer;
 /**
  * 评论表：  storeId为卖家id /如果userId不为空，为买家留言，如果为空，是卖家留言
  * @author wjx
@@ -19,7 +24,8 @@ public class Comment {
     private Integer parentId;
 
     private Integer istop;
-
+    
+    @JsonSerialize(using = CustomDateSerializer.class)  
     private Date createTime;
 
     private String avatar;

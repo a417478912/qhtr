@@ -114,7 +114,10 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		int totalPrice = sku.getPrice() * num;
 		so.setTotalPrice(totalPrice);
 		so.setAddressId(addressId);
-		
+		Address address = addressService.getAddressByid(addressId);
+		so.setReceivingName(address.getReceivingName());
+		so.setReceivingPhone(address.getReceivingPhone());
+		so.setAddressDetails(address.getProvince()+address.getCity()+address.getCountry()+address.getDetails());
 		/*
 		 * 购物券
 		 Coupon cp = new Coupon();
@@ -136,7 +139,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		}else if(distributionType == 2){
 			so.setExpressPrice(0);
 		}
-		so.setRefundPrice(totalPrice + 8);
+		so.setResultPrice(totalPrice + so.getExpressPrice());
 		so.setStatus(10);
 		so.setCreateTime(new Date());
 		storeOrderMapper.insert(so);
@@ -363,5 +366,26 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 				storeOrderMapper.updateByPrimaryKey(storeOrder);
 			}
 		}
+	}
+
+	@Override
+	public int sendOutGoods(int storeOrderId) {
+		StoreOrder so = storeOrderMapper.selectByPrimaryKey(storeOrderId);
+		so.setStatus(30);
+		storeOrderMapper.updateByPrimaryKey(so);
+		
+		//更改商品订单为发货状态
+		GoodsOrder goTem = new GoodsOrder();
+		goTem.setStoreOrderCode(so.getOrderCode());
+		List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+		Date nowTime = new Date();
+		for (GoodsOrder goodsOrder : goList) {
+			goodsOrder.setStatus(30);
+			goodsOrder.setShipmentsTime(nowTime);
+			if (goodsOrderService.updateGoodsOrder(goodsOrder) == 0) {
+				return 0;
+			}
+		}
+		return 1;
 	}
 }

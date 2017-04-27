@@ -27,4 +27,10 @@ public interface GoodsOrderMapper {
      * @return
      */
 	List<Map<String, Object>> selectMapByConditions(Map map);
+	/**
+	 * 查询数量
+	 * @param map
+	 * @return
+	 */
+	int selectCountByConditions(Map<String, Object> map);
 }

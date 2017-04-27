@@ -82,4 +82,10 @@ public interface StoreOrderService {
 	 * 统计商家部分发货的变成已发货
 	 */
 	void changeToSendOutTask();
+	/**
+	 * 发货
+	 * @param storeOrderId
+	 * @return
+	 */
+	int sendOutGoods(int storeOrderId);
 }

@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
 		
 		comment.setUpvoteNum(0);
 		comment.setCreateTime(new Date());
-		if(comment.getParentId() != null){
+		if(comment.getParentId() != null && comment.getParentId() != 0){
 			Comment parentCom = commentMapper.selectByPrimaryKey(comment.getParentId());
 			if(parentCom.getReplyNum() == null){
 				parentCom.setReplyNum(1);

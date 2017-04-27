@@ -18,7 +18,7 @@ public class TaskJob {
 	public StoreOrderService storeOrderService;
 	/**
      *  统计商家部分发货的变成已发货
-	 */
+	 *//*
 	@Scheduled(cron = "0 0/10 * * * ?")
 	public void changeToSendOutTask(){
 		storeOrderService.changeToSendOutTask();
@@ -29,5 +29,5 @@ public class TaskJob {
 	@Scheduled(cron = "0 0/10 * * * ?")
 	public void start1(){
 		System.out.println("任务开启222222:++++" + new Date());
-	}
+	}*/
 }

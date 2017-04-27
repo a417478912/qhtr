@@ -36,5 +36,5 @@ public interface GoodsClassService {
 	 * @param classId
 	 * @return
 	 */
-	int deleteGoodsByClass(int goodsIds, int classId);
+	int deleteGoodsByClass(String goodsIds, int classId);
 }

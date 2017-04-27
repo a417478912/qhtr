@@ -2,6 +2,10 @@ package com.qhtr.model;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.qhtr.common.CustomDateSerializer;
+
 public class Goods {
     private Integer id;
 
@@ -38,9 +42,10 @@ public class Goods {
      * 1已上架 2.已下架  3.已删除
      */
     private Integer status;
-
+    
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date createTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date editTime;
 
     private Integer collectNum;

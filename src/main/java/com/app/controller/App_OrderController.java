@@ -27,6 +27,7 @@ import com.qhtr.service.AddressService;
 import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.StoreOrderService;
+import com.qhtr.service.UUpaotuiService;
 
 @Controller
 @RequestMapping("/app_order")
@@ -39,7 +40,8 @@ public class App_OrderController {
 	public StoreOrderService storeOrderService;
 	@Resource
 	public AddressService addressService;
-	
+	@Resource
+	public UUpaotuiService uUpaotuiService;
 	/**
 	 * 立刻购买 -->提交订单
 	 * @param j
@@ -149,6 +151,25 @@ public class App_OrderController {
 	public Json getOrdersByUser(Json j,@RequestParam int userId,@RequestParam int status){
 		List<StoreOrderDto> dto = storeOrderService.getOrdersByUser(userId,status);
 		j.setData(dto);
+		return j;
+	}
+	
+	/**
+	 * 计算邮费
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getExpressOrderPrice")
+	public Json getExpressOrderPrice(Json j,@RequestParam int addressId,@RequestParam int storeId){
+		String expressPrice = uUpaotuiService.getExpressOrderPrice(addressId,storeId);
+		String returnCode = JSONObject.parseObject(expressPrice).getString("return_code");
+		if(returnCode != null && returnCode.equals("ok")){
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("need_paymoney", JSONObject.parseObject(expressPrice).getString("need_paymoney"));
+			j.setData(map);
+		}else{
+			j.setCode(0);
+			j.setMessage("查询订单价格失败!");
+		}
 		return j;
 	}
 }

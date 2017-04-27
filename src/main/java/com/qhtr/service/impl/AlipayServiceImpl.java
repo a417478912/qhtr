@@ -103,7 +103,7 @@ public class AlipayServiceImpl implements AlipayService {
 							int poPrice = po.getTotalPrice();
 							float poPriceF = poPrice / 100;
 							if (poPrice != 0 && poPriceF == Float.parseFloat(total_amount)) {
-								po.setStatus(2);
+								po.setStatus(20);
 								Date payTime = new Date();
 								po.setPaymentTime(payTime);
 								payOrderService.update(po);
@@ -112,7 +112,7 @@ public class AlipayServiceImpl implements AlipayService {
 								soTem.setPayOrderCode(po.getOrderCode());
 								List<StoreOrder> soList = storeOrderService.selectByConditions(soTem);
 								for (StoreOrder so : soList) {
-									so.setStatus(2);
+									so.setStatus(20);
 									so.setPaymentTime(payTime);
 									storeOrderService.updateByCondition(so);
 									
@@ -120,8 +120,7 @@ public class AlipayServiceImpl implements AlipayService {
 									goTem.setStoreOrderCode(so.getOrderCode());
 									List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
 									for (GoodsOrder go : goList) {
-										go.setStatus(2);
-										go.setPaymentTime(payTime);
+										go.setStatus(20);
 										goodsOrderService.updateGoodsOrder(go);
 									}
 								}

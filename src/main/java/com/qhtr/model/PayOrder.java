@@ -2,6 +2,10 @@ package com.qhtr.model;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.qhtr.common.CustomDateSerializer;
+
 public class PayOrder {
     private Integer id;
 
@@ -12,9 +16,9 @@ public class PayOrder {
     private Integer totalPrice;
 
     private Integer status;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date createTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date paymentTime;
 
     private Integer payType;

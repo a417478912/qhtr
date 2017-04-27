@@ -31,4 +31,9 @@ public interface GoodsOrderService {
 	 * @return
 	 */
 	List<Map<String, Object>> selectMapByConditions(Map map);
+	
+	/**
+	 * 查询数量
+	 */
+	int selectCountByConditions(Map<String,Object> map);
 }

@@ -47,4 +47,9 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 		list.add(map1);
 		return list;
 	}
+
+	@Override
+	public int selectCountByConditions(Map<String, Object> map) {
+		return goodsOrderMapper.selectCountByConditions(map);
+	}
 }

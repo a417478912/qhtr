@@ -2,6 +2,10 @@ package com.qhtr.model;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.qhtr.common.CustomDateSerializer;
+
 public class Activity {
     private Integer id;
 
@@ -14,7 +18,7 @@ public class Activity {
     private Date createTime;
 
     private Date startTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date endTime;
 
     public Integer getId() {

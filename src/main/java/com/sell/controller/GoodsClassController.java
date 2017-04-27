@@ -129,7 +129,7 @@ public class GoodsClassController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteGoodsByClass")
-	public Json deleteGoodsByClass(Json j,@RequestParam int goodsIds,@RequestParam int classId){
+	public Json deleteGoodsByClass(Json j,@RequestParam String goodsIds,@RequestParam int classId){
 		int result = goodsClassService.deleteGoodsByClass(goodsIds,classId);
 		if(result == 0){
 			j.setCode(0);

@@ -215,6 +215,6 @@ public class GoodsServiceImpl implements GoodsService {
 			goods.setSort(0);
 		}
 		goodsMapper.updateByPrimaryKey(goods);
-		return 0;
+		return 1;
 	}
 }

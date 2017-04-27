@@ -21,6 +21,9 @@
     <result column="cancal_time" property="cancalTime" jdbcType="TIMESTAMP" />
     <result column="user_remark" property="userRemark" jdbcType="VARCHAR" />
     <result column="seller_remark" property="sellerRemark" jdbcType="VARCHAR" />
+    <result column="receiving_name" property="receivingName" jdbcType="VARCHAR" />
+    <result column="receiving_phone" property="receivingPhone" jdbcType="VARCHAR" />
+    <result column="address_details" property="addressDetails" jdbcType="VARCHAR" />
   </resultMap>
 
   <resultMap id="BaseResultMap1" type="com.app.dto.GoodsOrderDto" >
@@ -43,7 +46,8 @@
   <sql id="Base_Column_List" >
     id, order_code, pay_order_code, store_id, distribution_type, user_id, coupon_id, 
     total_price, address_id, express_price, coupon_price, refund_price, result_price, 
-    status, create_time, payment_time, cancal_time, user_remark
+    status, create_time, payment_time, cancal_time, user_remark, seller_remark, receiving_name, 
+    receiving_phone, address_details
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -61,15 +65,17 @@
       coupon_id, total_price, address_id, 
       express_price, coupon_price, refund_price, 
       result_price, status, create_time, 
-      payment_time, cancal_time, user_remark,seller_remark
-      )
+      payment_time, cancal_time, user_remark, 
+      seller_remark, receiving_name, receiving_phone, 
+      address_details)
     values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{payOrderCode,jdbcType=VARCHAR}, 
       #{storeId,jdbcType=INTEGER}, #{distributionType,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{couponId,jdbcType=INTEGER}, #{totalPrice,jdbcType=INTEGER}, #{addressId,jdbcType=INTEGER}, 
       #{expressPrice,jdbcType=INTEGER}, #{couponPrice,jdbcType=INTEGER}, #{refundPrice,jdbcType=INTEGER}, 
       #{resultPrice,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{paymentTime,jdbcType=TIMESTAMP}, #{cancalTime,jdbcType=TIMESTAMP}, #{userRemark,jdbcType=VARCHAR}, #{sellerRemark,jdbcType=VARCHAR}
-      )
+      #{paymentTime,jdbcType=TIMESTAMP}, #{cancalTime,jdbcType=TIMESTAMP}, #{userRemark,jdbcType=VARCHAR}, 
+      #{sellerRemark,jdbcType=VARCHAR}, #{receivingName,jdbcType=VARCHAR}, #{receivingPhone,jdbcType=VARCHAR}, 
+      #{addressDetails,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.StoreOrder" >
     insert into order_store_order
@@ -128,6 +134,18 @@
       <if test="userRemark != null" >
         user_remark,
       </if>
+      <if test="sellerRemark != null" >
+        seller_remark,
+      </if>
+      <if test="receivingName != null" >
+        receiving_name,
+      </if>
+      <if test="receivingPhone != null" >
+        receiving_phone,
+      </if>
+      <if test="addressDetails != null" >
+        address_details,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -183,6 +201,18 @@
       </if>
       <if test="userRemark != null" >
         #{userRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="sellerRemark != null" >
+        #{sellerRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingName != null" >
+        #{receivingName,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingPhone != null" >
+        #{receivingPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetails != null" >
+        #{addressDetails,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +273,15 @@
       <if test="sellerRemark != null" >
         seller_remark = #{sellerRemark,jdbcType=VARCHAR},
       </if>
+      <if test="receivingName != null" >
+        receiving_name = #{receivingName,jdbcType=VARCHAR},
+      </if>
+      <if test="receivingPhone != null" >
+        receiving_phone = #{receivingPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="addressDetails != null" >
+        address_details = #{addressDetails,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -265,7 +304,10 @@
       payment_time = #{paymentTime,jdbcType=TIMESTAMP},
       cancal_time = #{cancalTime,jdbcType=TIMESTAMP},
       user_remark = #{userRemark,jdbcType=VARCHAR},
-      seller_remark = #{sellerRemark,jdbcType=VARCHAR}
+      seller_remark = #{sellerRemark,jdbcType=VARCHAR},
+      receiving_name = #{receivingName,jdbcType=VARCHAR},
+      receiving_phone = #{receivingPhone,jdbcType=VARCHAR},
+      address_details = #{addressDetails,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -376,13 +418,13 @@
    			1 = 1
      	 </if>
      	  <if test="status != null">
-   			status = #{status,jdbcType=INTEGER} 
+   			and status = #{status,jdbcType=INTEGER} 
      	 </if>
      	  <if test="userId != null">
-   			userId = #{userId,jdbcType=INTEGER} 
+   			and user_id = #{userId,jdbcType=INTEGER} 
      	 </if>
      	  <if test="storeId != null">
-   			storeId = #{storeId,jdbcType=INTEGER} 
+   			and store_id = #{storeId,jdbcType=INTEGER} 
      	 </if>
      	 </where>
   </select>

@@ -2,6 +2,10 @@ package com.qhtr.model;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.qhtr.common.CustomDateSerializer;
+
 public class StoreOrder {
     private Integer id;
 
@@ -10,11 +14,9 @@ public class StoreOrder {
     private String payOrderCode;
 
     private Integer storeId;
-
 	/**
      * 取货方式/配送方式    1.快递   2.自取
      */
-
     private Integer distributionType;
 
     private Integer userId;
@@ -34,16 +36,22 @@ public class StoreOrder {
     private Integer resultPrice;
 
     private Integer status;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date createTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date paymentTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date cancalTime;
 
     private String userRemark;
-    
+
     private String sellerRemark;
+
+    private String receivingName;
+
+    private String receivingPhone;
+
+    private String addressDetails;
 
     public Integer getId() {
         return id;
@@ -189,11 +197,35 @@ public class StoreOrder {
         this.userRemark = userRemark == null ? null : userRemark.trim();
     }
 
-	public String getSellerRemark() {
-		return sellerRemark;
-	}
+    public String getSellerRemark() {
+        return sellerRemark;
+    }
 
-	public void setSellerRemark(String sellerRemark) {
-		this.sellerRemark = sellerRemark;
-	}
+    public void setSellerRemark(String sellerRemark) {
+        this.sellerRemark = sellerRemark == null ? null : sellerRemark.trim();
+    }
+
+    public String getReceivingName() {
+        return receivingName;
+    }
+
+    public void setReceivingName(String receivingName) {
+        this.receivingName = receivingName == null ? null : receivingName.trim();
+    }
+
+    public String getReceivingPhone() {
+        return receivingPhone;
+    }
+
+    public void setReceivingPhone(String receivingPhone) {
+        this.receivingPhone = receivingPhone == null ? null : receivingPhone.trim();
+    }
+
+    public String getAddressDetails() {
+        return addressDetails;
+    }
+
+    public void setAddressDetails(String addressDetails) {
+        this.addressDetails = addressDetails == null ? null : addressDetails.trim();
+    }
 }

@@ -84,11 +84,17 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 	}
 
 	@Override
-	public int deleteGoodsByClass(int goodsIds, int classId) {
-		Map<String,Integer> map = new HashMap<String,Integer>();
-		map.put("goodsIds", goodsIds);
-		map.put("classId", classId);
-		return goodsClassesMapper.deleteGoodsByClass(map);
+	public int deleteGoodsByClass(String goodsIds, int classId) {
+		for (String s: goodsIds.split(",")) {
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("goodsId", Integer.parseInt(s));
+			map.put("classId", classId);
+			int result = goodsClassesMapper.deleteGoodsByClass(map);
+			if(result == 0){
+				return 0;
+			}
+		}
+		return 1;
 	}
 
 }

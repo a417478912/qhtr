@@ -2,6 +2,10 @@ package com.qhtr.model;
 
 import java.util.Date;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.qhtr.common.CustomDateSerializer;
+
 public class GoodsOrder {
     private Integer id;
 
@@ -22,17 +26,18 @@ public class GoodsOrder {
     private Integer num;
 
     private Integer price;
-
+    
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date createTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date cancalTime;
-
-    private Date paymentTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
+    private Date shipmentsTime;
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date receiveTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date commentTime;
-
+    @JsonSerialize(using = CustomDateSerializer.class) 
     private Date afterSaleTime;
 
     private String goodsName;
@@ -135,12 +140,12 @@ public class GoodsOrder {
         this.cancalTime = cancalTime;
     }
 
-    public Date getPaymentTime() {
-        return paymentTime;
+    public Date getShipmentsTime() {
+        return shipmentsTime;
     }
 
-    public void setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
+    public void setShipmentsTime(Date shipmentsTime) {
+        this.shipmentsTime = shipmentsTime;
     }
 
     public Date getReceiveTime() {
