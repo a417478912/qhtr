@@ -13,6 +13,8 @@ public class Express {
 
     private Date createTime;
 
+    private Integer storeOrderId;
+
     public Integer getId() {
         return id;
     }
@@ -51,5 +53,13 @@ public class Express {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getStoreOrderId() {
+        return storeOrderId;
+    }
+
+    public void setStoreOrderId(Integer storeOrderId) {
+        this.storeOrderId = storeOrderId;
     }
 }

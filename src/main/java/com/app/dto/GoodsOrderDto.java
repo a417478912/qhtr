@@ -6,6 +6,7 @@ public class GoodsOrderDto {
 	public String skuDetails;
 	public int price;
 	public int num;
+	public int storeOrderId;
 	public String goodsName;
 	
 	
@@ -44,6 +45,12 @@ public class GoodsOrderDto {
 	}
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
+	}
+	public int getStoreOrderId() {
+		return storeOrderId;
+	}
+	public void setStoreOrderId(int storeOrderId) {
+		this.storeOrderId = storeOrderId;
 	}
 	
 }

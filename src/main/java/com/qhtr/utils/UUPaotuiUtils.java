@@ -70,7 +70,7 @@ public class UUPaotuiUtils {
 		mydic.Add("openid", ApiConfig.OpenID);
 		mydic.Add("order_code", order_code);
 		mydic.Add("sign", UUCommonFun.CreateMd5Sign(mydic, ApiConfig.AppSecret));
-		String result = UUHttpRequestHelper.HttpPost(ApiConfig.GetOrderDetailUrl, mydic);
+		String result = UUHttpRequestHelper.HttpPost(ApiConfig.HOST+ApiConfig.GetOrderDetailUrl, mydic);
 		return result;
 	}
 	

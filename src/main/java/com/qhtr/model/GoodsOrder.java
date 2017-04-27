@@ -13,6 +13,8 @@ public class GoodsOrder {
 
     private String storeOrderCode;
 
+    private Integer storeOrderId;
+
     private Integer goodsId;
 
     private Integer userId;
@@ -66,6 +68,14 @@ public class GoodsOrder {
 
     public void setStoreOrderCode(String storeOrderCode) {
         this.storeOrderCode = storeOrderCode == null ? null : storeOrderCode.trim();
+    }
+
+    public Integer getStoreOrderId() {
+        return storeOrderId;
+    }
+
+    public void setStoreOrderId(Integer storeOrderId) {
+        this.storeOrderId = storeOrderId;
     }
 
     public Integer getGoodsId() {

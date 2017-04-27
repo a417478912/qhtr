@@ -14,4 +14,10 @@ public interface ExpressMapper {
     int updateByPrimaryKeySelective(Express record);
 
     int updateByPrimaryKey(Express record);
+    /**
+     * 通过订单id 查找
+     * @param storeOrderId
+     * @return
+     */
+	Express getByStoreOrderId(int storeOrderId);
 }

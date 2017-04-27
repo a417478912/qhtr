@@ -37,5 +37,5 @@ public interface ActivityService {
 	 * @param modelId
 	 * @return
 	 */
-	int deleteGoods(int goodsIds, int modelId);
+	int deleteGoods(String goodsIds, int modelId);
 }

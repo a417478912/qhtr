@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,11 @@ public class SmsController {
 		if(StringUtils.isBlank(result)){
 			j.setCode(0);
 			j.setMessage("发送失败!");
-		}else if(result.equals("success")){
+		//}else if(result.equals("success")){
+		}else{
+			Map<String,Object> map = new HashMap<String,Object>();
+			map.put("code",result);
+			j.setData(map);
 			j.setMessage("发送成功!");
 		}
 		return j;

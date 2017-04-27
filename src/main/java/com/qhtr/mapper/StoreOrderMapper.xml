@@ -59,7 +59,7 @@
     delete from order_store_order
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qhtr.model.StoreOrder" >
+  <insert id="insert" parameterType="com.qhtr.model.StoreOrder" useGeneratedKeys="true" keyProperty="id">
     insert into order_store_order (id, order_code, pay_order_code, 
       store_id, distribution_type, user_id, 
       coupon_id, total_price, address_id, 

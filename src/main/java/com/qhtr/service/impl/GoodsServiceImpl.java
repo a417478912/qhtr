@@ -162,7 +162,7 @@ public class GoodsServiceImpl implements GoodsService {
 		goodsMapper.updateByPrimaryKeySelective(goods);
 		// 活动分类  需要删除之前的活动关系
 		Map<String,Integer> map1 = new HashMap<String,Integer>();
-		map1.put("goodsId", goodsParam.getStoreId());
+		map1.put("goodsId", goodsParam.getId());
 		activityMapper.deleteByConditions(map1);
 		
 		int[] sArr = goodsParam.getActivityId();

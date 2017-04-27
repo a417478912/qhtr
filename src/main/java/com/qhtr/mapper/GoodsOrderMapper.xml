@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
     <result column="store_order_code" property="storeOrderCode" jdbcType="VARCHAR" />
+    <result column="store_order_id" property="storeOrderId" jdbcType="INTEGER" />
     <result column="goods_id" property="goodsId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
@@ -22,9 +23,9 @@
     <result column="goods_picture" property="goodsPicture" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, order_code, store_order_code, goods_id, user_id, store_id, sku_id, status, num, 
-    price, create_time, cancal_time, shipments_time, receive_time, comment_time, after_sale_time, 
-    goods_name, goods_picture
+    id, order_code, store_order_code, store_order_id, goods_id, user_id, store_id, sku_id, 
+    status, num, price, create_time, cancal_time, shipments_time, receive_time, comment_time, 
+    after_sale_time, goods_name, goods_picture
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -38,19 +39,19 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.GoodsOrder" >
     insert into order_goods_order (id, order_code, store_order_code, 
-      goods_id, user_id, store_id, 
-      sku_id, status, num, 
-      price, create_time, cancal_time, 
-      shipments_time, receive_time, comment_time, 
-      after_sale_time, goods_name, goods_picture
-      )
+      store_order_id, goods_id, user_id, 
+      store_id, sku_id, status, 
+      num, price, create_time, 
+      cancal_time, shipments_time, receive_time, 
+      comment_time, after_sale_time, goods_name, 
+      goods_picture)
     values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{storeOrderCode,jdbcType=VARCHAR}, 
-      #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, 
-      #{skuId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{num,jdbcType=INTEGER}, 
-      #{price,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{cancalTime,jdbcType=TIMESTAMP}, 
-      #{shipmentsTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, #{commentTime,jdbcType=TIMESTAMP}, 
-      #{afterSaleTime,jdbcType=TIMESTAMP}, #{goodsName,jdbcType=VARCHAR}, #{goodsPicture,jdbcType=VARCHAR}
-      )
+      #{storeOrderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{storeId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{num,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{cancalTime,jdbcType=TIMESTAMP}, #{shipmentsTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, 
+      #{commentTime,jdbcType=TIMESTAMP}, #{afterSaleTime,jdbcType=TIMESTAMP}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsPicture,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.GoodsOrder" >
     insert into order_goods_order
@@ -63,6 +64,9 @@
       </if>
       <if test="storeOrderCode != null" >
         store_order_code,
+      </if>
+      <if test="storeOrderId != null" >
+        store_order_id,
       </if>
       <if test="goodsId != null" >
         goods_id,
@@ -120,6 +124,9 @@
       <if test="storeOrderCode != null" >
         #{storeOrderCode,jdbcType=VARCHAR},
       </if>
+      <if test="storeOrderId != null" >
+        #{storeOrderId,jdbcType=INTEGER},
+      </if>
       <if test="goodsId != null" >
         #{goodsId,jdbcType=INTEGER},
       </if>
@@ -176,6 +183,9 @@
       <if test="storeOrderCode != null" >
         store_order_code = #{storeOrderCode,jdbcType=VARCHAR},
       </if>
+      <if test="storeOrderId != null" >
+        store_order_id = #{storeOrderId,jdbcType=INTEGER},
+      </if>
       <if test="goodsId != null" >
         goods_id = #{goodsId,jdbcType=INTEGER},
       </if>
@@ -228,6 +238,7 @@
     update order_goods_order
     set order_code = #{orderCode,jdbcType=VARCHAR},
       store_order_code = #{storeOrderCode,jdbcType=VARCHAR},
+      store_order_id = #{storeOrderId,jdbcType=INTEGER},
       goods_id = #{goodsId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},

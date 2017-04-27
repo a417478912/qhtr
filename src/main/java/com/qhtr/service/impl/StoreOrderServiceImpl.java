@@ -152,6 +152,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		go.setStoreId(goodsDto.getStoreId());
 		go.setSkuId(skuId);
 		go.setNum(num);
+		go.setStoreOrderId(so.getId());
 		go.setPrice(sku.getPrice());
 		go.setStatus(10);
 		go.setCreateTime(new Date());
@@ -381,6 +382,27 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		Date nowTime = new Date();
 		for (GoodsOrder goodsOrder : goList) {
 			goodsOrder.setStatus(30);
+			goodsOrder.setShipmentsTime(nowTime);
+			if (goodsOrderService.updateGoodsOrder(goodsOrder) == 0) {
+				return 0;
+			}
+		}
+		return 1;
+	}
+
+	@Override
+	public int cancelSendOutGoods(int storeOrderId) {
+		StoreOrder so = storeOrderMapper.selectByPrimaryKey(storeOrderId);
+		so.setStatus(20);
+		storeOrderMapper.updateByPrimaryKey(so);
+		
+		//更改商品订单为发货状态
+		GoodsOrder goTem = new GoodsOrder();
+		goTem.setStoreOrderCode(so.getOrderCode());
+		List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+		Date nowTime = new Date();
+		for (GoodsOrder goodsOrder : goList) {
+			goodsOrder.setStatus(20);
 			goodsOrder.setShipmentsTime(nowTime);
 			if (goodsOrderService.updateGoodsOrder(goodsOrder) == 0) {
 				return 0;

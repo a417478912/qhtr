@@ -65,7 +65,7 @@ public class ActivityController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/deleteGoods")
-	public Json deleteGoods(Json j,@RequestParam int goodsIds,@RequestParam int modelId){
+	public Json deleteGoods(Json j,@RequestParam String goodsIds,@RequestParam int modelId){
 		int result = activityService.deleteGoods(goodsIds,modelId);
 		if(result == 1){
 			j.setMessage("成功!");

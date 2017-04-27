@@ -6,6 +6,7 @@ import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.StoreOrder;
 
 public class StoreOrderDetailsDto {
+	public String expressDetail = "";
 	public StoreOrder stordeOrder;
 	//收货人名字
 	public String receivingName;
@@ -44,5 +45,11 @@ public class StoreOrderDetailsDto {
 	}
 	public void setGoodsOrderList(List<GoodsOrder> goodsOrderList) {
 		this.goodsOrderList = goodsOrderList;
+	}
+	public String getExpressDetail() {
+		return expressDetail;
+	}
+	public void setExpressDetail(String expressDetail) {
+		this.expressDetail = expressDetail;
 	}
 }

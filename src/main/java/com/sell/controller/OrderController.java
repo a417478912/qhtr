@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.app.dto.StoreDto;
 import com.qhtr.common.Json;
 import com.qhtr.dto.StoreOrderDetailsDto;
+import com.qhtr.model.Express;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.service.ExpressService;
 import com.qhtr.service.GoodsOrderService;
@@ -96,18 +97,24 @@ public class OrderController {
 	@ResponseBody
 	@RequestMapping("/getStoreOrderDetails")
 	public Json getStoreOrderDetails(Json j,Integer orderId,String orderCode){
+		StoreOrderDetailsDto dto = new StoreOrderDetailsDto();
 		if(orderId == null && orderCode == null){
 			j.setCode(0);
 			j.setMessage("参数错误");
 			return j;
 		}
 		if(orderId != null){
-			StoreOrderDetailsDto dto = storeOrderService.selectStoreOrderDetailsById(orderId);
+			dto = storeOrderService.selectStoreOrderDetailsById(orderId);
 			j.setData(dto);
-			return j;
+		}else{
+			StoreOrder so = storeOrderService.selectByOrderCode(orderCode);
+			dto = storeOrderService.selectStoreOrderDetailsById(so.getId());
 		}
-		StoreOrder so = storeOrderService.selectByOrderCode(orderCode);
-		StoreOrderDetailsDto dto = storeOrderService.selectStoreOrderDetailsById(so.getId());
+		Express express = expressService.getByStoreOrderId(dto.getStordeOrder().getId());
+		if (express != null) {
+			String result = uUpaotuiService.GetOrderDetail(express.getCode());
+			dto.setExpressDetail(result);
+		}
 		j.setData(dto);
 		return j;
 	}
@@ -117,7 +124,7 @@ public class OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping("/addExpress")
-	public Json addExpress(Json j,@RequestParam String orderId,@RequestParam String expressName,@RequestParam String expressCode){
+	public Json addExpress(Json j,@RequestParam int orderId,@RequestParam String expressName,@RequestParam String expressCode){
 		int result = expressService.add(orderId,expressName,expressCode);
 		if(result == 1){
 			j.setMessage("成功!");
@@ -165,10 +172,10 @@ public class OrderController {
 			StoreDto store = storeService.getStoreById(so.getStoreId());
 			String result = uUpaotuiService.addOrder(price_token, total_money, need_paymoney, so.getReceivingName(), so.getReceivingPhone(), note, store.getPhone());
 			String returnCode1 = JSONObject.parseObject(result).getString("return_code");
+			String ordercode = JSONObject.parseObject(result).getString("ordercode");
 			if(returnCode1 != null && returnCode1.equals("ok")){
-				Map<String,Object> map = new HashMap<String,Object>();
-				map.put("expressOrder", JSONObject.parseObject(result).getString("ordercode"));
-				j.setData(map);
+				expressService.add(orderId, "UU跑腿", ordercode);
+				j.setMessage("下单成功!");
 			}
 			return j;
 		}else{
@@ -187,10 +194,13 @@ public class OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/cancelExpressOrder")
-	public Json cancelExpressOrder(Json j,@RequestParam String order_code,@RequestParam String reason){
-		String result = uUpaotuiService.cancelOrder(order_code, reason);
+	public Json cancelExpressOrder(Json j,@RequestParam int storeOrderId,@RequestParam String reason){
+		Express express = expressService.getByStoreOrderId(storeOrderId);
+		String result = uUpaotuiService.cancelOrder(express.getCode(), reason);
 		String returnCode = JSONObject.parseObject(result).getString("return_code");
 		if(returnCode != null && returnCode.equals("ok")){
+			expressService.delete(express.getId());
+			storeOrderService.cancelSendOutGoods(storeOrderId);
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("expressOrder", JSONObject.parseObject(result).getString("ordercode"));
 			j.setData(map);

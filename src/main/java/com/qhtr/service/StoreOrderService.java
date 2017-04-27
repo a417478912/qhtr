@@ -88,4 +88,11 @@ public interface StoreOrderService {
 	 * @return
 	 */
 	int sendOutGoods(int storeOrderId);
+	
+	/**
+	 * 取消发货
+	 * @param storeOrderId
+	 * @return
+	 */
+	int cancelSendOutGoods(int storeOrderId);
 }

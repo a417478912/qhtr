@@ -7,9 +7,10 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="goods_order_id" property="goodsOrderId" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="store_order_id" property="storeOrderId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, code, goods_order_id, create_time
+    id, name, code, goods_order_id, create_time, store_order_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -23,9 +24,11 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Express" >
     insert into order_express (id, name, code, 
-      goods_order_id, create_time)
+      goods_order_id, create_time, store_order_id
+      )
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
-      #{goodsOrderId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP})
+      #{goodsOrderId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{storeOrderId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Express" >
     insert into order_express
@@ -45,6 +48,9 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="storeOrderId != null" >
+        store_order_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -61,6 +67,9 @@
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storeOrderId != null" >
+        #{storeOrderId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -79,6 +88,9 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="storeOrderId != null" >
+        store_order_id = #{storeOrderId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -87,7 +99,18 @@
     set name = #{name,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
       goods_order_id = #{goodsOrderId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      store_order_id = #{storeOrderId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+	<!--   以下是自定义方法 -->
+ 	 <!-- 通过大订单id查找 		storeOrderId-->
+  <select id="getByStoreOrderId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_express
+    where store_order_id = #{storeOrderId,jdbcType=INTEGER}
+  </select>
 </mapper>

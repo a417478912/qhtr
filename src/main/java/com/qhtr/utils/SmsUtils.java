@@ -74,7 +74,8 @@ public class SmsUtils {
 	    	}else if(type == 4){
 	    		request.getSession().setAttribute(Constants.UN_BIND_PHONE_CODE, map);
 	    	}
-	    	return "success";
+	    	//return "success";
+	    	return yanzhengCode;
 	    } catch (Exception e) {
 	    	e.printStackTrace();
 	    }

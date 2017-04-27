@@ -74,10 +74,14 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 
 	@Override
-	public int deleteGoods(int goodsIds, int modelId) {
-		Map<String,Integer> map = new HashMap<String,Integer>();
-		map.put("modelId", modelId);
-		map.put("goodsId", goodsIds);
-		return activityMapper.deleteByConditions(map);
+	public int deleteGoods(String goodsIds, int modelId) {
+		for (String s: goodsIds.split(",")) {
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("modelId", modelId);
+			map.put("goodsId", Integer.parseInt(s));
+			activityMapper.deleteByConditions(map);
+		}
+		
+		return 1;
 	}
 }
