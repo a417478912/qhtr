@@ -16,6 +16,7 @@ public class GoodsListDto_Sell {
 	public int topPrice;
 	public int lowPrice;
 	public int totalStock = 0;
+	public int status;
 	
 	public GoodsListDto_Sell(){
 	}
@@ -50,6 +51,7 @@ public class GoodsListDto_Sell {
 			this.setPicture(pic.getUrl());
 		}
 		
+		this.setStatus(goods.getStatus());
 		this.setTotalStock(totalStock);
 	}
 
@@ -101,5 +103,13 @@ public class GoodsListDto_Sell {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 }

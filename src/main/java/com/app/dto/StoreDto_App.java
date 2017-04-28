@@ -1,8 +1,9 @@
 package com.app.dto;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -27,7 +28,7 @@ public class StoreDto_App {
 	public List<PictureDto> promotionPic;
 	public List<PictureDto> bannerPic;
 	public String showPic;
-	public String details;
+	public List<Map<String,Object>> details;
 	public int collect_num;
 	public int sell_num;
 	public String location;
@@ -102,8 +103,23 @@ public class StoreDto_App {
 		}
 		this.setPromotionPic(picList1);
 		
+		// 详情，简介
+		if (store.getDetails() != null) {
+			JSONArray jArray = JSONArray.parseArray(store.getDetails());
+			List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+			for (int i = 0; i < jArray.size(); i++) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				JSONObject jObj = jArray.getJSONObject(i);
+				Object type = jObj.get("type");
+				Object content = jObj.get("content");
+				map.put("type", type);
+				map.put("content", content);
+
+				mapList.add(map);
+			}
+			this.setDetails(mapList);
+		}
 		
-		this.setDetails(store.getDetails());
 		this.setBannerPic(picList);
 		this.setShowPic(store.getShowPic());
 		this.setCollect_num(store.getCollectNum());
@@ -163,14 +179,6 @@ public class StoreDto_App {
 
 	public void setShowPic(String showPic) {
 		this.showPic = showPic;
-	}
-
-	public String getDetails() {
-		return details;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
 	}
 
 	public int getCollect_num() {
@@ -267,5 +275,9 @@ public class StoreDto_App {
 
 	public void setPromotionPic(List<PictureDto> promotionPic) {
 		this.promotionPic = promotionPic;
+	}
+
+	public void setDetails(List<Map<String, Object>> details) {
+		this.details = details;
 	}
 }

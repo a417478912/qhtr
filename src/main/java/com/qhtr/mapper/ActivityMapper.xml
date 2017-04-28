@@ -16,8 +16,9 @@
     <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="goods_classes_id" property="goodsClassesId" jdbcType="INTEGER" />
     <result column="thumb" property="thumb" jdbcType="VARCHAR" />
+    <result column="result_picture" property="resultPicture" jdbcType="VARCHAR" />
+    <result column="detail_pictures" property="detailPictures" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="vip_price" property="vipPrice" jdbcType="INTEGER" />
     <result column="special_selling_price" property="specialSellingPrice" jdbcType="INTEGER" />
@@ -26,6 +27,7 @@
     <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="edit_time" property="editTime" jdbcType="TIMESTAMP" />
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
     <result column="sell_num" property="sellNum" jdbcType="INTEGER" />
     <result column="sort" property="sort" jdbcType="INTEGER" />

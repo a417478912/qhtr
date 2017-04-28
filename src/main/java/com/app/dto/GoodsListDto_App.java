@@ -16,6 +16,7 @@ public class GoodsListDto_App {
 	public int topPrice;
 	public int lowPrice;
 	public int totalStock = 0;
+	public String details;
 	
 	public GoodsListDto_App(){
 	}
@@ -50,7 +51,10 @@ public class GoodsListDto_App {
 			this.setPicture(pic);
 		}
 		
+		this.setDetails(goods.getDetails());
 		this.setTotalStock(totalStock);
+		
+		
 	}
 
 	public int getId() {
@@ -101,4 +105,13 @@ public class GoodsListDto_App {
 	public void setLowPrice(int lowPrice) {
 		this.lowPrice = lowPrice;
 	}
+
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
 }

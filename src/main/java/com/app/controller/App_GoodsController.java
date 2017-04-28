@@ -54,32 +54,13 @@ public class App_GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/selectByStoreIdAndModelId")
-	public Json selectByStoreIdAndModelId(Json j,@RequestParam int storeId,@RequestParam int modelId){
-		List<Goods> list = activityService.selectByStoreIdAndModelId(storeId,modelId);
-		if(list != null){
-			j.setData(list);
-		}else{
-			j.setCode(0);
-		}
-		return j;
-	}
-	
-	
-	/**
-	 * 通过商铺id  获取商品列表
-	 * @param j
-	 * @param goodsId
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/selectGoodsBystoreId")
-	public Json selectGoodsBystoreId(Json j,@RequestParam int storeId,@RequestParam(defaultValue="0") int modelId){
+	public Json selectByStoreIdAndModelId(Json j,@RequestParam int storeId,@RequestParam(defaultValue="0") int modelId){
 		List<GoodsListDto_App> dtoList = new ArrayList<GoodsListDto_App>();
 		List<Goods> list = null;
 		if (modelId != 0) {
-			list = activityService.selectByStoreIdAndModelId(storeId, modelId);
-		} else {
-			list = goodsService.selectListByStoreAndType(storeId, 1);
+			list = activityService.selectByStoreIdAndModelId(storeId,modelId);
+		}else{
+			list = goodsService.selectListByStoreAndType(storeId, 1); 
 		}
 		for (Goods goods : list) {
 			dtoList.add(new GoodsListDto_App(goods));
@@ -87,4 +68,5 @@ public class App_GoodsController {
 		j.setData(dtoList);
 		return j;
 	}
+	
 }
