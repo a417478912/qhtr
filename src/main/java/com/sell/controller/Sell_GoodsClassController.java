@@ -16,7 +16,7 @@ import com.sell.dto.GoodsClassesDto;
 
 @Controller
 @RequestMapping("/sell_goodsclass")
-public class GoodsClassController {
+public class Sell_GoodsClassController {
 	@Resource
 	public GoodsClassService goodsClassService;
 

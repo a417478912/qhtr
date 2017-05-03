@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
-import com.app.dto.StoreOrderDto;
+import com.app.dto.StoreOrderDto_App;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.Address;
@@ -83,17 +86,28 @@ public class App_OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/surePay")
-	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId) {
-		String PayCode = payOrderService.addOrder(orderCode, type, userId);
-		if (StringUtils.isNotBlank(PayCode)) {
-			Map<String,String> map = new HashMap<String,String>();
-			map.put("code", PayCode);
-			j.setData(map);
-			j.setMessage("成功!");
-		} else {
+	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId,HttpServletRequest request,HttpServletResponse response) {
+		if(type == 1){
+			//支付宝支付
+			String PayCode = payOrderService.addOrder(orderCode, userId);
+			if (StringUtils.isNotBlank(PayCode)) {
+				Map<String,String> map = new HashMap<String,String>();
+				map.put("code", PayCode);
+				j.setData(map);
+				j.setMessage("成功!");
+			} else {
+				j.setCode(0);
+				j.setMessage("失败!");
+			}
+		}else if(type == 2){
+			//微信支付
+			String PayCode = payOrderService.addOrder(orderCode, userId,request,response);
+		}else{
 			j.setCode(0);
-			j.setMessage("失败!");
+			j.setMessage("支付方式错误!");
+			return j;
 		}
+	
 		return j;
 	}
 
@@ -149,9 +163,14 @@ public class App_OrderController {
 	
 	@ResponseBody
 	@RequestMapping(value = "/getOrdersByUser")
-	public Json getOrdersByUser(Json j,@RequestParam int userId,@RequestParam int status){
-		List<StoreOrderDto> dto = storeOrderService.getOrdersByUser(userId,status);
-		j.setData(dto);
+	public Json getOrdersByUser(Json j,@RequestParam int userId,@RequestParam(defaultValue="0") int status,@RequestParam(defaultValue="1") int page){
+		Map<String,Object> map = new HashMap<String,Object>();
+		Page<?> startPage = PageHelper.startPage(page,10);
+		List<StoreOrderDto_App> dto = storeOrderService.getOrdersByUser(userId,status);
+		map.put("list", dto);
+		map.put("totalNum", startPage.getTotal());
+		map.put("totalPages", startPage.getPages());
+		j.setData(map);
 		return j;
 	}
 	

@@ -26,7 +26,7 @@ public interface StoreOrderMapper {
      * @param map
      * @return
      */
-    List<com.app.dto.StoreOrderDto> selectByUser(Map<String,Object> map);
+    List<com.app.dto.StoreOrderDto_App> selectByUser(Map<String,Object> map);
     /*
      * 查询数量 
      */

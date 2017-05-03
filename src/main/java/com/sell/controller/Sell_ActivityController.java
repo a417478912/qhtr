@@ -16,7 +16,7 @@ import com.qhtr.service.ActivityService;
 
 @Controller
 @RequestMapping("/sell_activity")
-public class ActivityController {
+public class Sell_ActivityController {
 	@Resource
 	public ActivityService activityService;
 	

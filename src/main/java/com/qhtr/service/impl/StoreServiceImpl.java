@@ -34,7 +34,7 @@ public class StoreServiceImpl implements StoreService {
 		if (list.isEmpty()) {
 			return null;
 		} else {
-			return list.get(0);
+			return list.get(list.size()-1);
 		}
 	}
 

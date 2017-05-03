@@ -17,7 +17,7 @@ import com.sell.dto.CommentDto;
 
 @Controller
 @RequestMapping("/sell_comment")
-public class CommentController {
+public class Sell_CommentController {
 	@Resource
 	public CommentService commentService;
 	

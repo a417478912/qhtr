@@ -26,7 +26,7 @@ import com.sell.param.GoodsParam;
 
 @Controller
 @RequestMapping("/sell_goods")
-public class GoodsController {
+public class Sell_GoodsController {
 	@Resource
 	public GoodsService goodsService;
 	@Resource
@@ -43,15 +43,18 @@ public class GoodsController {
 	@RequestMapping(value="/addGoods")
 	public Json addGoods(Json j,GoodsParam goods) {
 		int result = goodsService.add(goods);
-		if (result != 0) {
+		if (result == -1) {
+			j.setCode(1);
+			j.setMessage("参数不足!");
+		} else if(result == 0){
+			j.setCode(0);
+			j.setMessage("商品添加失败!");
+			return j;
+		} else {
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("goodsId", result);
 			j.setData(map);
 			j.setMessage("商品添加成功!");
-		} else {
-			j.setCode(0);
-			j.setMessage("商品添加失败!");
-			return j;
 		}
 		return j;
 	}
@@ -86,15 +89,17 @@ public class GoodsController {
 	@RequestMapping(value="/updateGoods")
 	public Json updateGoods(Json j, GoodsParam goodsParam) {
 		int result = goodsService.update(goodsParam);
-		if (result != 0) {
+		if (result == -1) {
+			
+		} else if(result == 0){
+			j.setCode(0);
+			j.setMessage("商品修改失败!");
+			return j;
+		}else{
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("goodsId", result);
 			j.setData(map);
 			j.setMessage("商品修改成功!");
-		} else {
-			j.setCode(0);
-			j.setMessage("商品修改失败!");
-			return j;
 		}
 		return j;
 	}

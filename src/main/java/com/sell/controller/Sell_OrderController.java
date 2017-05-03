@@ -26,7 +26,7 @@ import com.qhtr.service.UUpaotuiService;
 
 @Controller
 @RequestMapping("/sell_order")
-public class OrderController {
+public class Sell_OrderController {
 	@Resource
 	public StoreOrderService storeOrderService;
 	@Resource

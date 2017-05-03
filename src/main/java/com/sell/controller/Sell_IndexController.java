@@ -13,7 +13,7 @@ import com.qhtr.utils.CookieUtils;
 
 @Controller
 @RequestMapping("/sell_index")
-public class IndexController{
+public class Sell_IndexController{
 	@RequestMapping(value="/index")
 	public String index(HttpServletRequest request){
 		Map<String,String> map = new HashMap<String,String>(); 

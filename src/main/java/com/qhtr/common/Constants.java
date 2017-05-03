@@ -37,4 +37,13 @@ public class Constants {
 	 * 购物车生成的订单(商品订单)
 	 */
 	public final static String GOODS_ORDER_BUYCART = "goodsOrderBuycart";
+	
+	/**
+	 * 微信支付的信息
+	 */
+	public final static String WEIXINPAY_APPID = "wx2e2b770d217cb2e7";
+	public final static String WEIXINPAY_APPSECRET = "d653b81f686c3b92ae5e36249de504ab";  
+	public final static String WEIXINPAY_PARTNER = "1430950202";//商户号 
+	public final static String WEIXINPAY_PARTNERKEY = "goodsOrderBuycart"; //不是商户登录密码，是商户在微信平台设置的32位长度的api秘钥，
+	public final static String WEIXINPAY_NOTIFY_URL = "goodsOrderBuycart";
 }

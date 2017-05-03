@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.BuyCartDto;
-import com.app.dto.StoreOrderDto;
+import com.app.dto.StoreOrderDto_App;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
 import com.github.pagehelper.Page;
@@ -88,7 +88,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	}
 
 	@Override
-	public List<StoreOrderDto> getOrdersByUser(int userId, int status) {
+	public List<StoreOrderDto_App> getOrdersByUser(int userId, int status) {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("userId", userId);
 		if(status != 0){

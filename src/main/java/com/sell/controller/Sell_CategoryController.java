@@ -14,7 +14,7 @@ import com.qhtr.service.CategoryService;
 
 @Controller
 @RequestMapping("/sell_category")
-public class CategoryController {
+public class Sell_CategoryController {
 	@Resource
 	public CategoryService categoryService;
 	

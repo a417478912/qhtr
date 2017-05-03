@@ -1,18 +1,28 @@
 package com.app.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.app.dto.IndexDto;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Json;
+import com.qhtr.model.IndexFind;
 import com.qhtr.model.Store;
 import com.qhtr.service.GoodsService;
+import com.qhtr.service.IndexFindService;
 import com.qhtr.service.StoreService;
 
 
@@ -23,6 +33,9 @@ public class App_IndexController {
 	public GoodsService goodsService;
 	@Resource
 	public StoreService storeService;
+	@Resource
+	public IndexFindService indexFindService;
+	
 	/**
 	 * 附近好货
 	 * @param j
@@ -69,4 +82,80 @@ public class App_IndexController {
 		j.setData(stores);
 		return j;
 	}
+	
+	
+	/**
+	 * 发现列表
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/findAllList")
+	public Json findAllList(Json j,@RequestParam(defaultValue="1") int page) {
+		Map<String, Object> map1 = new HashMap<String, Object>();
+		List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+		
+		Page<?> startPage = PageHelper.startPage(page,10);
+		List<IndexFind> list = indexFindService.findAll();
+		if (!list.isEmpty()) {
+			for (IndexFind indexFind : list) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("id", indexFind.getId());
+				map.put("name", indexFind.getName());
+				map.put("picture", indexFind.getPicture());
+				map.put("keyword", indexFind.getKeyword());
+				mapList.add(map);
+			}
+		}
+		map1.put("list", mapList);
+		map1.put("totalNum", startPage.getTotal());
+		map1.put("totalPages", startPage.getPages());
+		j.setData(map1);
+		return j;
+	}
+	
+	/**
+	 * 发现详情
+	 */
+	@ResponseBody
+	@RequestMapping(value="/findDetails")
+	public Json findDetails(Json j, @RequestParam int id) {
+		IndexFind indexFind = indexFindService.getById(id);
+		Map<String, Object> findMap = new HashMap<String, Object>();
+		findMap.put("id", indexFind.getId());
+		findMap.put("name", indexFind.getName());
+		findMap.put("picture", indexFind.getPicture());
+		findMap.put("keyword", indexFind.getKeyword());
+		
+		String websiteBannerStr = indexFind.getWebsiteBanner();
+		if (StringUtils.isNotBlank(websiteBannerStr)) {
+			Map<String, Object> map = new HashMap<String, Object>();
+			JSONObject jObj = JSONObject.parseObject(websiteBannerStr);
+			map.put("type", jObj.get("type"));
+			map.put("url", jObj.get("url"));
+			findMap.put("websiteBanner", map);
+		}
+		
+		String str = indexFind.getContent();
+		if (StringUtils.isNotBlank(str)) {
+			List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+			JSONArray jArray = JSONArray.parseArray(str);
+			for (int i = 0; i < jArray.size(); i++) {
+				Map<String, Object> map = new HashMap<String, Object>();
+
+				JSONObject jObj = jArray.getJSONObject(i);
+				Object content = jObj.get("content");
+				Object url = jObj.get("url");
+				if (content != null) {
+					map.put("content", content);
+				}
+				if (url != null) {
+					map.put("url", url);
+				}
+				mapList.add(map);
+			}
+			findMap.put("content", mapList);
+		}
+		j.setData(findMap);
+		return j;
+	}
+	
 }

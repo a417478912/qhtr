@@ -5,7 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.app.dto.StoreOrderDto;
+import com.app.dto.StoreOrderDto_App;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
 import com.qhtr.dto.StoreOrderDetailsDto;
@@ -32,7 +32,7 @@ public interface StoreOrderService {
 	 * @param status
 	 * @return
 	 */
-	List<StoreOrderDto> getOrdersByUser(int userId, int status);
+	List<StoreOrderDto_App> getOrdersByUser(int userId, int status);
 	 /**
 	  * 立刻购买 ，确认订单
 	  * @param skuId

@@ -34,7 +34,7 @@
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
   </resultMap>
-   <resultMap id="StoreOrderMap" type="com.app.dto.StoreOrderDto" >
+   <resultMap id="StoreOrderMap" type="com.app.dto.StoreOrderDto_App" >
     <result column="storeId" property="storeId" jdbcType="INTEGER" />
     <result column="storeOrderId" property="storeOrderId" jdbcType="INTEGER" />
     <result column="storeName" property="storeName" jdbcType="VARCHAR" />
@@ -401,8 +401,8 @@
 	    	 goods_goods o,
 	    	 goods_sku u,
 	    	 seller_store e
-		where s.order_code = g.store_order_code and g.goods_id = o.id and g.sku_id = u.id ands.store_id = e.id
-		and   s.userId = #{userId,jdbcType=INTEGER}
+		where s.order_code = g.store_order_code and g.goods_id = o.id and g.sku_id = u.id and s.store_id = e.id
+		and   s.user_id = #{userId,jdbcType=INTEGER}
 		 <if test="status != null" >
        		 and s.status = #{status,jdbcType=INTEGER}
     	 </if>

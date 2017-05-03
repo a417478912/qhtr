@@ -1,7 +1,9 @@
 package com.app.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.app.dto.GoodsListDto_App;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Json;
 import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.Goods;
@@ -54,9 +58,11 @@ public class App_GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/selectByStoreIdAndModelId")
-	public Json selectByStoreIdAndModelId(Json j,@RequestParam int storeId,@RequestParam(defaultValue="0") int modelId){
+	public Json selectByStoreIdAndModelId(Json j,@RequestParam int storeId,@RequestParam(defaultValue="0") int modelId,@RequestParam(defaultValue="1") int page){
+		Map<String,Object> map = new HashMap<String,Object>();
 		List<GoodsListDto_App> dtoList = new ArrayList<GoodsListDto_App>();
 		List<Goods> list = null;
+		Page<?> startPage = PageHelper.startPage(page,10);
 		if (modelId != 0) {
 			list = activityService.selectByStoreIdAndModelId(storeId,modelId);
 		}else{
@@ -65,7 +71,11 @@ public class App_GoodsController {
 		for (Goods goods : list) {
 			dtoList.add(new GoodsListDto_App(goods));
 		}
-		j.setData(dtoList);
+		map.put("list", dtoList);
+		map.put("totalNum", startPage.getTotal());
+		map.put("totalPages", startPage.getPages());
+		
+		j.setData(map);
 		return j;
 	}
 	

@@ -29,6 +29,7 @@ public class StoreDto_App {
 	public List<PictureDto> bannerPic;
 	public String showPic;
 	public List<Map<String,Object>> details;
+	public String details1;
 	public int collect_num;
 	public int sell_num;
 	public String location;
@@ -112,14 +113,22 @@ public class StoreDto_App {
 				JSONObject jObj = jArray.getJSONObject(i);
 				Object type = jObj.get("type");
 				Object content = jObj.get("content");
+				Object url = jObj.get("url");
 				map.put("type", type);
-				map.put("content", content);
+				if(content != null){
+					map.put("content", content);
+				}
+				if(url != null){
+					map.put("url", url);
+				}
+				
 
 				mapList.add(map);
 			}
 			this.setDetails(mapList);
 		}
 		
+		this.setDetails1(store.getDetails());
 		this.setBannerPic(picList);
 		this.setShowPic(store.getShowPic());
 		this.setCollect_num(store.getCollectNum());
@@ -279,5 +288,17 @@ public class StoreDto_App {
 
 	public void setDetails(List<Map<String, Object>> details) {
 		this.details = details;
+	}
+
+	public String getDetails1() {
+		return details1;
+	}
+
+	public void setDetails1(String details1) {
+		this.details1 = details1;
+	}
+
+	public List<Map<String, Object>> getDetails() {
+		return details;
 	}
 }

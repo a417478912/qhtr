@@ -2,7 +2,7 @@ package com.sell.param;
 
 
 public class GoodsParam {
-	public int id;
+	public int id = 0;
 	public String descript;
 	public int storeId;
 	public String name;

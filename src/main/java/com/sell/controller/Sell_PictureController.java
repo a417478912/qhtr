@@ -14,7 +14,7 @@ import com.qhtr.utils.PictureUploadUtils;
 
 @Controller
 @RequestMapping("/sell_picture")
-public class PictureController {
+public class Sell_PictureController {
 	@Resource
 	public PictureService pictureService;
 	

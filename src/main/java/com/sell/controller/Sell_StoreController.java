@@ -21,7 +21,7 @@ import com.sell.dto.StoreDto_Sell;
 
 @Controller
 @RequestMapping("/sell_stroe")
-public class StoreController {
+public class Sell_StoreController {
 	@Resource
 	public StoreService storeService;
 	

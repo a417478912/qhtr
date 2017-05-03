@@ -8,9 +8,10 @@ import java.util.List;
  *
  * @date  2017年3月23日
  */
-public class StoreOrderDto {
+public class StoreOrderDto_App {
 	List<GoodsOrderDto> goodsOrders;
 	public String storeOrderCode;
+	public int storeOrderId;
 	public int storeId;
 	public String storeName;
 	public String storeAvatar;
@@ -59,5 +60,11 @@ public class StoreOrderDto {
 	}
 	public void setStoreOrderCode(String storeOrderCode) {
 		this.storeOrderCode = storeOrderCode;
+	}
+	public int getStoreOrderId() {
+		return storeOrderId;
+	}
+	public void setStoreOrderId(int storeOrderId) {
+		this.storeOrderId = storeOrderId;
 	}
 }

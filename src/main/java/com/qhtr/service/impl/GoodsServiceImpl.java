@@ -84,6 +84,9 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public int add(GoodsParam goodsParam) {
+		if(goodsParam.getThumb() == null || goodsParam.getActivityId() == null || goodsParam.getName() == null || goodsParam.getSku() == null || goodsParam.getStoreId() == 0 || goodsParam.getThumb() ==null){
+			return -1;
+		}
 		Goods goods = new Goods();
 		goods.setCollectNum(0);
 		goods.setCreateTime(new Date());
@@ -149,6 +152,9 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public int update(GoodsParam goodsParam) {
+		if(goodsParam.getThumb() == null || goodsParam.getActivityId() == null || goodsParam.getName() == null || goodsParam.getSku() == null || goodsParam.getStoreId() == 0 || goodsParam.getThumb() ==null){
+			return -1;
+		}
 		Goods goods = new Goods();
 		goods.setId(goodsParam.getId());
 		goods.setDetailPictures(goodsParam.getDetail_pictures());
