@@ -13,6 +13,7 @@ import com.alibaba.fastjson.JSONException;
 import com.qhtr.utils.weixinPay.client.TenpayHttpClient;
 import com.qhtr.utils.weixinPay.util.ConstantUtil;
 import com.qhtr.utils.weixinPay.util.JsonUtil;
+import com.qhtr.utils.weixinPay.util.MD5Util;
 import com.qhtr.utils.weixinPay.util.Sha1Util;
 
 public class PrepayIdRequestHandler extends RequestHandler {
@@ -41,6 +42,30 @@ public class PrepayIdRequestHandler extends RequestHandler {
 		}
 		String params = sb.substring(0, sb.lastIndexOf("&"));
 		String appsign = Sha1Util.getSha1(params);
+		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "sha1 sb:" + params);
+		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "app sign:" + appsign);
+		return appsign;
+	}
+	
+	/**
+	 * 创建签名MD5
+	 * 
+	 * @param signParams
+	 * @return
+	 * @throws Exception
+	 */
+	public String createMd5Sign() {
+		StringBuffer sb = new StringBuffer();
+		Set es = super.getAllParameters().entrySet();
+		Iterator it = es.iterator();
+		while (it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			String k = (String) entry.getKey();
+			String v = (String) entry.getValue();
+			sb.append(k + "=" + v + "&");
+		}
+		String params = sb.substring(0, sb.lastIndexOf("&"));
+		String appsign = MD5Util.MD5Encode(params, "UTF-8").toUpperCase();
 		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "sha1 sb:" + params);
 		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "app sign:" + appsign);
 		return appsign;

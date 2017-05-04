@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.qhtr.common.Json;
 import com.qhtr.model.IndexFind;
-import com.qhtr.service.IndexFindService;
+import com.qhtr.service.IndexService;
 
 @Controller
 @RequestMapping("/index")
 public class IndexController {
 	@Resource
-	public IndexFindService indexFindService;
+	public IndexService indexFindService;
 	
 	
 	public String findList(Json j,HttpServletRequest request){

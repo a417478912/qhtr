@@ -101,7 +101,11 @@ public class App_OrderController {
 			}
 		}else if(type == 2){
 			//微信支付
-			String PayCode = payOrderService.addOrder(orderCode, userId,request,response);
+			String payCode = payOrderService.addOrder(orderCode, userId,request,response);
+			if(StringUtils.isBlank(payCode)){
+				j.setCode(0);
+				j.setMessage("错误");
+			}
 		}else{
 			j.setCode(0);
 			j.setMessage("支付方式错误!");

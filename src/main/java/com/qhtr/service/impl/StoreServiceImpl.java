@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.app.dto.StoreDto_App;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
-import com.qhtr.model.Category;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
 import com.qhtr.service.StoreService;

@@ -119,7 +119,17 @@
    <select id="findAll" resultMap="BaseResultMap" >
     select 
     <include refid="Base_Column_List" />
-    from index_find
-    order by sort
+    from index_find 
+    where parent_id = 0
+    order by id desc
+  </select>
+  
+  <!-- 通过父类id查询 -->
+   <select id="selectListByParentId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from index_find 
+    where parent_id = #{id,jdbcType=INTEGER}
+    order by id desc
   </select>
 </mapper>

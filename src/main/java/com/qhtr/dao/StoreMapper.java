@@ -37,4 +37,9 @@ public interface StoreMapper {
 	 * @return
 	 */
 	List<Map<String, Object>> getUserListByStoreId(int storeId);
+	/**
+	 * 新店首发
+	 * @return
+	 */
+	List<Store> getNewStoreList();
 }

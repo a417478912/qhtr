@@ -115,10 +115,13 @@ public class PayOrderServiceImpl implements PayOrderService {
          prepayReqHandler.setParameter("trade_type", trade_type);
          prepayReqHandler.setGateUrl(url);
          
-         String sign = prepayReqHandler.createSHA1Sign();
+         String sign = prepayReqHandler.createMd5Sign();
          prepayReqHandler.setParameter("sign", sign);
          //获取prepayId  
          String prepayid = prepayReqHandler.sendPrepay(); 
+         if(StringUtils.isBlank(prepayid)){
+        	 return "";
+         }
 		System.out.println(prepayid);
 		return prepayid;
 	}

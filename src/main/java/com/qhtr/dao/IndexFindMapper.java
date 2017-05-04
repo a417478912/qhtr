@@ -19,4 +19,10 @@ public interface IndexFindMapper {
 
     /*以下是自定义方法*/
 	List<IndexFind> findAll();
+	/**
+	 * 通过父类id查询
+	 * @param id
+	 * @return
+	 */
+	List<IndexFind> selectListByParentId(int id);
 }

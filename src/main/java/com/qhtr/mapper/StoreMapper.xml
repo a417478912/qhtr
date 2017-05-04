@@ -331,6 +331,15 @@
     where name like CONCAT("%",#{searchContent,jdbcType=VARCHAR},"%")
   </select>
   
+  <!-- 新店首发 -->
+  <select id="getNewStoreList" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from seller_store
+    where (select TIMESTAMPDIFF(DAY, date_format(create_time,'%Y-%m-%d') ,(select date_format((select NOW()),'%Y-%m-%d')))) <![CDATA[ <  ]]> 30
+	order by create_time desc
+  </select>
+  
   <!-- 查询商铺的 购买用户信息 -->
   <select id="getUserListByStoreId" resultType="java.util.Map"  parameterType="java.lang.Integer">
 	SELECT u.id as id,u.name as name,u.phone as phone,u.avatar as avatar,sum(o.total_price) as totalMoney
