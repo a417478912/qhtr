@@ -64,6 +64,7 @@ public class PrepayIdRequestHandler extends RequestHandler {
 			String v = (String) entry.getValue();
 			sb.append(k + "=" + v + "&");
 		}
+		sb.append("key="+this.getKey());
 		String params = sb.substring(0, sb.lastIndexOf("&"));
 		String appsign = MD5Util.MD5Encode(params, "UTF-8").toUpperCase();
 		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "sha1 sb:" + params);

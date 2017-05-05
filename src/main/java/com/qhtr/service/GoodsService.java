@@ -20,7 +20,7 @@ public interface GoodsService {
 	 * page 第几页
 	 * number 数量
 	 */
-	public List<Goods> selectGoodsByCondition1(int page,int number);
+	public List<Goods> selectGoodsListByGoodAround(int page,int number);
 	/**
 	 * 通过搜索内容搜索商品
 	 * @param searchContent

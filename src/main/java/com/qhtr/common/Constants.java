@@ -41,6 +41,7 @@ public class Constants {
 	/**
 	 * 微信支付的信息
 	 */
+	public final static String WEIXINPAY_KEY = "";
 	public final static String WEIXINPAY_APPID = "wx2e2b770d217cb2e7";
 	public final static String WEIXINPAY_APPSECRET = "d653b81f686c3b92ae5e36249de504ab";  
 	public final static String WEIXINPAY_PARTNER = "1430950202";//商户号 

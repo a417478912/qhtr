@@ -65,9 +65,9 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public List<Goods> selectGoodsByCondition1(int page, int number) {
+	public List<Goods> selectGoodsListByGoodAround(int page, int number) {
 		PageHelper.startPage(page, number);
-		return goodsMapper.selectGoodsByCondition1();
+		return goodsMapper.selectGoodsListByGoodAround();
 	}
 
 	@Override
@@ -147,6 +147,15 @@ public class GoodsServiceImpl implements GoodsService {
 	public int delete(int id,int status) {
 		Goods goods = goodsMapper.selectByPrimaryKey(id);
 		goods.setStatus(status);
+		
+		//删除商品需要删除和活动，以及分类的关系
+		if(status == 3){
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("goodsId", id);
+			activityMapper.deleteByConditions(map);
+			
+			goodsClassesMapper.deleteFromMidByGoodsId(id);
+		}
 		return goodsMapper.updateByPrimaryKey(goods);
 	}
 

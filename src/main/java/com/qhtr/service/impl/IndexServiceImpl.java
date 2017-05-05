@@ -39,4 +39,9 @@ public class IndexServiceImpl implements IndexService {
 		return storeMapper.getNewStoreList();
 	}
 
+	@Override
+	public IndexFind selectFindByFindId(int id) {
+		return indexFindMapper.selectByPrimaryKey(id);
+	}
+
 }

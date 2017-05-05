@@ -69,4 +69,9 @@ public interface StoreService {
 	 * @return
 	 */
 	List<Map<String, Object>> getUserListByStoreId(int storeId);
+	/**
+	 * 查询所有
+	 * @return
+	 */
+	List<Store> getAll();
 }

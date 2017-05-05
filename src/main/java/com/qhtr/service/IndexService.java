@@ -23,5 +23,11 @@ public interface IndexService {
 	 * @return
 	 */
 	List<Store> getNewStoreList();
+	/**
+	 * 查找发现
+	 * @param id
+	 * @return
+	 */
+	IndexFind selectFindByFindId(int id);
 
 }

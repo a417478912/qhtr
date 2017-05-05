@@ -26,11 +26,11 @@ public interface GoodsMapper {
      */
     List<Goods> selectByConditions(Goods goods);
     /**
-     * 周边好货
+     *  周边好货
      * @return
      */
 
-	List<Goods> selectGoodsByCondition1();
+	List<Goods> selectGoodsListByGoodAround();
 	/**
 	 * 通过内容搜索
 	 * @param searchContent

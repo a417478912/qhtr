@@ -165,4 +165,9 @@ public class StoreServiceImpl implements StoreService {
 		return storeMapper.getUserListByStoreId(storeId);
 	}
 
+	@Override
+	public List<Store> getAll() {
+		return storeMapper.selectByConditions(new Store());
+	}
+
 }

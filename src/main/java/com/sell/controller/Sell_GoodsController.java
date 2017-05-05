@@ -1,6 +1,5 @@
 package com.sell.controller;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Json;
 import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.Goods;
-import com.qhtr.model.Picture;
-import com.qhtr.model.Sku;
 import com.qhtr.service.GoodsService;
 import com.qhtr.service.PictureService;
 import com.qhtr.service.SkuService;
@@ -68,6 +65,11 @@ public class Sell_GoodsController {
 	@ResponseBody
 	@RequestMapping(value="/deleteGoods")
 	public Json deleteGoods(Json j, @RequestParam int id,@RequestParam int status) {
+		if(status != 2 && status != 3){
+			j.setCode(0);
+			j.setMessage("参数错误!");
+			return j;
+		}
 		int result = goodsService.delete(id,status);
 		if (result == 1) {
 			j.setMessage("商品状态修改成功!");

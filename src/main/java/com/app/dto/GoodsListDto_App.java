@@ -42,6 +42,9 @@ public class GoodsListDto_App {
 		}
 		this.setLowPrice(lowPrice);
 		this.setTopPrice(topPrice);
+		this.setTotalStock(totalStock);
+		
+		
 		this.setName(goods.getName());
 		
 		//详情图
@@ -52,7 +55,6 @@ public class GoodsListDto_App {
 		}
 		
 		this.setDetails(goods.getDetails());
-		this.setTotalStock(totalStock);
 		
 		
 	}

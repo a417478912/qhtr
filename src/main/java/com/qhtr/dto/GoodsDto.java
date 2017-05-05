@@ -12,6 +12,7 @@ import com.qhtr.model.GoodsClasses;
 import com.qhtr.model.Picture;
 import com.qhtr.model.Sku;
 import com.qhtr.service.PictureService;
+import com.qhtr.service.SkuService;
 import com.qhtr.utils.ApplicationContextUtils;
 
 public class GoodsDto {
@@ -21,8 +22,9 @@ public class GoodsDto {
 	public String name;
 	public String thumb;
 	public String resultPicture;
-	private Integer price;
-	public Integer stock;
+	public int topPrice;
+	public int lowPrice;
+	public int totalStock = 0;
 	public String details;
 	public Integer status;
 	private Integer collectNum;
@@ -43,19 +45,35 @@ public class GoodsDto {
 	}
 
 	public GoodsDto(Goods goods){
+		SkuService skuService = (SkuService) ApplicationContextUtils.getContext().getBean("SkuService");
 		this.setId(goods.getId());
 		this.setGoodsCode(goods.getGoodsCode());
 		this.setStoreId(goods.getStoreId());
 		this.setName(goods.getName());
 		this.setThumb(goods.getThumb());
 		this.setResultPicture(goods.getResultPicture());
-		this.setPrice(goods.getPrice());
-		this.setStock(goods.getStock());
 		this.setDetails(goods.getDetails());
 		this.setStatus(goods.getStatus());
 		this.setCollectNum(goods.getCollectNum());
 		this.setSellNum(goods.getSellNum());
 		this.setSort(goods.getSort());
+		
+		int topPrice = 0;
+		int lowPrice = 10000000;
+		int totalStock = 0;
+		List<Sku> skuList = skuService.selectListByGoodsId(goods.getId());
+		for (Sku sku : skuList) {
+			if(sku.getPrice() > topPrice){
+				topPrice = sku.getPrice();
+			}
+			if(sku.getPrice() < lowPrice){
+				lowPrice = sku.getPrice();
+			}
+			totalStock += sku.getStock();
+		}
+		this.setLowPrice(lowPrice);
+		this.setTopPrice(topPrice);
+		this.setTotalStock(totalStock);
 		
 		if(StringUtils.isNotBlank(goods.getDetailPictures())){
 			List<Picture> pictures1 = new ArrayList<Picture>();
@@ -104,18 +122,6 @@ public class GoodsDto {
 	}
 	public void setResultPicture(String resultPicture) {
 		this.resultPicture = resultPicture;
-	}
-	public Integer getPrice() {
-		return price;
-	}
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
-	public Integer getStock() {
-		return stock;
-	}
-	public void setStock(Integer stock) {
-		this.stock = stock;
 	}
 	public String getDetails() {
 		return details;
@@ -180,5 +186,29 @@ public class GoodsDto {
 
 	public void setSkuList(List<Sku> skuList) {
 		this.skuList = skuList;
+	}
+
+	public int getTopPrice() {
+		return topPrice;
+	}
+
+	public void setTopPrice(int topPrice) {
+		this.topPrice = topPrice;
+	}
+
+	public int getLowPrice() {
+		return lowPrice;
+	}
+
+	public void setLowPrice(int lowPrice) {
+		this.lowPrice = lowPrice;
+	}
+
+	public int getTotalStock() {
+		return totalStock;
+	}
+
+	public void setTotalStock(int totalStock) {
+		this.totalStock = totalStock;
 	}
 }

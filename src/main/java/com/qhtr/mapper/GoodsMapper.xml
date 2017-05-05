@@ -321,7 +321,7 @@
   	
   	
   	<!-- 周边好货 -->
-  <select id="selectGoodsByCondition1" resultMap="BaseResultMap">
+  <select id="selectGoodsListByGoodAround" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from goods_goods
