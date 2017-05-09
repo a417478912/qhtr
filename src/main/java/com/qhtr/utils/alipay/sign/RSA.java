@@ -55,19 +55,23 @@ public class RSA{
 	public static boolean verify(String content, String sign, String alipay_public_key, String input_charset)
 	{
 		try 
-		{
+		{	
+			System.out.println("带签名数据+++++++++++"+content);
+			System.out.println("签名值+++++++++++++++"+sign);
+			System.out.println("支付宝公钥+++++++++++++++"+alipay_public_key);
+			System.out.println("编码格式+++++++++++++++"+input_charset);
 			KeyFactory keyFactory = KeyFactory.getInstance("RSA");
 	        byte[] encodedKey = Base64.decode(alipay_public_key);
 	        PublicKey pubKey = keyFactory.generatePublic(new X509EncodedKeySpec(encodedKey));
 
 		
-			java.security.Signature signature = java.security.Signature
-			.getInstance(SIGN_ALGORITHMS);
+			java.security.Signature signature = java.security.Signature.getInstance(SIGN_ALGORITHMS);
 		
 			signature.initVerify(pubKey);
 			signature.update( content.getBytes(input_charset) );
 		
 			boolean bverify = signature.verify( Base64.decode(sign) );
+			System.out.println("验证值+++++++++++++++++"+bverify);
 			return bverify;
 			
 		} 

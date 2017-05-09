@@ -74,4 +74,10 @@ public interface StoreService {
 	 * @return
 	 */
 	List<Store> getAll();
+	/**
+	 * 查询店铺中商品的数量
+	 * @param id
+	 * @return
+	 */
+	int selectGoodsNumByStoreId(Integer storeId);
 }

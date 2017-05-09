@@ -1,5 +1,6 @@
 package com.app.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,12 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.jdom.JDOMException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.app.dto.StoreOrderDto_App;
 import com.app.dto.StoreOrderDto1;
@@ -83,10 +86,13 @@ public class App_OrderController {
 	 * @param type
 	 *            支付方式（1.支付宝 2.微信） 默认是1
 	 * @return
+	 * @throws IOException 
+	 * @throws JDOMException 
+	 * @throws JSONException 
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/surePay")
-	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId,HttpServletRequest request,HttpServletResponse response) {
+	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
 		if(type == 1){
 			//支付宝支付
 			String PayCode = payOrderService.addOrder(orderCode, userId);
@@ -101,10 +107,12 @@ public class App_OrderController {
 			}
 		}else if(type == 2){
 			//微信支付
-			String payCode = payOrderService.addOrder(orderCode, userId,request,response);
-			if(StringUtils.isBlank(payCode)){
+			Map<String,String> map = payOrderService.addOrder(orderCode, userId,request,response);
+			if(map.isEmpty()){
 				j.setCode(0);
 				j.setMessage("错误");
+			}else{
+				j.setData(map);
 			}
 		}else{
 			j.setCode(0);

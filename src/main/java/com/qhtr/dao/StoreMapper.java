@@ -42,4 +42,10 @@ public interface StoreMapper {
 	 * @return
 	 */
 	List<Store> getNewStoreList();
+	/**
+	 * 查询店铺中商品的数量
+	 * @param id
+	 * @return
+	 */
+	int selectGoodsNumByStoreId(Integer storeId);
 }

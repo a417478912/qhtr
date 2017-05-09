@@ -62,7 +62,7 @@ public class App_IndexController {
 				
 		//下面的商品
 				List<GoodsListDto_App> goodsDtoList = new ArrayList<GoodsListDto_App>();
-				List<Store> storeList1 = storeService.getStoresByType(categoryId, 1, 5);
+				List<Store> storeList1 = storeService.getStoresByType(categoryId, 1, 2);
 				for (Store store : storeList1) {
 					Goods goodsTem = new Goods();
 					goodsTem.setStoreId(store.getId());
@@ -71,8 +71,32 @@ public class App_IndexController {
 						goodsDtoList.add(new GoodsListDto_App(goodsList1.get(0)));
 					}
 				}
-				resultMap.put("goodsList", goodsDtoList);
+				resultMap.put("goodsListUp", goodsDtoList);
 				
+				
+				List<GoodsListDto_App> goodsDtoList2 = new ArrayList<GoodsListDto_App>();
+				List<Store> storeList2 = storeService.getStoresByType(categoryId, 1,3);
+				for (Store store : storeList2) {
+					Goods goodsTem = new Goods();
+					goodsTem.setStoreId(store.getId());
+					List<Goods> goodsList2 = goodsService.selectGoodsByCondition(goodsTem, 1, 1);
+					if(!goodsList2.isEmpty()){
+						goodsDtoList2.add(new GoodsListDto_App(goodsList2.get(0)));
+					}
+				}
+				resultMap.put("goodsListDown", goodsDtoList);
+				
+				
+				List<GoodsListDto_App> goodsDtoList3 = new ArrayList<GoodsListDto_App>();
+				List<Store> storeList3 = storeService.getStoresByType(categoryId, 1,5);
+				for (Store store : storeList3) {
+					Goods goodsTem = new Goods();
+					goodsTem.setStoreId(store.getId());
+					List<Goods> goodsList3 = goodsService.selectGoodsByCondition(goodsTem, 1, 1);
+					if(!goodsList3.isEmpty()){
+						goodsDtoList3.add(new GoodsListDto_App(goodsList3.get(0)));
+					}
+				}
 				resultMap.put("recommendationList", goodsDtoList);
 				j.setData(resultMap);
 				return j;

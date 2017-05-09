@@ -1,10 +1,15 @@
 package com.qhtr.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jdom.JDOMException;
+
+import com.alibaba.fastjson.JSONException;
 import com.qhtr.model.PayOrder;
 
 public interface PayOrderService {
@@ -20,8 +25,11 @@ public interface PayOrderService {
 	 * @param userId
 	 * @param request
 	 * @return
+	 * @throws IOException 
+	 * @throws JDOMException 
+	 * @throws JSONException 
 	 */
-	String addOrder(String orderCode,int userId,HttpServletRequest request,HttpServletResponse response);
+	Map<String,String> addOrder(String orderCode,int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException;
 
 	List<PayOrder> selectByConditions(PayOrder poTem);
 

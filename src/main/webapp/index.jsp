@@ -41,6 +41,21 @@
 </html>
 <script>
 $(function(){
+	var a; //全局变量
+	function test()
+	{
+	  if(false){
+		  a =1 ;
+		  return a;
+	  }
+	  if(true){
+		  a=2;
+		  return a;
+	  }
+	  return a; 
+	}
+	a=test(); //将函数返回值赋给全局变量a
+alert(a)
 	/* var ajaxData = {
 			id: 28,
 			storeId: "19",
@@ -53,7 +68,7 @@ $(function(){
 			sku: '[{"id":"63","attrDetails":"红色xxx","stock":"33","price":28,"status":1},{"id":"64","attrDetails":"白色dd","stock":"88","price":35,"status":1},{"id":"65","attrDetails":"黑色aa","stock":"99","price":42.5,"status":2},{"attrDetails":"编辑新增","stock":"99","price":42.5,"status":1}]',
 			activityId: "1,2"
 		}*/
-	 var ajaxData = {
+	 /* var ajaxData = {
 			id: 28,
 			storeId: "19",
 			descript: "简介简介简介简介简介简介简介简介xxxxxx",
@@ -77,7 +92,7 @@ $(function(){
 	        error: function(res){
 	            alert(res.responseText);
 	        }
-	    });
+	    }); */
 	
 	/*  var ajaxData = {
 			"orderId":"8",

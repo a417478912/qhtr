@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.qhtr.common.Constants;
 import com.qhtr.utils.weixinPay.util.MD5Util;
 import com.qhtr.utils.weixinPay.util.TenpayUtil;
 
@@ -50,7 +51,7 @@ public class RequestHandler {
 		this.response = response;
 		
 		this.gateUrl = "https://gw.tenpay.com/gateway/pay.htm";
-		this.key = "";
+		this.key = Constants.WEIXINPAY_KEY;
 		this.parameters = new TreeMap();
 		this.debugInfo = "";
 	}

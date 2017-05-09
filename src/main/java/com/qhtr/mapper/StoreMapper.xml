@@ -347,4 +347,11 @@
 	where o.store_id = #{storeId,jdbcType=INTEGER}
 	GROUP BY u.id
   </select>
+  
+  <!-- 查询商铺中商品的数量 -->
+  <select id="selectGoodsNumByStoreId" resultType="java.lang.Integer"  parameterType="java.lang.Integer">
+	SELECT count(*) from goods_goods
+	where store_id = #{storeId,jdbcType=INTEGER}
+	and status = 1
+  </select>
 </mapper>

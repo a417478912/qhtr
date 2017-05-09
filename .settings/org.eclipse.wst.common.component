@@ -6,6 +6,6 @@
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
         <wb-resource deploy-path="/" source-path="/src/main/webapp"/>
         <property name="java-output-path" value="/qhtr/target/classes"/>
-        <property name="context-root" value="qhtr_0.0.1-SNAPSHOT_20170314072408"/>
+        <property name="context-root" value="qhtr_0.0.1-SNAPSHOT_20170508051003"/>
     </wb-module>
 </project-modules>

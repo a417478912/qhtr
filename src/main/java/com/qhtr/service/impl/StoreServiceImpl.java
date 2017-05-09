@@ -20,7 +20,7 @@ import com.qhtr.utils.CookieUtils;
 import com.qhtr.utils.DistributionUtils;
 import com.qhtr.utils.MD5Utils;
 
-@Service
+@Service("StoreService")
 public class StoreServiceImpl implements StoreService {
 	@Resource
 	public StoreMapper storeMapper;
@@ -168,6 +168,11 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<Store> getAll() {
 		return storeMapper.selectByConditions(new Store());
+	}
+
+	@Override
+	public int selectGoodsNumByStoreId(Integer storeId) {
+		return storeMapper.selectGoodsNumByStoreId(storeId);
 	}
 
 }

@@ -16,6 +16,8 @@ public class GoodsListDto_App {
 	public int topPrice;
 	public int lowPrice;
 	public int totalStock = 0;
+	public int collect_num = 0;
+	public int sell_num = 0;
 	public String details;
 	
 	public GoodsListDto_App(){
@@ -44,6 +46,8 @@ public class GoodsListDto_App {
 		this.setTopPrice(topPrice);
 		this.setTotalStock(totalStock);
 		
+		this.setCollect_num(goods.getCollectNum());
+		this.setSell_num(goods.getSellNum());
 		
 		this.setName(goods.getName());
 		
@@ -114,6 +118,22 @@ public class GoodsListDto_App {
 
 	public void setDetails(String details) {
 		this.details = details;
+	}
+
+	public int getCollect_num() {
+		return collect_num;
+	}
+
+	public void setCollect_num(int collect_num) {
+		this.collect_num = collect_num;
+	}
+
+	public int getSell_num() {
+		return sell_num;
+	}
+
+	public void setSell_num(int sell_num) {
+		this.sell_num = sell_num;
 	}
 
 }

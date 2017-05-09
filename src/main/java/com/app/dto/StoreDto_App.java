@@ -14,6 +14,7 @@ import com.qhtr.dto.PictureDto;
 import com.qhtr.model.Category;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
+import com.qhtr.service.StoreService;
 import com.qhtr.utils.ApplicationContextUtils;
 
 public class StoreDto_App {
@@ -37,6 +38,7 @@ public class StoreDto_App {
 	public String latitude;
 	public int score;
 	public int type;
+	public int goodsNum;
 
 	public StoreDto_App() {
 
@@ -140,6 +142,10 @@ public class StoreDto_App {
 		}
 		this.setScore(store.getScore());
 		this.setType(store.getType());
+		
+		//店铺中的商品数量
+		StoreService storeService = (StoreService) ApplicationContextUtils.getContext().getBean("StoreService");
+		this.setGoodsNum(storeService.selectGoodsNumByStoreId(store.getId()));
 	}
 
 	public int getId() {
@@ -300,5 +306,13 @@ public class StoreDto_App {
 
 	public List<Map<String, Object>> getDetails() {
 		return details;
+	}
+
+	public int getGoodsNum() {
+		return goodsNum;
+	}
+
+	public void setGoodsNum(int goodsNum) {
+		this.goodsNum = goodsNum;
 	}
 }

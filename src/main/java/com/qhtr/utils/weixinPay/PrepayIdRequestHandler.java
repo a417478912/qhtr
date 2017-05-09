@@ -1,4 +1,5 @@
 package com.qhtr.utils.weixinPay;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -9,12 +10,16 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.jdom.JDOMException;
+
 import com.alibaba.fastjson.JSONException;
+import com.qhtr.common.Constants;
 import com.qhtr.utils.weixinPay.client.TenpayHttpClient;
 import com.qhtr.utils.weixinPay.util.ConstantUtil;
 import com.qhtr.utils.weixinPay.util.JsonUtil;
 import com.qhtr.utils.weixinPay.util.MD5Util;
 import com.qhtr.utils.weixinPay.util.Sha1Util;
+import com.qhtr.utils.weixinPay.util.XMLUtil;
 
 public class PrepayIdRequestHandler extends RequestHandler {
 
@@ -65,16 +70,16 @@ public class PrepayIdRequestHandler extends RequestHandler {
 			sb.append(k + "=" + v + "&");
 		}
 		sb.append("key="+this.getKey());
-		String params = sb.substring(0, sb.lastIndexOf("&"));
-		String appsign = MD5Util.MD5Encode(params, "UTF-8").toUpperCase();
-		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "sha1 sb:" + params);
+		//String params = sb.substring(0, sb.lastIndexOf("&"));
+		String appsign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
+		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "sha1 sb:" + sb.toString());
 		this.setDebugInfo(this.getDebugInfo() + "\r\n" + "app sign:" + appsign);
 		return appsign;
 	}
 
 	// 提交预支付
 	//xml 格式的参数
-		public String sendPrepay() throws JSONException {
+		public String sendPrepay() throws JSONException, JDOMException, IOException {
 			String prepayid = "";
 			StringBuffer sb = new StringBuffer("<xml>");
 			Set es = super.getAllParameters().entrySet();
@@ -98,8 +103,9 @@ public class PrepayIdRequestHandler extends RequestHandler {
 			this.setDebugInfo(this.getDebugInfo() + "\r\n" + "post data:" + params);
 			if (httpClient.callHttpPost(requestUrl, params)) {
 				resContent = httpClient.getResContent();
-				if (2 == resContent.indexOf("prepayid")) {
-					prepayid = JsonUtil.getJsonValue(resContent, "prepayid");
+				Map xmlMap = XMLUtil.doXMLParse(resContent);
+				if ("SUCCESS".equals(xmlMap.get("result_code"))){
+					prepayid = xmlMap.get("prepay_id").toString();
 				}
 				this.setDebugInfo(this.getDebugInfo() + "\r\n" + "resContent:"
 						+ resContent);

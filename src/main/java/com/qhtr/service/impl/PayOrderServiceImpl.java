@@ -1,19 +1,20 @@
 package com.qhtr.service.impl;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.jdom.JDOMException;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONException;
 import com.qhtr.common.Constants;
 import com.qhtr.dao.PayOrderMapper;
 import com.qhtr.model.PayOrder;
@@ -21,9 +22,8 @@ import com.qhtr.model.StoreOrder;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.StoreOrderService;
 import com.qhtr.utils.GenerationUtils;
-import com.qhtr.utils.weixinPay.PackageRequestHandler;
 import com.qhtr.utils.weixinPay.PrepayIdRequestHandler;
-import com.qhtr.utils.weixinPay.RequestHandler;
+import com.qhtr.utils.weixinPay.util.MD5Util;
 import com.qhtr.utils.weixinPay.util.TenpayUtil;
 
 @Service
@@ -55,7 +55,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 	}
 	
 	@Override
-	public String addOrder(String orderCode,int userId,HttpServletRequest request,HttpServletResponse response) {
+	public Map<String,String> addOrder(String orderCode,int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
 		StoreOrder so = storeOrderService.selectByOrderCode(orderCode);
 		PayOrder po = new PayOrder();
 		po.setCreateTime(new Date());
@@ -71,7 +71,37 @@ public class PayOrderServiceImpl implements PayOrderService {
 			payOrderMapper.insert(po);
 			so.setPayOrderCode(po.getOrderCode());
 			storeOrderService.updateByCondition(so);
-			return po.getOrderCode();
+			
+			//二次签名
+			Map<String,String> map = new HashMap<String, String>();
+			map.put("appid", Constants.WEIXINPAY_APPID);
+			map.put("partnerid", Constants.WEIXINPAY_APPID);
+			map.put("prepayid", result);
+			map.put("package", "Sign=WXPay");
+			String currTime = TenpayUtil.getCurrTime();  
+			
+			
+	        //8位日期  
+	        String strTime = currTime.substring(8, currTime.length());  
+	        //四位随机数  
+	        String strRandom = TenpayUtil.buildRandom(4) + "";
+	        //10位序列号,可以自行调整。  
+			String nonce_str = strTime + strRandom; //随机字符串，不长于32位。推荐随机数生成算法
+			map.put("noncestr", nonce_str);
+			map.put("timestamp", String.valueOf(System.currentTimeMillis()/1000));
+			
+			//签名
+			StringBuffer sb = new StringBuffer();
+			for (String key : map.keySet()) {  
+				  
+			    String value = map.get(key);  
+			  
+			    sb.append(key + "=" + value + "&");
+			  
+			}
+			sb.append("key="+Constants.WEIXINPAY_KEY);
+			map.put("sign", MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase());
+			return map;
 		}
 		
 	}
@@ -79,8 +109,11 @@ public class PayOrderServiceImpl implements PayOrderService {
 	/**
 	 * 微信支付 ，生成预订单
 	 * @return
+	 * @throws IOException 
+	 * @throws JDOMException 
+	 * @throws JSONException 
 	 */
-	public String toWeixinPay(PayOrder po,HttpServletRequest request,HttpServletResponse response) {
+	public String toWeixinPay(PayOrder po,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
 		String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//URL地址：
 		
 		String appid = Constants.WEIXINPAY_APPID;  //微信开放平台审核通过的应用APPID
@@ -92,7 +125,7 @@ public class PayOrderServiceImpl implements PayOrderService {
         //四位随机数  
         String strRandom = TenpayUtil.buildRandom(4) + "";
         //10位序列号,可以自行调整。  
-		String nonce_str = strTime + strRandom; ; //随机字符串，不长于32位。推荐随机数生成算法
+		String nonce_str = strTime + strRandom; //随机字符串，不长于32位。推荐随机数生成算法
 		
 		String body = "小逛一下-商品购买";///商品描述交易字段格式根据不同的应用场景按照以下格式：aPP——需传入应用市场上的APP名字-实际商品名称，天天爱消除-游戏充值。
 		String out_trade_no = po.getOrderCode();//商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。详见商户订单号
@@ -110,7 +143,7 @@ public class PayOrderServiceImpl implements PayOrderService {
          prepayReqHandler.setParameter("body", body);    
          prepayReqHandler.setParameter("out_trade_no", out_trade_no);      
          prepayReqHandler.setParameter("total_fee", total_fee + "");  
-         prepayReqHandler.setParameter("spbill_create_ip", spbill_create_ip);   
+         prepayReqHandler.setParameter("spbill_create_ip", "123.12.12.123");   
          prepayReqHandler.setParameter("notify_url", notify_url);    
          prepayReqHandler.setParameter("trade_type", trade_type);
          prepayReqHandler.setGateUrl(url);

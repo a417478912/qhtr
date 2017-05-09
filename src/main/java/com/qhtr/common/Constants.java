@@ -41,10 +41,10 @@ public class Constants {
 	/**
 	 * 微信支付的信息
 	 */
-	public final static String WEIXINPAY_KEY = "";
+	public final static String WEIXINPAY_KEY = "iq8sw2BnVEaOTIzN4WfM7GLip6tu3psM";
 	public final static String WEIXINPAY_APPID = "wx2e2b770d217cb2e7";
 	public final static String WEIXINPAY_APPSECRET = "d653b81f686c3b92ae5e36249de504ab";  
 	public final static String WEIXINPAY_PARTNER = "1430950202";//商户号 
 	public final static String WEIXINPAY_PARTNERKEY = "goodsOrderBuycart"; //不是商户登录密码，是商户在微信平台设置的32位长度的api秘钥，
-	public final static String WEIXINPAY_NOTIFY_URL = "goodsOrderBuycart";
+	public final static String WEIXINPAY_NOTIFY_URL = "http://114.55.248.53:8080/qhtr/app_pay/weixinPayResult.do";
 }

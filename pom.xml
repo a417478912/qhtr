@@ -137,6 +137,13 @@
 			<artifactId>jdom</artifactId>
 			<version>1.0</version>
 		</dependency>
+		
+		<!-- 支付宝支付 -->
+		<dependency>  
+		    <groupId>alipay</groupId>  
+		    <artifactId>sdk-java</artifactId>  
+		    <version>20170411150054</version>  
+		</dependency>
 	</dependencies>
 	
 

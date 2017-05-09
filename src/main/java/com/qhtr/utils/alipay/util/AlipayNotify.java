@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.qhtr.utils.alipay.config.AlipayConfig;
 import com.qhtr.utils.alipay.sign.RSA;
 
@@ -35,17 +37,17 @@ public class AlipayNotify {
      * @param Params 通知返回来的参数数组
      * @param sign 比对的签名结果
      * @return 生成的签名结果
+     * @throws AlipayApiException 
      */
-	public static boolean getSignVeryfy(Map<String, String> Params, String sign) {
+	public static boolean getSignVeryfy(Map<String, String> Params, String sign) throws AlipayApiException {
     	//过滤空值、sign与sign_type参数
-    	Map<String, String> sParaNew = AlipayCore.paraFilter(Params);
+	 //Map<String, String> sParaNew = AlipayCore.paraFilter(Params);
         //获取待签名字符串
-        String preSignStr = AlipayCore.createLinkString(sParaNew);
+      //  String preSignStr = AlipayCore.createLinkString(sParaNew);
         //获得签名验证结果
         boolean isSign = false;
-        if(AlipayConfig.sign_type.equals("RSA")){
-        	isSign = RSA.verify(preSignStr, sign, AlipayConfig.alipay_public_key, AlipayConfig.input_charset);
-        }
+    	isSign = AlipaySignature.rsaCheckV1(Params, AlipayConfig.alipay_public_key, AlipayConfig.input_charset,"RSA2");
+    	System.out.println("isSign++++++++++++++++++++++++++++++++++" + isSign);
         return isSign;
     }
 
