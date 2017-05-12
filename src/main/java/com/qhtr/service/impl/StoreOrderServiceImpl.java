@@ -1,5 +1,6 @@
 package com.qhtr.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.app.dto.BuyCartDto;
 import com.app.dto.StoreOrderDto_App;
 import com.app.dto.StoreOrderDto1;
@@ -36,6 +38,7 @@ import com.qhtr.service.GoodsService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreOrderService;
+import com.qhtr.service.UUpaotuiService;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.GenerationUtils;
 
@@ -59,6 +62,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public PayOrderService payOrderService;
 	@Resource
 	public AddressService addressService;
+	@Resource
+	public UUpaotuiService uUpaotuiService;
 
 	@Override
 	public StoreOrder selectByOrderCode(String soCode) {
@@ -135,7 +140,11 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 			so.setCouponPrice(0);
 		}*/
 		if(distributionType == 1){
-			so.setExpressPrice(8);
+			String expressPrice = uUpaotuiService.getExpressOrderPrice(addressId,goodsDto.getStoreId());
+			String returnCode = JSONObject.parseObject(expressPrice).getString("return_code");
+			if(returnCode != null && returnCode.equals("ok")){
+				so.setExpressPrice(new BigDecimal(JSONObject.parseObject(expressPrice).getString("need_paymoney")).multiply(new BigDecimal(100)).intValue());
+			}
 		}else if(distributionType == 2){
 			so.setExpressPrice(0);
 		}
@@ -297,9 +306,9 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		List<Map<String, Object>> list = storeOrderMapper.selectMapByConditions(so);
 		for (Map<String, Object> map : list) {
 			//第一个小商品的缩略图
-			int storeId = Integer.parseInt(map.get("id").toString());
+			int storeOrderId = Integer.parseInt(map.get("id").toString());
 			GoodsOrder goTem = new GoodsOrder();
-			goTem.setStoreId(storeId);
+			goTem.setStoreOrderId(storeOrderId);
 			List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
 			if (!goList.isEmpty()) {
 				String avatar = goList.get(0).getGoodsPicture();
@@ -372,6 +381,7 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	@Override
 	public int sendOutGoods(int storeOrderId) {
 		StoreOrder so = storeOrderMapper.selectByPrimaryKey(storeOrderId);
+		if(so.getStatus() == 20){
 		so.setStatus(30);
 		storeOrderMapper.updateByPrimaryKey(so);
 		
@@ -381,6 +391,9 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
 		Date nowTime = new Date();
 		for (GoodsOrder goodsOrder : goList) {
+			if(goodsOrder.getStatus() != 20){
+				return 0;
+			}
 			goodsOrder.setStatus(30);
 			goodsOrder.setShipmentsTime(nowTime);
 			if (goodsOrderService.updateGoodsOrder(goodsOrder) == 0) {
@@ -388,6 +401,9 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 			}
 		}
 		return 1;
+		}else{
+			return 0;
+		}
 	}
 
 	@Override

@@ -3,10 +3,12 @@ package com.qhtr.service;
 import java.util.List;
 import java.util.Map;
 
+import com.qhtr.model.ActivityModel;
 import com.qhtr.model.Goods;
 
 public interface ActivityService {
-
+	ActivityModel getModelByModelId(int id);
+	
 	List<Map<String,String>> selectListByStoreId(int storeId);
 
 	/**

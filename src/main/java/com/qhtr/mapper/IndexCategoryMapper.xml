@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.IndexCategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.qhtr.model.IndexCategory" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="headPicture" property="headpicture" jdbcType="VARCHAR" />
+    <result column="picture1_id" property="picture1Id" jdbcType="INTEGER" />
+    <result column="picture1_name" property="picture1Name" jdbcType="VARCHAR" />
+    <result column="picture1_url" property="picture1Url" jdbcType="VARCHAR" />
+    <result column="picture2_id" property="picture2Id" jdbcType="INTEGER" />
+    <result column="picture2_name" property="picture2Name" jdbcType="VARCHAR" />
+    <result column="picture2_url" property="picture2Url" jdbcType="VARCHAR" />
+    <result column="picture3_id" property="picture3Id" jdbcType="INTEGER" />
+    <result column="picture3_name" property="picture3Name" jdbcType="VARCHAR" />
+    <result column="picture3_url" property="picture3Url" jdbcType="VARCHAR" />
+    <result column="picture4_id" property="picture4Id" jdbcType="INTEGER" />
+    <result column="picture4_name" property="picture4Name" jdbcType="VARCHAR" />
+    <result column="picture4_url" property="picture4Url" jdbcType="VARCHAR" />
+    <result column="picture5_id" property="picture5Id" jdbcType="INTEGER" />
+    <result column="picture5_name" property="picture5Name" jdbcType="VARCHAR" />
+    <result column="picture5_url" property="picture5Url" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, category_id, headPicture, picture1_id, picture1_name, picture1_url, picture2_id, 
+    picture2_name, picture2_url, picture3_id, picture3_name, picture3_url, picture4_id, 
+    picture4_name, picture4_url, picture5_id, picture5_name, picture5_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from index_category
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from index_category
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qhtr.model.IndexCategory" >
+    insert into index_category (id, category_id, headPicture, 
+      picture1_id, picture1_name, picture1_url, 
+      picture2_id, picture2_name, picture2_url, 
+      picture3_id, picture3_name, picture3_url, 
+      picture4_id, picture4_name, picture4_url, 
+      picture5_id, picture5_name, picture5_url
+      )
+    values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{headpicture,jdbcType=VARCHAR}, 
+      #{picture1Id,jdbcType=INTEGER}, #{picture1Name,jdbcType=VARCHAR}, #{picture1Url,jdbcType=VARCHAR}, 
+      #{picture2Id,jdbcType=INTEGER}, #{picture2Name,jdbcType=VARCHAR}, #{picture2Url,jdbcType=VARCHAR}, 
+      #{picture3Id,jdbcType=INTEGER}, #{picture3Name,jdbcType=VARCHAR}, #{picture3Url,jdbcType=VARCHAR}, 
+      #{picture4Id,jdbcType=INTEGER}, #{picture4Name,jdbcType=VARCHAR}, #{picture4Url,jdbcType=VARCHAR}, 
+      #{picture5Id,jdbcType=INTEGER}, #{picture5Name,jdbcType=VARCHAR}, #{picture5Url,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.qhtr.model.IndexCategory" >
+    insert into index_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="headpicture != null" >
+        headPicture,
+      </if>
+      <if test="picture1Id != null" >
+        picture1_id,
+      </if>
+      <if test="picture1Name != null" >
+        picture1_name,
+      </if>
+      <if test="picture1Url != null" >
+        picture1_url,
+      </if>
+      <if test="picture2Id != null" >
+        picture2_id,
+      </if>
+      <if test="picture2Name != null" >
+        picture2_name,
+      </if>
+      <if test="picture2Url != null" >
+        picture2_url,
+      </if>
+      <if test="picture3Id != null" >
+        picture3_id,
+      </if>
+      <if test="picture3Name != null" >
+        picture3_name,
+      </if>
+      <if test="picture3Url != null" >
+        picture3_url,
+      </if>
+      <if test="picture4Id != null" >
+        picture4_id,
+      </if>
+      <if test="picture4Name != null" >
+        picture4_name,
+      </if>
+      <if test="picture4Url != null" >
+        picture4_url,
+      </if>
+      <if test="picture5Id != null" >
+        picture5_id,
+      </if>
+      <if test="picture5Name != null" >
+        picture5_name,
+      </if>
+      <if test="picture5Url != null" >
+        picture5_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="headpicture != null" >
+        #{headpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1Id != null" >
+        #{picture1Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture1Name != null" >
+        #{picture1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1Url != null" >
+        #{picture1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2Id != null" >
+        #{picture2Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture2Name != null" >
+        #{picture2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2Url != null" >
+        #{picture2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3Id != null" >
+        #{picture3Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture3Name != null" >
+        #{picture3Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3Url != null" >
+        #{picture3Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture4Id != null" >
+        #{picture4Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture4Name != null" >
+        #{picture4Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture4Url != null" >
+        #{picture4Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture5Id != null" >
+        #{picture5Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture5Name != null" >
+        #{picture5Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture5Url != null" >
+        #{picture5Url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.IndexCategory" >
+    update index_category
+    <set >
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="headpicture != null" >
+        headPicture = #{headpicture,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1Id != null" >
+        picture1_id = #{picture1Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture1Name != null" >
+        picture1_name = #{picture1Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture1Url != null" >
+        picture1_url = #{picture1Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2Id != null" >
+        picture2_id = #{picture2Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture2Name != null" >
+        picture2_name = #{picture2Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture2Url != null" >
+        picture2_url = #{picture2Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3Id != null" >
+        picture3_id = #{picture3Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture3Name != null" >
+        picture3_name = #{picture3Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture3Url != null" >
+        picture3_url = #{picture3Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture4Id != null" >
+        picture4_id = #{picture4Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture4Name != null" >
+        picture4_name = #{picture4Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture4Url != null" >
+        picture4_url = #{picture4Url,jdbcType=VARCHAR},
+      </if>
+      <if test="picture5Id != null" >
+        picture5_id = #{picture5Id,jdbcType=INTEGER},
+      </if>
+      <if test="picture5Name != null" >
+        picture5_name = #{picture5Name,jdbcType=VARCHAR},
+      </if>
+      <if test="picture5Url != null" >
+        picture5_url = #{picture5Url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.IndexCategory" >
+    update index_category
+    set category_id = #{categoryId,jdbcType=INTEGER},
+      headPicture = #{headpicture,jdbcType=VARCHAR},
+      picture1_id = #{picture1Id,jdbcType=INTEGER},
+      picture1_name = #{picture1Name,jdbcType=VARCHAR},
+      picture1_url = #{picture1Url,jdbcType=VARCHAR},
+      picture2_id = #{picture2Id,jdbcType=INTEGER},
+      picture2_name = #{picture2Name,jdbcType=VARCHAR},
+      picture2_url = #{picture2Url,jdbcType=VARCHAR},
+      picture3_id = #{picture3Id,jdbcType=INTEGER},
+      picture3_name = #{picture3Name,jdbcType=VARCHAR},
+      picture3_url = #{picture3Url,jdbcType=VARCHAR},
+      picture4_id = #{picture4Id,jdbcType=INTEGER},
+      picture4_name = #{picture4Name,jdbcType=VARCHAR},
+      picture4_url = #{picture4Url,jdbcType=VARCHAR},
+      picture5_id = #{picture5Id,jdbcType=INTEGER},
+      picture5_name = #{picture5Name,jdbcType=VARCHAR},
+      picture5_url = #{picture5Url,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <!-- 以下是自定义方法 -->
+    <select id="getByCategoreId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from index_category
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </select>
+   
+</mapper>

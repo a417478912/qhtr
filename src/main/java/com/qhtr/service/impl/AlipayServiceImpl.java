@@ -154,7 +154,11 @@ public class AlipayServiceImpl implements PayService {
 								List<StoreOrder> soList = storeOrderService.selectByConditions(soTem);
 								if(!soList.isEmpty()){
 									StoreOrder so = soList.get(0);
-									so.setStatus(20);
+									if(so.getDistributionType() == 1){
+										so.setStatus(20);
+									}else if(so.getDistributionType() == 2){
+										so.setStatus(21);
+									}
 									so.setPaymentTime(payTime);
 									storeOrderService.updateByCondition(so);
 									
@@ -162,7 +166,12 @@ public class AlipayServiceImpl implements PayService {
 									goTem.setStoreOrderCode(so.getOrderCode());
 									List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
 									for (GoodsOrder go : goList) {
-										go.setStatus(20);
+										if(so.getDistributionType() == 1){
+											go.setStatus(20);
+										}else if(so.getDistributionType() == 2){
+											go.setStatus(21);
+										}
+										
 										goodsOrderService.updateGoodsOrder(go);
 									}
 									System.out.println("storeOrder  状态改变成功+++++++++++++");
@@ -235,7 +244,11 @@ public class AlipayServiceImpl implements PayService {
 			List<StoreOrder> soList = storeOrderService.selectByConditions(soTem);
 			if(!soList.isEmpty()){
 				StoreOrder so = soList.get(0);
-				so.setStatus(20);
+				if(so.getDistributionType() == 1){
+					so.setStatus(20);
+				}else if(so.getDistributionType() == 2){
+					so.setStatus(21);
+				}
 				so.setPaymentTime(payTime);
 				storeOrderService.updateByCondition(so);
 				
@@ -243,7 +256,11 @@ public class AlipayServiceImpl implements PayService {
 				goTem.setStoreOrderCode(so.getOrderCode());
 				List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
 				for (GoodsOrder go : goList) {
-					go.setStatus(20);
+					if(so.getDistributionType() == 1){
+						go.setStatus(20);
+					}else if(so.getDistributionType() == 2){
+						go.setStatus(21);
+					}
 					goodsOrderService.updateGoodsOrder(go);
 				}
 				System.out.println("storeOrder  状态改变成功+++++++++++++");

@@ -1,6 +1,7 @@
 package com.app.controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -196,7 +197,7 @@ public class App_OrderController {
 		String returnCode = JSONObject.parseObject(expressPrice).getString("return_code");
 		if(returnCode != null && returnCode.equals("ok")){
 			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("need_paymoney", JSONObject.parseObject(expressPrice).getString("need_paymoney"));
+			map.put("need_paymoney", new BigDecimal(JSONObject.parseObject(expressPrice).getString("need_paymoney")).multiply(new BigDecimal(100)));
 			j.setData(map);
 		}else{
 			j.setCode(0);

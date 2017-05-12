@@ -74,6 +74,25 @@ public class Sell_OrderController {
 	}
 	
 	/**
+	 * 发货
+	 * @param j
+	 * @param storeOrderId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/sendGoods")
+	public Json sendGoods(Json j,@RequestParam int storeOrderId){
+		int result = storeOrderService.sendOutGoods(storeOrderId);
+		if(result == 1){
+			j.setMessage("发货成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("发货失败!");
+		}
+		return j;
+	}
+	
+	/**
 	 * 卖家备注
 	 * @param j
 	 * @param orderId
@@ -121,7 +140,7 @@ public class Sell_OrderController {
 	
 	/**
 	 * 增加快递信息
-	 */
+	 *//*
 	@ResponseBody
 	@RequestMapping("/addExpress")
 	public Json addExpress(Json j,@RequestParam int orderId,@RequestParam String expressName,@RequestParam String expressCode){
@@ -133,7 +152,7 @@ public class Sell_OrderController {
 			j.setMessage("失败!");
 		}
 		return j;
-	}
+	}*/
 	
 	/**
 	 * 增加快递订单
@@ -149,12 +168,20 @@ public class Sell_OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addExpressOrder")
-	public Json addExpressOrder(Json j,@RequestParam int orderId,@RequestParam int storeId,int addressId,String note){
+	public Json addExpressOrder(Json j,@RequestParam int orderId,@RequestParam(defaultValue="") String note){
+		Express theExpress = expressService.getByStoreOrderId(orderId);
+		if(theExpress != null){
+			j.setCode(0);
+			j.setMessage("重复增加快递订单!");
+			return j;
+		}
 		//先计算订单价格
 		String need_paymoney = "";
 		String price_token = "";
 		String total_money = "";
-		String expressPrice = uUpaotuiService.getExpressOrderPrice(addressId,storeId);
+		StoreOrder soTem = storeOrderService.selectById(orderId);
+		
+		String expressPrice = uUpaotuiService.getExpressOrderPrice(soTem.getAddressId(),soTem.getStoreId());
 		String returnCode = JSONObject.parseObject(expressPrice).getString("return_code");
 		if(returnCode != null && returnCode.equals("ok")){
 			need_paymoney = JSONObject.parseObject(expressPrice).getString("need_paymoney");
@@ -162,13 +189,12 @@ public class Sell_OrderController {
 			total_money = JSONObject.parseObject(expressPrice).getString("total_money");
 		}else{
 			j.setCode(0);
-			j.setMessage("参数不匹配!");
+			j.setMessage(JSONObject.parseObject(expressPrice).getString("return_msg"));
 			return j;
 		}
 		
 		
 		StoreOrder so = storeOrderService.selectById(orderId);
-		if(so.getAddressId() != null && so.getStoreId() != null && so.getAddressId() == addressId && so.getStoreId() == storeId){
 			StoreDto_App store = storeService.getStoreById(so.getStoreId());
 			String result = uUpaotuiService.addOrder(price_token, total_money, need_paymoney, so.getReceivingName(), so.getReceivingPhone(), note, store.getPhone());
 			String returnCode1 = JSONObject.parseObject(result).getString("return_code");
@@ -176,13 +202,11 @@ public class Sell_OrderController {
 			if(returnCode1 != null && returnCode1.equals("ok")){
 				expressService.add(orderId, "UU跑腿", ordercode);
 				j.setMessage("下单成功!");
+			}else{
+				j.setCode(0);
+				j.setMessage("下单失败!");
 			}
 			return j;
-		}else{
-			j.setCode(0);
-			j.setMessage("参数错误!");
-		}
-		return j;
 	}
 	
 	/**

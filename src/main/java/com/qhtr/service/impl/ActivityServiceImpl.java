@@ -84,4 +84,9 @@ public class ActivityServiceImpl implements ActivityService {
 		
 		return 1;
 	}
+
+	@Override
+	public ActivityModel getModelByModelId(int id) {
+		return activityModelMapper.selectByPrimaryKey(id);
+		}
 }

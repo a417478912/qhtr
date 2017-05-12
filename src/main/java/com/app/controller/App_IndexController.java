@@ -22,6 +22,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Json;
 import com.qhtr.model.Goods;
+import com.qhtr.model.IndexCategory;
 import com.qhtr.model.IndexFind;
 import com.qhtr.model.Store;
 import com.qhtr.service.GoodsService;
@@ -301,4 +302,14 @@ public class App_IndexController {
 		return j;
 	}
 	
+	/**
+	 *  首页，行业品牌界面
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getIndexCategory")
+	public Json getIndexCategory(Json j,@RequestParam int categoreId){
+		List<IndexCategory> list = indexService.getIndexCategoryList(categoreId);
+		j.setData(list);
+		return j;
+	}
 }

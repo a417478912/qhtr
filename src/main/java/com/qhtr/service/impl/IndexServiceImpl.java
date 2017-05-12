@@ -6,8 +6,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.qhtr.dao.IndexCategoryMapper;
 import com.qhtr.dao.IndexFindMapper;
 import com.qhtr.dao.StoreMapper;
+import com.qhtr.model.IndexCategory;
 import com.qhtr.model.IndexFind;
 import com.qhtr.model.Store;
 import com.qhtr.service.IndexService;
@@ -18,6 +20,8 @@ public class IndexServiceImpl implements IndexService {
 	public IndexFindMapper indexFindMapper;
 	@Resource
 	public StoreMapper storeMapper;
+	@Resource
+	public IndexCategoryMapper indexCategoryMapper;
 	
 	@Override
 	public List<IndexFind> findAll() {
@@ -42,6 +46,11 @@ public class IndexServiceImpl implements IndexService {
 	@Override
 	public IndexFind selectFindByFindId(int id) {
 		return indexFindMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<IndexCategory> getIndexCategoryList(int categoreId) {
+		return indexCategoryMapper.getByCategoreId(categoreId);
 	}
 
 }

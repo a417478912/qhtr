@@ -97,4 +97,9 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 		return 1;
 	}
 
+	@Override
+	public GoodsClasses getById(int id) {
+		return goodsClassesMapper.selectByPrimaryKey(id);
+	}
+
 }

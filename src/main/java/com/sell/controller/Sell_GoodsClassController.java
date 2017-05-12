@@ -1,5 +1,6 @@
 package com.sell.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
+import com.qhtr.model.GoodsClasses;
 import com.qhtr.service.GoodsClassService;
 import com.sell.dto.GoodsClassesDto;
 
@@ -93,7 +95,12 @@ public class Sell_GoodsClassController {
 	@RequestMapping(value="/getGoodsByClass")
 	public Json getGoodsByClass(Json j,@RequestParam int storeId,@RequestParam int classId){
 		List<Map<String,Object>> list = goodsClassService.getGoodsByClass(storeId,classId);
-		j.setData(list);
+		GoodsClasses gc = goodsClassService.getById(classId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("classId", gc.getId());
+		map.put("className", gc.getName());
+		map.put("goodsList", list);
+		j.setData(map);
 		return j;
 	}
 	

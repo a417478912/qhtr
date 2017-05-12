@@ -41,8 +41,9 @@
 </html>
 <script>
 $(function(){
-	var a; //全局变量
-	function test()
+	var a = "101.11"; //全局变量
+	var b = 101.1100;
+	/* function test()
 	{
 	  if(false){
 		  a =1 ;
@@ -54,8 +55,8 @@ $(function(){
 	  }
 	  return a; 
 	}
-	a=test(); //将函数返回值赋给全局变量a
-alert(a)
+	a=test(); //将函数返回值赋给全局变量a */
+alert(a==b)
 	/* var ajaxData = {
 			id: 28,
 			storeId: "19",

@@ -1,5 +1,6 @@
 package com.sell.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
+import com.qhtr.model.ActivityModel;
 import com.qhtr.model.Goods;
 import com.qhtr.service.ActivityService;
 
@@ -88,7 +90,13 @@ public class Sell_ActivityController {
 	@RequestMapping(value="/getGoodsList")
 	public Json getGoodsList(Json j,@RequestParam int storeId,@RequestParam int modelId){
 		List<Goods> goodsList = activityService.selectByStoreIdAndModelId(storeId, modelId);
-		j.setData(goodsList);
+		ActivityModel am = activityService.getModelByModelId(modelId);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("modelId", modelId);
+		map.put("modelName", am.getName());
+		map.put("goodsList", goodsList);
+		
+		j.setData(map);
 		return j;
 	}
 	

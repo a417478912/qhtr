@@ -61,8 +61,8 @@ $(function(){
 					</div>
 					<div class="accordionContent">
 						<ul class="tree treeFolder">
-							<li><a href="${rootPaht}/user/userList.do" target="navTab" rel="user_list">会员列表</a>
-							<li><a href="tabsPage.html" target="navTab">主框架面板</a>
+							<li><a href="${rootPath}/user/userList.do" target="navTab" rel="user_list">会员列表</a>
+							<li><a href="${rootPath}/store/storeList.do" target="navTab">主框架面板</a>
 						</ul>
 					</div>
 					<div class="accordionHeader">

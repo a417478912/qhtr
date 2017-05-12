@@ -3,9 +3,11 @@ package com.qhtr.service;
 import java.util.List;
 import java.util.Map;
 
+import com.qhtr.model.GoodsClasses;
 import com.sell.dto.GoodsClassesDto;
 
 public interface GoodsClassService {
+	GoodsClasses getById(int id);
 
 	int add(String name, int storeId);
 

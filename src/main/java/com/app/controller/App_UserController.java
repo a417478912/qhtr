@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +20,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.dto.StoreListDto_App;
+import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
+import com.qhtr.dto.CollectDto;
 import com.qhtr.dto.UserDto;
+import com.qhtr.model.Collect;
+import com.qhtr.model.Goods;
 import com.qhtr.model.User;
+import com.qhtr.service.AttentionService;
+import com.qhtr.service.CollectService;
+import com.qhtr.service.GoodsService;
+import com.qhtr.service.StoreService;
 import com.qhtr.service.SystemLogService;
 import com.qhtr.service.UserService;
 
@@ -33,7 +43,16 @@ public class App_UserController {
 	public SystemLogService systemLogService;
 
 	@Resource
-	private UserService userService;
+	public UserService userService;
+	
+	@Resource
+	public CollectService collectService;
+	
+	@Resource
+	public AttentionService attentionService;
+	
+	@Resource
+	public GoodsService goodsService;
 
 	/**
 	 * 用户注册
@@ -381,6 +400,136 @@ public class App_UserController {
 		}else{
 			j.setCode(0);
 			j.setMessage("登陆失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 获取用户收藏列表
+	 * @param j
+	 * @param userId
+	 * @return
+	 */
+	
+	@ResponseBody
+	@RequestMapping(value = "/getCollectList")
+	public Json getCollectList(Json j,@RequestParam int userId){
+		List<CollectDto> list  = collectService.selectByUserid(userId);
+		j.setData(list);
+		return j;
+	}
+	
+	/**
+	 * 添加收藏
+	 * @param j
+	 * @param userId
+	 * @param storeId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addCollect")
+	public Json addCollect(Json j,@RequestParam int userId,@RequestParam int goodsId){
+		int result = collectService.addCollect(userId,goodsId);
+		if(result == 1){
+			j.setMessage("收藏成功!");
+		}else if(result == -1){
+			j.setCode(0);
+			j.setMessage("已经收藏过此店铺!");
+		}else{
+			j.setCode(0);
+			j.setMessage("收藏失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 删除收藏
+	 * @param j
+	 * @param collectId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/deleteCollect")
+	public Json deleteCollect(Json j,@RequestParam int collectId){
+		int result = collectService.deleteCollect(collectId);
+		if(result == 1){
+			j.setMessage("删除成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("删除收藏失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 获取关注列表
+	 * @param j
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getAttentionList")
+	public Json getAttentionList(Json j,@RequestParam int userId){
+		List<Map<String,Object>> list  = attentionService.getAttentionList(userId);
+		if(list != null){
+			List<Map<String,Object>> mapList = new ArrayList<Map<String,Object>>();
+			for (Map<String, Object> map : list) {
+				int storeId = Integer.parseInt(map.get("storeId").toString());
+				PageHelper.startPage(1,3);
+				List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId, 1);
+				Map<String,Object> theMap = new HashMap<String,Object>();
+				theMap.put("id", map.get("id"));
+				theMap.put("storeId", map.get("storeId"));
+				theMap.put("storeName", map.get("storeName"));
+				theMap.put("storeAvatar", map.get("storeAvatar"));
+				theMap.put("goodsList", goodsList);
+				mapList.add(theMap);
+			}
+			j.setData(mapList);
+		}else{
+			j.setMessage("没有关注店铺!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 添加关注
+	 * @param j
+	 * @param userId
+	 * @param storeId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/addAttention")
+	public Json addAttention(Json j,@RequestParam int userId,@RequestParam int storeId){
+		int result = attentionService.addAttention(userId,storeId);
+		if(result == 1){
+			j.setMessage("关注成功!");
+		}else if(result == -1){
+			j.setCode(0);
+			j.setMessage("已经关注过此店铺!");
+		}else{
+			j.setCode(0);
+			j.setMessage("关注失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 取消关注
+	 * @param j
+	 * @param collectId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/deleteAttention")
+	public Json deleteAttention(Json j,@RequestParam int attentionId){
+		int result = attentionService.deleteAttention(attentionId);
+		if(result == 1){
+			j.setMessage("删除成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("删除关注失败!");
 		}
 		return j;
 	}
