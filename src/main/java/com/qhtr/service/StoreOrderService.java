@@ -95,4 +95,10 @@ public interface StoreOrderService {
 	 * @return
 	 */
 	int cancelSendOutGoods(int storeOrderId);
+	
+	
+	/**
+	 * 取消未付款订单
+	 */
+	void updateCancleUnPayOrder();
 }

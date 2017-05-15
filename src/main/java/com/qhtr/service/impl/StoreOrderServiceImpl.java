@@ -20,6 +20,7 @@ import com.app.param.Param1;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Constants;
+import com.qhtr.dao.GoodsOrderMapper;
 import com.qhtr.dao.StoreOrderMapper;
 import com.qhtr.dto.GoodsDto;
 import com.qhtr.dto.StoreOrderDetailsDto;
@@ -425,5 +426,31 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 			}
 		}
 		return 1;
+	}
+
+	@Override
+	public void updateCancleUnPayOrder() {
+		StoreOrder soTem = new StoreOrder();
+		soTem.setStatus(10);
+		List<StoreOrder> list = storeOrderMapper.selectByConditions(soTem);
+		for (StoreOrder storeOrder : list) {
+			Date nowTime = new Date();
+			Date sourceTime = storeOrder.getCreateTime();
+			if(nowTime.getTime() - sourceTime.getTime() > 30*60*1000){
+				storeOrder.setStatus(200);
+				storeOrder.setCancalTime(nowTime);
+				
+				GoodsOrder goTem = new GoodsOrder();
+				goTem.setStoreOrderCode(storeOrder.getOrderCode());
+				List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+				for (GoodsOrder goodsOrder2 : goList) {
+					goodsOrder2.setStatus(200);
+					goodsOrder2.setCancalTime(nowTime);
+					goodsOrderService.updateGoodsOrder(goodsOrder2);
+				}
+						
+				storeOrderMapper.updateByPrimaryKey(storeOrder);
+			}
+		}
 	}
 }
