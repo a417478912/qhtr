@@ -255,6 +255,13 @@ public class Sell_OrderController {
 		int result2 = goodsOrderService.selectCountByConditions(map2);
 		map.put("dfh", result2);
 		
+		//待自提
+		Map<String,Object> map10 = new HashMap<String,Object>();
+		map10.put("storeId", storeId);
+		map10.put("status", 21);
+		int result10 = goodsOrderService.selectCountByConditions(map2);
+		map.put("dzt", result10);
+		
 		Map<String,Object> map3 = new HashMap<String,Object>();
 		map3.put("storeId", storeId);
 		map3.put("status", 30);

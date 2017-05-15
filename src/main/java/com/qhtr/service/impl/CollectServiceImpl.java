@@ -59,4 +59,14 @@ public class CollectServiceImpl implements CollectService{
 	public int deleteCollect(int collectId) {
 		return collectMapper.deleteByPrimaryKey(collectId);
 	}
+
+	@Override
+	public List<Map<String, Object>> selectByRecentCollect(int userId, int categoryId) {
+		Map<String, Object> map = new HashMap<String,Object>();
+		map.put("userId", userId);
+		if(categoryId != 0){
+			map.put("categoryId", categoryId);
+		}
+		return collectMapper.selectByRecentCollect(map);
+	}
 }

@@ -1,6 +1,7 @@
 package com.qhtr.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.qhtr.dto.CollectDto;
 
@@ -25,5 +26,12 @@ public interface CollectService {
 	 * @return
 	 */
 	int deleteCollect(int collectId);
+	/**
+	 * 最近的收藏
+	 * @param userId
+	 * @param categoryId
+	 * @return
+	 */
+	List<Map<String, Object>> selectByRecentCollect(int userId, int categoryId);
 
 }

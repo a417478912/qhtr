@@ -33,4 +33,11 @@ public interface CollectMapper {
 	 * @return
 	 */
 	List<Collect> selectByConditions(Map<String, Object> map);
+	/**
+	 * 最近收藏
+	 * @param userId
+	 * @param categoryId
+	 * @return
+	 */
+	List<Map<String, Object>> selectByRecentCollect(Map<String, Object> map);
 }

@@ -138,4 +138,25 @@
       </if>
     </where>
   </select>
+  
+  <!-- 收藏详情/更多 -->
+  <select id="selectByRecentCollect" resultType="java.util.Map" parameterType="java.util.Map" >
+    select c.id,g.id as goodsId,g.name as goodsName,g.thumb as goodsThumb
+    from user_collect c,goods_goods g
+    <where>
+      <if test="1 == 1">
+   			c.goods_id = g.id
+      </if>
+      <if test="userId != null" >
+        and c.user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="goodsId != null" >
+        and c.goods_id = #{goodsId,jdbcType=INTEGER}
+      </if>
+      <if test="categoryId != null" >
+        and c.category_id = #{categoryId,jdbcType=INTEGER}
+      </if>
+    </where>
+    order by c.create_time desc
+  </select>
 </mapper>

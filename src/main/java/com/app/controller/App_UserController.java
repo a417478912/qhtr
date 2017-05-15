@@ -28,10 +28,12 @@ import com.qhtr.dto.CollectDto;
 import com.qhtr.dto.UserDto;
 import com.qhtr.model.Collect;
 import com.qhtr.model.Goods;
+import com.qhtr.model.Sku;
 import com.qhtr.model.User;
 import com.qhtr.service.AttentionService;
 import com.qhtr.service.CollectService;
 import com.qhtr.service.GoodsService;
+import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreService;
 import com.qhtr.service.SystemLogService;
 import com.qhtr.service.UserService;
@@ -53,6 +55,9 @@ public class App_UserController {
 	
 	@Resource
 	public GoodsService goodsService;
+	
+	@Resource
+	public SkuService skuService;
 
 	/**
 	 * 用户注册
@@ -460,6 +465,39 @@ public class App_UserController {
 		}
 		return j;
 	}
+	
+	/**
+	 * 收藏，查看更多
+	 * @param j
+	 * @param userId
+	 * @param categoryId  categoryId :0 ， 最近收藏     categoryId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getMoreCollect")
+	public Json getMoreCollect(Json j,@RequestParam int userId,@RequestParam int categoryId,@RequestParam(defaultValue="1") int page){
+		PageHelper.startPage(page, 10);
+		List<Map<String,Object>> list = collectService.selectByRecentCollect(userId,categoryId);
+		for (Map<String, Object> map : list) {
+			int topPrice = 0;
+			int lowPrice = 10000000;
+			int goodsId = Integer.parseInt(map.get("goodsId").toString());
+			List<Sku> skuList = skuService.selectListByGoodsId(goodsId);
+			for (Sku sku : skuList) {
+				if(sku.getPrice() > topPrice){
+					topPrice = sku.getPrice();
+				}
+				if(sku.getPrice() < lowPrice){
+					lowPrice = sku.getPrice();
+				}
+			}
+			map.put("topPrice", topPrice);
+			map.put("lowPrice", lowPrice);
+		}
+		j.setData(list);
+		return j;
+	}
+	
 	
 	/**
 	 * 获取关注列表
