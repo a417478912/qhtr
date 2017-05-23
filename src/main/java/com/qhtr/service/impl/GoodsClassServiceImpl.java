@@ -9,6 +9,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.qhtr.dao.GoodsClassesMapper;
+import com.qhtr.dao.GoodsMapper;
+import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
 import com.qhtr.service.GoodsClassService;
 import com.sell.dto.GoodsClassesDto;
@@ -17,6 +19,8 @@ import com.sell.dto.GoodsClassesDto;
 public class GoodsClassServiceImpl implements GoodsClassService {
 	@Resource
 	public GoodsClassesMapper goodsClassesMapper;
+	@Resource
+	public GoodsMapper goodsMapper;
 	
 	@Override
 	public int add(String name, int storeId) {
@@ -100,6 +104,11 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 	@Override
 	public GoodsClasses getById(int id) {
 		return goodsClassesMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<Goods> getGoodsByClass_App(int classId) {
+		return goodsMapper.getGoodsByClass_App(classId);
 	}
 
 }

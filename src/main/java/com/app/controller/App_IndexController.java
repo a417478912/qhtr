@@ -67,6 +67,7 @@ public class App_IndexController {
 				for (Store store : storeList1) {
 					Goods goodsTem = new Goods();
 					goodsTem.setStoreId(store.getId());
+					goodsTem.setStatus(1);
 					List<Goods> goodsList1 = goodsService.selectGoodsByCondition(goodsTem, 1, 1);
 					if(!goodsList1.isEmpty()){
 						goodsDtoList.add(new GoodsListDto_App(goodsList1.get(0)));
@@ -80,6 +81,7 @@ public class App_IndexController {
 				for (Store store : storeList2) {
 					Goods goodsTem = new Goods();
 					goodsTem.setStoreId(store.getId());
+					goodsTem.setStatus(1);
 					List<Goods> goodsList2 = goodsService.selectGoodsByCondition(goodsTem, 1, 1);
 					if(!goodsList2.isEmpty()){
 						goodsDtoList2.add(new GoodsListDto_App(goodsList2.get(0)));
@@ -93,6 +95,7 @@ public class App_IndexController {
 				for (Store store : storeList3) {
 					Goods goodsTem = new Goods();
 					goodsTem.setStoreId(store.getId());
+					goodsTem.setStatus(1);
 					List<Goods> goodsList3 = goodsService.selectGoodsByCondition(goodsTem, 1, 1);
 					if(!goodsList3.isEmpty()){
 						goodsDtoList3.add(new GoodsListDto_App(goodsList3.get(0)));

@@ -1,6 +1,8 @@
 package com.qhtr.service.impl;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.qhtr.dao.FundFlowMapper;
 import com.qhtr.model.FundFlow;
 import com.qhtr.service.FundFlowService;
+import com.qhtr.service.PayService;
 
 @Service
 public class FundFlowServiceImpl implements FundFlowService {
@@ -37,5 +40,10 @@ public class FundFlowServiceImpl implements FundFlowService {
 		ff.setCreateTime(new Date());
 		ff.setReason(reason);
 		return fundFlowMapper.insert(ff);
+	}
+
+	@Override
+	public List<Map<String, Object>> selectMoneysByStoreId(int storeId) {
+		return fundFlowMapper.selectMoneysByStoreId(storeId);
 	}
 }

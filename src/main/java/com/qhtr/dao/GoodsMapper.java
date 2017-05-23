@@ -51,5 +51,11 @@ public interface GoodsMapper {
 	 * @return
 	 */
 	List<Goods> getActivityGoods(Map<String,Integer> map);
+	
+	/**
+	 * 买家版，通过店铺id和分类id查询商品列表
+	 */
+
+	List<Goods> getGoodsByClass_App(int classId);
     
 }

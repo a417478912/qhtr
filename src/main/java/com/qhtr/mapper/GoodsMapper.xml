@@ -325,6 +325,7 @@
     select 
     <include refid="Base_Column_List" />
     from goods_goods
+    where status = 1
     order by id desc
   	</select>
   	
@@ -337,5 +338,14 @@
     where name like CONCAT("%",#{searchContent,jdbcType=VARCHAR},"%")
     and status = 1
     order by id desc
+  	</select>
+  	
+  	<!-- 查找分类中的商品  买家版          -->                    
+	<select id="getGoodsByClass_App" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+	SELECT g.id as id,g.goods_code as goods_code,g.name as name,g.detail_pictures as detail_pictures,g.stock as stock,g.details as details,g.collect_num as collect_num,g.sell_num as sell_num
+	from goods_goods g,goods_mid_goods_classes c
+	WHERE g.id = c.goods_id
+	AND c.goods_classes_id = #{classId,jdbcType=INTEGER}
+	GROUP BY g.id desc
   	</select>
 </mapper>

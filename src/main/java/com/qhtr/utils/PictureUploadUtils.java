@@ -28,7 +28,7 @@ public class PictureUploadUtils {
 		static String baseSavePath =  "/app";   //localhost
 		
 		// 文件保存目录URL
-		static String baseSaveUrl = "http://www.7htr.com:8080/qhtr"+"/upload/";
+		static String baseSaveUrl = "http://www.7htr.com/qhtr"+"/upload/";
 		//static String baseSaveUrl = "localhost:8080"+"/upload/";
 		
 		/**

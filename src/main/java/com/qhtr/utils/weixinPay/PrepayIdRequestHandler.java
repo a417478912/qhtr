@@ -1,4 +1,5 @@
 package com.qhtr.utils.weixinPay;
+import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
@@ -112,6 +113,43 @@ public class PrepayIdRequestHandler extends RequestHandler {
 			}
 			return prepayid;
 		}
+		
+		// 提交请求  	//xml 格式的参数
+			public String sendRequest() throws JSONException, JDOMException, IOException {
+				String result = "";
+				StringBuffer sb = new StringBuffer("<xml>");
+				Set es = super.getAllParameters().entrySet();
+				Iterator it = es.iterator();
+				while (it.hasNext()) {
+					Map.Entry entry = (Map.Entry) it.next();
+					String k = (String) entry.getKey();
+					String v = (String) entry.getValue();
+					if (null != v && !"".equals(v) && !"appkey".equals(k)) {
+						sb.append("<" + k + ">" + v + "</" + k + ">");
+					}
+				}
+				String params = sb.append("</xml>").toString();
+
+				String requestUrl = super.getGateUrl();
+				this.setDebugInfo(this.getDebugInfo() + "\r\n" + "requestUrl:"
+						+ requestUrl);
+				TenpayHttpClient httpClient = new TenpayHttpClient();
+				//httpClient.setCertInfo(new File("C://apiclient_cert.p12"), "1430950202");
+				//httpClient.setCaInfo(new File("C://apiclient_cert.p12"));
+				httpClient.setReqContent(requestUrl);
+				String resContent = "";
+				this.setDebugInfo(this.getDebugInfo() + "\r\n" + "post data:" + params);
+				if (httpClient.callHttpPost(requestUrl, params)) {
+					resContent = httpClient.getResContent();
+					Map xmlMap = XMLUtil.doXMLParse(resContent);
+					if ("SUCCESS".equals(xmlMap.get("result_code"))){
+						result = xmlMap.get("payment_no").toString();
+					}
+					this.setDebugInfo(this.getDebugInfo() + "\r\n" + "resContent:"
+							+ resContent);
+				}
+				return result;
+			}
 	//json 格式的参数
 	/*public String sendPrepay() throws JSONException {
 		String prepayid = "";

@@ -46,5 +46,15 @@ public class Constants {
 	public final static String WEIXINPAY_APPSECRET = "d653b81f686c3b92ae5e36249de504ab";  
 	public final static String WEIXINPAY_PARTNER = "1430950202";//商户号 
 	public final static String WEIXINPAY_PARTNERKEY = "goodsOrderBuycart"; //不是商户登录密码，是商户在微信平台设置的32位长度的api秘钥，
-	public final static String WEIXINPAY_NOTIFY_URL = "http://114.55.248.53:8080/qhtr/app_pay/weixinPayResult.do";
+	public final static String WEIXINPAY_NOTIFY_URL = "http://114.55.248.53/qhtr/app_pay/weixinPayResult.do";
+	
+	/**
+	 * 微信公众平台
+	 * 
+	 */
+	public final static String WEIXINPUBLIC_APIKEY = "jixia6cqer2vqqu2f3jzl9h909e960ip";
+	public final static String WEIXINPUBLIC_APPID = "wx00527dd179ff7578";
+	public final static String WEIXINPUBLIC_APPSECRET = "8fcf56bc7380d74033468c9b7cc00bc5";
+	public final static String WEIXINPUBLIC_TOKEN = "7htr_weixinpublic_token";
+	public final static String WEIXINPUBLIC_EncodingAESKey = "MXoXjrfoOR4EHznMrdFpk7VqXEyqtY6k5UuJ8UBUO6T";
 }

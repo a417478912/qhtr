@@ -23,9 +23,13 @@ public class Store {
 
     private String bannerPic;
 	/**
-     * 地图上的展示大图(封面图)
+     * 地图上的展示大图
      */
     private String showPic;
+	/**
+	 *  (封面图)
+	 */
+    private String coverPic;
 
     private String promotionPic;
 
@@ -38,9 +42,7 @@ public class Store {
     private String location;
 
     private String longitudeLatitude;
-	 /**
-     * 0 1  2 - 新店 普通 热销
-     */
+
     private Integer type;
 
     private Date createTime;
@@ -133,6 +135,14 @@ public class Store {
 
     public void setShowPic(String showPic) {
         this.showPic = showPic == null ? null : showPic.trim();
+    }
+
+    public String getCoverPic() {
+        return coverPic;
+    }
+
+    public void setCoverPic(String coverPic) {
+        this.coverPic = coverPic == null ? null : coverPic.trim();
     }
 
     public String getPromotionPic() {

@@ -78,9 +78,8 @@ public class PayOrderServiceImpl implements PayOrderService {
 			map.put("partnerid", Constants.WEIXINPAY_APPID);
 			map.put("prepayid", result);
 			map.put("package", "Sign=WXPay");
+			
 			String currTime = TenpayUtil.getCurrTime();  
-			
-			
 	        //8位日期  
 	        String strTime = currTime.substring(8, currTime.length());  
 	        //四位随机数  
@@ -143,7 +142,7 @@ public class PayOrderServiceImpl implements PayOrderService {
          prepayReqHandler.setParameter("body", body);    
          prepayReqHandler.setParameter("out_trade_no", out_trade_no);      
          prepayReqHandler.setParameter("total_fee", total_fee + "");  
-         prepayReqHandler.setParameter("spbill_create_ip", "123.12.12.123");   
+         prepayReqHandler.setParameter("spbill_create_ip", "218.28.136.174");   //spbill_create_ip
          prepayReqHandler.setParameter("notify_url", notify_url);    
          prepayReqHandler.setParameter("trade_type", trade_type);
          prepayReqHandler.setGateUrl(url);

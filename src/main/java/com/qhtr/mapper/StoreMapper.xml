@@ -13,6 +13,7 @@
     <result column="avatar" property="avatar" jdbcType="VARCHAR" />
     <result column="banner_pic" property="bannerPic" jdbcType="VARCHAR" />
     <result column="show_pic" property="showPic" jdbcType="VARCHAR" />
+    <result column="cover_pic" property="coverPic" jdbcType="VARCHAR" />
     <result column="promotion_pic" property="promotionPic" jdbcType="VARCHAR" />
     <result column="details" property="details" jdbcType="VARCHAR" />
     <result column="collect_num" property="collectNum" jdbcType="INTEGER" />
@@ -25,7 +26,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, category_id, name, phone, password, sex, age, other_shop, avatar, banner_pic, 
-    show_pic, promotion_pic, details, collect_num, sell_num, location, longitude_latitude, 
+    show_pic, cover_pic, promotion_pic, details, collect_num, sell_num, location, longitude_latitude, 
     type, create_time, score
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -42,19 +43,21 @@
     insert into seller_store (id, category_id, name, 
       phone, password, sex, 
       age, other_shop, avatar, 
-      banner_pic, show_pic, promotion_pic, 
-      details, collect_num, sell_num, 
-      location, longitude_latitude, type, 
-      create_time, score)
+      banner_pic, show_pic, cover_pic, 
+      promotion_pic, details, collect_num, 
+      sell_num, location, longitude_latitude, 
+      type, create_time, score
+      )
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
       #{age,jdbcType=VARCHAR}, #{otherShop,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, 
-      #{bannerPic,jdbcType=VARCHAR}, #{showPic,jdbcType=VARCHAR}, #{promotionPic,jdbcType=VARCHAR}, 
-      #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, #{sellNum,jdbcType=INTEGER}, 
-      #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER})
+      #{bannerPic,jdbcType=VARCHAR}, #{showPic,jdbcType=VARCHAR}, #{coverPic,jdbcType=VARCHAR}, 
+      #{promotionPic,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, #{collectNum,jdbcType=INTEGER}, 
+      #{sellNum,jdbcType=INTEGER}, #{location,jdbcType=VARCHAR}, #{longitudeLatitude,jdbcType=VARCHAR}, 
+      #{type,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{score,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.qhtr.model.Store" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insertSelective" parameterType="com.qhtr.model.Store" >
     insert into seller_store
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -89,6 +92,9 @@
       </if>
       <if test="showPic != null" >
         show_pic,
+      </if>
+      <if test="coverPic != null" >
+        cover_pic,
       </if>
       <if test="promotionPic != null" >
         promotion_pic,
@@ -152,6 +158,9 @@
       <if test="showPic != null" >
         #{showPic,jdbcType=VARCHAR},
       </if>
+      <if test="coverPic != null" >
+        #{coverPic,jdbcType=VARCHAR},
+      </if>
       <if test="promotionPic != null" >
         #{promotionPic,jdbcType=VARCHAR},
       </if>
@@ -214,6 +223,9 @@
       <if test="showPic != null" >
         show_pic = #{showPic,jdbcType=VARCHAR},
       </if>
+      <if test="coverPic != null" >
+        cover_pic = #{coverPic,jdbcType=VARCHAR},
+      </if>
       <if test="promotionPic != null" >
         promotion_pic = #{promotionPic,jdbcType=VARCHAR},
       </if>
@@ -256,6 +268,7 @@
       avatar = #{avatar,jdbcType=VARCHAR},
       banner_pic = #{bannerPic,jdbcType=VARCHAR},
       show_pic = #{showPic,jdbcType=VARCHAR},
+      cover_pic = #{coverPic,jdbcType=VARCHAR},
       promotion_pic = #{promotionPic,jdbcType=VARCHAR},
       details = #{details,jdbcType=VARCHAR},
       collect_num = #{collectNum,jdbcType=INTEGER},
@@ -268,7 +281,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-   <!-- 自定义方法 -->
+  <!-- 自定义方法 -->
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.Store" >
     select 
     <include refid="Base_Column_List" />

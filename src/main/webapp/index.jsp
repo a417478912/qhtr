@@ -41,8 +41,49 @@
 </html>
 <script>
 $(function(){
-	var a = "101.11"; //全局变量
-	var b = 101.1100;
+	 var a ; //全局变量
+	$.ajax({
+        url: "${rootPath}/sell_weixin/getAuthorizeUrl.do",
+        type: "get",
+        success: function(data){
+            alert(data);
+            a = data.data.url;
+            $.ajax({
+                url: a,
+                type: "get",
+                dataType:"jsonp",
+                success: function(data){
+                	alert("!1");
+                    alert(data);
+                },
+                error: function(res){
+                	alert("22");
+                	console.log(res)
+                    alert(res.status);
+                }
+            }); 
+            
+            $.ajax({
+                url: "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx00527dd179ff7578&redirect_uri=http%3A%2F%2Fwww.7htr.com%2Fqhtr%2Fsell_weixin%2Fresult.do&response_type=code&scope=snsapi_base",
+                type: "get",
+                dataType:"jsonp",
+                success: function(data){
+                	alert("33");
+                    alert(data);
+                },
+                error: function(res){
+                	console.log(res)
+                	alert("44");
+                    alert(res);
+                }
+            }); 
+        },
+        error: function(res){
+            alert(res.responseText);
+        }
+    });
+	
+	
 	/* function test()
 	{
 	  if(false){
@@ -56,7 +97,6 @@ $(function(){
 	  return a; 
 	}
 	a=test(); //将函数返回值赋给全局变量a */
-alert(a==b)
 	/* var ajaxData = {
 			id: 28,
 			storeId: "19",

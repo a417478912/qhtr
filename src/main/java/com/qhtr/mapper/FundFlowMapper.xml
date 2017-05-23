@@ -114,4 +114,11 @@
       reason = #{reason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  
+  <!-- 以下是自定义方法 -->
+   <select id="selectMoneysByStoreId" resultType="java.util.Map" parameterType="java.lang.Integer" >
+   SELECT * from (SELECT sum(change_money) as totalSellMoney FROM fund_flow WHERE store_id = #{storeId,jdbcType=INTEGER} AND type = 21) A,
+  (SELECT * from (SELECT sum(change_money) AS canWithdrawMoney	FROM fund_flow	WHERE store_id = #{storeId,jdbcType=INTEGER}	AND type = 21) B) c
+  </select>
 </mapper>

@@ -126,7 +126,7 @@ public class App_OrderController {
 
 	/**
 	 * 购物车结算
-	 * http://localhost:8080/app_order/selectFromBuyCartIds.do?userId=1&ids=1,2,3,4,5&distributionType=1
+	 * http://localhost/app_order/selectFromBuyCartIds.do?userId=1&ids=1,2,3,4,5&distributionType=1
 	 * @param j
 	 * @param userId
 	 * @param ids

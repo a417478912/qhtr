@@ -29,7 +29,7 @@ public class TaskJob {
 	/**
 	 * 取消未付款订单(30分钟有效)
 	 */
-	@Scheduled(cron = "0 0/1 * * * ?")
+	@Scheduled(cron = "0 0/5 * * * ?")
 	public void start1(){
 		storeOrderService.updateCancleUnPayOrder();
 		System.out.println("定时任务执行-->取消未付款订单:+++++++" + new Date());

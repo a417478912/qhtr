@@ -436,6 +436,9 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		for (StoreOrder storeOrder : list) {
 			Date nowTime = new Date();
 			Date sourceTime = storeOrder.getCreateTime();
+			System.out.println(nowTime.getTime());
+			System.out.println( sourceTime.getTime());
+			System.out.println(nowTime.getTime() - sourceTime.getTime());
 			if(nowTime.getTime() - sourceTime.getTime() > 30*60*1000){
 				storeOrder.setStatus(200);
 				storeOrder.setCancalTime(nowTime);

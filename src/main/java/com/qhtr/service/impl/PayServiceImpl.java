@@ -1,43 +1,84 @@
 package com.qhtr.service.impl;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
+import javax.net.ssl.SSLContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.jdom.JDOMException;
 import org.springframework.stereotype.Service;
+import org.xmlpull.v1.XmlPullParserException;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.qhtr.common.Constants;
+import com.qhtr.dao.WithdrawMapper;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
 import com.qhtr.model.StoreOrder;
+import com.qhtr.model.Withdraw;
 import com.qhtr.service.FundFlowService;
 import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.PayService;
 import com.qhtr.service.StoreOrderService;
+import com.qhtr.utils.GenerationUtils;
+import com.qhtr.utils.MD5Utils;
 import com.qhtr.utils.alipay.config.AlipayConfig;
 import com.qhtr.utils.alipay.util.AlipayCore;
 import com.qhtr.utils.alipay.util.AlipayNotify;
+import com.qhtr.utils.weixinPay.PrepayIdRequestHandler;
+import com.qhtr.utils.weixinPay.util.CollectionUtil;
+import com.qhtr.utils.weixinPay.util.HttpUtils;
+import com.qhtr.utils.weixinPay.util.MD5Util;
+import com.qhtr.utils.weixinPay.util.PayUtil;
+import com.qhtr.utils.weixinPay.util.TenpayUtil;
+import com.qhtr.utils.weixinPay.util.WebUtil;
 import com.qhtr.utils.weixinPay.util.XMLUtil;
 
+import io.netty.handler.codec.http.HttpRequest;
+
 @Service
-public class AlipayServiceImpl implements PayService {
+public class PayServiceImpl implements PayService {
 	@Resource
 	public GoodsOrderService goodsOrderService;
 	@Resource
@@ -46,9 +87,11 @@ public class AlipayServiceImpl implements PayService {
 	public PayOrderService payOrderService;
 	@Resource
 	public FundFlowService fundFlowService;
-
+	@Resource
+	public WithdrawMapper withdrawMapper;
+ 
 	@Override
-	public void aliPayResult(HttpServletRequest request, HttpServletResponse response)
+	public void updateAliPayResult(HttpServletRequest request, HttpServletResponse response)
 			throws UnsupportedEncodingException, IOException, NumberFormatException, AlipayApiException {
 		System.out.println("+++++++++++++++++++++++++++++++++             " + "异步接口回调" + "                 ++++++++++++++++++++++");
 		OutputStream out = response.getOutputStream();
@@ -205,7 +248,7 @@ public class AlipayServiceImpl implements PayService {
 	 * @throws IOException 
 	 */
 	@Override
-	public void weixinPayResult(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	public void updateWeixinPayResult(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		InputStream inStream = request.getInputStream();
         ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
@@ -319,4 +362,170 @@ public class AlipayServiceImpl implements PayService {
         orderQuery.put("success", "false");
         return orderQuery;
     }
+
+
+	@SuppressWarnings("finally")
+	@Override
+	public int updateWeixinEnterprisePayment(int money,int storeId,String openid,HttpServletRequest request, HttpServletResponse response) throws JSONException, JDOMException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, KeyManagementException, UnrecoverableKeyException, XmlPullParserException {
+		/**
+		 * 生成微信的提现订单
+		 */
+		Withdraw withdraw = new Withdraw();
+		withdraw.setCreateTime(new Date());
+		
+		String orderCode = GenerationUtils.getGenerationCode("WI", storeId+"");
+		withdraw.setOrderCode(orderCode);
+		withdraw.setPayType(2);
+		withdraw.setStatus(1);
+		withdraw.setStoreId(storeId);
+		withdraw.setTotalPrice(money);
+		
+		//企业付款
+		String baseUrl = "https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers";
+		
+		//证书使用
+		//指定读取证书格式为  PKCS12
+		KeyStore keyStore  = KeyStore.getInstance("PKCS12");
+		
+		//读取本机证书
+        FileInputStream instream = new FileInputStream(new File("C:/apiclient_cert.p12"));///app/apiclient_cert.p12
+        try {
+        	//指定商户密码（商户id)
+            keyStore.load(instream, "1430950202".toCharArray());
+        } finally {
+            instream.close();
+        }
+
+        // Trust own CA and all self-signed certs
+        SSLContext sslcontext = SSLContexts.custom()
+                .loadKeyMaterial(keyStore, "1430950202".toCharArray())
+                .build();
+        // Allow TLSv1 protocol only
+        //指定TLS版本
+        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                sslcontext,
+                new String[] { "TLSv1" },
+                null,
+                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+        CloseableHttpClient httpclient = HttpClients.custom()
+                .setSSLSocketFactory(sslsf)
+                .build();
+        
+        //随机数
+        String currTime = TenpayUtil.getCurrTime(); 
+		 //8位日期  
+        String strTime = currTime.substring(8, currTime.length());  
+       //四位随机数  
+        String strRandom = TenpayUtil.buildRandom(4) + "";
+       //10位序列号,可以自行调整。  
+		String nonce_str = strTime + strRandom; //随机字符串，不长于32位。推荐随机数生成算法
+		
+		
+        
+        //Map参数
+		SortedMap<String,String> map = new TreeMap<String,String>();
+        map.put("mch_appid",Constants.WEIXINPUBLIC_APPID);
+        map.put("mchid", Constants.WEIXINPAY_PARTNER);
+        map.put("nonce_str", nonce_str);
+        map.put("partner_trade_no", orderCode);
+        map.put("openid", openid);
+        map.put("check_name", "NO_CHECK");
+        map.put("amount", money+"");
+        map.put("desc", "商家提现");
+        map.put("spbill_create_ip", "218.28.136.174");
+        System.out.println("++++++++++++++++++++++++"+MD5Utils.getMd5ByMap(map));
+        
+        
+        Map<String, String> restmap = null;
+			Map<String, String> parm = new HashMap<String, String>();
+			parm.put("mch_appid", Constants.WEIXINPUBLIC_APPID); //公众账号appid
+			parm.put("mchid", Constants.WEIXINPAY_PARTNER); //商户号
+			parm.put("nonce_str", nonce_str); //随机字符串
+			parm.put("partner_trade_no", orderCode); //商户订单号
+			parm.put("openid", openid); //用户openid	
+			parm.put("check_name", "NO_CHECK"); //校验用户姓名选项 OPTION_CHECK
+			//parm.put("re_user_name", "安迪"); //check_name设置为FORCE_CHECK或OPTION_CHECK，则必填
+			parm.put("amount", "100"); //转账金额
+			parm.put("desc", "测试转账到个人"); //企业付款描述信息
+			parm.put("spbill_create_ip", "218.28.136.174"); //Ip地址
+			System.out.println("++++++++++++++++++++++++"+PayUtil.getSign(parm, Constants.WEIXINPUBLIC_APIKEY));
+			parm.put("sign", PayUtil.getSign(parm, Constants.WEIXINPUBLIC_APIKEY));
+			
+			map.put("sign", PayUtil.getSign(parm, Constants.WEIXINPUBLIC_APIKEY));
+	        
+	        String xmlString = XMLUtil.xmlFormat(parm, false);
+			String restxml = HttpUtils.posts(baseUrl,XMLUtil.xmlFormat(parm, false));
+			restmap = XMLUtil.xmlParse(restxml);
+
+		if (CollectionUtil.isNotEmpty(restmap) && "SUCCESS".equals(restmap.get("result_code"))) {
+			System.out.println("转账成功：" + restmap.get("err_code") + ":" + restmap.get("err_code_des"));
+			Map<String, String> transferMap = new HashMap<>();
+			transferMap.put("partner_trade_no", restmap.get("partner_trade_no"));//商户转账订单号
+			transferMap.put("payment_no", restmap.get("payment_no")); //微信订单号
+			transferMap.put("payment_time", restmap.get("payment_time")); //微信支付成功时间
+		}else {
+			if (CollectionUtil.isNotEmpty(restmap)) {
+				System.out.println("转账失败：" + restmap.get("err_code") + ":" + restmap.get("err_code_des"));
+			}
+		}
+        
+        
+        
+        
+       ///请求
+        HttpPost httpPost = new HttpPost(baseUrl);
+        StringEntity reqEntity = new StringEntity(xmlString);
+        httpPost.setEntity(reqEntity);
+        CloseableHttpResponse responseResult = httpclient.execute(httpPost);
+        try {
+            HttpEntity entity = responseResult.getEntity();
+
+            System.out.println("----------------------------------------");
+            System.out.println(responseResult.getStatusLine());
+            if (entity != null) {
+                System.out.println("Response content length: " + entity.getContentLength());
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(),"utf-8"));
+                String text;
+                while ((text = bufferedReader.readLine()) != null) {
+                    System.out.println(text);
+                }
+               
+            }
+            EntityUtils.consume(entity);
+        } finally {
+        	withdrawMapper.insert(withdraw);
+        	responseResult.close();
+        	httpclient.close();
+        	return 1;
+        }
+		
+		/*// PrepayIdRequestHandler方式
+		PrepayIdRequestHandler prepayReqHandler = new PrepayIdRequestHandler(request, response);//获取prepayid的请求类 
+        //对以下字段进行签名
+        prepayReqHandler.setParameter("mch_appid", Constants.WEIXINPUBLIC_APPID);    //微信分配的公众账号ID（企业号corpid即为此appId）
+        prepayReqHandler.setParameter("mchid", Constants.WEIXINPAY_PARTNER);      //微信支付分配的商户号
+        
+        prepayReqHandler.setParameter("nonce_str", nonce_str);  //随机字符串，不长于32位
+        
+		
+        prepayReqHandler.setParameter("partner_trade_no", orderCode);    //商户订单号，需保持唯一性	(只能是字母或者数字，不能包含有符号)
+        prepayReqHandler.setParameter("openid", openid);      //商户appid下，某用户的openid
+        prepayReqHandler.setParameter("check_name","NO_CHECK");  //NO_CHECK：不校验真实姓名    FORCE_CHECK：强校验真实姓名
+      //map.put("re_user_name", value); //收款用户真实姓名。 		如果check_name设置为FORCE_CHECK，则必填用户真实姓名
+        prepayReqHandler.setParameter("amount", money+"");    //企业付款金额，单位为分
+        prepayReqHandler.setParameter("desc", "商家提现");//企业付款操作说明信息。必填。
+        prepayReqHandler.setParameter("spbill_create_ip", "218.28.136.174");    //调用接口的机器Ip地址  //218.28.136.174  、、、request.getRemoteAddr()
+        prepayReqHandler.setGateUrl(baseUrl);
+        
+        String sign = prepayReqHandler.createMd5Sign();
+        prepayReqHandler.setParameter("sign", sign);
+        //获取result  
+        String result = prepayReqHandler.sendRequest();*/
+	}
+
+
+	@Override
+	public int updateAlipyToSeller(int money, int storeId, String alipayName) {
+		return 0;
+	}
 }

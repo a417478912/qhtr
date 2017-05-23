@@ -3,6 +3,7 @@ package com.qhtr.service;
 import java.util.List;
 import java.util.Map;
 
+import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
 import com.sell.dto.GoodsClassesDto;
 
@@ -39,4 +40,8 @@ public interface GoodsClassService {
 	 * @return
 	 */
 	int deleteGoodsByClass(String goodsIds, int classId);
+	/**
+	 * 买家版，通过店铺id和分类id查询商品列表
+	 */
+	List<Goods> getGoodsByClass_App(int classId);
 }

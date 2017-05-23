@@ -28,13 +28,13 @@ public class App_payController {
 	@RequestMapping(value="/alipayResult")
 	public void alipayResult(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException, IOException, NumberFormatException, AlipayApiException{
 		System.out.println("++++++++++++++++++++++++++++++++++进入支付回调+++++++++++++++++++++++++++++++++++++++++++++");
-		payService.aliPayResult(request, response);
+		payService.updateAliPayResult(request, response);
 	}
 	
 	@RequestMapping(value="/weixinPayResult")
 	public void weixinPayResult(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		System.out.println("++++++++++++++++++++++++++++++++++进入支付回调+++++++++++++++++++++++++++++++++++++++++++++");
-		payService.weixinPayResult(request, response);
+		payService.updateWeixinPayResult(request, response);
 	}
 	
 	/*public static void main(String[] args) throws AlipayApiException {

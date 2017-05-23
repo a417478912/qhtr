@@ -13,8 +13,10 @@ import org.springframework.stereotype.Service;
 import com.app.dto.StoreDto_App;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
+import com.qhtr.model.SellerAccount;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
+import com.qhtr.service.SellerAccountService;
 import com.qhtr.service.StoreService;
 import com.qhtr.utils.CookieUtils;
 import com.qhtr.utils.DistributionUtils;
@@ -26,6 +28,8 @@ public class StoreServiceImpl implements StoreService {
 	public StoreMapper storeMapper;
 	@Resource
 	public CategoryService categoryService;
+	@Resource
+	public SellerAccountService sellerAccountService;
 
 	@Override
 	public Store getStoreByIdOrPhone(Store store) {
@@ -98,6 +102,12 @@ public class StoreServiceImpl implements StoreService {
 		store.setScore(0);
 		store.setName("");
 		storeMapper.insert(store);
+		
+		SellerAccount sa = new SellerAccount();
+		sa.setOpenId("");
+		sa.setStoreId(store.getId());
+		sa.setAccountMoney(0);
+		sellerAccountService.insert(sa);
 		return store.getId();
 	}
 
