@@ -1,7 +1,9 @@
 package com.app.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -13,13 +15,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Json;
 import com.qhtr.model.Comment;
 import com.qhtr.service.CommentService;
+import com.qhtr.service.ThumbsUpService;
 import com.sell.dto.CommentDto;
-
 @Controller
 @RequestMapping("/app_comment")
 public class App_CommentController {
 	@Resource
 	public CommentService commentService;
+	@Resource
+	public ThumbsUpService thumbsUpService;
 
 	/**
 	 * 获取留言列表
@@ -69,7 +73,18 @@ public class App_CommentController {
 		j.setData(list1);
 		return j;
 	}
-
+	
+	public Json isThumbsUp(Json j,@RequestParam int userId,@RequestParam int commentId){
+		int result = thumbsUpService.getIsThumbsUp(userId,commentId);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		if(result != 0){
+			map.put("isThumbsUp", 1);
+		}else{
+			map.put("isThumbsUp", 0);
+		}
+		j.setData(map);
+		return j;
+	}
 	/**
 	 * 点赞
 	 * 
@@ -78,8 +93,8 @@ public class App_CommentController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/upvote")
-	public Json upvote(Json j, @RequestParam int commentId) {
+	@RequestMapping(value = "/thumbsUp")
+	public Json thumbsUp(Json j, @RequestParam int commentId) {
 		int result = commentService.updateUpvote(commentId);
 		if (result == 1) {
 			j.setMessage("点赞成功!");

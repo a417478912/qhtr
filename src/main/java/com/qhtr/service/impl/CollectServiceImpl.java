@@ -20,7 +20,7 @@ import com.qhtr.service.CollectService;
 import com.qhtr.service.StoreService;
 
 
-@Service
+@Service("CollectService")
 public class CollectServiceImpl implements CollectService{
 	@Resource
 	public CollectMapper collectMapper;
@@ -37,11 +37,8 @@ public class CollectServiceImpl implements CollectService{
 	@Override
 	public int addCollect(int userId, int goodsId) {
 		//检查是否已经收藏
-		Map<String,Object> map = new HashMap<String, Object>();
-		map.put("userId", userId);
-		map.put("goodsId", goodsId);
-		List<Collect> list = collectMapper.selectByConditions(map);
-		if(!list.isEmpty()){
+		int isCollect = this.selectIsCollect(userId,goodsId);
+		if(isCollect != 0){
 			return -1;
 		}
 		
@@ -50,9 +47,10 @@ public class CollectServiceImpl implements CollectService{
 		Collect collect = new Collect();
 		collect.setCategoryId(store.getCategoryId());
 		collect.setCreateTime(new Date());
-		collect.setGoodsId(goodsId);;
+		collect.setGoodsId(goodsId);
 		collect.setUserId(userId);
-		return collectMapper.insert(collect);
+		collectMapper.insert(collect);
+		return collect.getId();
 	}
 
 	@Override
@@ -68,5 +66,18 @@ public class CollectServiceImpl implements CollectService{
 			map.put("categoryId", categoryId);
 		}
 		return collectMapper.selectByRecentCollect(map);
+	}
+
+	@Override
+	public int selectIsCollect(int userId, int goodsId) {
+		//检查是否已经收藏
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("goodsId", goodsId);
+		List<Collect> list = collectMapper.selectByConditions(map);
+		if(!list.isEmpty()){
+			return list.get(0).getId();
+		}
+		return 0;
 	}
 }

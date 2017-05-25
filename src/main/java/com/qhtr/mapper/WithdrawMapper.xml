@@ -4,14 +4,35 @@
   <resultMap id="BaseResultMap" type="com.qhtr.model.Withdraw" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="bankcard_id" property="bankcardId" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="total_price" property="totalPrice" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="transfer_accounts_time" property="transferAccountsTime" jdbcType="TIMESTAMP" />
     <result column="pay_type" property="payType" jdbcType="INTEGER" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
   </resultMap>
+
+   <resultMap id="DtoResultMap" type="com.qhtr.dto.WithdrawApplyListDto" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="applyBankName" property="applyBankName" jdbcType="VARCHAR" />
+    <result column="applyName" property="applyName" jdbcType="VARCHAR" />
+    <result column="applyCode" property="applyCode" jdbcType="VARCHAR" />
+    <result column="alipayName" property="alipayName" jdbcType="VARCHAR" />
+    <result column="storeName" property="storeName" jdbcType="VARCHAR" />
+    <result column="storePhone" property="storePhone" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+    <result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="transferAccountsTime" property="transferAccountsTime" jdbcType="TIMESTAMP" />
+    <result column="payType" property="payType" jdbcType="INTEGER" />
+    <result column="reason" property="reason" jdbcType="VARCHAR" />
+  </resultMap>
+
   <sql id="Base_Column_List" >
-    id, order_code, store_id, total_price, status, create_time, pay_type
+    id, order_code, bankcard_id, store_id, total_price, status, create_time, transfer_accounts_time, 
+    pay_type, reason
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -24,12 +45,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Withdraw" >
-    insert into seller_withdraw (id, order_code, store_id, 
-      total_price, status, create_time, 
-      pay_type)
-    values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{storeId,jdbcType=INTEGER}, 
-      #{totalPrice,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{payType,jdbcType=INTEGER})
+    insert into seller_withdraw (id, order_code, bankcard_id, 
+      store_id, total_price, status, 
+      create_time, transfer_accounts_time, pay_type, 
+      reason)
+    values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{bankcardId,jdbcType=INTEGER}, 
+      #{storeId,jdbcType=INTEGER}, #{totalPrice,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{transferAccountsTime,jdbcType=TIMESTAMP}, #{payType,jdbcType=INTEGER}, 
+      #{reason,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Withdraw" >
     insert into seller_withdraw
@@ -39,6 +62,9 @@
       </if>
       <if test="orderCode != null" >
         order_code,
+      </if>
+      <if test="bankcardId != null" >
+        bankcard_id,
       </if>
       <if test="storeId != null" >
         store_id,
@@ -52,8 +78,14 @@
       <if test="createTime != null" >
         create_time,
       </if>
+      <if test="transferAccountsTime != null" >
+        transfer_accounts_time,
+      </if>
       <if test="payType != null" >
         pay_type,
+      </if>
+      <if test="reason != null" >
+        reason,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -62,6 +94,9 @@
       </if>
       <if test="orderCode != null" >
         #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardId != null" >
+        #{bankcardId,jdbcType=INTEGER},
       </if>
       <if test="storeId != null" >
         #{storeId,jdbcType=INTEGER},
@@ -75,8 +110,14 @@
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="transferAccountsTime != null" >
+        #{transferAccountsTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="payType != null" >
         #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        #{reason,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -85,6 +126,9 @@
     <set >
       <if test="orderCode != null" >
         order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bankcardId != null" >
+        bankcard_id = #{bankcardId,jdbcType=INTEGER},
       </if>
       <if test="storeId != null" >
         store_id = #{storeId,jdbcType=INTEGER},
@@ -98,8 +142,14 @@
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="transferAccountsTime != null" >
+        transfer_accounts_time = #{transferAccountsTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="payType != null" >
         pay_type = #{payType,jdbcType=INTEGER},
+      </if>
+      <if test="reason != null" >
+        reason = #{reason,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -107,11 +157,42 @@
   <update id="updateByPrimaryKey" parameterType="com.qhtr.model.Withdraw" >
     update seller_withdraw
     set order_code = #{orderCode,jdbcType=VARCHAR},
+      bankcard_id = #{bankcardId,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},
       total_price = #{totalPrice,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      pay_type = #{payType,jdbcType=INTEGER}
+      transfer_accounts_time = #{transferAccountsTime,jdbcType=TIMESTAMP},
+      pay_type = #{payType,jdbcType=INTEGER},
+      reason = #{reason,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <!-- 以下是自定义方法 -->
+  <!-- 后台管理查询提现申请列表 -->
+  <select id="selectDtoListByAdmin" resultMap="DtoResultMap" parameterType="java.util.Map">
+    select w.id as id,b.bank_name as applyBankName,b.cardholder_name as applyName,b.card_code as applyCode
+    ,s.name as storeName,s.phone as storePhone
+    ,w.total_price as money,w.create_time as createTime,w.status as status,w.transfer_accounts_time as transferAccountsTime,w.pay_type as payType,w.reason as reason
+    ,a.alipay_name as alipayName
+    from seller_withdraw w LEFT JOIN seller_store s on w.store_id = s.id LEFT JOIN seller_bank_card b on w.bankcard_id = b.id LEFT JOIN seller_account a ON a.store_id = w.store_id
+    where
+    <if test="1 == 1">
+    	1 = 1 
+    </if> 
+    <if test="id != null" >
+        and w.id = #{id,jdbcType=INTEGER}
+    </if>
+    <if test="storeName != null" >
+        and s.name like CONCAT('%',#{storeName,jdbcType=INTEGER},'%')
+    </if>
+    <if test="storePhone != null" >
+        and s.phone like CONCAT('%',#{storePhone,jdbcType=INTEGER},'%') 
+    </if>
+    <if test="status != null" >
+        and w.status = #{status,jdbcType=INTEGER}
+    </if>
+    order by transferAccountsTime desc
+  </select>
+  
 </mapper>

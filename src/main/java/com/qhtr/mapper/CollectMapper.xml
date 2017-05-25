@@ -37,7 +37,7 @@
     delete from user_collect
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qhtr.model.Collect" >
+  <insert id="insert" parameterType="com.qhtr.model.Collect" useGeneratedKeys="true" keyProperty="id">
     insert into user_collect (id, user_id, goods_id, 
       category_id, create_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 

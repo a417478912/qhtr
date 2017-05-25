@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/admin/applyDetails.jsp=UTF-8
 encoding//src/main/webapp/dwz=UTF-8
 encoding//src/main/webapp/dwz/changepwd.html=UTF-8
 encoding//src/main/webapp/dwz/demo/baidu_map.html=UTF-8

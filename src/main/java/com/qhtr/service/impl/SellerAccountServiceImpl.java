@@ -34,4 +34,14 @@ public class SellerAccountServiceImpl implements SellerAccountService {
 		return sellerAccountMapper.getAccountByStoreId(storeId);
 	}
 
+	@Override
+	public int update(SellerAccount account) {
+		return sellerAccountMapper.updateByPrimaryKey(account);
+	}
+
+	@Override
+	public int getCanWithdrawalMoney(int storeId) {
+		return sellerAccountMapper.getCanWithdrawalMoney(storeId);
+	}
+
 }

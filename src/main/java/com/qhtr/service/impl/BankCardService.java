@@ -15,4 +15,12 @@ public interface BankCardService {
 	int insert(BankCard bankCard);
 	
 	int delete(int id);
+	/**
+	 * 添加提现申请
+	 * @param storeId
+	 * @param money
+	 * @param bankCardId
+	 * @return
+	 */
+	int insertWithdrawApply(int storeId, int money, Integer bankCardId);
 }

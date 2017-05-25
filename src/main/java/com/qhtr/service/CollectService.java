@@ -33,5 +33,12 @@ public interface CollectService {
 	 * @return
 	 */
 	List<Map<String, Object>> selectByRecentCollect(int userId, int categoryId);
+	/**
+	 * 是否收藏
+	 * @param userId
+	 * @param goodsId
+	 * @return
+	 */
+	int selectIsCollect(int userId, int goodsId);
 
 }

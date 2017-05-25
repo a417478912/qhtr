@@ -17,4 +17,12 @@ public interface SellerAccountService {
 	 * @return
 	 */
 	SellerAccount getByStoreId(int storeId);
+	
+	int update(SellerAccount account);
+	/**
+	 * 可提现金额
+	 * @param storeId
+	 * @return
+	 */
+	int getCanWithdrawalMoney(int storeId);
 }

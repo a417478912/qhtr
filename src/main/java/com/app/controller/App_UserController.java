@@ -435,14 +435,17 @@ public class App_UserController {
 	@RequestMapping(value = "/addCollect")
 	public Json addCollect(Json j,@RequestParam int userId,@RequestParam int goodsId){
 		int result = collectService.addCollect(userId,goodsId);
-		if(result == 1){
-			j.setMessage("收藏成功!");
+		if(result == 0){
+			j.setCode(0);
+			j.setMessage("收藏失败!");
 		}else if(result == -1){
 			j.setCode(0);
 			j.setMessage("已经收藏过此店铺!");
 		}else{
-			j.setCode(0);
-			j.setMessage("收藏失败!");
+			Map<String, Integer> map = new HashMap<String,Integer>();
+			map.put("collectId", result);
+			j.setData(map);
+			j.setMessage("收藏成功!");
 		}
 		return j;
 	}
@@ -498,6 +501,23 @@ public class App_UserController {
 		return j;
 	}
 	
+	/**
+	 * 查看是否收藏
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getIsCollect")
+	public Json getIsCollect(Json j,@RequestParam int userId,@RequestParam int goodsId){
+		int result = collectService.selectIsCollect(userId, goodsId);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		if(result != 0){
+			map.put("isCollect", 1);
+			map.put("collectId", result);
+		}else{
+			map.put("isCollect", 0);
+		}
+		j.setData(map);
+		return j;
+	}
 	
 	/**
 	 * 获取关注列表

@@ -8,7 +8,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=7" />
-<title>简单实用国产jQuery UI框架 - DWZ富客户端框架(J-UI.com)</title>
+<title>史上最低调的后台管理</title>
 
 <script type="text/javascript">
 $(function(){
@@ -62,10 +62,10 @@ $(function(){
 					<div class="accordionContent">
 						<ul class="tree treeFolder">
 							<li><a href="${rootPath}/user/userList.do" target="navTab" rel="user_list">会员列表</a>
-							<li><a href="${rootPath}/store/storeList.do" target="navTab">主框架面板</a>
+							<li><a href="${rootPath}/admin/withdrawApplyList.do" target="navTab" rel="withdrawApplyListRel">提现申请</a>
 						</ul>
 					</div>
-					<div class="accordionHeader">
+					<!-- <div class="accordionHeader">
 						<h2><span>Folder</span>商品管理</h2>
 					</div>
 					<div class="accordionContent">
@@ -96,7 +96,7 @@ $(function(){
 						<h2><span>Folder</span>订单管理</h2>
 					</div>
 					<div class="accordionContent">
-					</div>
+					</div> -->
 				</div>
 
 			</div>

@@ -42,4 +42,12 @@ public interface PayService {
 	 * @return
 	 */
 	public int updateAlipyToSeller(int money, int storeId, String alipayName);
+	/**
+	 * 支付宝提现申请
+	 * @param money
+	 * @param storeId
+	 * @param alipayName
+	 * @return
+	 */
+	public int updateWithdrawApplyByAli(int money, int storeId, String alipayName);
 }

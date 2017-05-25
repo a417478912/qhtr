@@ -22,4 +22,10 @@ public interface SellerAccountMapper {
 	 * @return
 	 */
 	SellerAccount getAccountByStoreId(int storeId);
+	/**
+	 * 可提现金额
+	 * @param storeId
+	 * @return
+	 */
+	int getCanWithdrawalMoney(int storeId);
 }

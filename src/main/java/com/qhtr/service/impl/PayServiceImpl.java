@@ -52,14 +52,17 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.qhtr.common.Constants;
 import com.qhtr.dao.WithdrawMapper;
+import com.qhtr.model.FundFlow;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
+import com.qhtr.model.SellerAccount;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.model.Withdraw;
 import com.qhtr.service.FundFlowService;
 import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.PayService;
+import com.qhtr.service.SellerAccountService;
 import com.qhtr.service.StoreOrderService;
 import com.qhtr.utils.GenerationUtils;
 import com.qhtr.utils.MD5Utils;
@@ -89,6 +92,8 @@ public class PayServiceImpl implements PayService {
 	public FundFlowService fundFlowService;
 	@Resource
 	public WithdrawMapper withdrawMapper;
+	@Resource
+	public SellerAccountService sellerAccountService;
  
 	@Override
 	public void updateAliPayResult(HttpServletRequest request, HttpServletResponse response)
@@ -527,5 +532,32 @@ public class PayServiceImpl implements PayService {
 	@Override
 	public int updateAlipyToSeller(int money, int storeId, String alipayName) {
 		return 0;
+	}
+
+
+	@Override
+	public int updateWithdrawApplyByAli(int money, int storeId, String alipayName) {
+		//账户减去金额
+		SellerAccount sa = sellerAccountService.getByStoreId(storeId);
+		if(money > sa.getAccountMoney()){
+			return -1;
+		}
+		sa.setAccountMoney(sa.getAccountMoney() - money);
+		sellerAccountService.update(sa);
+		
+		//增加资金流水
+		FundFlow ff = new FundFlow();
+		fundFlowService.insertByStore(storeId, 31, -money, "卖家提现");
+				
+		//添加提现申请
+		Withdraw wd = new Withdraw();
+		wd.setCreateTime(new Date());
+		wd.setPayType(1);
+		wd.setStatus(1);
+		wd.setStoreId(storeId);
+		wd.setTotalPrice(money);
+		withdrawMapper.insert(wd);
+				
+		return 1;
 	}
 }
