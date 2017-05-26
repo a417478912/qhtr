@@ -1,23 +1,17 @@
 package com.qhtr.utils.weixinPay;
-import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.jdom.JDOMException;
 
 import com.alibaba.fastjson.JSONException;
-import com.qhtr.common.Constants;
 import com.qhtr.utils.weixinPay.client.TenpayHttpClient;
 import com.qhtr.utils.weixinPay.util.ConstantUtil;
-import com.qhtr.utils.weixinPay.util.JsonUtil;
 import com.qhtr.utils.weixinPay.util.MD5Util;
 import com.qhtr.utils.weixinPay.util.Sha1Util;
 import com.qhtr.utils.weixinPay.util.XMLUtil;

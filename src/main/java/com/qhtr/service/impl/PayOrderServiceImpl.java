@@ -3,8 +3,12 @@ package com.qhtr.service.impl;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +59,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 	}
 	
 	@Override
-	public Map<String,String> addOrder(String orderCode,int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
+	public Map<String,String> addOrder(String orderBody,String orderCode,int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
 		StoreOrder so = storeOrderService.selectByOrderCode(orderCode);
 		PayOrder po = new PayOrder();
 		po.setCreateTime(new Date());
@@ -64,7 +68,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 		po.setUserId(userId);
 		po.setPayType(2);
 		po.setTotalPrice(so.getResultPrice());
-		String result = this.toWeixinPay(po,request,response);
+		String result = this.toWeixinPay(orderBody,po,request,response);
 		if (StringUtils.isBlank(result)) {
 			return null;
 		}else {
@@ -73,9 +77,9 @@ public class PayOrderServiceImpl implements PayOrderService {
 			storeOrderService.updateByCondition(so);
 			
 			//二次签名
-			Map<String,String> map = new HashMap<String, String>();
+			SortedMap<String,String> map = new TreeMap<String, String>();
 			map.put("appid", Constants.WEIXINPAY_APPID);
-			map.put("partnerid", Constants.WEIXINPAY_APPID);
+			map.put("partnerid", Constants.WEIXINPAY_PARTNER);
 			map.put("prepayid", result);
 			map.put("package", "Sign=WXPay");
 			
@@ -91,15 +95,20 @@ public class PayOrderServiceImpl implements PayOrderService {
 			
 			//签名
 			StringBuffer sb = new StringBuffer();
-			for (String key : map.keySet()) {  
-				  
-			    String value = map.get(key);  
-			  
-			    sb.append(key + "=" + value + "&");
-			  
+			Set es = map.entrySet();
+			Iterator it = es.iterator();
+			while (it.hasNext()) {
+				Map.Entry entry = (Map.Entry) it.next();
+				String k = (String) entry.getKey();
+				String v = (String) entry.getValue();
+				sb.append(k + "=" + v + "&");
 			}
-			sb.append("key="+Constants.WEIXINPAY_KEY);
-			map.put("sign", MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase());
+			System.out.println("签名之前字符串:++++++++++" + sb.toString());
+			sb.append("key="+Constants.WEIXINPUBLIC_APIKEY);
+			System.out.println("签名之前字符串1111:++++++++++" + sb.toString());
+			String appsign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
+			System.out.println("appsign++++++++++++" + appsign);
+			map.put("sign", appsign);
 			return map;
 		}
 		
@@ -112,7 +121,7 @@ public class PayOrderServiceImpl implements PayOrderService {
 	 * @throws JDOMException 
 	 * @throws JSONException 
 	 */
-	public String toWeixinPay(PayOrder po,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
+	public String toWeixinPay(String orderBody,PayOrder po,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
 		String url = "https://api.mch.weixin.qq.com/pay/unifiedorder";//URL地址：
 		
 		String appid = Constants.WEIXINPAY_APPID;  //微信开放平台审核通过的应用APPID
@@ -126,10 +135,11 @@ public class PayOrderServiceImpl implements PayOrderService {
         //10位序列号,可以自行调整。  
 		String nonce_str = strTime + strRandom; //随机字符串，不长于32位。推荐随机数生成算法
 		
-		String body = "小逛一下-商品购买";///商品描述交易字段格式根据不同的应用场景按照以下格式：aPP——需传入应用市场上的APP名字-实际商品名称，天天爱消除-游戏充值。
+		String body = "小逛一下-" + orderBody;///商品描述交易字段格式根据不同的应用场景按照以下格式：aPP——需传入应用市场上的APP名字-实际商品名称，天天爱消除-游戏充值。
 		String out_trade_no = po.getOrderCode();//商户系统内部订单号，要求32个字符内，只能是数字、大小写字母_-|*@ ，且在同一个商户号下唯一。详见商户订单号
 		int total_fee = po.getTotalPrice();//订单总金额，单位为分，详见支付金额
 		String spbill_create_ip = request.getRemoteAddr();//用户端实际ip
+		System.out.println("用户的IP地址:+++++++++"+spbill_create_ip);
 		String notify_url = Constants.WEIXINPAY_NOTIFY_URL;//接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数。
 		String trade_type = "APP";//支付类型
 		
@@ -142,7 +152,7 @@ public class PayOrderServiceImpl implements PayOrderService {
          prepayReqHandler.setParameter("body", body);    
          prepayReqHandler.setParameter("out_trade_no", out_trade_no);      
          prepayReqHandler.setParameter("total_fee", total_fee + "");  
-         prepayReqHandler.setParameter("spbill_create_ip", "218.28.136.174");   //spbill_create_ip
+         prepayReqHandler.setParameter("spbill_create_ip", spbill_create_ip);   //spbill_create_ip
          prepayReqHandler.setParameter("notify_url", notify_url);    
          prepayReqHandler.setParameter("trade_type", trade_type);
          prepayReqHandler.setGateUrl(url);

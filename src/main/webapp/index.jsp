@@ -2,6 +2,7 @@
 <html>
 <%@ include file="common/base.jsp"%>
 <script language="javascript" src="<%=basePath%>js/jquery-2.1.4.min.js"> </script>
+<script type="text/JavaScript" src="<%=basePath%>/js/comet4j.js"></script>
 <!DOCTYPE>
 <body>
 <h2>Hello World!</h2><c:if test="${1 == 1 }">xxxxxxxxxxxx</c:if>
@@ -15,7 +16,8 @@
 <input name="id" value="3" type="hidden">
 <input type="submit" value="提交图片 ">
 </form>
-
+消息数量：<span id="msgCount"></span>
+消息数据：<span id="msgData"></span>
 <form action="${rootPath}app_buycart/addBuyCart.do" method="post" >
 	<input type="text" name="skuId" value=100>
 	<input type="text" name="goodsId" value=1010>
@@ -39,9 +41,36 @@
 	<input type="radio" name="a" value=“你才1" id="aaa_1">
 </body>
 </html>
+<script type="text/javascript">
+var count = 0;
+window.onload = function(){
+    // 建立连接，conn 即web.xml中 CometServlet的<url-pattern>
+    JS.Engine.start('${rootPath}conn');
+    <%  
+         //保存用户id到session中
+         session.setAttribute("currentStoreId","1");
+    %>  
+    // 监听后台某个频道
+    JS.Engine.on(
+         { 
+            // 对应服务端 “频道1” 的值 msgCount
+            msgCount : function(msgCount){
+                $("#msgCount").html(msgCount);
+                alert(msgCount)
+            },
+            // 对应服务端 “频道2” 的值 msgData
+            msgData : function(msgData){
+            	alert(msgData);
+                $("#msgData").html(msgData);
+            },
+        }
+    );
+}
+</script>
+
 <script>
 $(function(){
-	 var a ; //全局变量
+	 /* var a ; //全局变量
 	$.ajax({
         url: "${rootPath}/sell_weixin/getAuthorizeUrl.do",
         type: "get",
@@ -81,7 +110,7 @@ $(function(){
         error: function(res){
             alert(res.responseText);
         }
-    });
+    }); */
 	
 	
 	/* function test()

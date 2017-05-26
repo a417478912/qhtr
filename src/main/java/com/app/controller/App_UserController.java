@@ -520,6 +520,28 @@ public class App_UserController {
 	}
 	
 	/**
+	 * 查看是否关注
+	 * @param j
+	 * @param userId
+	 * @param storeId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getIsAttention")
+	public Json getIsAttention(Json j,@RequestParam int userId,@RequestParam int storeId){
+		int result = attentionService.getIsAttention(userId,storeId);
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		if(result != 0){
+			map.put("isAttention", 1);
+			map.put("attentionId", result);
+		}else{
+			map.put("isAttention", 0);
+		}
+		j.setData(map);
+		return j;
+	} 
+	
+	/**
 	 * 获取关注列表
 	 * @param j
 	 * @param userId
@@ -561,14 +583,17 @@ public class App_UserController {
 	@RequestMapping(value = "/addAttention")
 	public Json addAttention(Json j,@RequestParam int userId,@RequestParam int storeId){
 		int result = attentionService.addAttention(userId,storeId);
-		if(result == 1){
-			j.setMessage("关注成功!");
-		}else if(result == -1){
+		if(result == -1){
 			j.setCode(0);
 			j.setMessage("已经关注过此店铺!");
-		}else{
+		}else if(result == 0){
 			j.setCode(0);
 			j.setMessage("关注失败!");
+		}else{
+			Map<String,Integer> map = new HashMap<String,Integer>();
+			map.put("attentionId", result);
+			j.setData(map);
+			j.setMessage("关注成功!");
 		}
 		return j;
 	}

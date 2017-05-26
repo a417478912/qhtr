@@ -51,7 +51,7 @@ public class RequestHandler {
 		this.response = response;
 		
 		this.gateUrl = "https://gw.tenpay.com/gateway/pay.htm";
-		this.key = Constants.WEIXINPAY_KEY;
+		this.key = Constants.WEIXINPUBLIC_APIKEY;
 		this.parameters = new TreeMap();
 		this.debugInfo = "";
 	}

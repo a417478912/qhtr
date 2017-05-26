@@ -20,7 +20,7 @@
     delete from user_attention
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.qhtr.model.Attention" >
+  <insert id="insert" parameterType="com.qhtr.model.Attention" useGeneratedKeys="true" keyProperty="id">
     insert into user_attention (id, user_id, store_Id, 
       create_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, 

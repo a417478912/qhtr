@@ -27,5 +27,5 @@ public interface AttentionMapper {
      */
 	List<Map<String, Object>> getAttentionList(int userId);
 
-	List<Map<String, Object>> selectByConditions(Map<String, Object> map);
+	List<Attention> selectByConditions(Map<String, Object> map);
 }

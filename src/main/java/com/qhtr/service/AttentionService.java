@@ -24,5 +24,12 @@ public interface AttentionService {
 	 * @return
 	 */
 	int deleteAttention(int attentionId);
+	/**
+	 * 查看是否关注
+	 * @param userId
+	 * @param storeId
+	 * @return
+	 */
+	int getIsAttention(int userId, int storeId);
 
 }

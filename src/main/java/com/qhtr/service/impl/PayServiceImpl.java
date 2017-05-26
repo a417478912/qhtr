@@ -264,6 +264,7 @@ public class PayServiceImpl implements PayService {
         outSteam.close();
         inStream.close();
         String result = new String(outSteam.toByteArray(), "utf-8");
+        System.out.println("result++++++++++++++++++"+result);
         Map<String, String> map = null;
         try {
             map = XMLUtil.doXMLParse(result);
@@ -272,8 +273,11 @@ public class PayServiceImpl implements PayService {
         }
 
         // 此处调用订单查询接口验证是否交易成功
+        System.out.println("resultMap+++++++++++++++++"+map);
         Map<String,String> wxpayResult = reqOrderQueryResult(map);
+        System.out.println("wxpayResult+++++++++++++++++++" + wxpayResult);
         boolean isSucc = wxpayResult.get("success").equals("true");
+        System.out.println("isSucc+++++++++++++++++++" + isSucc);
         
         // 支付成功，商户处理后同步返回给微信参数
         PrintWriter writer = response.getWriter();
@@ -345,13 +349,15 @@ public class PayServiceImpl implements PayService {
         orderQuery.put("out_trade_no",map.get("out_trade_no"));
         orderQuery.put("nonce_str",map.get("nonce_str"));
         orderQuery.put("attach",map.get("attach"));
+        orderQuery.put("return_code",map.get("return_code"));
+        orderQuery.put("result_code",map.get("result_code"));
         
-        //此处需要密钥PartnerKey，此处直接写死，自己的业务需要从持久化中获取此密钥，否则会报签名错误
-        orderQuery.put("partnerKey",Constants.WEIXINPAY_PARTNERKEY);
+   /*     //此处需要密钥PartnerKey，此处直接写死，自己的业务需要从持久化中获取此密钥，否则会报签名错误
+        orderQuery.put("partnerKey",Constants.WEIXINPAY_PARTNERKEY);*/
         
         //此处添加支付成功后，支付金额和实际订单金额是否等价，防止钓鱼
         if (orderQuery.get("return_code") != null && orderQuery.get("return_code").equalsIgnoreCase("SUCCESS")) {
-            if (orderQuery.get("trade_state") != null && orderQuery.get("trade_state").equalsIgnoreCase("SUCCESS")) {
+            if (orderQuery.get("result_code") != null && orderQuery.get("result_code").equalsIgnoreCase("SUCCESS")) {
             	System.out.println("微信判断返回结果成功!!!+++++++++++++++++++");
                 // 查询订单（交易流水的实际金额），判断微信收到的钱和订单中的钱是否等额
                 PayOrder po = payOrderService.selectByOrderCode(orderQuery.get("out_trade_no"));

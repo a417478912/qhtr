@@ -57,4 +57,11 @@ public class Constants {
 	public final static String WEIXINPUBLIC_APPSECRET = "8fcf56bc7380d74033468c9b7cc00bc5";
 	public final static String WEIXINPUBLIC_TOKEN = "7htr_weixinpublic_token";
 	public final static String WEIXINPUBLIC_EncodingAESKey = "MXoXjrfoOR4EHznMrdFpk7VqXEyqtY6k5UuJ8UBUO6T";
+	
+	/**
+	 * comet
+	 */
+	 public static long EXPIRE_AFTER_ONE_HOUR = 30; //cache过期时间
+     public static String CHANNEL_MSGCOUNT = "msgCount";
+	 public static String CHANNEL_MSG_DATA = "msgData";
 }

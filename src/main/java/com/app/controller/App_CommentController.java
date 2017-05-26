@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
+import com.qhtr.common.comet.CacheManager;
+import com.qhtr.common.comet.Comet;
 import com.qhtr.model.Comment;
 import com.qhtr.service.CommentService;
 import com.qhtr.service.ThumbsUpService;
+import com.qhtr.utils.CometSellUtil;
 import com.sell.dto.CommentDto;
 @Controller
 @RequestMapping("/app_comment")
@@ -53,6 +56,13 @@ public class App_CommentController {
 		int result = commentService.add(comment);
 		if (result == 1) {
 			j.setMessage("评论成功!");
+			
+			//留言消息推送
+			Comet comet = new Comet();
+			comet.setStoreId(comment.getStoreId() + "");//id为1的  推送
+			System.out.println("toreId++++++++"+ comment.getStoreId());
+			comet.setMsgCount(String.valueOf("您有新的留言!"));
+			new CometSellUtil().pushToStore(comet);
 		} else {
 			j.setCode(0);
 			j.setMessage("评论失败!");

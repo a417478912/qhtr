@@ -93,7 +93,7 @@ public class App_OrderController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/surePay")
-	public Json surePay(Json j, @RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
+	public Json surePay(Json j,@RequestParam String orderBody,@RequestParam String orderCode, @RequestParam(defaultValue = "1") int type,@RequestParam int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException {
 		if(type == 1){
 			//支付宝支付
 			String PayCode = payOrderService.addOrder(orderCode, userId);
@@ -108,7 +108,7 @@ public class App_OrderController {
 			}
 		}else if(type == 2){
 			//微信支付
-			Map<String,String> map = payOrderService.addOrder(orderCode, userId,request,response);
+			Map<String,String> map = payOrderService.addOrder(orderBody,orderCode, userId,request,response);
 			if(map.isEmpty()){
 				j.setCode(0);
 				j.setMessage("错误");

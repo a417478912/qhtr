@@ -30,7 +30,7 @@ public class AttentionServiceImpl implements AttentionService {
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("userId", userId);
 		map.put("storeId", storeId);
-		List<Map<String, Object>> list = attentionMapper.selectByConditions(map);
+		List<Attention> list = attentionMapper.selectByConditions(map);
 		if(!list.isEmpty()){
 			return -1;
 		}
@@ -39,12 +39,26 @@ public class AttentionServiceImpl implements AttentionService {
 		att.setCreateTime(new Date());
 		att.setStoreId(storeId);
 		att.setUserId(userId);
-		return attentionMapper.insert(att);
+		attentionMapper.insert(att);
+		return att.getId();
 	}
 
 	@Override
 	public int deleteAttention(int attentionId) {
 		return attentionMapper.deleteByPrimaryKey(attentionId);
+	}
+
+	@Override
+	public int getIsAttention(int userId, int storeId) {
+		//检查是否已经关注
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		map.put("storeId", storeId);
+		List<Attention> list = attentionMapper.selectByConditions(map);
+		if(!list.isEmpty()){
+			return (int) list.get(0).getId();
+		}
+		return 0;
 	}
 
 }

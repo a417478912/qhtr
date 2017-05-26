@@ -29,7 +29,7 @@ public interface PayOrderService {
 	 * @throws JDOMException 
 	 * @throws JSONException 
 	 */
-	Map<String,String> addOrder(String orderCode,int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException;
+	Map<String,String> addOrder(String orderBody,String orderCode,int userId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException;
 
 	List<PayOrder> selectByConditions(PayOrder poTem);
 
