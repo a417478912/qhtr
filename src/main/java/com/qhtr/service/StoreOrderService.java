@@ -98,7 +98,19 @@ public interface StoreOrderService {
 	
 	
 	/**
-	 * 取消未付款订单
+	 * 取消未付款订单(30分钟 系统自动)
 	 */
 	void updateCancleUnPayOrder();
+	/**
+	 * 用户手动取消未付款订单
+	 * @param storeOrderId
+	 * @return
+	 */
+	int updateCancalUnpayOrder(int storeOrderId);
+	/**
+	 * 确认收货
+	 * @param storeOrderId
+	 * @return
+	 */
+	int updateSureReceiveingGoods(int storeOrderId);
 }

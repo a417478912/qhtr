@@ -15,6 +15,7 @@ public class StoreOrderDto_App {
 	public int storeId;
 	public String storeName;
 	public String storeAvatar;
+	public String storePhone;
 	public int status;
 	public int totalPrice;
 	
@@ -66,5 +67,11 @@ public class StoreOrderDto_App {
 	}
 	public void setStoreOrderId(int storeOrderId) {
 		this.storeOrderId = storeOrderId;
+	}
+	public String getStorePhone() {
+		return storePhone;
+	}
+	public void setStorePhone(String storePhone) {
+		this.storePhone = storePhone;
 	}
 }

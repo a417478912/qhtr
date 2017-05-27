@@ -1,7 +1,6 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.qhtr.common.CustomDateSerializer;
@@ -28,7 +27,7 @@ public class GoodsOrder {
     private Integer num;
 
     private Integer price;
-    
+
     @JsonSerialize(using = CustomDateSerializer.class) 
     private Date createTime;
     @JsonSerialize(using = CustomDateSerializer.class) 
@@ -45,6 +44,8 @@ public class GoodsOrder {
     private String goodsName;
 
     private String goodsPicture;
+
+    private String skuDetails;
 
     public Integer getId() {
         return id;
@@ -196,5 +197,13 @@ public class GoodsOrder {
 
     public void setGoodsPicture(String goodsPicture) {
         this.goodsPicture = goodsPicture == null ? null : goodsPicture.trim();
+    }
+
+    public String getSkuDetails() {
+        return skuDetails;
+    }
+
+    public void setSkuDetails(String skuDetails) {
+        this.skuDetails = skuDetails == null ? null : skuDetails.trim();
     }
 }

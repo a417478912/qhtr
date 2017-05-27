@@ -64,4 +64,9 @@ public class Constants {
 	 public static long EXPIRE_AFTER_ONE_HOUR = 30; //cache过期时间
      public static String CHANNEL_MSGCOUNT = "msgCount";
 	 public static String CHANNEL_MSG_DATA = "msgData";
+	 /**
+	  * Jpush
+	  */
+	 public static String JPUSH_MASTER_SECRET = "8226191ca644cf6584a7edf8";
+	 public static String JPUSH_APP_KEY = "37c1e046219d57b87b711fc9";
 }

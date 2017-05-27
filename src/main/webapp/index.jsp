@@ -12,7 +12,8 @@
 
 <form action="${rootPath}/sell_picture/updateAvatar.do" id="d_id" method="post" enctype="multipart/form-data">
 <input id ="d" name="avatar"  type="file">
-<img alt="" src="/upload/userAvatar/20170328/20170328153240_249.png">
+<img rel=a alt="" src="/upload/11.jpg">
+<img rel=a alt="" src="/upload/11.jpg">
 <input name="id" value="3" type="hidden">
 <input type="submit" value="提交图片 ">
 </form>
@@ -70,6 +71,8 @@ window.onload = function(){
 
 <script>
 $(function(){
+	console.log($("img[rel=a]"))
+	alert($("img[rel=a]").attr("src"))
 	 /* var a ; //全局变量
 	$.ajax({
         url: "${rootPath}/sell_weixin/getAuthorizeUrl.do",

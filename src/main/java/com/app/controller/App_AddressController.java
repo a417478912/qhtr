@@ -10,9 +10,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.model.Address;
 import com.qhtr.service.AddressService;
+import com.qhtr.utils.JPushUtils;
+
+import cn.jiguang.common.ClientConfig;
+import cn.jiguang.common.resp.APIConnectionException;
+import cn.jiguang.common.resp.APIRequestException;
+import cn.jpush.api.JPushClient;
+import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.PushPayload;
 
 @Controller
 @RequestMapping("/app_address")
@@ -21,15 +30,31 @@ public class App_AddressController {
 	public AddressService addressService;
 	
 	@ResponseBody
-	@RequestMapping(value="/addAddress",method=RequestMethod.POST)
+	@RequestMapping(value="/addAddress")
 	public Json addAddress(Json j,Address address) throws Exception{
-		int result = addressService.addAddress(address);
+		 JPushClient jpushClient = new JPushClient(Constants.JPUSH_MASTER_SECRET, Constants.JPUSH_APP_KEY, null, ClientConfig.getInstance());
+
+		    // For push, all you need do is to build PushPayload object.
+		    PushPayload payload = JPushUtils.buildPushObject_all_all_alert("消息推送！！！");
+
+		    try {
+		        PushResult result = jpushClient.sendPush(payload);
+		        System.out.println("result++++++++++++++++++"+result);
+
+		    } catch (APIConnectionException e) {
+		    	System.out.println(e);
+
+		    } catch (APIRequestException e) {
+		    	System.out.println(e);
+		    }
+		
+		/*int result = addressService.addAddress(address);
 		if(result == 0){
 			j.setCode(0);
 			j.setMessage("增加地址失败!");
 		}else{
 			j.setMessage("增加成功!");
-		}
+		}*/
 		return j;
 	}
 	

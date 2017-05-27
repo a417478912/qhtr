@@ -124,7 +124,6 @@ public class Sell_OrderController {
 		}
 		if(orderId != null){
 			dto = storeOrderService.selectStoreOrderDetailsById(orderId);
-			j.setData(dto);
 		}else{
 			StoreOrder so = storeOrderService.selectByOrderCode(orderCode);
 			dto = storeOrderService.selectStoreOrderDetailsById(so.getId());

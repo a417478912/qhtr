@@ -27,10 +27,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
+import com.qhtr.dto.StoreOrderDetailsDto;
 import com.qhtr.model.Address;
+import com.qhtr.model.Express;
 import com.qhtr.model.PayOrder;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.service.AddressService;
+import com.qhtr.service.ExpressService;
 import com.qhtr.service.GoodsOrderService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.StoreOrderService;
@@ -49,6 +52,8 @@ public class App_OrderController {
 	public AddressService addressService;
 	@Resource
 	public UUpaotuiService uUpaotuiService;
+	@Resource
+	public ExpressService expressService;
 	/**
 	 * 立刻购买 -->提交订单
 	 * @param j
@@ -174,6 +179,14 @@ public class App_OrderController {
 		return j;
 	}
 	
+	/**
+	 * 查询用户的订单
+	 * @param j
+	 * @param userId
+	 * @param status
+	 * @param page
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value = "/getOrdersByUser")
 	public Json getOrdersByUser(Json j,@RequestParam int userId,@RequestParam(defaultValue="0") int status,@RequestParam(defaultValue="1") int page){
@@ -184,6 +197,64 @@ public class App_OrderController {
 		map.put("totalNum", startPage.getTotal());
 		map.put("totalPages", startPage.getPages());
 		j.setData(map);
+		return j;
+	}
+	
+	/**
+	 * 取消未付款订单
+	 * @param j
+	 * @param storeOrderId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/cancalOrder")
+	public Json cancalOrder(Json j,@RequestParam int storeOrderId){
+		int result = storeOrderService.updateCancalUnpayOrder(storeOrderId);
+		if(result == -1){
+			j.setCode(0);
+			j.setMessage("订单状态错误!");
+		}else if(result == 1){
+			j.setMessage("订单取消成功!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 获取订单详情
+	 * @param j
+	 * @param storeOrderId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getOrderDetails")
+	public Json getOrderDetails(Json j,@RequestParam int storeOrderId){
+		StoreOrderDetailsDto dto = new StoreOrderDetailsDto();
+		dto = storeOrderService.selectStoreOrderDetailsById(storeOrderId);
+		Express express = expressService.getByStoreOrderId(dto.getStordeOrder().getId());
+		if (express != null) {
+			String result = uUpaotuiService.GetOrderDetail(express.getCode());
+			dto.setExpressDetail(result);
+		}
+		j.setData(dto);
+		return j;
+	}
+	
+	/**
+	 * 确认收货
+	 * @param j
+	 * @param storeOrderId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/sureReceivingGoods")
+	public Json sureReceivingGoods(Json j,@RequestParam int storeOrderId){
+		int result = storeOrderService.updateSureReceiveingGoods(storeOrderId);
+		if(result == -1){
+			j.setCode(0);
+			j.setMessage("订单状态错误!");
+		}else if(result == 1){
+			j.setMessage("收货成功!");
+		}
 		return j;
 	}
 	

@@ -60,7 +60,6 @@ public class App_CommentController {
 			//留言消息推送
 			Comet comet = new Comet();
 			comet.setStoreId(comment.getStoreId() + "");//id为1的  推送
-			System.out.println("toreId++++++++"+ comment.getStoreId());
 			comet.setMsgCount(String.valueOf("您有新的留言!"));
 			new CometSellUtil().pushToStore(comet);
 		} else {

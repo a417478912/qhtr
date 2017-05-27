@@ -33,6 +33,7 @@
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goodsId" property="goodsId" jdbcType="INTEGER" />
   </resultMap>
    <resultMap id="StoreOrderMap" type="com.app.dto.StoreOrderDto_App" >
     <result column="storeId" property="storeId" jdbcType="INTEGER" />
@@ -40,6 +41,7 @@
     <result column="storeName" property="storeName" jdbcType="VARCHAR" />
     <result column="totalPrice" property="totalPrice" jdbcType="INTEGER" />
     <result column="storeAvatar" property="storeAvatar" jdbcType="VARCHAR" />
+    <result column="storePhone" property="storePhone" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <collection property="goodsOrders" resultMap="BaseResultMap1" />
   </resultMap>
@@ -392,8 +394,8 @@
   
     <select id="selectByUser" resultMap="StoreOrderMap" parameterType="java.util.Map">
 	    select s.id as storeOrderId,s.total_price as totalPrice,s.store_id as storeId,s.status as status,
-	    	   e.name as storeName,e.avatar as storeAvatar,
-	    	   g.id as goodsOrderId,g.price as price,g.num as num,
+	    	   e.name as storeName,e.avatar as storeAvatar,e.phone as storePhone,
+	    	   g.id as goodsOrderId,g.price as price,g.num as num,g.goods_id as goodsId,
 	    	   o.name as goodsName,o.thumb as thumb,
 	    	   u.attr_details as skuDetails
 	    from order_store_order s,

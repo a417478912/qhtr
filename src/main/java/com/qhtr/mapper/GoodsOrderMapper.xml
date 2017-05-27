@@ -21,11 +21,12 @@
     <result column="after_sale_time" property="afterSaleTime" jdbcType="TIMESTAMP" />
     <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
     <result column="goods_picture" property="goodsPicture" jdbcType="VARCHAR" />
+    <result column="sku_details" property="skuDetails" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, order_code, store_order_code, store_order_id, goods_id, user_id, store_id, sku_id, 
     status, num, price, create_time, cancal_time, shipments_time, receive_time, comment_time, 
-    after_sale_time, goods_name, goods_picture
+    after_sale_time, goods_name, goods_picture, sku_details
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -44,14 +45,14 @@
       num, price, create_time, 
       cancal_time, shipments_time, receive_time, 
       comment_time, after_sale_time, goods_name, 
-      goods_picture)
+      goods_picture, sku_details)
     values (#{id,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR}, #{storeOrderCode,jdbcType=VARCHAR}, 
       #{storeOrderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{storeId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{num,jdbcType=INTEGER}, #{price,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{cancalTime,jdbcType=TIMESTAMP}, #{shipmentsTime,jdbcType=TIMESTAMP}, #{receiveTime,jdbcType=TIMESTAMP}, 
       #{commentTime,jdbcType=TIMESTAMP}, #{afterSaleTime,jdbcType=TIMESTAMP}, #{goodsName,jdbcType=VARCHAR}, 
-      #{goodsPicture,jdbcType=VARCHAR})
+      #{goodsPicture,jdbcType=VARCHAR}, #{skuDetails,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.GoodsOrder" >
     insert into order_goods_order
@@ -113,6 +114,9 @@
       <if test="goodsPicture != null" >
         goods_picture,
       </if>
+      <if test="skuDetails != null" >
+        sku_details,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -171,6 +175,9 @@
       </if>
       <if test="goodsPicture != null" >
         #{goodsPicture,jdbcType=VARCHAR},
+      </if>
+      <if test="skuDetails != null" >
+        #{skuDetails,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +238,9 @@
       <if test="goodsPicture != null" >
         goods_picture = #{goodsPicture,jdbcType=VARCHAR},
       </if>
+      <if test="skuDetails != null" >
+        sku_details = #{skuDetails,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -253,11 +263,13 @@
       comment_time = #{commentTime,jdbcType=TIMESTAMP},
       after_sale_time = #{afterSaleTime,jdbcType=TIMESTAMP},
       goods_name = #{goodsName,jdbcType=VARCHAR},
-      goods_picture = #{goodsPicture,jdbcType=VARCHAR}
+      goods_picture = #{goodsPicture,jdbcType=VARCHAR},
+      sku_details = #{skuDetails,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <!--以下自定义方法 --> 
+
+   <!--以下自定义方法 --> 
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.qhtr.model.GoodsOrder" >
     select 
     <include refid="Base_Column_List" />

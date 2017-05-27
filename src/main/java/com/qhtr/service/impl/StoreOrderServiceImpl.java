@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.app.dto.BuyCartDto;
+import com.app.dto.StoreDto_App;
 import com.app.dto.StoreOrderDto_App;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
@@ -30,6 +31,7 @@ import com.qhtr.model.Coupon;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
 import com.qhtr.model.Sku;
+import com.qhtr.model.Store;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.service.AddressService;
 import com.qhtr.service.BuyCartService;
@@ -39,6 +41,7 @@ import com.qhtr.service.GoodsService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreOrderService;
+import com.qhtr.service.StoreService;
 import com.qhtr.service.UUpaotuiService;
 import com.qhtr.service.UserService;
 import com.qhtr.utils.GenerationUtils;
@@ -65,6 +68,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 	public AddressService addressService;
 	@Resource
 	public UUpaotuiService uUpaotuiService;
+	@Resource
+	public StoreService storeService;
 
 	@Override
 	public StoreOrder selectByOrderCode(String soCode) {
@@ -168,6 +173,8 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		go.setCreateTime(new Date());
 		go.setGoodsName(goodsDto.getName());
 		go.setGoodsPicture(goodsDto.getThumb());
+		
+		go.setSkuDetails(sku.getAttrDetails());
 		goodsOrderService.addGoodsOrder(go);
 		return so;
 	}
@@ -342,11 +349,11 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 		StoreOrderDetailsDto soDto = new StoreOrderDetailsDto();
 		soDto.setStordeOrder(so);
 		
-		//地址
-		Address address = addressService.getAddressByid(so.getAddressId());
-		soDto.setAddress(address.getProvince()+address.getCity()+address.getCountry()+address.getDetails());
-		soDto.setReceivingName(address.getReceivingName());
-		soDto.setReceivingPhone(address.getReceivingPhone());
+		//店铺头像和 名字
+		int storeId = so.getStoreId();
+		StoreDto_App store = storeService.getStoreById(storeId);
+		soDto.setStoreAvatar(store.getAvatar());
+		soDto.setStoreName(store.getName());
 		
 		//商品订单
 		GoodsOrder goTem = new GoodsOrder();
@@ -455,5 +462,56 @@ public class StoreOrderServiceImpl implements StoreOrderService {
 				storeOrderMapper.updateByPrimaryKey(storeOrder);
 			}
 		}
+	}
+
+	@Override
+	public int updateCancalUnpayOrder(int storeOrderId) {
+		StoreOrder so = storeOrderMapper.selectByPrimaryKey(storeOrderId);
+		if(so.getStatus() != 10){
+			//订单状态错误
+			return -1;
+		}
+		Date nowTime = new Date();
+		so.setStatus(200);
+		so.setCancalTime(nowTime);
+		
+		GoodsOrder goTem = new GoodsOrder();
+		goTem.setStoreOrderCode(so.getOrderCode());
+		List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+		for (GoodsOrder goodsOrder2 : goList) {
+			goodsOrder2.setStatus(200);
+			goodsOrder2.setCancalTime(nowTime);
+			goodsOrderService.updateGoodsOrder(goodsOrder2);
+		}
+				
+		storeOrderMapper.updateByPrimaryKey(so);
+		return 1;
+	}
+
+	@Override
+	public int updateSureReceiveingGoods(int storeOrderId) {
+		StoreOrder so = storeOrderMapper.selectByPrimaryKey(storeOrderId);
+		//不是自取或者已发货。不能确认收货
+		if(so.getStatus() != 21 && so.getStatus() != 30){
+			return -1;
+		}
+		Date nowTime = new Date();
+		so.setStatus(40);
+		
+		GoodsOrder goTem = new GoodsOrder();
+		goTem.setStoreOrderCode(so.getOrderCode());
+		List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+		for (GoodsOrder goodsOrder2 : goList) {
+			if(goodsOrder2.getStatus() != 21 && goodsOrder2.getStatus() != 30){
+				return -1;
+			}
+			
+			goodsOrder2.setStatus(40);
+			goodsOrder2.setReceiveTime(nowTime);
+			goodsOrderService.updateGoodsOrder(goodsOrder2);
+		}
+				
+		storeOrderMapper.updateByPrimaryKey(so);
+		return 1;
 	}
 }
