@@ -10,16 +10,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Json;
 import com.qhtr.model.RefundOrder;
 import com.qhtr.service.RefundService;
-
+/**
+ * 
+ * @author Harry
+ * @Description 退款的 Controller
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_refund")
 public class App_RefundController {
+	
+	
 	@Resource
 	public RefundService refundService;
 	
 	@ResponseBody
 	@RequestMapping(value="/addRefund")
 	public Json addRefund(Json j,RefundOrder refundOrder){
+		
 		if(StringUtils.isBlank(refundOrder.getOrderCode())){
 			j.setMessage("订单号不能为空!");
 			return j;

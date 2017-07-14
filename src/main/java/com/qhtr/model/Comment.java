@@ -13,13 +13,15 @@ import com.qhtr.common.CustomDateSerializer;
  * @date  2017年4月24日
  */
 public class Comment {
+	
     private Integer id;
 
     private String content;
-
+    
     private Integer userId;
 
     private Integer storeId;
+    private String storeName;
 
     private Integer parentId;
 
@@ -30,9 +32,9 @@ public class Comment {
 
     private String avatar;
 
-    private Integer replyNum;
+    private Integer replyNum = 0;
 
-    private Integer upvoteNum;
+    private Integer upvoteNum = 0;
 
     public Integer getId() {
         return id;
@@ -113,4 +115,12 @@ public class Comment {
     public void setUpvoteNum(Integer upvoteNum) {
         this.upvoteNum = upvoteNum;
     }
+
+	public String getStoreName() {
+		return storeName;
+	}
+
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
 }

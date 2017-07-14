@@ -101,7 +101,7 @@
   
   <!-- 可提现金额 -->
    <select id="getCanWithdrawalMoney" resultType="java.lang.Integer" parameterType="java.lang.Integer" >
-    select account_money
+    select IFNULL(account_money,0)
     from seller_account
     where store_id = #{storeId,jdbcType=INTEGER}
   </select>

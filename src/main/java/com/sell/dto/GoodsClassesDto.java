@@ -9,6 +9,7 @@ public class GoodsClassesDto {
 
     private Integer sort;
     
+    // 商品数量
     private Integer goodsNum;
 
     public Integer getId() {

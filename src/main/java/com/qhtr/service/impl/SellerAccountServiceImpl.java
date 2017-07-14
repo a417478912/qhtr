@@ -21,6 +21,7 @@ public class SellerAccountServiceImpl implements SellerAccountService {
 
 	@Override
 	public int updateOpenId(int storeId, String openId) {
+		
 		SellerAccount sa = sellerAccountMapper.getAccountByStoreId(storeId);
 		if(StringUtils.isNotBlank(sa.getOpenId())){
 			return -1;
@@ -41,7 +42,12 @@ public class SellerAccountServiceImpl implements SellerAccountService {
 
 	@Override
 	public int getCanWithdrawalMoney(int storeId) {
-		return sellerAccountMapper.getCanWithdrawalMoney(storeId);
+		
+		if (sellerAccountMapper.getCanWithdrawalMoney(storeId) == null) {
+			return 0;
+		}else{
+			return sellerAccountMapper.getCanWithdrawalMoney(storeId);
+		}
 	}
 
 }

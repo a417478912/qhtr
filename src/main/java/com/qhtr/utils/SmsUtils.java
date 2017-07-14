@@ -13,6 +13,7 @@ import org.apache.http.HttpResponse;
 import com.qhtr.common.Constants;
 
 public class SmsUtils {
+	
 	static String host = "http://sms.market.alicloudapi.com";
 	static String path = "/singleSendSms";
 	static String method = "GET";
@@ -89,5 +90,79 @@ public class SmsUtils {
 		}
 		System.out.println(sb.toString());
 		return sb.toString();
+	}
+	
+	public static void sendMessage(String phone,HttpServletRequest request,String storeName){
+		String templateCode = "SMS_74580010";
+		Map<String, String> headers = new HashMap<String, String>();
+	    
+	    //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+	    headers.put("Authorization","APPCODE 40734cf9225442cea08a0eec90146149");
+	    Map<String, String> querys = new HashMap<String, String>();
+	    
+	    String paramString = "{\"storeName\":\" "+storeName+" \"}";
+	    System.out.println(paramString);
+	    querys.put("ParamString", paramString);
+	    /**
+	     * 目标手机号,多条记录可以英文逗号分隔
+	     */
+	    querys.put("RecNum", phone);
+	    /**
+	     * 签名名称
+	     */
+	    querys.put("SignName", "小逛一下");
+	    /**
+	     * 模板CODE
+	     */
+	    querys.put("TemplateCode", templateCode);
+	    
+	    try {
+	    	
+	    	HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
+	    	System.out.println(response.toString());
+	    } catch (Exception e) {
+	    	e.printStackTrace();
+	    }
+		
+	}
+	
+	/**
+	 * 向商家发送库存为0的短信
+	 * @param phone
+	 * @param request
+	 * @param goodsName
+	 */
+	public static void sendMessageAboutStock(String phone,HttpServletRequest request,String goodsName){
+		String templateCode = "SMS_74880023";
+		Map<String, String> headers = new HashMap<String, String>();
+		
+		//最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+		headers.put("Authorization","APPCODE 40734cf9225442cea08a0eec90146149");
+		Map<String, String> querys = new HashMap<String, String>();
+		
+		String paramString = "{\"goodsName\":\" "+goodsName+" \"}";
+		System.out.println(paramString);
+		querys.put("ParamString", paramString);
+		/**
+		 * 目标手机号,多条记录可以英文逗号分隔
+		 */
+		querys.put("RecNum", phone);
+		/**
+		 * 签名名称
+		 */
+		querys.put("SignName", "小逛一下");
+		/**
+		 * 模板CODE
+		 */
+		querys.put("TemplateCode", templateCode);
+		
+		try {
+			
+			HttpResponse response = HttpUtils.doGet(host, path, method, headers, querys);
+			System.out.println(response.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

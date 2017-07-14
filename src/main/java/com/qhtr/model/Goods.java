@@ -5,8 +5,13 @@ import java.util.Date;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.qhtr.common.CustomDateSerializer;
-
+/**
+ * @author Harry
+ * @Description 商品
+ * @date  2017年6月5日
+ */
 public class Goods {
+	
     private Integer id;
 
     private String goodsCode;
@@ -53,8 +58,40 @@ public class Goods {
     private Integer sellNum;
 
     private Integer sort;
+    
+    
 
-    public Integer getId() {
+    public Goods() {
+		super();
+	}
+
+	public Goods(Integer id, String goodsCode, Integer storeId, String name, String thumb, String resultPicture,
+			String detailPictures, Integer price, Integer vipPrice, Integer specialSellingPrice, Integer stock,
+			String details, Integer isdefault, Integer status, Date createTime, Date editTime, Integer collectNum,
+			Integer sellNum, Integer sort) {
+		super();
+		this.id = id;
+		this.goodsCode = goodsCode;
+		this.storeId = storeId;
+		this.name = name;
+		this.thumb = thumb;
+		this.resultPicture = resultPicture;
+		this.detailPictures = detailPictures;
+		this.price = price;
+		this.vipPrice = vipPrice;
+		this.specialSellingPrice = specialSellingPrice;
+		this.stock = stock;
+		this.details = details;
+		this.isdefault = isdefault;
+		this.status = status;
+		this.createTime = createTime;
+		this.editTime = editTime;
+		this.collectNum = collectNum;
+		this.sellNum = sellNum;
+		this.sort = sort;
+	}
+
+	public Integer getId() {
         return id;
     }
 
@@ -205,4 +242,6 @@ public class Goods {
     public void setSort(Integer sort) {
         this.sort = sort;
     }
+
+    
 }

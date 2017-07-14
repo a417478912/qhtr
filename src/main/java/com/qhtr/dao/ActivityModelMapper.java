@@ -5,6 +5,7 @@ import java.util.List;
 import com.qhtr.model.ActivityModel;
 
 public interface ActivityModelMapper {
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(ActivityModel record);

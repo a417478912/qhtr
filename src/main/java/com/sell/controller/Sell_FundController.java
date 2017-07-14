@@ -24,15 +24,23 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import com.alibaba.fastjson.JSONException;
 import com.qhtr.common.Json;
+import com.qhtr.model.BankCard;
 import com.qhtr.model.SellerAccount;
+import com.qhtr.model.Store;
 import com.qhtr.service.FundFlowService;
 import com.qhtr.service.PayService;
 import com.qhtr.service.SellerAccountService;
+import com.qhtr.service.StoreService;
 import com.qhtr.service.impl.BankCardService;
-
+/**
+ * @author Harry
+ * @Description 资金操作,流水,提现
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/sell_fund")
 public class Sell_FundController {
+	
 	@Resource
 	public FundFlowService fundFlowService;
 	@Resource
@@ -41,6 +49,8 @@ public class Sell_FundController {
 	public SellerAccountService sellerAccountService;
 	@Resource
 	public BankCardService bankCardService;
+	@Resource
+	private StoreService storeService;
 	
 	
 	/**
@@ -91,7 +101,7 @@ public class Sell_FundController {
 	 */
 	@ResponseBody
 	@RequestMapping("/withdrawApply")
-	public Json withdrawApply(Json j,@RequestParam int storeId,@RequestParam int money,@RequestParam int type,Integer bankCardId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, KeyManagementException, UnrecoverableKeyException, XmlPullParserException{
+	public Json withdrawApply(Json j,@RequestParam int storeId,@RequestParam int money,@RequestParam(defaultValue="3") int type,Integer bankCardId,HttpServletRequest request,HttpServletResponse response) throws JSONException, JDOMException, IOException, KeyStoreException, NoSuchAlgorithmException, CertificateException, KeyManagementException, UnrecoverableKeyException, XmlPullParserException{
 	//	自动提现到支付宝和微信。。。有问题。    暂时改为提现申请，手动转账到银行卡
 	  if(type == 1){
 		  	// 提现到支付宝
@@ -143,6 +153,27 @@ public class Sell_FundController {
 				j.setMessage("没有可提现的银行卡!");
 				return j;
 			}
+			
+			// 通过银行卡id查询该银行卡是否存在
+			BankCard cardQuery = new BankCard();
+			cardQuery.setId(bankCardId);
+			cardQuery.setStoreId(storeId);
+			BankCard card = bankCardService.selectBankCardByIdAndStoreId(cardQuery);
+			Store store = storeService.selectStoreById(storeId);
+			if (store == null) {
+				
+				j.setCode(0);
+				
+				j.setMessage("该店铺不存在!");
+			}
+			
+			if (card == null) {
+				
+				j.setCode(0);
+				j.setMessage("该银行卡不存在!");
+				return j;
+			}
+			
 			int result = bankCardService.insertWithdrawApply(storeId,money,bankCardId);
 			if(result == 0){
 				j.setCode(0);

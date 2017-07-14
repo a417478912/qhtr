@@ -2,6 +2,7 @@ package com.sell.param;
 
 
 public class GoodsParam {
+	
 	public int id = 0;
 	public String descript;
 	public int storeId;
@@ -9,6 +10,7 @@ public class GoodsParam {
 	public String detail_pictures;
 	public String thumb;
 	public String resultPicture;
+	public Integer secondClassId;
 	public int[] classId;
 	public String sku; 
 	public int[] activityId;
@@ -71,5 +73,11 @@ public class GoodsParam {
 	}
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+	public Integer getSecondClassId() {
+		return secondClassId;
+	}
+	public void setSecondClassId(Integer secondClassId) {
+		this.secondClassId = secondClassId;
 	}
 }

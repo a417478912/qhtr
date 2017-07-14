@@ -1,8 +1,13 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * @author Harry
+ * @Description 资金流转
+ * @date  2017年6月5日
+ */
 public class FundFlow {
+	
     private Integer id;
 
     private Integer changeMoney;

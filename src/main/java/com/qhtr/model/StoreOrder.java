@@ -5,8 +5,13 @@ import java.util.Date;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.qhtr.common.CustomDateSerializer;
-
+/**
+ * @author Harry
+ * @Description 店铺订单(包含多个商品订单)
+ * @date  2017年6月5日
+ */
 public class StoreOrder {
+	
     private Integer id;
 
     private String orderCode;
@@ -29,17 +34,22 @@ public class StoreOrder {
 
     private Integer expressPrice;
 
-    private Integer couponPrice;
+    private Integer couponPrice = 0;
 
     private Integer refundPrice;
 
     private Integer resultPrice;
 
+    // 10 : 待付款      20 : 已付款   21 : 已付款带自取    30 : 已发货      40 : 已收货   50 : 已评价
+    // 100 : 申请售后   110 : 已退款/已退货
     private Integer status;
+    
     @JsonSerialize(using = CustomDateSerializer.class) 
     private Date createTime;
+    
     @JsonSerialize(using = CustomDateSerializer.class) 
     private Date paymentTime;
+    
     @JsonSerialize(using = CustomDateSerializer.class) 
     private Date cancalTime;
 

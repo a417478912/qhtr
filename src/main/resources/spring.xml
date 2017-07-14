@@ -24,4 +24,5 @@
 	<!--开启这个配置，spring才能识别@Scheduled注解   -->
     <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>
     <task:scheduler id="qbScheduler" pool-size="10"/>
+    
 </beans> 

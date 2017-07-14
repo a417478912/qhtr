@@ -6,17 +6,16 @@
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="receiving_name" property="receivingName" jdbcType="VARCHAR" />
     <result column="receiving_phone" property="receivingPhone" jdbcType="VARCHAR" />
-    <result column="province" property="province" jdbcType="VARCHAR" />
-    <result column="city" property="city" jdbcType="VARCHAR" />
-    <result column="country" property="country" jdbcType="VARCHAR" />
-    <result column="street" property="street" jdbcType="VARCHAR" />
+    <result column="address_name" property="addressName" jdbcType="VARCHAR" />
     <result column="details" property="details" jdbcType="VARCHAR" />
     <result column="isDefault" property="isdefault" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_id, receiving_name, receiving_phone, province, city, country, street, details, 
+    id, user_id, receiving_name, receiving_phone, address_name, details, 
     isDefault
   </sql>
+  
+  <!-- 查询收货地址 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -29,12 +28,10 @@
   </delete>
   <insert id="insert" parameterType="com.qhtr.model.Address" >
     insert into user_address (id, user_id, receiving_name, 
-      receiving_phone, province, city, 
-      country, street, details, 
+      receiving_phone, address_name, details, 
       isDefault)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{receivingName,jdbcType=VARCHAR}, 
-      #{receivingPhone,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{country,jdbcType=VARCHAR}, #{street,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
+      #{receivingPhone,jdbcType=VARCHAR}, #{addressName,jdbcType=VARCHAR}, #{details,jdbcType=VARCHAR}, 
       #{isdefault,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.Address" >
@@ -53,16 +50,7 @@
         receiving_phone,
       </if>
       <if test="province != null" >
-        province,
-      </if>
-      <if test="city != null" >
-        city,
-      </if>
-      <if test="country != null" >
-        country,
-      </if>
-      <if test="street != null" >
-        street,
+        address_name,
       </if>
       <if test="details != null" >
         details,
@@ -84,17 +72,8 @@
       <if test="receivingPhone != null" >
         #{receivingPhone,jdbcType=VARCHAR},
       </if>
-      <if test="province != null" >
-        #{province,jdbcType=VARCHAR},
-      </if>
-      <if test="city != null" >
-        #{city,jdbcType=VARCHAR},
-      </if>
-      <if test="country != null" >
-        #{country,jdbcType=VARCHAR},
-      </if>
-      <if test="street != null" >
-        #{street,jdbcType=VARCHAR},
+      <if test="addressName != null" >
+        #{addressName,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         #{details,jdbcType=VARCHAR},
@@ -116,17 +95,8 @@
       <if test="receivingPhone != null" >
         receiving_phone = #{receivingPhone,jdbcType=VARCHAR},
       </if>
-      <if test="province != null" >
-        province = #{province,jdbcType=VARCHAR},
-      </if>
-      <if test="city != null" >
-        city = #{city,jdbcType=VARCHAR},
-      </if>
-      <if test="country != null" >
-        country = #{country,jdbcType=VARCHAR},
-      </if>
-      <if test="street != null" >
-        street = #{street,jdbcType=VARCHAR},
+      <if test="addressName != null" >
+        address_name = #{addressName,jdbcType=VARCHAR},
       </if>
       <if test="details != null" >
         details = #{details,jdbcType=VARCHAR},
@@ -142,10 +112,7 @@
     set user_id = #{userId,jdbcType=INTEGER},
       receiving_name = #{receivingName,jdbcType=VARCHAR},
       receiving_phone = #{receivingPhone,jdbcType=VARCHAR},
-      province = #{province,jdbcType=VARCHAR},
-      city = #{city,jdbcType=VARCHAR},
-      country = #{country,jdbcType=VARCHAR},
-      street = #{street,jdbcType=VARCHAR},
+      address_name = #{addressName,jdbcType=VARCHAR},
       details = #{details,jdbcType=VARCHAR},
       isDefault = #{isdefault,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
@@ -166,17 +133,8 @@
       <if test="receivingPhone != null" >
         and receiving_phone = #{receivingPhone,jdbcType=VARCHAR}
       </if>
-      <if test="province != null" >
-        and province = #{province,jdbcType=VARCHAR}
-      </if>
-      <if test="city != null" >
-        and city = #{city,jdbcType=VARCHAR}
-      </if>
-      <if test="country != null" >
-        and country = #{country,jdbcType=VARCHAR}
-      </if>
-      <if test="street != null" >
-        and street = #{street,jdbcType=VARCHAR}
+      <if test="addressName != null" >
+        and address_name = #{addressName,jdbcType=VARCHAR}
       </if>
       <if test="details != null" >
         and details = #{details,jdbcType=VARCHAR}

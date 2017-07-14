@@ -149,6 +149,15 @@
     and parent_id = 0
     order by create_time desc 
   </select>
+	<!--  查询留言 -->
+  <select id="selectCommentListByStoreId2" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where store_id = #{storeId,jdbcType=INTEGER}
+    and parent_id = 0
+    order by create_time desc 
+  </select>
   
   <!-- 通过留言id查询下面的回复 -->
   <select id="getReplyListByCommentId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

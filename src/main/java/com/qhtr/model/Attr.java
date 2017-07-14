@@ -1,6 +1,7 @@
 package com.qhtr.model;
 
 public class Attr {
+	
     private Integer id;
 
     private String name;

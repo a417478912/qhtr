@@ -6,6 +6,7 @@ import com.qhtr.model.Comment;
 import com.sell.dto.CommentDto;
 
 public interface CommentMapper {
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(Comment record);
@@ -26,6 +27,13 @@ public interface CommentMapper {
 	 * @return
 	 */
 	List<CommentDto> selectCommentListByStoreId(int storeId);
+	
+	/**
+	 * 查询留言
+	 * @param storeId
+	 * @return
+	 */
+	List<Comment> selectCommentListByStoreId2(int storeId);
 
 	/**
 	 * 通过留言id查询下面的回复

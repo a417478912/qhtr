@@ -1,8 +1,13 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * @author Harry
+ * @Description 提现
+ * @date  2017年6月5日
+ */
 public class Withdraw {
+	
     private Integer id;
 
     private String orderCode;

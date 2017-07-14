@@ -8,6 +8,12 @@ public interface AddressService {
 	public int addAddress(Address address);
 	public int deleteAddressById(int addId);
 	public int updateAddress(Address address);
+	
+	/**
+	 * 通过用户id查找地址
+	 * @param userId
+	 * @return
+	 */
 	public List<Address> selectAddressByUserId(int userId);
 	
 	/**
@@ -21,6 +27,11 @@ public interface AddressService {
 	 */
 	public Address getDeafault(int userId);
 	
+	/**
+	 * 通过地址id查找地址
+	 * @param id
+	 * @return
+	 */
 	public Address getAddressByid(int id);
 	
 }

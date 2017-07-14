@@ -1,29 +1,35 @@
 package com.qhtr.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONArray;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.ActivityMapper;
 import com.qhtr.dao.AttrMapper;
 import com.qhtr.dao.GoodsClassesMapper;
 import com.qhtr.dao.GoodsMapper;
+import com.qhtr.dao.SecondClassMapper;
 import com.qhtr.dao.SkuMapper;
 import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.Activity;
 import com.qhtr.model.Attr;
 import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsClasses;
+import com.qhtr.model.SecondClass;
 import com.qhtr.model.Sku;
 import com.qhtr.service.GoodsService;
 import com.qhtr.service.SkuService;
+import com.qhtr.utils.DateUtil;
 import com.qhtr.utils.GenerationUtils;
 import com.sell.param.GoodsParam;
 
@@ -41,10 +47,14 @@ public class GoodsServiceImpl implements GoodsService {
 	public SkuService skuService;
 	@Resource
 	public ActivityMapper activityMapper;
-
+	@Resource
+	private SecondClassMapper secondClassMapper;
+	
 	@Override
 	public GoodsDto selectGoodsByGoodsId(int goodsId) {
+		
 		Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+		
 		Attr attr = new Attr();
 		attr.setGoodsId(goodsId);
 		List<Attr> attrList = attrMapper.selectByConditions(attr);
@@ -56,7 +66,12 @@ public class GoodsServiceImpl implements GoodsService {
 		List<GoodsClasses> gcList = goodsClassesMapper.selectClassByGoodsId(goodsId);
 		
 		List<Map<String,Object>> acList = activityMapper.selectByGoodsId(goodsId);
+		
+		Integer sc = secondClassMapper.selectSecondClassByGoodsId(goodsId);
 		GoodsDto dto = new GoodsDto(goods);
+		if (sc != null) {
+			dto.setSecondClassId(sc);
+		}
 		dto.setActivityList(acList);
 		dto.setGoodsClasses(gcList);
 		dto.setAttrList(attrList);
@@ -78,7 +93,6 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public List<Goods> selectGoodsByCondition(Goods goods, int page, int number) {
-		PageHelper.startPage(page, number);
 		return goodsMapper.selectByConditions(goods);
 	}
 
@@ -113,8 +127,9 @@ public class GoodsServiceImpl implements GoodsService {
 				activityMapper.insert(activity);
 			}
 		}
-		int[] cArr = goodsParam.getClassId();
+		
 		// 商品分类
+		int[] cArr = goodsParam.getClassId();
 		if (cArr != null) {
 			for (int s : cArr) {
 				Map<String, Integer> map = new HashMap<String, Integer>();
@@ -123,6 +138,17 @@ public class GoodsServiceImpl implements GoodsService {
 				goodsClassesMapper.insertGoodsMidGoodsClass(map);
 			}
 		}
+		
+		// 二级分类
+		Integer secondClassId = goodsParam.getSecondClassId();
+			if (secondClassId != null) {
+				
+				Map<String,Integer> map = new HashMap<>();
+				map.put("goodsId", goods.getId());
+				map.put("secondClassId", secondClassId);
+				secondClassMapper.insertGoodsMidSecondClass(map);
+			}
+		
 		// sku
 		String skuStr = goodsParam.getSku();
 		List<Sku> skus = JSONArray.parseArray(skuStr, Sku.class);
@@ -136,26 +162,31 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	@Override
-	public List<Goods> selectListByStoreAndType(int storeId, int status) {
+	public List<Goods> selectListByStoreAndType(int storeId, int status,int page) {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("storeId", storeId + "");
 		map.put("status", status + "");
-		return goodsMapper.selectListByStoreAndType(map);
+		List<Goods> goodsList = goodsMapper.selectListByStoreAndType(map);
+		return goodsList;
 	}
 
 	@Override
 	public int delete(int id,int status) {
+		
 		Goods goods = goodsMapper.selectByPrimaryKey(id);
 		goods.setStatus(status);
-		
-		//删除商品需要删除和活动，以及分类的关系
-		if(status == 3){
+			//删除商品需要删除和活动，以及分类的关系
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("goodsId", id);
 			activityMapper.deleteByConditions(map);
-			
 			goodsClassesMapper.deleteFromMidByGoodsId(id);
-		}
+			// 删除商品与二级分类之间的关系
+			Integer selectSecondClassByGoodsId = secondClassMapper.selectSecondClassByGoodsId(id);
+			if (selectSecondClassByGoodsId != null) {
+				
+				secondClassMapper.deleteFromMidByGoodsId(id);
+			}
+		
 		return goodsMapper.updateByPrimaryKey(goods);
 	}
 
@@ -205,6 +236,23 @@ public class GoodsServiceImpl implements GoodsService {
 				goodsClassesMapper.insertGoodsMidGoodsClass(map);
 			}
 		}
+		
+		if (goodsParam.getSecondClassId() != null) {
+			
+		// 删除之前的二级分类关系
+		Integer secondClassId = secondClassMapper.selectSecondClassByGoodsId(goodsParam.getId());
+		if (secondClassId != null) {
+			
+			secondClassMapper.deleteFromMidByGoodsId(goodsParam.getId());
+		}
+		
+		// 添加新的二级分类关系
+		Map<String,Integer> map = new HashMap<>();
+		map.put("goodsId", goodsParam.getId());
+		map.put("secondClassId", goodsParam.getSecondClassId());
+		secondClassMapper.insertGoodsMidSecondClass(map);
+		
+		}
 		// sku
 		String skuStr = goodsParam.getSku();
 		List<Sku> skus = JSONArray.parseArray(skuStr, Sku.class);
@@ -223,13 +271,145 @@ public class GoodsServiceImpl implements GoodsService {
 
 	@Override
 	public int toTop(int goodsId) {
+		
 		Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
 		if (goods.getSort() == null || goods.getSort() == 0) {
 			goods.setSort(1);
-		} else {
+		}/* else {
 			goods.setSort(0);
-		}
+		}*/
+		goods.setEditTime(new Date());
 		goodsMapper.updateByPrimaryKey(goods);
 		return 1;
 	}
+
+	@Override
+	public int reshelf(Integer goodsId) {
+		
+		Goods goods = new Goods();
+		
+		goods.setId(goodsId);
+		goods.setStatus(1);
+		
+		try {
+			
+			goodsMapper.updateByPrimaryKeySelective(goods);
+			
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+		 
+	}
+
+	@Override
+	public Goods selectGoodsByPrimaryKey(int goodsId) {
+		
+		return goodsMapper.selectByPrimaryKey(goodsId);
+	}
+
+	@Override
+	public void soldOut(Integer goodsId) {
+		
+		Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+		goods.setStatus(2);
+		//删除商品需要删除和活动，以及分类的关系
+		Map<String,Integer> map = new HashMap<String,Integer>();
+		map.put("goodsId", goodsId);
+		activityMapper.deleteByConditions(map);
+		goodsClassesMapper.deleteFromMidByGoodsId(goodsId);
+		
+		goodsMapper.updateByPrimaryKey(goods);
+		
+		System.out.println("+++++++++++++++++++++++++++++++++++++++   下架成功     ++++++++++++++++++++++++++++++++++++++");
+	}
+
+	@Override
+	public int selectCountByStoreIdAndStatus(int storeId, int status) {
+		
+		Goods goods = new Goods();
+		goods.setStoreId(storeId);
+		goods.setStatus(status);
+		List<Goods> goodsList = goodsMapper.selectListByStoreIdAndStatus(goods);
+		return goodsList.size();
+	}
+	
+	@Override
+	public List<Goods> selectListByClassIdAndStoreId(int classId, int storeId) {
+		
+		GoodsClasses gc = new GoodsClasses();
+		gc.setId(classId);
+		gc.setStoreId(storeId);
+		
+		return goodsMapper.selectListByClassIdAndStoreId(gc);
+	}
+
+	@Override
+	public void updateGoodsByPrimaryKey(Goods goods) {
+		goodsMapper.updateByPrimaryKeySelective(goods);
+	}
+
+	@Override
+	public List<Goods> selectGoodsBySecondClassId(int secondClassId) {
+		return goodsMapper.selectGoodsBySecondClassId(secondClassId);
+	}
+
+	@Override
+	public List<Goods> selectListByStoreId(int storeId) {
+		return goodsMapper.selectListByStoreId(storeId);
+	}
+
+	@Override
+	public List<Goods> selectGoodsListByCategoryId(int categoryId) {
+		List<Goods> goodsList = goodsMapper.selectGoodsByCategoryId(categoryId);
+		return goodsList;
+	}
+
+	@Override
+	public List<Goods> selectGoodsByStoreIdAndSecondClassId(int storeId, int secondClassId) {
+		Map<String, Integer> map = new HashMap<>();
+		map.put("storeId", storeId);
+		map.put("secondClassId", secondClassId);
+		List<Goods> goodsList = goodsMapper.selectGoodsByStoreIdAndSecondClassId(map);
+		return goodsList;
+	}
+
+	@Override
+	public List<Goods> getGoodsListNotInSecondClass(int storeId) {
+		return goodsMapper.getGoodsListNotInSecondClass(storeId);
+	}
+
+	@Override
+	public List<Goods> selectNewProductByCategoryId(int categoryId) {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Map<String, Object> map = new HashMap<>();
+		
+		Date startTime = new Date();
+		Date endTime = new Date();
+		
+		map.put("endTime", sdf.format(endTime));
+		
+		long time = endTime.getTime();
+		startTime.setTime(time - (15*24*60*60*1000));
+		
+		map.put("categoryId", categoryId);
+		map.put("startTime",sdf.format(startTime));
+		
+		for (Entry<String, Object> mEntry : map.entrySet()) {
+			
+			System.out.println("key : " + mEntry.getKey() + ",value : " + mEntry.getValue());
+		}
+		return goodsMapper.selectNewProductByCategoryId(map);
+	}
+
+	@Override
+	public List<Goods> selectGoodsByCategoryId(int categoryId) {
+		
+		List<Goods> goodsList = goodsMapper.selectGoodsByCategoryId(categoryId);
+		
+		return goodsList;
+	}
+
 }

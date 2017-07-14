@@ -36,4 +36,10 @@ public interface GoodsOrderService {
 	 * 查询数量
 	 */
 	int selectCountByConditions(Map<String,Object> map);
+	
+	/**
+	 * 删除商品订单
+	 * @param id
+	 */
+	void deleteGoodsOrder(Integer id);
 }

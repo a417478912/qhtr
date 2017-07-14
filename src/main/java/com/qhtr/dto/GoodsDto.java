@@ -30,6 +30,7 @@ public class GoodsDto {
 	private Integer collectNum;
 	private Integer sellNum;
 	private Integer sort;
+	private Integer secondClassId;
 	
 	
 	/**
@@ -45,7 +46,9 @@ public class GoodsDto {
 	}
 
 	public GoodsDto(Goods goods){
+		
 		SkuService skuService = (SkuService) ApplicationContextUtils.getContext().getBean("SkuService");
+		
 		this.setId(goods.getId());
 		this.setGoodsCode(goods.getGoodsCode());
 		this.setStoreId(goods.getStoreId());
@@ -69,7 +72,9 @@ public class GoodsDto {
 			if(sku.getPrice() < lowPrice){
 				lowPrice = sku.getPrice();
 			}
-			totalStock += sku.getStock();
+			if (sku.getStock()!=null) {
+				totalStock += sku.getStock();
+			}
 		}
 		this.setLowPrice(lowPrice);
 		this.setTopPrice(topPrice);
@@ -210,5 +215,13 @@ public class GoodsDto {
 
 	public void setTotalStock(int totalStock) {
 		this.totalStock = totalStock;
+	}
+
+	public Integer getSecondClassId() {
+		return secondClassId;
+	}
+
+	public void setSecondClassId(Integer secondClassId) {
+		this.secondClassId = secondClassId;
 	}
 }

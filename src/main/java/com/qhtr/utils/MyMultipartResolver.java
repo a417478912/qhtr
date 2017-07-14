@@ -8,6 +8,7 @@ public class MyMultipartResolver extends CommonsMultipartResolver{
 	 
 	@Override
 	public boolean isMultipart(HttpServletRequest request) {
+		
 		  if (request.getRequestURI().contains("/file/") ) {
 	            return false;
 	        } else {

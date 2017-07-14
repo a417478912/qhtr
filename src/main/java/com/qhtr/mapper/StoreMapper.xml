@@ -358,6 +358,7 @@
 	SELECT u.id as id,u.name as name,u.phone as phone,u.avatar as avatar,sum(o.total_price) as totalMoney
 	from order_store_order o LEFT JOIN `user` u on o.user_id = u.id
 	where o.store_id = #{storeId,jdbcType=INTEGER}
+	and o.status in (40,50)
 	GROUP BY u.id
   </select>
   
@@ -366,5 +367,19 @@
 	SELECT count(*) from goods_goods
 	where store_id = #{storeId,jdbcType=INTEGER}
 	and status = 1
+  </select>
+  
+  <!-- 通过行业分类查询店铺 -->
+  <select id="selectStoreByCategoryId" parameterType="Integer" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List"/>
+  	from seller_store
+  	where category_id = #{parameter}
+  	order by sell_num desc
+  </select>
+  
+  <!-- 通过店铺id查询关注店铺的用户id -->
+  <select id="getAttentionUserByStoreId" parameterType="Integer" resultType="Integer">
+  	select a.user_id from user_attention a where a.store_Id = #{parameter}
   </select>
 </mapper>

@@ -7,13 +7,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,18 +33,37 @@ import com.qhtr.dto.UserDto;
 import com.qhtr.model.Collect;
 import com.qhtr.model.Goods;
 import com.qhtr.model.Sku;
+import com.qhtr.model.Store;
+import com.qhtr.model.TalkMsg;
+import com.qhtr.model.TalkNode;
+import com.qhtr.model.TalkUserMessage;
 import com.qhtr.model.User;
+import com.qhtr.model.UserMessage;
 import com.qhtr.service.AttentionService;
 import com.qhtr.service.CollectService;
 import com.qhtr.service.GoodsService;
 import com.qhtr.service.SkuService;
 import com.qhtr.service.StoreService;
 import com.qhtr.service.SystemLogService;
+import com.qhtr.service.TalkDataService;
+import com.qhtr.service.UserMessageService;
 import com.qhtr.service.UserService;
+import com.qhtr.utils.DateUtil;
+import com.qhtr.utils.JPushUtils;
+import com.qhtr.utils.MD5Utils;
+import com.qhtr.utils.PictureUploadUtils;
 
+import cn.jpush.api.JPushClient;
+/**
+ * 
+ * @author Harry
+ * @Description 用户相关的 Controller
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_user")
 public class App_UserController {
+	
 	@Resource
 	public SystemLogService systemLogService;
 
@@ -58,10 +81,18 @@ public class App_UserController {
 	
 	@Resource
 	public SkuService skuService;
+	
+	@Resource
+	private TalkDataService talkDataService;
+	
+	@Resource
+	private StoreService storeService;
+	
+	@Resource
+	private UserMessageService userMsgService;
 
 	/**
 	 * 用户注册
-	 * 
 	 * @param j
 	 * @param phone
 	 * @param password
@@ -104,6 +135,13 @@ public class App_UserController {
 				j.setCode(0);
 				j.setMessage("手机号已被注册!");
 			} else if (result == 1) {
+				
+			/*	try {
+					talkDataService.userSave(phone, MD5Utils.getString(password), phone);
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}*/
 				j.setMessage("注册成功!");
 				User user = userService.login(phone, password);
 				if (user != null) {
@@ -140,7 +178,7 @@ public class App_UserController {
 	 * @throws Exception 
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/updateUser", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateUser")//, method = RequestMethod.POST
 	public Json updateUser(Json j, @RequestParam int id, String nickName, String sex, String birthday,String avatar) throws IOException{
 		int result = userService.updateUser(id, nickName, sex, birthday, avatar);
 		if (result == 1) {
@@ -155,7 +193,6 @@ public class App_UserController {
 
 	/**
 	 * 修改密码
-	 * 
 	 * @param j
 	 * @param id
 	 * @param nickName
@@ -171,11 +208,14 @@ public class App_UserController {
 		@SuppressWarnings("unchecked")
 		Map<String, String> theCode = (Map<String, String>) request.getSession()
 				.getAttribute(Constants.USER_CHANGE_PWD_CODE);
+		
 		if (theCode == null) {
 			j.setCode(0);
 			j.setMessage("没有发送验证码!");
 			return j;
+			
 		} else {
+			
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Long createTime = df.parse(theCode.get("time")).getTime();
 			Long nowTime = df.parse(df.format(new Date())).getTime();
@@ -380,6 +420,7 @@ public class App_UserController {
 	@ResponseBody
 	@RequestMapping(value = "/thirdLogin")
 	public Json thirdLogin(Json j,User user){
+		
 		int result = 1;
 		User userTem = new User();
 		if(StringUtils.isNotBlank(user.getQqCode())){
@@ -549,14 +590,13 @@ public class App_UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getAttentionList")
-	public Json getAttentionList(Json j,@RequestParam int userId){
+	public Json getAttentionList(Json j,@RequestParam int userId,@RequestParam(defaultValue="1") int page){
 		List<Map<String,Object>> list  = attentionService.getAttentionList(userId);
 		if(list != null){
 			List<Map<String,Object>> mapList = new ArrayList<Map<String,Object>>();
 			for (Map<String, Object> map : list) {
 				int storeId = Integer.parseInt(map.get("storeId").toString());
-				PageHelper.startPage(1,3);
-				List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId, 1);
+				List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId, 1,page);
 				Map<String,Object> theMap = new HashMap<String,Object>();
 				theMap.put("id", map.get("id"));
 				theMap.put("storeId", map.get("storeId"));
@@ -582,20 +622,53 @@ public class App_UserController {
 	@ResponseBody
 	@RequestMapping(value = "/addAttention")
 	public Json addAttention(Json j,@RequestParam int userId,@RequestParam int storeId){
+		
 		int result = attentionService.addAttention(userId,storeId);
+
 		if(result == -1){
+			
 			j.setCode(0);
 			j.setMessage("已经关注过此店铺!");
 		}else if(result == 0){
+			
 			j.setCode(0);
 			j.setMessage("关注失败!");
 		}else{
+			
+			// 将消息存入数据库
+			UserMessage userMsg = new UserMessage();
+			
+			userMsg.setCreateTime(DateUtil.formatDate(new Date()));
+			userMsg.setType(1);
+			userMsg.setMessageContent("欢迎关注本店~经常来逛逛哦~");
+			String storeAvatar = getStoreAvatar(storeId);
+			if (storeAvatar != null) {
+				
+				userMsg.setStoreAvatar(storeAvatar);
+			}
+			userMsg.setLinkId(storeId);
+			userMsg.setUserId(userId);
+			userMsgService.insert(userMsg);
+			// 推送消息
+			Set<String> alias = new HashSet<>();
+			alias.add(userId + "");
+			JPushUtils.sendPush(JPushUtils.pushToIOSByAlias("欢迎关注本店~经常来逛逛哦~", alias), LoggerFactory.getLogger(getClass()));
 			Map<String,Integer> map = new HashMap<String,Integer>();
 			map.put("attentionId", result);
 			j.setData(map);
 			j.setMessage("关注成功!");
 		}
 		return j;
+	}
+	
+	public String getStoreAvatar(int storeId){
+		
+		Store store = storeService.selectStoreById(storeId);
+		if (store != null) {
+			
+			return store.getAvatar();
+		}
+		return null;
 	}
 	
 	/**
@@ -613,6 +686,38 @@ public class App_UserController {
 		}else{
 			j.setCode(0);
 			j.setMessage("删除关注失败!");
+		}
+		return j;
+	}
+	
+	/**
+	 * 环信设置账号密码
+	 * @param j
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getAllUser")
+	public Json getAllUser(Json j){
+		try {
+			List<User> userList = userService.getUsersByConditions(new User());
+			
+			if (!userList.isEmpty()) {
+				for (User user : userList) {
+					if (user.getPhone() != null && user.getPassword() != null && !"".equals(user.getPassword()) && !"".equals(user.getPhone())) {
+						if (user.getNickName()!=null) {
+							
+							talkDataService.userSave(user.getPhone(), user.getPassword(), user.getNickName());
+						}
+						TalkMsg msg = new TalkMsg();
+						msg.setTarget_type(1);
+						msg.setFrom("admin");
+					}
+				}
+			}
+			j.setMessage("success !!!");
+		} catch (Exception e) {
+			e.printStackTrace();
+			j.setMessage("failed !!!");
 		}
 		return j;
 	}

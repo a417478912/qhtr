@@ -7,6 +7,7 @@ import com.qhtr.model.Activity;
 import com.qhtr.model.Goods;
 
 public interface ActivityMapper {
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(Activity record);
@@ -48,4 +49,9 @@ public interface ActivityMapper {
 	 * @return
 	 */
 	List<Map<String,Object>> selectByGoodsId(int goodsId);
+
+	/**
+	 * 查询活动分类中的商品数量
+	 */
+	int selectCountGoodsByStoreIdAndModelId(Activity activity);
 }

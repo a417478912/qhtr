@@ -1,6 +1,7 @@
 package com.qhtr.common;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.annotation.Resource;
@@ -32,6 +33,7 @@ public class TaskJob {
 	@Scheduled(cron = "0 0/5 * * * ?")
 	public void start1(){
 		storeOrderService.updateCancleUnPayOrder();
-		System.out.println("定时任务执行-->取消未付款订单:+++++++" + new Date());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		System.out.println("定时任务执行-->取消未付款订单:++++++++++++++" + sdf.format(new Date()));
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.qhtr.dao.CategoryMapper;
 import com.qhtr.model.Category;
+import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
 
 @Service("CategoryService")
@@ -25,5 +26,6 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category getById(Integer categoreId) {
 		return categoryMapper.selectByPrimaryKey(categoreId);
 	}
+
 
 }

@@ -9,9 +9,12 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.qhtr.common.Json;
 import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.Goods;
@@ -24,6 +27,7 @@ import com.sell.param.GoodsParam;
 @Controller
 @RequestMapping("/sell_goods")
 public class Sell_GoodsController {
+	
 	@Resource
 	public GoodsService goodsService;
 	@Resource
@@ -39,6 +43,7 @@ public class Sell_GoodsController {
 	@ResponseBody
 	@RequestMapping(value="/addGoods")
 	public Json addGoods(Json j,GoodsParam goods) {
+		
 		int result = goodsService.add(goods);
 		if (result == -1) {
 			j.setCode(1);
@@ -65,6 +70,7 @@ public class Sell_GoodsController {
 	@ResponseBody
 	@RequestMapping(value="/deleteGoods")
 	public Json deleteGoods(Json j, @RequestParam int id,@RequestParam int status) {
+		
 		if(status != 2 && status != 3){
 			j.setCode(0);
 			j.setMessage("参数错误!");
@@ -116,13 +122,24 @@ public class Sell_GoodsController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/getList")
-	public Json getList(Json j,@RequestParam int storeId,@RequestParam(defaultValue="1") int status){
+	public Json getList(Json j,@RequestParam int storeId,@RequestParam(defaultValue="1") int status,@RequestParam(defaultValue="1") int page){
+		
+		Map<String, Object> map = new HashMap<>();
 		List<GoodsListDto_Sell> dtoList = new ArrayList<GoodsListDto_Sell>();
-		List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId,status); 
+		Page<?> startPage = PageHelper.startPage(page,10);
+		List<Goods> goodsList = goodsService.selectListByStoreAndType(storeId,status,page);
+		if (page > startPage.getPages()) {
+			j.setCode(0);
+			j.setMessage("没有更多了 ~");
+			return j;
+		}
 		for (Goods goods : goodsList) {
 			dtoList.add(new GoodsListDto_Sell(goods));
 		}
-		j.setData(dtoList);
+		map.put("goodsList", dtoList);
+		map.put("count", startPage.getTotal());
+		map.put("totalPage", startPage.getPages());
+		j.setData(map);
 		return j;
 	}
 	
@@ -135,6 +152,7 @@ public class Sell_GoodsController {
 	@ResponseBody
 	@RequestMapping(value="/selectGoodsByGoodsId")
 	public Json selectGoodsByGoodsId(Json j,@RequestParam int goodsId){
+		
 		GoodsDto dto = goodsService.selectGoodsByGoodsId(goodsId);
 		if(dto != null){
 			j.setData(dto);
@@ -175,4 +193,35 @@ public class Sell_GoodsController {
 		}
 		return j;
 	}
+	
+	/**
+	 * 下架商品重新上架
+	 */
+	@ResponseBody
+	@RequestMapping(value="/reshelf") // /sell_goods/reshelf.do
+	public Json reshelf(Json j,Integer goodsId){
+		
+		GoodsDto goods = goodsService.selectGoodsByGoodsId(goodsId);
+		
+		if (goods.getStatus() == 1) {
+			
+			j.setMessage("该商品已经上架!");
+			j.setCode(0);
+			return j;
+		}
+		if (goods.getStatus() != 2) {
+			j.setMessage("商品状态异常!");
+			j.setCode(0);
+			return j;
+		}
+		int result = goodsService.reshelf(goodsId);
+		if (result == 1) {
+			j.setMessage("上架成功!");
+		}else{
+			j.setCode(0);
+			j.setMessage("上架失败!");
+		}
+		return j;
+	}
+	
 }

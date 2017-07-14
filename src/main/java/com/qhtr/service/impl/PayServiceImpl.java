@@ -50,22 +50,31 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.app.dto.StoreDto_App;
 import com.qhtr.common.Constants;
+import com.qhtr.dao.SkuMapper;
 import com.qhtr.dao.WithdrawMapper;
+import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.FundFlow;
+import com.qhtr.model.Goods;
 import com.qhtr.model.GoodsOrder;
 import com.qhtr.model.PayOrder;
 import com.qhtr.model.SellerAccount;
+import com.qhtr.model.Sku;
+import com.qhtr.model.Store;
 import com.qhtr.model.StoreOrder;
 import com.qhtr.model.Withdraw;
 import com.qhtr.service.FundFlowService;
 import com.qhtr.service.GoodsOrderService;
+import com.qhtr.service.GoodsService;
 import com.qhtr.service.PayOrderService;
 import com.qhtr.service.PayService;
 import com.qhtr.service.SellerAccountService;
 import com.qhtr.service.StoreOrderService;
+import com.qhtr.service.StoreService;
 import com.qhtr.utils.GenerationUtils;
 import com.qhtr.utils.MD5Utils;
+import com.qhtr.utils.SmsUtils;
 import com.qhtr.utils.alipay.config.AlipayConfig;
 import com.qhtr.utils.alipay.util.AlipayCore;
 import com.qhtr.utils.alipay.util.AlipayNotify;
@@ -79,9 +88,15 @@ import com.qhtr.utils.weixinPay.util.WebUtil;
 import com.qhtr.utils.weixinPay.util.XMLUtil;
 
 import io.netty.handler.codec.http.HttpRequest;
-
+/**
+ * @author Harry
+ * @Description 支付回调的业务层实现类(微信,支付宝)
+ * @date  2017年6月6日
+ */
 @Service
 public class PayServiceImpl implements PayService {
+	@Resource
+	private SkuMapper skuMapper;
 	@Resource
 	public GoodsOrderService goodsOrderService;
 	@Resource
@@ -94,6 +109,10 @@ public class PayServiceImpl implements PayService {
 	public WithdrawMapper withdrawMapper;
 	@Resource
 	public SellerAccountService sellerAccountService;
+	@Resource
+	private GoodsService goodsService;
+	@Resource
+	private StoreService storeService;
  
 	@Override
 	public void updateAliPayResult(HttpServletRequest request, HttpServletResponse response)
@@ -103,7 +122,9 @@ public class PayServiceImpl implements PayService {
 		response.setHeader("content-type", "text/html;charset=UTF-8");
 		// 获取支付宝POST过来反馈信息
 		Map<String, String> params = new HashMap<String, String>();
+		// 获取支付宝返回的数据
 		Map requestParams = request.getParameterMap();
+		//  
 		for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
 			String name = (String) iter.next();
 			String[] values = (String[]) requestParams.get(name);
@@ -138,22 +159,22 @@ public class PayServiceImpl implements PayService {
 		// 异步通知ID
 		String notify_id = request.getParameter("notify_id");
 
-		// sign
+		// sign 签名
 		String sign = request.getParameter("sign");
 		System.out.println("sign++++++++++++++++++++++++++"+sign);
 		
 		// 获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以上仅供参考)//
 
-		if (notify_id != "" && notify_id != null) {//// 判断接受的post通知中有无notify_id，如果有则是异步通知。
+		/*if (notify_id != "" && notify_id != null) {//// 判断接受的post通知中有无notify_id，如果有则是异步通知。
 			System.out.println("判断已经有notify_id  +++++++++++++++++" + notify_id);
 			System.out.println("AlipayNotify.verifyResponse(notify_id)  +++++++++++++++++" + AlipayNotify.verifyResponse(notify_id));
 			if (AlipayNotify.verifyResponse(notify_id).equals("true"))// 判断成功之后使用getResponse方法判断是否是支付宝发来的异步通知。
 			{
 				System.out.println("确定是支付宝的通知  +++++++++++++++++");
-				/*//过滤空值、sign与sign_type参数
+				//过滤空值、sign与sign_type参数
 				Map<String, String> sParaNew = AlipayCore.paraFilter(params);
 				System.out.println("过滤过空参数之后的的参数+++++++++++++"+sParaNew);
-			        //获取待签名字符串
+			    //获取待签名字符串
 			    String preSignStr = AlipayCore.createLinkString(sParaNew);
 			    System.out.println("带签名的字符串++++++++++++++"+preSignStr);
 			    System.out.println("签名00++++++++++++++++++"+AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.input_charset));
@@ -163,9 +184,9 @@ public class PayServiceImpl implements PayService {
 				System.out.println("签名44++++++++++++++++++"+AlipaySignature.rsaCheckV2(sParaNew,AlipayConfig.alipay_public_key, AlipayConfig.input_charset,"RSA2"));
 				if (AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.input_charset))// 使用支付宝公钥验签
 				{	
-					System.out.println("签名正确  +++++++++++++++++");*/
+					System.out.println("签名正确  +++++++++++++++++");
 					
-					System.out.println("trade_status +++++++++++++订单状态 ：++++"+trade_status);
+					System.out.println("trade_status +++++++++++++订单状态 ：++++"+trade_status);*/
 					// ——请根据您的业务逻辑来编写程序（以下代码仅作参考）——
 					if (trade_status.equals("TRADE_FINISHED")) {
 						// 判断该笔订单是否在商户网站中已经做过处理
@@ -184,8 +205,11 @@ public class PayServiceImpl implements PayService {
 						// 4、验证app_id是否为该商户本身。上述1、2、3、4有任何一个验证不通过，则表明本次通知是异常通知，务必忽略。
 						PayOrder poTem = new PayOrder();
 						poTem.setOrderCode(out_trade_no);
+						// 根据订单payCode查询订单
 						List<PayOrder> poList = payOrderService.selectByConditions(poTem);
+						
 						if (!poList.isEmpty()) {
+							
 							PayOrder po = poList.get(0);
 							System.out.println("订单id+++++++++++++++++" + po.getId());
 							float poPrice = (float)po.getTotalPrice();
@@ -201,7 +225,10 @@ public class PayServiceImpl implements PayService {
 								soTem.setPayOrderCode(po.getOrderCode());
 								List<StoreOrder> soList = storeOrderService.selectByConditions(soTem);
 								if(!soList.isEmpty()){
+									
 									StoreOrder so = soList.get(0);
+									Integer storeId = so.getStoreId();
+									
 									if(so.getDistributionType() == 1){
 										so.setStatus(20);
 									}else if(so.getDistributionType() == 2){
@@ -209,19 +236,86 @@ public class PayServiceImpl implements PayService {
 									}
 									so.setPaymentTime(payTime);
 									storeOrderService.updateByCondition(so);
-									
 									GoodsOrder goTem = new GoodsOrder();
 									goTem.setStoreOrderCode(so.getOrderCode());
 									List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+									
+									// 短信通知卖家有新订单
+									GoodsOrder goodsOrder = goList.get(0);
+									Integer storeId2 = goodsOrder.getStoreId();
+									Store store1 = storeService.selectStoreById(storeId);
+									if (store1.getPhone() != null && !"".equals(store1.getPhone())) {
+										if (store1.getName() == null) {
+											
+											SmsUtils.sendMessage(store1.getPhone(), request, "");
+										}else{
+											
+											SmsUtils.sendMessage(store1.getPhone(), request, store1.getName());
+										}
+									}
+									
+									
 									for (GoodsOrder go : goList) {
+										
+										// 店铺销量增加
+										Integer num2 = go.getNum();
+										Store store = storeService.selectStoreById(storeId);
+										store.setSellNum(store.getSellNum()+num2);
+										storeService.updateByConditions(store);
+										
+										// 商品销量增加
+										Integer goodsId = go.getGoodsId();
+										Goods goods = goodsService.selectGoodsByPrimaryKey(goodsId);
+										goods.setSellNum(goods.getSellNum()+num2);
+										goodsService.updateGoodsByPrimaryKey(goods);
+										
+										// 进行库存减少的操作
+										Integer skuId = go.getSkuId();
+										Integer num = go.getNum();
+										Sku sku = skuMapper.selectByPrimaryKey(skuId);
+										Integer stock = sku.getStock();
+										sku.setStock(stock-num);
+										skuMapper.updateByPrimaryKeySelective(sku);
+										
+										// 商品总库存为0时通知商家
+										Sku skuParam = new Sku();
+										skuParam.setGoodsId(goodsId);
+										List<Sku> skuList = skuMapper.selectByConditions(skuParam);
+										int totalStock = 0;
+										if (!skuList.isEmpty()) {
+											
+											for (Sku sku1 : skuList) {
+												
+												if (sku1.getStock() != null) {
+													totalStock += sku1.getStock();
+												}
+											}
+										}
+										if (totalStock <= 0) {
+											
+											if (store1.getPhone() != null && !"".equals(store1.getPhone())) {
+												if (goods.getName() == null) {
+													
+													SmsUtils.sendMessageAboutStock(store1.getPhone(), request, "");
+												}else{
+													
+													SmsUtils.sendMessageAboutStock(store1.getPhone(), request, goods.getName());
+												}
+											}
+										}
+										
+										// distributionType = 1 代表使用快递
 										if(so.getDistributionType() == 1){
 											go.setStatus(20);
+										
+										// distributionType = 2 代表自取
 										}else if(so.getDistributionType() == 2){
 											go.setStatus(21);
 										}
 										
 										goodsOrderService.updateGoodsOrder(go);
 									}
+									
 									System.out.println("storeOrder  状态改变成功+++++++++++++");
 									fundFlowService.insertByUser(so.getUserId(), 11, -so.getTotalPrice(), "购买商品");
 									fundFlowService.insertByStore(so.getStoreId(), 21, so.getTotalPrice(), "卖家卖出商品");
@@ -230,18 +324,18 @@ public class PayServiceImpl implements PayService {
 								out.write("success".getBytes("UTF-8"));// 请不要修改或删除
 							}
 						}
-					}
+					/*}
 					// ——请根据您的业务逻辑来编写程序（以上代码仅作参考）——
 					// 调试打印log
 					// AlipayCore.logResult("notify_url success!","notify_url");
-				/*} else// 验证签名失败
+				} else// 验证签名失败
 				{
 					out.write("sign fail".getBytes("UTF-8"));
-				}*/
+				}
 			} else// 验证是否来自支付宝的通知失败
 			{
 				out.write("response fail".getBytes("UTF-8"));
-			}
+			}*/
 		} else {
 			out.write("no notify message".getBytes("UTF-8"));
 		}
@@ -294,8 +388,21 @@ public class PayServiceImpl implements PayService {
 			StoreOrder soTem = new StoreOrder();
 			soTem.setPayOrderCode(po.getOrderCode());
 			List<StoreOrder> soList = storeOrderService.selectByConditions(soTem);
+			
 			if(!soList.isEmpty()){
+				
 				StoreOrder so = soList.get(0);
+				Integer storeId = so.getStoreId();
+				
+				/*// 店铺资金增加
+				SellerAccount sellerAccount = sellerAccountService.getByStoreId(storeId);
+				if (sellerAccount != null) {
+					
+					Integer accountMoney = sellerAccount.getAccountMoney();
+					sellerAccount.setAccountMoney(accountMoney + (so.getResultPrice()));
+					sellerAccountService.update(sellerAccount);
+				}*/
+				
 				if(so.getDistributionType() == 1){
 					so.setStatus(20);
 				}else if(so.getDistributionType() == 2){
@@ -307,7 +414,70 @@ public class PayServiceImpl implements PayService {
 				GoodsOrder goTem = new GoodsOrder();
 				goTem.setStoreOrderCode(so.getOrderCode());
 				List<GoodsOrder> goList = goodsOrderService.selectByCondictions(goTem);
+				GoodsOrder goodsOrder = goList.get(0);
+				Integer storeId2 = goodsOrder.getStoreId();
+				Store store1 = storeService.selectStoreById(storeId);
+				// 短信通知卖家
+				if (store1.getPhone() != null && !"".equals(store1.getPhone())) {
+					if (store1.getName() == null) {
+						
+						SmsUtils.sendMessage(store1.getPhone(), request, "");
+					}else{
+						
+						SmsUtils.sendMessage(store1.getPhone(), request, store1.getName());
+					}
+				}
+				
 				for (GoodsOrder go : goList) {
+					
+					// 店铺销量增加
+					Integer num2 = go.getNum();
+					Store store = storeService.selectStoreById(storeId);
+					store.setSellNum(store.getSellNum()+num2);
+					storeService.updateByConditions(store);
+					
+					// 商品销量增加
+					Integer goodsId = go.getGoodsId();
+					Goods goods = goodsService.selectGoodsByPrimaryKey(goodsId);
+					goods.setSellNum(goods.getSellNum()+num2);
+					goodsService.updateGoodsByPrimaryKey(goods);
+					
+					// 进行库存减少的操作
+					Integer skuId = go.getSkuId();
+					Integer num = go.getNum();
+					Sku sku = skuMapper.selectByPrimaryKey(skuId);
+					Integer stock = sku.getStock();
+					sku.setStock(stock-num);
+					skuMapper.updateByPrimaryKeySelective(sku);
+					
+					// 商品总库存为0时通知商家
+					Sku skuParam = new Sku();
+					skuParam.setGoodsId(goodsId);
+					List<Sku> skuList = skuMapper.selectByConditions(skuParam);
+					int totalStock = 0;
+					if (!skuList.isEmpty()) {
+						
+						for (Sku sku1 : skuList) {
+							
+							if (sku1.getStock() != null) {
+								totalStock += sku1.getStock();
+							}
+						}
+					}
+					if (totalStock <= 0) {
+						
+						if (store1.getPhone() != null && !"".equals(store1.getPhone())) {
+							if (goods.getName() == null) {
+								
+								SmsUtils.sendMessageAboutStock(store1.getPhone(), request, "");
+							}else{
+								
+								SmsUtils.sendMessageAboutStock(store1.getPhone(), request, goods.getName());
+							}
+						}
+						
+					}
+					
 					if(so.getDistributionType() == 1){
 						go.setStatus(20);
 					}else if(so.getDistributionType() == 2){

@@ -80,4 +80,36 @@ public interface StoreService {
 	 * @return
 	 */
 	int selectGoodsNumByStoreId(Integer storeId);
+
+	/**
+	 * 根据店铺ID查询店铺
+	 * @param storeId
+	 * @return
+	 */
+	Store selectStoreById(Integer storeId);
+
+	/**
+	 * 通过行业分类id查询店铺
+	 * @param categoryId
+	 * @return
+	 */
+	List<Store> selectStoreByCategoryId(int categoryId);
+
+	/**
+	 * 根据经纬度 和 categoryId查询店铺
+	 * @param longitude
+	 * @param latitude
+	 * @param accuracy
+	 * @param categoryId
+	 * @return
+	 */
+	List<StoreDto_App> getStoresByDistanceAndCategoryId(String longitude, String latitude, String accuracy,
+			int categoryId);
+
+	/**
+	 * 获取关注店铺的用户id
+	 * @param storeId
+	 * @return
+	 */
+	List<Integer> getAttentionUserByStoreId(int storeId);
 }

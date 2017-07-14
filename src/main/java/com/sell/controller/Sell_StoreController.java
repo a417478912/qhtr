@@ -15,13 +15,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
+import com.qhtr.model.SellerAccount;
 import com.qhtr.model.Store;
+import com.qhtr.service.SellerAccountService;
 import com.qhtr.service.StoreService;
+import com.qhtr.utils.weixinMessage.utils.WeiXinUtils;
 import com.sell.dto.StoreDto_Sell;
 
 @Controller
-@RequestMapping("/sell_stroe")
+@RequestMapping("/sell_stroe")// https://www.7htr.com/qhtr/sell_stroe/getOpenIdByCode.do
 public class Sell_StoreController {
+	
 	@Resource
 	public StoreService storeService;
 	
@@ -131,6 +135,7 @@ public class Sell_StoreController {
 	@RequestMapping(value="/updateStore")
 	public Json updateStore(Json j,Store store){
 		if(store.getPhone() != null || store.getPassword() != null){
+			
 			j.setCode(0);
 			j.setMessage("参数错误");
 			return j;
@@ -209,6 +214,7 @@ public class Sell_StoreController {
 	@ResponseBody
 	@RequestMapping(value="/changePassword")
 	public Json changePassword(Json j,@RequestParam String phone,@RequestParam String password,@RequestParam String phone_code,HttpServletRequest request) throws ParseException{
+		
 			int result = storeService.updatePassword(phone, password);
 			if (result == 1) {
 				j.setMessage("修改成功!");
@@ -219,12 +225,21 @@ public class Sell_StoreController {
 		return j;
 	}
 	
+	/**
+	 * 查询店铺
+	 * @param j
+	 * @param phone
+	 * @param id
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/getStore")
 	public Json getStore(Json j,String phone,Integer id){
+		
 		if(phone == null && id == null){
 			j.setCode(0);
 			j.setMessage("参数错误!");
+			
 			return j;
 		}
 		Store storeTem = new Store();
@@ -232,7 +247,24 @@ public class Sell_StoreController {
 		storeTem.setId(id);
 		Store store = storeService.getStoreByIdOrPhone(storeTem);
 		if(store!=null){
-			j.setData(new StoreDto_Sell(store));
+			
+			StoreDto_Sell storeDto_Sell = new StoreDto_Sell(store);
+			SellerAccount account = sellerAccountService.getByStoreId(store.getId());
+			// 如果没有账户信息,创建一个
+			if (account == null) {
+				
+				SellerAccount newAccount = new SellerAccount();
+				
+				newAccount.setAccountMoney(0);
+				newAccount.setStoreId(store.getId());
+				newAccount.setOpenId("");
+				
+				sellerAccountService.insert(newAccount);
+				storeDto_Sell.setIsBind(0);
+			}else{
+				storeDto_Sell.setIsBind(1);
+			}
+			j.setData(storeDto_Sell);
 		}else{
 			j.setMessage("没有查到信息!");
 		}
@@ -248,5 +280,51 @@ public class Sell_StoreController {
 		List<Map<String,Object>> list = storeService.getUserListByStoreId(storeId);
 		j.setData(list);
 		return j;
+	}
+	
+	/**
+	 * 通过店铺id查询关注店铺的用户id
+	 * @param j
+	 * @param storeId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/getAttentionUserByStoreId")
+	public Json getAttentionUserByStoreId(Json j,int storeId){
+		
+		List<Integer> list = storeService.getAttentionUserByStoreId(storeId);
+		j.setData(list);
+		return j;
+	}
+	
+	@Resource
+	private SellerAccountService sellerAccountService;
+	
+	/**
+	 * 修改微信的openid
+	 * @param req
+	 * @param storeId
+	 * @return
+	 */
+	@RequestMapping(value="/getOpenIdByCode")
+	public String getOpenIdByCode(HttpServletRequest req,int state){
+		
+		String code = req.getParameter("code");
+		Store store = storeService.selectStoreById(state);
+		if (store == null) {
+			return "error";
+		}
+		if (code != null && !"".equals(code)) {
+			
+			String openId = WeiXinUtils.getOpenId(code);
+			SellerAccount account = sellerAccountService.getByStoreId(state);
+			if (account != null) {
+				
+				account.setOpenId(openId);
+				sellerAccountService.update(account);
+			}
+		}
+		
+		return "redirect:http://sale.7htr.com/#oauth_success";
 	}
 }

@@ -1,6 +1,11 @@
 package com.qhtr.model;
-
+/**
+ * @author Harry
+ * @Description 商品分类
+ * @date  2017年6月5日
+ */
 public class GoodsClasses {
+	
     private Integer id;
 
     private String name;

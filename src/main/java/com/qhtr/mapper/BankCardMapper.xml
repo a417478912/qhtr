@@ -90,4 +90,26 @@
       store_id = #{storeId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <select id="selectByBankCardQuery" parameterType="com.qhtr.model.BankCard" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List" />
+  	from seller_bank_card b
+  	<where>
+  	1=1
+  		<if test="id != null">
+  			and b.id = #{id}
+  		</if>
+  		<if test="storeId != null">
+  			and b.store_id = #{storeId}
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="selectByStoreId" parameterType="Integer" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from seller_bank_card b
+  	where b.store_id = #{parameter,jdbcType=INTEGER}
+  </select>
 </mapper>

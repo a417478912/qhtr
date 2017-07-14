@@ -1,8 +1,13 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * @author Harry
+ * @Description 优惠券实体
+ * @date  2017年6月2日
+ */
 public class Coupon {
+	
     private Integer id;
 
     private String name;
@@ -14,21 +19,21 @@ public class Coupon {
     private Integer storeId;
 
     private Integer userId;
-
+    
     private Integer couponId;
-
+    // 有效期开始时间
     private Date validityTimeBegin;
-
+    // 有效期结束时间
     private Date validityTimeEnd;
-
+    // 有效时间
     private String effectiveTime;
-
+    // 是否共享
     private Integer isShare;
-
+    // 创建时间
     private Date createTime;
-
+    // 使用时间
     private Date userTime;
-
+    // 状态
     private Integer status;
 
     public Integer getId() {

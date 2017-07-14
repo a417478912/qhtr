@@ -15,7 +15,11 @@ import com.qhtr.common.Json;
 import com.qhtr.model.Goods;
 import com.qhtr.service.GoodsClassService;
 import com.sell.dto.GoodsClassesDto;
-
+/**
+ * @author wjx
+ * 处理商品分类的 Controller
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_goodsClass")
 public class App_GoodsClassController {
@@ -29,7 +33,7 @@ public class App_GoodsClassController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="getGoosClassList")
+	@RequestMapping(value="/getGoosClassList")
 	public Json getGoosClassList(Json j,@RequestParam int storeId ){
 		List<GoodsClassesDto> list = goodsClassService.selectListByStoreId(storeId);
 		j.setData(list);
@@ -43,7 +47,7 @@ public class App_GoodsClassController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="getGoodsByClass")
+	@RequestMapping(value="/getGoodsByClass")
 	public Json getGoodsByClass(Json j,@RequestParam int classId){
 		List<GoodsListDto_App> dtoList = new ArrayList<GoodsListDto_App>();
 		List<Goods> list = goodsClassService.getGoodsByClass_App(classId);
@@ -53,4 +57,5 @@ public class App_GoodsClassController {
 		j.setData(dtoList);
 		return j;
 	}
+	
 }

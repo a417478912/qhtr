@@ -69,4 +69,11 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
+  <select id="selectByConditions" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from thumbs_up t
+  	where t.user_id = #{userId} 
+  	and t.comment_id = #{commentId}
+  </select>
 </mapper>

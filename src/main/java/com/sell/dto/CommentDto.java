@@ -2,11 +2,15 @@ package com.sell.dto;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.qhtr.common.CustomDateSerializer;
+import com.qhtr.model.Comment;
 
 public class CommentDto {
+	
 	public int id;
 	public int userId;
 	public String userName;
@@ -14,6 +18,7 @@ public class CommentDto {
 	public String storeName;
 	@JsonSerialize(using = CustomDateSerializer.class) 
 	public Date createTime;
+	
 	public int getId() {
 		return id;
 	}
@@ -50,5 +55,4 @@ public class CommentDto {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
 }

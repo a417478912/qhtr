@@ -53,4 +53,10 @@ public class IndexServiceImpl implements IndexService {
 		return indexCategoryMapper.getByCategoreId(categoreId);
 	}
 
+	@Override
+	public List<IndexCategory> selectAll() {
+		
+		return indexCategoryMapper.selectAll();
+	}
+
 }

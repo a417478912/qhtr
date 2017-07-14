@@ -17,10 +17,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.qhtr.common.Constants;
 import com.qhtr.common.Json;
 import com.qhtr.utils.SmsUtils;
-
+/**
+ * @author Harry
+ * @Description  短信
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_sms")
 public class App_SmsController {
+	
 	/**
 	 * 用户注册
 	 * @param j
@@ -47,6 +52,7 @@ public class App_SmsController {
 		}
 		
 		String result = SmsUtils.send(phone, request,1);
+		
 		if(StringUtils.isBlank(result)){
 			j.setCode(0);
 			j.setMessage("发送失败!");

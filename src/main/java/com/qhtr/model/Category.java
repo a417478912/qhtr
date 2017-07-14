@@ -1,6 +1,11 @@
 package com.qhtr.model;
-
+/**
+ * @author Harry
+ * @Description 大分类
+ * @date  2017年6月5日
+ */
 public class Category {
+	
     private Integer id;
 
     private String name;

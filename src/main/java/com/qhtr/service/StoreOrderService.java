@@ -9,6 +9,7 @@ import com.app.dto.StoreOrderDto_App;
 import com.app.dto.StoreOrderDto1;
 import com.app.param.Param1;
 import com.qhtr.dto.StoreOrderDetailsDto;
+import com.qhtr.model.QueryCount;
 import com.qhtr.model.StoreOrder;
 
 public interface StoreOrderService {
@@ -113,4 +114,26 @@ public interface StoreOrderService {
 	 * @return
 	 */
 	int updateSureReceiveingGoods(int storeOrderId);
+
+	/**
+	 * 删除订单
+	 * @param storeOrderId
+	 * @return
+	 */
+	int deleteStoreOrder(Integer storeOrderId);
+
+	/**
+	 * 查询某段日期的订单
+	 * @param qc
+	 * @return
+	 */
+	List<StoreOrder> selectCountByTime(QueryCount qc);
+
+	/**
+	 * 通过orderCode查询订单详情
+	 * @param orderCode
+	 * @return
+	 */
+	StoreOrderDetailsDto selectOrderDetailsByOrderCode(String orderCode);
+
 }

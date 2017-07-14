@@ -44,4 +44,13 @@ public interface GoodsClassService {
 	 * 买家版，通过店铺id和分类id查询商品列表
 	 */
 	List<Goods> getGoodsByClass_App(int classId);
+
+	/**
+	 * 查询分类中的商品数量
+	 * @param goodsClass1
+	 * @return
+	 */
+	int selectCountByClassIdAndStoreId(GoodsClasses goodsClass1);
+
+	
 }

@@ -8,6 +8,7 @@ import com.qhtr.model.GoodsClasses;
 import com.sell.dto.GoodsClassesDto;
 
 public interface GoodsClassesMapper {
+	
     int deleteByPrimaryKey(Integer id);
 
     int insert(GoodsClasses record);
@@ -77,4 +78,12 @@ public interface GoodsClassesMapper {
 	 * @return
 	 */
 	List<GoodsClasses> selectClassByGoodsId(int goodsId);
+
+	/**
+	 * 查询分类中的商品数量
+	 * @param goodsClass1
+	 * @return
+	 */
+	int selectCountByClassIdAndStoreId(GoodsClasses goodsClass1);
+
 }

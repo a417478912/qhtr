@@ -9,20 +9,27 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
-import com.qhtr.common.comet.CacheManager;
 import com.qhtr.common.comet.Comet;
+import com.qhtr.dto.CommentDto;
 import com.qhtr.model.Comment;
 import com.qhtr.service.CommentService;
 import com.qhtr.service.ThumbsUpService;
 import com.qhtr.utils.CometSellUtil;
-import com.sell.dto.CommentDto;
+/**
+ * 
+ * @author Harry
+ * @Description 留言相关操作的 Controller
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_comment")
 public class App_CommentController {
+	
 	@Resource
 	public CommentService commentService;
 	@Resource
@@ -30,22 +37,41 @@ public class App_CommentController {
 
 	/**
 	 * 获取留言列表
-	 * 
 	 * @param j
 	 * @param storeId
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "/getCommentList")
-	public Json getCommentList(Json j, @RequestParam int storeId) {
-		List<CommentDto> list = commentService.selectCommentListByStoreId(storeId);
-		j.setData(list);
+	@RequestMapping(value = "/getCommentList")//,method=RequestMethod.POST
+	public Json getCommentList(Json j, @RequestParam int storeId,@RequestParam int userId) {
+		
+		List<Comment> list = commentService.selectCommentListByStoreId2(storeId);
+		List<CommentDto> dtoList = new ArrayList<>();
+		if (!list.isEmpty()) {
+			
+			for (Comment comment : list) {
+				
+				CommentDto commentDto = new CommentDto(comment);
+				
+				int commentId = comment.getId();
+				int isThumbsUp = thumbsUpService.getIsThumbsUp(userId,commentId);
+				if (isThumbsUp == 0) {
+					
+					commentDto.setIsThumbsUp(0);
+				}else{
+					
+					commentDto.setIsThumbsUp(1);
+				}
+				dtoList.add(commentDto);
+			}
+		}
+		
+		j.setData(dtoList);
 		return j;
 	}
 
 	/**
 	 * 增加留言
-	 * 
 	 * @param j
 	 * @param comment
 	 * @return
@@ -70,7 +96,7 @@ public class App_CommentController {
 	}
 
 	/**
-	 * 通过留言id查询下级回复
+	 * 通过留言id查询,下级回复
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/getReplyList")
@@ -83,34 +109,84 @@ public class App_CommentController {
 		return j;
 	}
 	
+	/**
+	 * 查询是否已赞
+	 * @param j
+	 * @param userId
+	 * @param commentId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/isThumbsUp")
 	public Json isThumbsUp(Json j,@RequestParam int userId,@RequestParam int commentId){
+		
 		int result = thumbsUpService.getIsThumbsUp(userId,commentId);
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		if(result != 0){
+			// 已点赞
 			map.put("isThumbsUp", 1);
 		}else{
+			// 未点赞
 			map.put("isThumbsUp", 0);
 		}
 		j.setData(map);
 		return j;
 	}
+	
 	/**
-	 * 点赞
-	 * 
+	 * 留言板点赞
 	 * @param j
 	 * @param commentId
 	 * @return
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/thumbsUp")
-	public Json thumbsUp(Json j, @RequestParam int commentId) {
-		int result = commentService.updateUpvote(commentId);
-		if (result == 1) {
-			j.setMessage("点赞成功!");
-		} else {
+	public Json thumbsUp(Json j, @RequestParam int commentId,@RequestParam int userId) {
+		
+		int isThumbsUp = thumbsUpService.getIsThumbsUp(userId,commentId);
+		
+		if (isThumbsUp == 0) {
+			
+			int result = commentService.updateUpvote(commentId,userId);
+			if (result == 1) {
+				
+				j.setMessage("点赞成功!");
+			} else {
+				j.setCode(0);
+				j.setMessage("点赞失败!");
+			}
+			return j;
+		}else{
+			
 			j.setCode(0);
-			j.setMessage("点赞失败!");
+			j.setMessage("您已点赞 !");
+			return j;
 		}
-		return j;
+	}
+	
+	
+	/**
+	 * 取消赞
+	 * @param j
+	 * @param commentId
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/cancelThumbsUp")
+	public Json cancelThumbsUp(Json j,@RequestParam int commentId ,@RequestParam int userId){
+		
+		int result = commentService.cancelThumbsUp(commentId,userId);
+		
+		if (result == 1) {
+
+			j.setMessage("取消成功 !");
+			return j;
+		}else{
+			
+			j.setMessage("取消失败 !");
+			j.setCode(0);
+			return j;
+		}
 	}
 }

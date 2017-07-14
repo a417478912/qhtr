@@ -39,11 +39,13 @@ public class PayOrderServiceImpl implements PayOrderService {
 
 	@Override
 	public String addOrder(String orderCode,int userId) {
+		
 		StoreOrder so = storeOrderService.selectByOrderCode(orderCode);
+		// 获取取货方式
+		Integer distributionType = so.getDistributionType();
 		PayOrder po = new PayOrder();
 		po.setCreateTime(new Date());
 		po.setOrderCode(GenerationUtils.getGenerationCode("PO", userId + ""));
-		po.setStatus(10);
 		po.setUserId(userId);
 		po.setPayType(1);
 		po.setTotalPrice(so.getResultPrice());

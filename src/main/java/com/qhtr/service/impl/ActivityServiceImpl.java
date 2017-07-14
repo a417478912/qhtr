@@ -26,16 +26,25 @@ public class ActivityServiceImpl implements ActivityService {
 	
 	@Override
 	public List<Map<String,String>> selectListByStoreId(int storeId) {
+		
 		List<Map<String,String>> mapList = new ArrayList<Map<String,String>>();
 		List<ActivityModel> amList = activityModelMapper.selectAll();
+		
 		for (ActivityModel am : amList) {
+			
 			Map<String,String> map = new HashMap<String,String>();
 			map.put("id", am.getId() + "");
 			map.put("name", am.getName());
-			Map<String,String> mapParam = new HashMap<String,String>();
+			
+			/*Map<String,String> mapParam = new HashMap<String,String>();
 			mapParam.put("modelId", am.getId() + "");
-			mapParam.put("storeId", storeId + "");
-			int count = activityMapper.getGoodsNumByModelId(mapParam);
+			mapParam.put("storeId", storeId + "");*/
+			
+			Activity activity = new Activity();
+			activity.setStoreId(storeId);
+			activity.setModelId(am.getId());
+			int count = activityMapper.selectCountGoodsByStoreIdAndModelId(activity);
+			
 			map.put("goodsNum", count + "");
 			mapList.add(map);
 		}
@@ -44,8 +53,11 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Override
 	public int addGoods(int[] goodsIds, int storeId, int modelId) {
+		
 		for (int gId : goodsIds) {
+			
 			Activity activity = new Activity();
+			
 			activity.setCreateTime(new Date());
 			activity.setGoodsId(gId);
 			activity.setStoreId(storeId);
@@ -59,6 +71,7 @@ public class ActivityServiceImpl implements ActivityService {
 	}
 	@Override
 	public List<Goods> selectByStoreIdAndModelId(int storeId, int modelId) {
+		
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("modelId", modelId + "");
 		map.put("storeId", storeId + "");
@@ -89,4 +102,13 @@ public class ActivityServiceImpl implements ActivityService {
 	public ActivityModel getModelByModelId(int id) {
 		return activityModelMapper.selectByPrimaryKey(id);
 		}
+
+	@Override
+	public int selectCountByStoreIdAndModelId(int storeId, int modelId) {
+		Activity activity = new Activity();
+		activity.setStoreId(storeId);
+		activity.setModelId(modelId);
+		int count = activityMapper.selectCountGoodsByStoreIdAndModelId(activity);
+		return count;
+	}
 }

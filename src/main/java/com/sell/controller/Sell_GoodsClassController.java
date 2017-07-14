@@ -83,7 +83,18 @@ public class Sell_GoodsClassController {
 	@ResponseBody
 	@RequestMapping(value="/getList")
 	public Json getList(Json j,@RequestParam int storeId){
+		
 		List<GoodsClassesDto> list= goodsClassService.selectListByStoreId(storeId);
+		
+		for (GoodsClassesDto goodsClass : list) {
+			List<Map<String,Object>> goodsList = goodsClassService.getGoodsByClass(storeId,goodsClass.getId());
+			Integer classId = goodsClass.getId();
+			GoodsClasses goodsClass1 = new GoodsClasses();
+			goodsClass1.setId(classId);
+			goodsClass1.setStoreId(storeId);
+			int count = goodsClassService.selectCountByClassIdAndStoreId(goodsClass1);
+			goodsClass.setGoodsNum(count);
+		}
 		j.setData(list);
 		return j;
 	}
@@ -94,12 +105,22 @@ public class Sell_GoodsClassController {
 	@ResponseBody
 	@RequestMapping(value="/getGoodsByClass")
 	public Json getGoodsByClass(Json j,@RequestParam int storeId,@RequestParam int classId){
+		
 		List<Map<String,Object>> list = goodsClassService.getGoodsByClass(storeId,classId);
 		GoodsClasses gc = goodsClassService.getById(classId);
 		Map<String,Object> map = new HashMap<String,Object>();
+		
+		// 查询各个分类中的商品数量
+		GoodsClasses goodsClass = new GoodsClasses();
+		goodsClass.setId(classId);
+		goodsClass.setStoreId(storeId);
+		int count = goodsClassService.selectCountByClassIdAndStoreId(goodsClass);
+		
+		map.put("count", count);
 		map.put("classId", gc.getId());
 		map.put("className", gc.getName());
 		map.put("goodsList", list);
+		
 		j.setData(map);
 		return j;
 	}

@@ -6,6 +6,11 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.qhtr.common.CustomDateSerializer;
 
+/**
+ * @author Harry
+ * @Description 支付订单(支付时有效)
+ * @date  2017年6月5日
+ */
 public class PayOrder {
     private Integer id;
 
@@ -15,6 +20,8 @@ public class PayOrder {
 
     private Integer totalPrice;
 
+    // 10 : 待付款      20 : 已付款   21 : 已付款带自取    30 : 已发货      40 : 已收货   50 : 已评价
+    // 100 : 申请售后   110 : 已退款/已退货
     private Integer status;
     @JsonSerialize(using = CustomDateSerializer.class) 
     private Date createTime;

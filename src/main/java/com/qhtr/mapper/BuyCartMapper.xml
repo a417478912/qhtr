@@ -8,11 +8,11 @@
     <result column="num" property="num" jdbcType="INTEGER" />
     <result column="store_id" property="storeId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="string1" property="string1" jdbcType="VARCHAR" />
-    <result column="string2" property="string2" jdbcType="VARCHAR" />
-    <result column="string3" property="string3" jdbcType="VARCHAR" />
-    <result column="string4" property="string4" jdbcType="VARCHAR" />
-    <result column="string5" property="string5" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="sku_detail" property="skuDetail" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="VARCHAR" />
+    <result column="goods_code" property="goodsCode" jdbcType="VARCHAR" />
+    <result column="goods_thumbs" property="goodsThumbs" jdbcType="VARCHAR" />
   </resultMap>
 
   <resultMap id="StoreMap" type="com.app.dto.BuyCartDto" >
@@ -22,8 +22,8 @@
     <collection property="buyCartList" resultMap="BaseResultMap" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, goods_id, sku_id, num, store_id, user_id, string1, string2, string3, string4, 
-    string5
+    id, goods_id as goodsId, sku_id as skuId, num, store_id as storeId, user_id as userId, goods_name as goodsName, sku_detail as skuDetail, price, goods_code as goodsCode, 
+    goods_thumbs as goodsThumbs
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -38,12 +38,12 @@
   <insert id="insert" parameterType="com.qhtr.model.BuyCart" >
     insert into user_buycart (id, goods_id, sku_id, 
       num, store_id, user_id, 
-      string1, string2, string3, 
-      string4, string5)
+      goods_name, sku_detail, price, 
+      goods_code, goods_thumbs)
     values (#{id,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, #{skuId,jdbcType=INTEGER}, 
       #{num,jdbcType=INTEGER}, #{storeId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{string1,jdbcType=VARCHAR}, #{string2,jdbcType=VARCHAR}, #{string3,jdbcType=VARCHAR}, 
-      #{string4,jdbcType=VARCHAR}, #{string5,jdbcType=VARCHAR})
+      #{goodsName,jdbcType=VARCHAR}, #{skuDetail,jdbcType=VARCHAR}, #{price,jdbcType=VARCHAR}, 
+      #{goodsCode,jdbcType=VARCHAR}, #{goodsThumbs,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.qhtr.model.BuyCart" >
     insert into user_buycart
@@ -66,20 +66,20 @@
       <if test="userId != null" >
         user_id,
       </if>
-      <if test="string1 != null" >
-        string1,
+      <if test="goodsName != null" >
+        goods_name,
       </if>
-      <if test="string2 != null" >
-        string2,
+      <if test="skuDetail != null" >
+        sku_detail,
       </if>
-      <if test="string3 != null" >
-        string3,
+      <if test="price != null" >
+        price,
       </if>
-      <if test="string4 != null" >
-        string4,
+      <if test="goodsCode != null" >
+        goods_code,
       </if>
-      <if test="string5 != null" >
-        string5,
+      <if test="goodsThumbs != null" >
+        goods_thumbs,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -101,20 +101,20 @@
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="string1 != null" >
-        #{string1,jdbcType=VARCHAR},
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="string2 != null" >
-        #{string2,jdbcType=VARCHAR},
+      <if test="skuDetail != null" >
+        #{skuDetail,jdbcType=VARCHAR},
       </if>
-      <if test="string3 != null" >
-        #{string3,jdbcType=VARCHAR},
+      <if test="price != null" >
+        #{price,jdbcType=VARCHAR},
       </if>
-      <if test="string4 != null" >
-        #{string4,jdbcType=VARCHAR},
+      <if test="goodsCode != null" >
+        #{goodsCode,jdbcType=VARCHAR},
       </if>
-      <if test="string5 != null" >
-        #{string5,jdbcType=VARCHAR},
+      <if test="goodsThumbs != null" >
+        #{goodsThumbs,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -136,20 +136,20 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="string1 != null" >
-        string1 = #{string1,jdbcType=VARCHAR},
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="string2 != null" >
-        string2 = #{string2,jdbcType=VARCHAR},
+      <if test="skuDetail != null" >
+        sku_detail = #{skuDetail,jdbcType=VARCHAR},
       </if>
-      <if test="string3 != null" >
-        string3 = #{string3,jdbcType=VARCHAR},
+      <if test="price != null" >
+        price = #{price,jdbcType=VARCHAR},
       </if>
-      <if test="string4 != null" >
-        string4 = #{string4,jdbcType=VARCHAR},
+      <if test="goodsCode != null" >
+        goods_code = #{goodsCode,jdbcType=VARCHAR},
       </if>
-      <if test="string5 != null" >
-        string5 = #{string5,jdbcType=VARCHAR},
+      <if test="goodsThumbs != null" >
+        goods_thumbs = #{goodsThumbs,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -161,11 +161,11 @@
       num = #{num,jdbcType=INTEGER},
       store_id = #{storeId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      string1 = #{string1,jdbcType=VARCHAR},
-      string2 = #{string2,jdbcType=VARCHAR},
-      string3 = #{string3,jdbcType=VARCHAR},
-      string4 = #{string4,jdbcType=VARCHAR},
-      string5 = #{string5,jdbcType=VARCHAR}
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      sku_detail = #{skuDetail,jdbcType=VARCHAR},
+      price = #{price,jdbcType=VARCHAR},
+      goods_code = #{goodsCode,jdbcType=VARCHAR},
+      goods_thumbs = #{goodsThumbs,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 
@@ -193,20 +193,20 @@
       <if test="userId != null" >
         and user_id = #{userId,jdbcType=INTEGER}
       </if>
-      <if test="string1 != null" >
-        and string1 = #{string1,jdbcType=VARCHAR}
+      <if test="goodsName != null" >
+        and goods_name = #{goodsName,jdbcType=VARCHAR}
       </if>
-      <if test="string2 != null" >
-        and string2 = #{string2,jdbcType=VARCHAR}
+      <if test="skuDetail != null" >
+        and sku_detail = #{skuDetail,jdbcType=VARCHAR}
       </if>
-      <if test="string3 != null" >
-        and string3 = #{string3,jdbcType=VARCHAR}
+      <if test="price != null" >
+        and price = #{price,jdbcType=VARCHAR}
       </if>
-      <if test="string4 != null" >
-        and string4 = #{string4,jdbcType=VARCHAR}
+      <if test="goodsCode != null" >
+        and goods_code = #{goodsCode,jdbcType=VARCHAR}
       </if>
-      <if test="string5 != null" >
-        and string5 = #{string5,jdbcType=VARCHAR}
+      <if test="goodsThumbs != null" >
+        and goods_thumbs = #{goodsThumbs,jdbcType=VARCHAR}
       </if>
     </where>
   </select>
@@ -221,7 +221,7 @@
   
   <!-- 通过购物车ids查找购物车信息  -->
   <select id="selectByIds" resultMap="StoreMap" parameterType="java.lang.Integer" >
-    select  u.id as id,u.goods_id as goods_id,u.sku_id as sku_id,u.num as num,u.user_id as user_id,u.string1 as string1,u.string2 as string2,u.string3 as string3,u.string4 as string4,u.string5 as string5,
+    select  u.id as id,u.goods_id as goods_id,u.sku_id as sku_id,u.num as num,u.user_id as user_id,u.goods_name as goods_name,u.sku_detail as sku_detail,u.price as price,u.goods_code as goods_code,u.goods_thumbs as goods_thumbs,
     s.id as store_id,s.name as store_name,s.avatar as store_avatar
     from user_buycart u,seller_store s
     where u.store_id = s.id and u.id in

@@ -10,17 +10,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.app.dto.GoodsListDto_App;
 import com.app.dto.SearchDto;
 import com.app.dto.StoreGoodsDto;
 import com.qhtr.common.Json;
+import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.Goods;
 import com.qhtr.model.Store;
 import com.qhtr.service.GoodsService;
 import com.qhtr.service.StoreService;
-
+/**
+ * @author Harry
+ * @Description 搜索商品的 Controller
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_search")
 public class App_SearchController {
+	
 	@Resource
 	public GoodsService goodsService;
 	@Resource
@@ -39,17 +46,30 @@ public class App_SearchController {
 	@ResponseBody
 	@RequestMapping(value="/search")
 	public Json search(Json j,@RequestParam String searchContent,@RequestParam(defaultValue="0") int type,@RequestParam(defaultValue="1") int page,@RequestParam(defaultValue="4") int num){
+		
 		SearchDto dto = new SearchDto();
+		
 		if(type == 0){
+			List<GoodsDto> goodsDtoList = new ArrayList<>();
 			List<Goods> goodsList = goodsService.selectGoodsBySearch(searchContent,page,num);
-			dto.setGoodsList(goodsList);
+			for (Goods goods : goodsList) {
+				goodsDtoList.add(new GoodsDto(goods));
+			}
+			dto.setGoodsList(goodsDtoList);
 			
 			List<StoreGoodsDto> sgDto = this.getStoreGoodsDto(searchContent, page, num);
 			dto.setStoreList(sgDto);
 		}else if(type == 1){
+			
+			List<GoodsDto> goodsDtoList = new ArrayList<>(); 
 			List<Goods> goodsList = goodsService.selectGoodsBySearch(searchContent,page,num);
-			dto.setGoodsList(goodsList);
+			for (Goods goods : goodsList) {
+				goodsDtoList.add(new GoodsDto(goods));
+			}
+			dto.setGoodsList(goodsDtoList);
+			
 		}else if(type == 2){
+			
 			List<StoreGoodsDto> sgDto = this.getStoreGoodsDto(searchContent, page, num);
 			dto.setStoreList(sgDto);
 		}
@@ -58,9 +78,11 @@ public class App_SearchController {
 	}
 	
 	public List<StoreGoodsDto> getStoreGoodsDto(String searchContent,int page,int num){
+		
 		List<Store> storeList = storeService.selectStoreBySearch(searchContent,page,num);
 		List<StoreGoodsDto> sgDto = new ArrayList<StoreGoodsDto>();
 		for (Store store : storeList) {
+			
 			Goods goodsTem = new Goods();
 			goodsTem.setStoreId(store.getId());
 			List<Goods> goodsList1 = goodsService.selectGoodsByCondition(goodsTem, page, 5);

@@ -111,4 +111,11 @@ public class GoodsClassServiceImpl implements GoodsClassService {
 		return goodsMapper.getGoodsByClass_App(classId);
 	}
 
+	@Override
+	public int selectCountByClassIdAndStoreId(GoodsClasses goodsClass1) {
+		
+		return goodsClassesMapper.selectCountByClassIdAndStoreId(goodsClass1);
+	}
+	
+
 }

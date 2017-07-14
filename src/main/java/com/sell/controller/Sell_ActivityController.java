@@ -17,7 +17,7 @@ import com.qhtr.model.Goods;
 import com.qhtr.service.ActivityService;
 
 @Controller
-@RequestMapping("/sell_activity")
+@RequestMapping("/sell_activity")// /sell_activity/getGoodsList.do
 public class Sell_ActivityController {
 	@Resource
 	public ActivityService activityService;
@@ -89,9 +89,14 @@ public class Sell_ActivityController {
 	@ResponseBody
 	@RequestMapping(value="/getGoodsList")
 	public Json getGoodsList(Json j,@RequestParam int storeId,@RequestParam int modelId){
+		
 		List<Goods> goodsList = activityService.selectByStoreIdAndModelId(storeId, modelId);
 		ActivityModel am = activityService.getModelByModelId(modelId);
 		Map<String,Object> map = new HashMap<String,Object>();
+		// 查询各个活动分类中商品的数量
+		int count = activityService.selectCountByStoreIdAndModelId(storeId,modelId);
+		
+		map.put("count", count);
 		map.put("modelId", modelId);
 		map.put("modelName", am.getName());
 		map.put("goodsList", goodsList);

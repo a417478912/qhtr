@@ -17,8 +17,8 @@
     <result column="sina_code" property="sinaCode" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, nick_name, phone, password, sex, avatar, status, create_time, birthday, 
-    qq_code, weixin_code, sina_code
+    id, name, nick_name as nickName, phone, password, sex, avatar, status, create_time as createTime, birthday, 
+    qq_code as qqCode, weixin_code as weixinCode, sina_code as sinaCode
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

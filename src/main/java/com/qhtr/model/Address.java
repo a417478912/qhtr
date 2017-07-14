@@ -1,6 +1,11 @@
 package com.qhtr.model;
-
+/**
+ * @author Harry
+ * @Description 收货地址信息实体
+ * @date  2017年6月2日
+ */
 public class Address {
+	
     private Integer id;
 
     private Integer userId;
@@ -8,96 +13,68 @@ public class Address {
     private String receivingName;
 
     private String receivingPhone;
-
-    private String province;
-
-    private String city;
-
-    private String country;
-
-    private String street;
-
+    // 地名
+    private String addressName;
+    // 详细地址
     private String details;
 
     private Integer isdefault;
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public Integer getUserId() {
-        return userId;
-    }
+	public Integer getUserId() {
+		return userId;
+	}
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
 
-    public String getReceivingName() {
-        return receivingName;
-    }
+	public String getReceivingName() {
+		return receivingName;
+	}
 
-    public void setReceivingName(String receivingName) {
-        this.receivingName = receivingName == null ? null : receivingName.trim();
-    }
+	public void setReceivingName(String receivingName) {
+		this.receivingName = receivingName;
+	}
 
-    public String getReceivingPhone() {
-        return receivingPhone;
-    }
+	public String getReceivingPhone() {
+		return receivingPhone;
+	}
 
-    public void setReceivingPhone(String receivingPhone) {
-        this.receivingPhone = receivingPhone == null ? null : receivingPhone.trim();
-    }
+	public void setReceivingPhone(String receivingPhone) {
+		this.receivingPhone = receivingPhone;
+	}
 
-    public String getProvince() {
-        return province;
-    }
+	public String getAddressName() {
+		return addressName;
+	}
 
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
-    }
+	public void setAddressName(String addressName) {
+		this.addressName = addressName;
+	}
 
-    public String getCity() {
-        return city;
-    }
+	public String getDetails() {
+		return details;
+	}
 
-    public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
-    }
+	public void setDetails(String details) {
+		this.details = details;
+	}
 
-    public String getCountry() {
-        return country;
-    }
+	public Integer getIsdefault() {
+		return isdefault;
+	}
 
-    public void setCountry(String country) {
-        this.country = country == null ? null : country.trim();
-    }
+	public void setIsdefault(Integer isdefault) {
+		this.isdefault = isdefault;
+	}
 
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street == null ? null : street.trim();
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-    public void setDetails(String details) {
-        this.details = details == null ? null : details.trim();
-    }
-
-    public Integer getIsdefault() {
-        return isdefault;
-    }
-
-    public void setIsdefault(Integer isdefault) {
-        this.isdefault = isdefault;
-    }
+    
 }

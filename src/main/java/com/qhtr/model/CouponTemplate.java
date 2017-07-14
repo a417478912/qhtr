@@ -1,8 +1,13 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * @author Harry
+ * @Description 优惠券
+ * @date  2017年6月5日
+ */
 public class CouponTemplate {
+	
     private Integer id;
 
     private String name;

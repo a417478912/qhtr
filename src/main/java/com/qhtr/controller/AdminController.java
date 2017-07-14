@@ -63,6 +63,7 @@ public class AdminController {
 	 */
 	@RequestMapping(value="/withdrawApplyList")
 	public String withdrawApplyList(HttpServletRequest request,@RequestParam(defaultValue="1") int pageNum,@RequestParam(defaultValue="20") int numPerPage,String storeName,String storePhone,Integer status){
+		
 		Map<String,String> map = new HashMap<String,String>();
 		if(StringUtils.isNotBlank(storeName)){
 			map.put("storeName", storeName);
@@ -129,4 +130,5 @@ public class AdminController {
 	public String index2(){
 		return "index2";
 	}
+	
 }

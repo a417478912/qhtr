@@ -12,12 +12,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.qhtr.dto.LinkDto;
 import com.qhtr.dto.PictureDto;
 import com.qhtr.model.Category;
+import com.qhtr.model.GoodsPic;
 import com.qhtr.model.Store;
 import com.qhtr.service.CategoryService;
 import com.qhtr.service.StoreService;
 import com.qhtr.utils.ApplicationContextUtils;
+import com.qhtr.utils.DistributionUtils;
 
 public class StoreDto_App {
+	
 	public int id;
 	public String category;
 	public String name;
@@ -28,17 +31,20 @@ public class StoreDto_App {
 	public String avatar;
 	public List<PictureDto> promotionPic;
 	public List<PictureDto> bannerPic;
+	private double distance;
+	public String coverPic;
 	public String showPic;
 	public List<Map<String,Object>> details;
 	public String details1;
 	public int collect_num;
 	public int sell_num;
-	public String location;
+	public String location; // 地址
 	public String longitude;
 	public String latitude;
-	public int score;
+	public double score;
 	public int type;
 	public int goodsNum;
+	private List<GoodsPic> goodsThumbs;
 
 	public StoreDto_App() {
 
@@ -58,6 +64,7 @@ public class StoreDto_App {
 		this.setName(store.getName());
 		this.setPhone(store.getPhone());
 		this.setAvatar(store.getAvatar());
+		this.setCoverPic(store.getCoverPic());
 		
 		//banner图
 		List<PictureDto> picList = new ArrayList<PictureDto>();
@@ -236,11 +243,11 @@ public class StoreDto_App {
 		this.latitude = latitude;
 	}
 
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(double score) {
 		this.score = score;
 	}
 
@@ -314,5 +321,29 @@ public class StoreDto_App {
 
 	public void setGoodsNum(int goodsNum) {
 		this.goodsNum = goodsNum;
+	}
+
+	public List<GoodsPic> getGoodsThumbs() {
+		return goodsThumbs;
+	}
+
+	public void setGoodsThumbs(List<GoodsPic> goodsThumbs) {
+		this.goodsThumbs = goodsThumbs;
+	}
+
+	public String getCoverPic() {
+		return coverPic;
+	}
+
+	public void setCoverPic(String coverPic) {
+		this.coverPic = coverPic;
+	}
+
+	public double getDistance() {
+		return distance;
+	}
+
+	public void setDistance(double distance) {
+		this.distance = distance;
 	}
 }

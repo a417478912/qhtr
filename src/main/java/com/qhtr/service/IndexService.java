@@ -35,4 +35,10 @@ public interface IndexService {
 	 * @return
 	 */
 	List<IndexCategory> getIndexCategoryList(int categoreId);
+
+	/**
+	 * 查询所有
+	 * @return
+	 */
+	List<IndexCategory> selectAll();
 }

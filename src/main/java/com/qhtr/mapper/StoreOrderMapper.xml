@@ -41,20 +41,22 @@
     <result column="storeName" property="storeName" jdbcType="VARCHAR" />
     <result column="totalPrice" property="totalPrice" jdbcType="INTEGER" />
     <result column="storeAvatar" property="storeAvatar" jdbcType="VARCHAR" />
+    <result column="storeOrderCode" property="storeOrderCode" jdbcType="VARCHAR" />
     <result column="storePhone" property="storePhone" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="distributionType" property="distributionType" jdbcType="INTEGER" />
     <collection property="goodsOrders" resultMap="BaseResultMap1" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, order_code, pay_order_code, store_id, distribution_type, user_id, coupon_id, 
     total_price, address_id, express_price, coupon_price, refund_price, result_price, 
-    status, create_time, payment_time, cancal_time, user_remark, seller_remark, receiving_name, 
-    receiving_phone, address_details
+    status, create_time, payment_time, cancal_time, user_remark, seller_remark, receiving_name as receivingName, 
+    receiving_phone as receivingPhone, address_details
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
-    from order_store_order
+    from order_store_order s
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
@@ -354,12 +356,12 @@
   
   <select id="selectMapByConditions" resultType="java.util.Map" parameterType="com.qhtr.model.StoreOrder" >
     select o.id,o.order_code,o.pay_order_code,o.store_id,o.distribution_type,o.user_id,o.coupon_id,o.total_price,o.address_id,o.express_price,o.coupon_price,o.refund_price,o.result_price,o.status,o.create_time,o.user_remark
-    ,a.receiving_name,a.receiving_phone
-    from order_store_order o,user_address a
+    <!-- ,a.receiving_name as receivingName,a.receiving_phone as receivingPhone -->
+    from order_store_order o<!-- ,user_address a -->
     <where>
-   	  <if test="1 == 1">
+   	  <!-- <if test="1 == 1">
    			o.address_id = a.id
-      </if>
+      </if> -->
       <if test="orderCode != null" >
         and order_code = #{orderCode,jdbcType=VARCHAR}
       </if>
@@ -390,10 +392,27 @@
     </where>
     order by o.id desc
   </select>
-  
+  	<!-- 测试 -->
+  <select id="selectListByStoreIdAndStatus" parameterType="com.qhtr.model.StoreOrder" resultType="java.util.Map">
+  	select *
+  	from order_store_order o,user_address a
+  	<where>
+  	 <if test="1 == 1">
+  	 	1=1
+  	 </if>
+  	 <if test="storeId!=null">
+  	 and store_id=#{storeId}
+  	 </if>
+  	 <if test="status!=null">
+  	 and status=#{status}
+  	 </if>
+  	 order by o.id desc
+  	</where>
+  </select>
   
     <select id="selectByUser" resultMap="StoreOrderMap" parameterType="java.util.Map">
-	    select s.id as storeOrderId,s.total_price as totalPrice,s.store_id as storeId,s.status as status,
+    		<!-- 已修改 -->
+	    select s.id as storeOrderId,s.order_code as storeOrderCode ,s.distribution_type as distributionType,s.result_price as totalPrice,s.store_id as storeId,s.status as status,
 	    	   e.name as storeName,e.avatar as storeAvatar,e.phone as storePhone,
 	    	   g.id as goodsOrderId,g.price as price,g.num as num,g.goods_id as goodsId,
 	    	   o.name as goodsName,o.thumb as thumb,
@@ -405,6 +424,7 @@
 	    	 seller_store e
 		where s.order_code = g.store_order_code and g.goods_id = o.id and g.sku_id = u.id and s.store_id = e.id
 		and   s.user_id = #{userId,jdbcType=INTEGER}
+		and s.status != 200
 		 <if test="status != null" >
        		 and s.status = #{status,jdbcType=INTEGER}
     	 </if>
@@ -429,5 +449,17 @@
    			and store_id = #{storeId,jdbcType=INTEGER} 
      	 </if>
      	 </where>
+  </select>
+  
+  <!-- 待定 -->
+  <select id="selectListByTime" parameterType="com.qhtr.model.QueryCount" resultMap="BaseResultMap">
+  		select *
+  		from order_store_order 
+  		where payment_time between
+  			#{startTime}
+  		and 
+  			#{endTime}
+  		and store_id=#{storeId}
+  		and (status in (20,21,30,40,50))
   </select>
 </mapper>

@@ -48,4 +48,18 @@ public interface StoreMapper {
 	 * @return
 	 */
 	int selectGoodsNumByStoreId(Integer storeId);
+
+	/**
+	 * 根据行业分类查询店铺
+	 * @param categoryId
+	 * @return
+	 */
+	List<Store> selectStoreByCategoryId(int categoryId);
+
+	/**
+	 * 获取关注店铺的用户id
+	 * @param storeId
+	 * @return
+	 */
+	List<Integer> getAttentionUserByStoreId(int storeId);
 }

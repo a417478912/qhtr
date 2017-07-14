@@ -6,6 +6,7 @@ import com.qhtr.model.Goods;
 import com.qhtr.model.Store;
 
 public class StoreGoodsDto {
+	
 	public Store store;
 	public List<Goods> goodsList;
 	public Store getStore() {

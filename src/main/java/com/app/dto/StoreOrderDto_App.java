@@ -9,6 +9,7 @@ import java.util.List;
  * @date  2017年3月23日
  */
 public class StoreOrderDto_App {
+	
 	List<GoodsOrderDto> goodsOrders;
 	public String storeOrderCode;
 	public int storeOrderId;
@@ -18,6 +19,7 @@ public class StoreOrderDto_App {
 	public String storePhone;
 	public int status;
 	public int totalPrice;
+	public int distributionType;
 	
 	public int getStatus() {
 		return status;
@@ -73,5 +75,11 @@ public class StoreOrderDto_App {
 	}
 	public void setStorePhone(String storePhone) {
 		this.storePhone = storePhone;
+	}
+	public int getDistributionType() {
+		return distributionType;
+	}
+	public void setDistributionType(int distributionType) {
+		this.distributionType = distributionType;
 	}
 }

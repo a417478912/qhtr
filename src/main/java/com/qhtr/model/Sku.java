@@ -1,6 +1,11 @@
 package com.qhtr.model;
-
+/**
+ * @author Harry
+ * @Description 商品 sku
+ * @date  2017年6月5日
+ */
 public class Sku {
+	
     private Integer id;
 
     private Integer goodsId;
@@ -70,4 +75,12 @@ public class Sku {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+	@Override
+	public String toString() {
+		return "Sku [id=" + id + ", goodsId=" + goodsId + ", attrValue=" + attrValue + ", attrDetails=" + attrDetails
+				+ ", price=" + price + ", stock=" + stock + ", status=" + status + "]";
+	}
+    
+    
 }

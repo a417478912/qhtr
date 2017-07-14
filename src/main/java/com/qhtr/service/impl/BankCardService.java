@@ -23,4 +23,32 @@ public interface BankCardService {
 	 * @return
 	 */
 	int insertWithdrawApply(int storeId, int money, Integer bankCardId);
+
+	/**
+	 * 通过id查询银行卡
+	 * @param bankCardId
+	 * @return
+	 */
+	BankCard selectBankCardById(Integer bankCardId);
+
+	/**
+	 * 通过银行卡id和店铺id查询银行卡
+	 * @param cardQuery
+	 * @return
+	 */
+	BankCard selectBankCardByIdAndStoreId(BankCard cardQuery);
+
+	/**
+	 * 通过店铺id查询银行卡列表
+	 * @param storeId
+	 * @return
+	 */
+	List<BankCard> selectBankCardByStoreId(int storeId);
+
+	/**
+	 * 修改银行卡信息
+	 * @param bankCard
+	 * @return
+	 */
+	int updateBankCard(BankCard bankCard);
 }

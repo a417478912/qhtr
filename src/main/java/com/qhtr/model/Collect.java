@@ -1,8 +1,13 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * @author Harry
+ * @Description 收藏
+ * @date  2017年6月5日
+ */
 public class Collect {
+	
     private Integer id;
 
     private Integer userId;

@@ -15,7 +15,11 @@ import com.app.dto.BuyCartDto;
 import com.qhtr.common.Json;
 import com.qhtr.model.BuyCart;
 import com.qhtr.service.BuyCartService;
-
+/**
+ * @author Harry
+ * @Description 购物车相关操作
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_buycart")
 public class App_BuyCartController {
@@ -47,7 +51,7 @@ public class App_BuyCartController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/addBuyCart",method=RequestMethod.POST)
+	@RequestMapping(value="/addBuyCart")
 	public Json addBuyCart(Json j,BuyCart cart){
 		int result = buyCartService.addById(cart);
 		if(result == 0){
@@ -66,7 +70,7 @@ public class App_BuyCartController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/deleteBuyCart",method=RequestMethod.POST)
+	@RequestMapping(value="/deleteBuyCart")
 	public Json deleteBuyCart(Json j,@RequestParam int cartId){
 		int result = buyCartService.deleteById(cartId);
 		if(result == 0){
@@ -85,7 +89,7 @@ public class App_BuyCartController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value="/deleteBatchBuyCart",method=RequestMethod.POST)
+	@RequestMapping(value="/deleteBatchBuyCart")
 	public Json deleteBatchBuyCart(Json j,@RequestParam int[] ids){
 		int result = buyCartService.deleteByIds(ids);
 		if(result == 0){
@@ -96,6 +100,7 @@ public class App_BuyCartController {
 		}
 		return j;
 	}
+	
 	
 	/**
 	 * 修改购物车数据

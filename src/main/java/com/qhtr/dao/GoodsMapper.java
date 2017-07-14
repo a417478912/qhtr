@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.qhtr.model.Goods;
+import com.qhtr.model.GoodsClasses;
 
 public interface GoodsMapper {
     int deleteByPrimaryKey(Integer id);
@@ -57,5 +58,76 @@ public interface GoodsMapper {
 	 */
 
 	List<Goods> getGoodsByClass_App(int classId);
-    
+
+	/**
+	 * 通过分类和店铺id查找商品
+	 * @param gc
+	 * @return
+	 */
+	List<Goods> selectListByClassIdAndStoreId(GoodsClasses gc);
+
+	/**
+	 * 通过店铺id和商品状态查找商品
+	 * @param goods
+	 * @return
+	 */
+	List<Goods> selectListByStoreIdAndStatus(Goods goods);
+
+	/**
+	 * 通过二级分类查询商品
+	 * @param secondClassId
+	 * @return
+	 */
+	List<Goods> selectGoodsBySecondClassId(int secondClassId);
+
+	/**
+	 * 根据店铺id查询十条商品数据
+	 * @param storeId
+	 * @return
+	 */
+	List<Goods> selectListByStoreId(int storeId);
+
+	/**
+	 * 通过行业分类查询商品列表
+	 * @param categoryId
+	 * @return
+	 */
+	List<Goods> selectGoodsListByCategoryId(int categoryId);
+	
+	/**
+	 * 通过店铺id和二级分类id查询商品列表
+	 * @param map
+	 * @return
+	 */
+	List<Goods> selectGoodsByStoreIdAndSecondClassId(Map<String, Integer> map);
+
+	/**
+	 * 查询不在二级分类列表中的商品
+	 * @param map
+	 * @return
+	 */
+	List<Goods> getGoodsListNotInSecondClass(int storeId);
+
+	
+	/**
+	 * 查询新品
+	 * @param map
+	 * @return
+	 */
+	List<Goods> selectNewProductByCategoryId(Map<String, Object> map);
+
+	/**
+	 * 查询二级分类中商品数量
+	 * @param param
+	 * @return
+	 */
+	Integer selectCountBySecondClassIdAndStoreId(Map<String, Integer> param);
+
+	/**
+	 * 通过行业分类查询商品
+	 * @param categoryId
+	 * @return
+	 */
+	List<Goods> selectGoodsByCategoryId(int categoryId);
+
 }

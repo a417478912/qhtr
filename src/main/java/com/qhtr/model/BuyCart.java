@@ -16,23 +16,23 @@ public class BuyCart {
     /**
      * 商品名字
      */
-    private String string1;
+    private String goodsName;
     /**
      * sku详情
      */
-    private String string2;
+    private String skuDetail;
     /**
      * 价格
      */
-    private String string3;
+    private String price;
     /**
      * goods code
      */
-    private String string4;
+    private String goodsCode;
     /**
      * 商品图片
      */
-    private String string5;
+    private String goodsThumbs;
 
     public Integer getId() {
         return id;
@@ -82,43 +82,45 @@ public class BuyCart {
         this.userId = userId;
     }
 
-    public String getString1() {
-        return string1;
-    }
+	public String getGoodsName() {
+		return goodsName;
+	}
 
-    public void setString1(String string1) {
-        this.string1 = string1 == null ? null : string1.trim();
-    }
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
 
-    public String getString2() {
-        return string2;
-    }
 
-    public void setString2(String string2) {
-        this.string2 = string2 == null ? null : string2.trim();
-    }
+	public String getPrice() {
+		return price;
+	}
 
-    public String getString3() {
-        return string3;
-    }
+	public void setPrice(String price) {
+		this.price = price;
+	}
 
-    public void setString3(String string3) {
-        this.string3 = string3 == null ? null : string3.trim();
-    }
+	public String getGoodsCode() {
+		return goodsCode;
+	}
 
-    public String getString4() {
-        return string4;
-    }
+	public void setGoodsCode(String goodsCode) {
+		this.goodsCode = goodsCode;
+	}
 
-    public void setString4(String string4) {
-        this.string4 = string4 == null ? null : string4.trim();
-    }
+	public String getGoodsThumbs() {
+		return goodsThumbs;
+	}
 
-    public String getString5() {
-        return string5;
-    }
+	public void setGoodsThumbs(String goodsThumbs) {
+		this.goodsThumbs = goodsThumbs;
+	}
 
-    public void setString5(String string5) {
-        this.string5 = string5 == null ? null : string5.trim();
-    }
+	public String getSkuDetail() {
+		return skuDetail;
+	}
+
+	public void setSkuDetail(String skuDetail) {
+		this.skuDetail = skuDetail;
+	}
+
 }

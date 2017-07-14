@@ -22,8 +22,19 @@ public interface CommentService {
 	 */
 	List<Comment> getReplyListByCommentId(int commentId);
 
-	int updateUpvote(int commentId);
+	int updateUpvote(int commentId,int userId);
 
 	Comment getByCommentId(int commentId);
+
+	/**
+	 * 取消赞
+	 * @param commentId
+	 * @param userId
+	 * @return
+	 */
+	int cancelThumbsUp(int commentId, int userId);
+
+	
+	List<Comment> selectCommentListByStoreId2(int storeId);
 
 }

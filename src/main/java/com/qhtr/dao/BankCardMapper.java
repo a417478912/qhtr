@@ -1,5 +1,7 @@
 package com.qhtr.dao;
 
+import java.util.List;
+
 import com.qhtr.model.BankCard;
 
 public interface BankCardMapper {
@@ -14,4 +16,8 @@ public interface BankCardMapper {
     int updateByPrimaryKeySelective(BankCard record);
 
     int updateByPrimaryKey(BankCard record);
+
+	BankCard selectByBankCardQuery(BankCard cardQuery);
+
+	List<BankCard> selectByStoreId(int storeId);
 }

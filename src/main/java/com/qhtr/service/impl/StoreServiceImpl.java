@@ -1,7 +1,9 @@
 package com.qhtr.service.impl;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 
 import com.app.dto.StoreDto_App;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.qhtr.dao.StoreMapper;
 import com.qhtr.model.SellerAccount;
@@ -52,16 +55,33 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public List<StoreDto_App> getStoresByDistance(String longitude, String latitude, String distance) {
+	/*	Store store = new Store();
+		store.setLongitudeLatitude(longitude + "," +latitude);*/
 		List<Store> allStores = storeMapper.selectByConditions(new Store());
 		List<StoreDto_App> stores = new ArrayList<StoreDto_App>();
+		
 		for (Store store : allStores) {
+			
 			if (store.getLongitudeLatitude() == null) {
 				continue;
 			}
+			
 			String[] s = store.getLongitudeLatitude().split(",");
+			if(s[0] != null && !"null".equals(s[0])&&s[1] != null && !"null".equals(s[1])){
 			if (DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]),
 					Double.parseDouble(longitude), Double.parseDouble(latitude)) <= Double.parseDouble(distance)) {
-				stores.add(new StoreDto_App(store));
+				
+				StoreDto_App storeDto_App = new StoreDto_App(store);
+				
+				double distance1 = DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]),
+						Double.parseDouble(longitude), Double.parseDouble(latitude));
+				
+				DecimalFormat decimalFormat = new DecimalFormat(".##");
+				
+				storeDto_App.setDistance(Double.parseDouble(decimalFormat.format(distance1)));
+				
+				stores.add(storeDto_App);
+			}
 			}
 		}
 		return stores;
@@ -77,8 +97,8 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public List<Store> getHotStores(int page, int num) {
-		PageHelper.startPage(page, num);
-		return storeMapper.selectHotStore();
+		List<Store> storeList = storeMapper.selectHotStore();
+		return storeList;
 	}
 
 	@Override
@@ -88,9 +108,10 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	public int addRegister(String phone, String password) {
-		/*if (verifyPhone(phone) == 2) {
+		
+		if (verifyPhone(phone) == 2) {
 			return -1;
-		}*/
+		}
 
 		Store store = new Store();
 		store.setPhone(phone);
@@ -99,7 +120,7 @@ public class StoreServiceImpl implements StoreService {
 		store.setCollectNum(0);
 		store.setType(0);
 		store.setSellNum(0);
-		store.setScore(0);
+		store.setScore(0.0);
 		store.setName("");
 		storeMapper.insert(store);
 		
@@ -183,6 +204,44 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public int selectGoodsNumByStoreId(Integer storeId) {
 		return storeMapper.selectGoodsNumByStoreId(storeId);
+	}
+
+	@Override
+	public Store selectStoreById(Integer storeId) {
+		
+		return storeMapper.selectByPrimaryKey(storeId);
+	}
+
+	@Override
+	public List<Store> selectStoreByCategoryId(int categoryId) {
+		return storeMapper.selectStoreByCategoryId(categoryId);
+	}
+
+	@Override
+	public List<StoreDto_App> getStoresByDistanceAndCategoryId(String longitude, String latitude, String accuracy,
+			int categoryId) {
+		Store param = new Store();
+		param.setCategoryId(categoryId);
+		List<Store> allStores = storeMapper.selectByConditions(param);
+		List<StoreDto_App> stores = new ArrayList<StoreDto_App>();
+		for (Store store : allStores) {
+			if (store.getLongitudeLatitude() == null) {
+				continue;
+			}
+			String[] s = store.getLongitudeLatitude().split(",");
+			if(s[0] != null && !"null".equals(s[0])&&s[1] != null && !"null".equals(s[1])){
+			if (DistributionUtils.getDistance(Double.parseDouble(s[0]), Double.parseDouble(s[1]),
+					Double.parseDouble(longitude), Double.parseDouble(latitude)) <= Double.parseDouble(accuracy)) {
+				stores.add(new StoreDto_App(store));
+			}
+			}
+		}
+		return stores;
+	}
+
+	@Override
+	public List<Integer> getAttentionUserByStoreId(int storeId) {
+		return storeMapper.getAttentionUserByStoreId(storeId);
 	}
 
 }

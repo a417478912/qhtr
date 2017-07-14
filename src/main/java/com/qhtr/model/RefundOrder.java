@@ -1,7 +1,11 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * @author Harry
+ * @Description 退款订单
+ * @date  2017年6月5日
+ */
 public class RefundOrder {
     private Integer id;
 

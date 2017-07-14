@@ -10,6 +10,7 @@ import com.app.dto.BuyCartDto;
 import com.qhtr.dao.BuyCartMapper;
 import com.qhtr.dto.GoodsDto;
 import com.qhtr.model.BuyCart;
+import com.qhtr.model.Goods;
 import com.qhtr.model.Sku;
 import com.qhtr.service.BuyCartService;
 import com.qhtr.service.GoodsService;
@@ -28,7 +29,22 @@ public class BuyCartServiceImpl implements BuyCartService{
 	public List<BuyCartDto> selectCartsByUserId(int userId) {
 		BuyCart buyCart = new BuyCart();
 		buyCart.setUserId(userId);
-		return buyCartMapper.selectCartsByUserId(buyCart);
+		List<BuyCartDto> list = buyCartMapper.selectCartsByUserId(buyCart);
+		for (BuyCartDto cartDto : list) {
+			List<BuyCart> cartList = cartDto.getBuyCartList();
+			for (BuyCart cart : cartList) {
+				Integer goodsId = cart.getGoodsId();
+				Integer skuId = cart.getSkuId();
+				Goods goods = goodsService.selectGoodsByPrimaryKey(goodsId);
+				Sku sku = skuService.selectSkuBySkuId(skuId);
+				cart.setGoodsName(goods.getName());
+				cart.setSkuDetail(sku.getAttrDetails());
+				cart.setPrice(sku.getPrice()*cart.getNum()+"");
+				cart.setGoodsCode(goods.getGoodsCode());
+				cart.setGoodsThumbs(goods.getThumb());
+			}
+		}
+		return list;
 	}
 
 	@Override
@@ -43,20 +59,25 @@ public class BuyCartServiceImpl implements BuyCartService{
 
 	@Override
 	public int addById(BuyCart cart) {
+		
 		BuyCart buyCartTem = new BuyCart();
 		buyCartTem.setUserId(cart.getUserId());
 		buyCartTem.setSkuId(cart.getSkuId());
 		List<BuyCart> buyCartList = buyCartMapper.selectByConditions(buyCartTem);
+		System.out.println(buyCartList.size()+"================================================================");
 		if(buyCartList.isEmpty()){
-			GoodsDto goods = goodsService.selectGoodsByGoodsId(cart.getGoodsId());
-			cart.setString1(goods.getName());
+			
+			Goods goods = goodsService.selectGoodsByPrimaryKey(cart.getGoodsId());
+			System.out.println(goods.getName()+"==============================================================");
+			cart.setGoodsName(goods.getName());
 			Sku sku = skuService.selectSkuBySkuId(cart.getSkuId());
-			cart.setString2(sku.getAttrDetails());
-			cart.setString3(sku.getPrice()+"");
-			cart.setString4(goods.getGoodsCode());
-			cart.setString5(goods.getThumb());
+			cart.setSkuDetail(sku.getAttrDetails());
+			cart.setGoodsCode(goods.getGoodsCode());
+			cart.setPrice(sku.getPrice()+"");
+			cart.setGoodsThumbs(goods.getThumb());
 			return buyCartMapper.insert(cart);
 		}else{
+			
 			BuyCart cart1 = buyCartList.get(0);
 			cart1.setNum(cart1.getNum() + cart.getNum());
 			return buyCartMapper.updateByPrimaryKey(cart1);

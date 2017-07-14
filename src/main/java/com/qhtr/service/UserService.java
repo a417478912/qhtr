@@ -74,5 +74,12 @@ public interface UserService {
 	     * @param type
 	     * @return
 	     */
+	    
+	    /**
+	     * 根据userId查询用户
+	     * @param userId
+	     * @return
+	     */
+		User selectByPrimaryKey(Integer userId);
 }
 	

@@ -44,6 +44,7 @@ public class CometSellUtil extends ConnectListener implements ServletContextList
            CacheManager.putContent(conn.getId(), String.valueOf(userId), Constants.EXPIRE_AFTER_ONE_HOUR);  
        }  
    }
+   
    /**
     * 推送给所有的客户端
     * @param comet
@@ -58,13 +59,13 @@ public class CometSellUtil extends ConnectListener implements ServletContextList
            // TODO: handle exception
            System.out.println(e.getMessage());
        }
-          
    }
    /**
     * 推送给指定客户端
     * @param comet
     */
    public void pushToStore(Comet comet){
+	   
        try {
            ConnectEvent connEvent = (ConnectEvent) CacheManager.getContent(comet.getStoreId()).getValue();
            final CometConnection conn = connEvent.getConn();

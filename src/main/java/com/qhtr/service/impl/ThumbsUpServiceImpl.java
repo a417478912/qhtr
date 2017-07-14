@@ -19,11 +19,16 @@ public class ThumbsUpServiceImpl implements ThumbsUpService {
 	
 	@Override
 	public int getIsThumbsUp(int userId, int commentId) {
+		
 		Map<String,Integer> map = new HashMap<String,Integer>();
+		
 		map.put("userId", userId);
 		map.put("commentId", commentId);
+		
 		List<ThumbsUp> list = thumbsUpMapper.selectByConditions(map);
+		
 		if(list.isEmpty()){
+			// 未点赞
 			return 0;
 		}else{
 			return list.get(0).getId();

@@ -27,5 +27,5 @@ public interface SellerAccountMapper {
 	 * @param storeId
 	 * @return
 	 */
-	int getCanWithdrawalMoney(int storeId);
+	Integer getCanWithdrawalMoney(int storeId);
 }

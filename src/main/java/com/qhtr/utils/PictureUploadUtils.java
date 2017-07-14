@@ -136,6 +136,7 @@ public class PictureUploadUtils {
 		}
 		
 		public static boolean deleteFile(String url){
+			
 			File file = new File(baseSavePath+subString(url));
 			if(file.exists()){
 				return file.delete();
@@ -289,7 +290,8 @@ public class PictureUploadUtils {
 	     * url截取
 	     */
 	    public static String subString(String url){
-	    	return url.substring(url.indexOf("/upload/"),url.length());
+	    	
+	    	return url.substring(url.indexOf("/upload/"),(url.length() - 1));
 	    }
 	    
 }

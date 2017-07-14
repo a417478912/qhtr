@@ -1,6 +1,11 @@
 package com.qhtr.model;
-
+/**
+ * @author Harry
+ * @Description 点赞
+ * @date  2017年6月5日
+ */
 public class ThumbsUp {
+	
     private Integer id;
 
     private Integer userId;

@@ -1,7 +1,11 @@
 package com.qhtr.common;
 
 public class Constants {
+	
 	public final static String ADMIN_KEY = "adminName";
+	
+	public static final String masterSecret = "8226191ca644cf6584a7edf8";
+	public static final String appKey = "37c1e046219d57b87b711fc9";
 	/**
 	 * 用户信息
 	 */

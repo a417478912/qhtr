@@ -4,8 +4,13 @@ import java.util.Date;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.qhtr.common.CustomDateSerializer;
-
+/**
+ * @author Harry
+ * @Description 商品订单(一件商品,一个订单)
+ * @date  2017年6月5日
+ */
 public class GoodsOrder {
+	
     private Integer id;
 
     private String orderCode;
@@ -22,6 +27,8 @@ public class GoodsOrder {
 
     private Integer skuId;
 
+    // 10 : 待付款      20 : 已付款   21 : 已付款带自取    30 : 已发货      40 : 已收货   50 : 已评价
+    // 100 : 申请售后   110 : 已退款/已退货
     private Integer status;
 
     private Integer num;

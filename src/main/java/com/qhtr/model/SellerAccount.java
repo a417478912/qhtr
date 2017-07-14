@@ -1,6 +1,13 @@
 package com.qhtr.model;
 
+import javax.annotation.Resource;
+
+import com.qhtr.service.SellerAccountService;
+
 public class SellerAccount {
+	@Resource
+	private SellerAccountService sellerAccountService; 
+	
     private Integer id;
 
     private Integer storeId;
@@ -10,8 +17,9 @@ public class SellerAccount {
     private String openId;
 
     private String alipayName;
+    
 
-    public Integer getId() {
+	public Integer getId() {
         return id;
     }
 

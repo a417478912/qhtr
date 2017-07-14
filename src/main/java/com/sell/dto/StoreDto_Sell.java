@@ -9,6 +9,7 @@ import com.qhtr.utils.ApplicationContextUtils;
 public class StoreDto_Sell {
 	public int id;
 	public String category;
+	public int categoryId;
 	public String name;
 	public String phone;
 	public String sex;
@@ -18,20 +19,23 @@ public class StoreDto_Sell {
 	public String bannerPic;
 	public String promotionPic;
 	public String showPic;
+	public String coverPic;
 	public String details;
 	public int collect_num;
 	public int sell_num;
 	public String location;
 	public String longitude;
 	public String latitude;
-	public int score;
+	public double score;
 	public int type;
-
+	private int isBind;
+	
 	public StoreDto_Sell() {
 
 	}
 
 	public StoreDto_Sell(Store store) {
+		
 		this.setId(store.getId());
 		this.setAge(store.getAge());
 		this.setSex(store.getSex());
@@ -43,9 +47,16 @@ public class StoreDto_Sell {
 			this.setCategory(category.getName());
 		}
 		this.setName(store.getName());
+		this.setCoverPic(store.getCoverPic());
 		this.setPhone(store.getPhone());
 		this.setAvatar(store.getAvatar());
 		this.setOtherShop(store.getOtherShop());
+		
+		if (store.getCategoryId() != null) {
+			
+			this.setCategoryId(store.getCategoryId());
+		}
+		
 		
 		this.setPromotionPic(store.getPromotionPic());
 		this.setBannerPic(store.getBannerPic());
@@ -150,11 +161,11 @@ public class StoreDto_Sell {
 		this.latitude = latitude;
 	}
 
-	public int getScore() {
+	public double getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(Double score) {
 		this.score = score;
 	}
 
@@ -212,5 +223,29 @@ public class StoreDto_Sell {
 
 	public void setDetails(String details) {
 		this.details = details;
+	}
+
+	public String getCoverPic() {
+		return coverPic;
+	}
+
+	public void setCoverPic(String coverPic) {
+		this.coverPic = coverPic;
+	}
+
+	public int getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public int getIsBind() {
+		return isBind;
+	}
+
+	public void setIsBind(int isBind) {
+		this.isBind = isBind;
 	}
 }

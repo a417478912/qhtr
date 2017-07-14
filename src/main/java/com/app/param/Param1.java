@@ -7,6 +7,7 @@ package com.app.param;
  * @date  2017年3月24日
  */
 public class Param1 {
+	
 	public String orderCode;
 	public String userRemark;
 	public String getOrderCode() {

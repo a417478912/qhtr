@@ -15,20 +15,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.qhtr.service.PayService;
+import com.qhtr.utils.SmsUtils;
 import com.qhtr.utils.alipay.config.AlipayConfig;
 import com.qhtr.utils.alipay.sign.Base64;
 import com.qhtr.utils.alipay.util.AlipayCore;
-
+/**
+ * 
+ * @author Harry
+ * @Description 支付回调的 Controller
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_pay")
 public class App_payController {
+	
 	@Resource
 	public PayService payService;
 	
 	@RequestMapping(value="/alipayResult")
 	public void alipayResult(HttpServletRequest request,HttpServletResponse response) throws UnsupportedEncodingException, IOException, NumberFormatException, AlipayApiException{
 		System.out.println("++++++++++++++++++++++++++++++++++进入支付回调+++++++++++++++++++++++++++++++++++++++++++++");
-		payService.updateAliPayResult(request, response);
+		payService.updateAliPayResult(request, response); 
 	}
 	
 	@RequestMapping(value="/weixinPayResult")

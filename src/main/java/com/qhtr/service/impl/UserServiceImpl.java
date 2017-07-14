@@ -99,13 +99,20 @@ public class UserServiceImpl implements UserService{
 			user.setSex(sex);
 		}
 		if(StringUtils.isNotBlank(birthday)){
-			user.setBirthday(birthday);;
+			user.setBirthday(birthday);
 		}
 		if(StringUtils.isNotBlank(path)){
+			
 			User oldUser = userMapper.selectByPrimaryKey(id);
-			if(!PictureUploadUtils.deleteFile(oldUser.getAvatar())){
-				return 0;
-			};
+			if (oldUser.getAvatar() != null && !"".equals(oldUser.getAvatar())) {
+				
+				if (oldUser.getAvatar().contains("www.7htr.com/qhtr/upload/")) {
+					
+					if(!PictureUploadUtils.deleteFile(oldUser.getAvatar())){
+						return 0;
+					}
+				}
+			}
 			user.setAvatar(path);
 		}
 		return userMapper.updateByPrimaryKeySelective(user);
@@ -113,6 +120,7 @@ public class UserServiceImpl implements UserService{
 
 	@Override
 	public int updatePwd(String phone, String pwd) {
+		
 		User userTem = new User();
 		userTem.setPhone(phone);
 		List<User> userList = userMapper.selectByConditions(userTem);
@@ -162,6 +170,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public int addUser(User user) {
 		return userMapper.insert(user);
+	}
+
+	@Override
+	public User selectByPrimaryKey(Integer userId) {
+		return userMapper.selectByPrimaryKey(userId);
 	}
 }
 	

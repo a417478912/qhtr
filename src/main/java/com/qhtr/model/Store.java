@@ -1,8 +1,18 @@
 package com.qhtr.model;
 
 import java.util.Date;
+import java.util.List;
 
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import com.qhtr.common.CustomDateSerializer;
+/**
+ * @author Harry
+ * @Description 店铺
+ * @date  2017年6月5日
+ */
 public class Store {
+	
     private Integer id;
 
     private Integer categoryId;
@@ -44,10 +54,12 @@ public class Store {
     private String longitudeLatitude;
 
     private Integer type;
-
+    @JsonSerialize(using = CustomDateSerializer.class)
     private Date createTime;
 
-    private Integer score;
+    private Double score;
+    
+    private List<GoodsPic> goodsThumbs;
 
     public Integer getId() {
         return id;
@@ -209,11 +221,21 @@ public class Store {
         this.createTime = createTime;
     }
 
-    public Integer getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(Integer score) {
+    public void setScore(Double score) {
         this.score = score;
     }
+
+	public List<GoodsPic> getGoodsThumbs() {
+		return goodsThumbs;
+	}
+
+	public void setGoodsThumbs(List<GoodsPic> goodsThumbs) {
+		this.goodsThumbs = goodsThumbs;
+	}
+
+	
 }

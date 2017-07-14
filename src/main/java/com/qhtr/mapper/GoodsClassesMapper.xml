@@ -144,12 +144,30 @@
 	WHERE g.id = c.goods_id
 	AND g.store_id = #{storeId,jdbcType=INTEGER}
 	AND c.goods_classes_id = #{classId,jdbcType=INTEGER}
+	AND g.status = 1
 	GROUP BY c.id
+  	</select>
+  	
+  	<select id="selectCountByClassIdAndStoreId" parameterType="com.qhtr.model.GoodsClasses" resultType="Integer">
+  	select COUNT(m.id)
+  	from  goods_goods g LEFT JOIN goods_mid_goods_classes m on g.id = m.goods_id 
+  	<where>
+  	<if test="1 == 1">
+  		1=1
+  	</if>
+  	<if test="storeId != null">
+  		and g.store_id=#{storeId}
+  	</if>
+  	<if test="id != null">
+  		and m.goods_classes_id=#{id}
+  	</if>
+  	and g.status = 1
+  	</where>	
   	</select>
   	
 	<!-- 查找不在此分类中的商品            -->                    
 	<select id="getGoodsByClassExcept" resultType="java.util.Map" parameterType="java.util.Map" >
-	select gg.* from goods_goods gg where gg.store_id = #{storeId,jdbcType=INTEGER} and gg.id not in 
+	select gg.* from goods_goods gg where gg.store_id = #{storeId,jdbcType=INTEGER} and gg.status = 1 and gg.id not in 
 	(
 	SELECT g.id
 	from goods_goods g,goods_mid_goods_classes c
@@ -179,4 +197,5 @@
 	from goods_mid_goods_classes m,goods_goods_classes c
 	where m.goods_classes_id = c.id and m.goods_id = #{goodsId,jdbcType=INTEGER}
   	</select>
+  	
 </mapper>

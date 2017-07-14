@@ -3,6 +3,7 @@ package com.qhtr.dao;
 import java.util.List;
 
 import com.qhtr.model.Category;
+import com.qhtr.model.Store;
 
 public interface CategoryMapper {
     int deleteByPrimaryKey(Integer id);
@@ -19,4 +20,5 @@ public interface CategoryMapper {
     
     //自定义方法
     List<Category> selectByConditions(Category record);
+
 }

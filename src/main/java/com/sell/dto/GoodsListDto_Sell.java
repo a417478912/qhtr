@@ -22,6 +22,7 @@ public class GoodsListDto_Sell {
 	}
 	
 	public GoodsListDto_Sell(Goods goods){
+		
 		SkuService skuService = (SkuService) ApplicationContextUtils.getContext().getBean("SkuService");
 		PictureService pictureService = (PictureService) ApplicationContextUtils.getContext().getBean("PictureService");
 		
@@ -32,13 +33,17 @@ public class GoodsListDto_Sell {
 		int totalStock = 0;
 		List<Sku> skuList = skuService.selectListByGoodsId(goods.getId());
 		for (Sku sku : skuList) {
-			if(sku.getPrice() > topPrice){
-				topPrice = sku.getPrice();
+			if (sku.getPrice()!=null) {
+				if(sku.getPrice() > topPrice){
+					topPrice = sku.getPrice();
+				}
+				if(sku.getPrice() < lowPrice){
+					lowPrice = sku.getPrice();
+				}
+				if (sku.getStock() != null) {
+					totalStock += sku.getStock();
+				}
 			}
-			if(sku.getPrice() < lowPrice){
-				lowPrice = sku.getPrice();
-			}
-			totalStock += sku.getStock();
 		}
 		this.setLowPrice(lowPrice);
 		this.setTopPrice(topPrice);

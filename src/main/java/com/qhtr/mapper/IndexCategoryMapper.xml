@@ -253,5 +253,12 @@
     from index_category
     where category_id = #{categoryId,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectAll" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from index_category
+  </select>
+  
    
 </mapper>

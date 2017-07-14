@@ -1,8 +1,13 @@
 package com.qhtr.model;
 
 import java.util.Date;
-
+/**
+ * @author Harry
+ * @Description 系统日志
+ * @date  2017年6月5日
+ */
 public class SystemLog {
+	
     private Long id;
 
     private String name;

@@ -21,4 +21,6 @@ public interface IndexCategoryMapper {
     //以下是自定义方法
 
 	List<IndexCategory> getByCategoreId(int categoreId);
+
+	List<IndexCategory> selectAll();
 }

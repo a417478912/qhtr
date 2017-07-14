@@ -40,4 +40,12 @@ public interface ActivityService {
 	 * @return
 	 */
 	int deleteGoods(String goodsIds, int modelId);
+
+	/**
+	 * 查询活动分类中的商品个数
+	 * @param storeId
+	 * @param modelId
+	 * @return
+	 */
+	int selectCountByStoreIdAndModelId(int storeId, int modelId);
 }

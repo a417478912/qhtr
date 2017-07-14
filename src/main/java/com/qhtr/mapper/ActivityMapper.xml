@@ -35,16 +35,22 @@
   <sql id="Base_Column_List" >
     id, model_id, goods_id, store_id, create_time, start_time, end_time
   </sql>
+  
+  <!-- 根据活动ID查询活动 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from activity
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <!-- 删除活动 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from activity
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
+  <!-- 添加活动 -->
   <insert id="insert" parameterType="com.qhtr.model.Activity" >
     insert into activity (id, model_id, goods_id, 
       store_id, create_time, start_time, 
@@ -102,6 +108,8 @@
       </if>
     </trim>
   </insert>
+  
+  <!-- 修改活动 -->
   <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.Activity" >
     update activity
     <set >
@@ -151,8 +159,25 @@
   from activity a,goods_goods g
   where a.goods_id = g.id and
   a.model_id = #{modelId,jdbcType=INTEGER} 
-  and g.store_id = #{storeId,jdbcType=INTEGER}
+  and g.store_id = #{storeId,jdbcType=INTEGER} and g.status = 1
   order by g.id desc
+  </select>
+  
+  <!-- 查询活动分类中的商品数量 -->
+  <select id="selectCountGoodsByStoreIdAndModelId" parameterType="com.qhtr.model.Activity" resultType="Integer">
+  select COUNT(a.id) from activity a LEFT JOIN goods_goods g ON a.goods_id = g.id 
+  <where>
+  <if test="1==1">
+  	1=1
+  </if>
+  <if test="storeId != null">
+  	and a.store_id = #{storeId}
+  </if>
+  <if test="modelId != null">
+  	and a.model_id=#{modelId}
+  </if>
+  	and g.status=1
+  </where>
   </select>
   
   <!-- 通过商铺id 和 活动模版id 查找不在此活动中商品 -->

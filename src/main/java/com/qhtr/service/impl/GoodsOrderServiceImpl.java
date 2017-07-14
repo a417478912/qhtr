@@ -52,4 +52,10 @@ public class GoodsOrderServiceImpl implements GoodsOrderService {
 	public int selectCountByConditions(Map<String, Object> map) {
 		return goodsOrderMapper.selectCountByConditions(map);
 	}
+
+	@Override
+	public void deleteGoodsOrder(Integer id) {
+		
+		goodsOrderMapper.deleteByPrimaryKey(id);
+	}
 }

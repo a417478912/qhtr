@@ -50,7 +50,14 @@ public class BankCardServiceImpl implements BankCardService {
 	public int insertWithdrawApply(int storeId, int money, Integer bankCardId) {
 		//账户减去金额
 		SellerAccount sa = sellerAccountService.getByStoreId(storeId);
-		if(money > sa.getAccountMoney()){
+		if (sa != null) {
+			
+			if (sa.getAccountMoney() != null) {
+				if(money > sa.getAccountMoney()){
+					return -1;
+				}
+			}
+		}else{
 			return -1;
 		}
 		sa.setAccountMoney(sa.getAccountMoney() - money);
@@ -71,6 +78,36 @@ public class BankCardServiceImpl implements BankCardService {
 		withdrawMapper.insert(wd);
 		
 		return 1;
+	}
+
+	@Override
+	public BankCard selectBankCardById(Integer bankCardId) {
+		BankCard bankCard = bankCardMapper.selectByPrimaryKey(bankCardId);
+		return bankCard;
+	}
+
+	@Override
+	public BankCard selectBankCardByIdAndStoreId(BankCard cardQuery) {
+		
+		return bankCardMapper.selectByBankCardQuery(cardQuery);
+	}
+
+	@Override
+	public List<BankCard> selectBankCardByStoreId(int storeId) {
+		
+		return bankCardMapper.selectByStoreId(storeId);
+	}
+
+	@Override
+	public int updateBankCard(BankCard bankCard) {
+		try {
+			
+			bankCardMapper.updateByPrimaryKeySelective(bankCard);
+			return 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 }

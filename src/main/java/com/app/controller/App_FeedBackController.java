@@ -9,10 +9,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.qhtr.common.Json;
 import com.qhtr.service.FeedBackService;
-
+/**
+ * @author Harry
+ * @Description 反馈,意见
+ * @date  2017年6月2日
+ */
 @Controller
 @RequestMapping("/app_feedback")
 public class App_FeedBackController {
+	
 	@Resource
 	public FeedBackService feedBackService;
 	
