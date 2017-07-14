@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.StoreScoreMapper" >
+
+	<insert id="addScore" parameterType="com.qhtr.model.StoreScore">
+		insert into store_score (id,store_id,score) values(#{id},#{storeId},#{score})
+	</insert>
+	
+	<select id="selectScoreByStoreId" parameterType="com.qhtr.model.StoreScore" resultType="com.qhtr.model.StoreScore">
+		select id as id,store_id as storeId,score from store_score
+		<where>
+			<if test="1==1">
+				1 = 1
+			</if>
+			<if test="storeId != null">
+				and	store_id = #{storeId}
+			</if>
+		</where>
+	</select>
+</mapper>

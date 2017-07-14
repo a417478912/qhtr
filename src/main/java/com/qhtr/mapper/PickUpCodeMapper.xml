@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.PickUpCodeMapper" >
+
+<!-- 保存取货码 -->
+<insert id="insertPickUpCode" parameterType="com.qhtr.model.PickUpCode">
+	insert into pick_up_code (id,pick_up_code,store_order_id) values(0,#{pickUpCode},#{storeOrderId})
+</insert>
+
+<!-- 查询取货码 -->
+<select id="getPickUpCode" parameterType="java.lang.Integer" resultType="com.qhtr.model.PickUpCode">
+	select p.id,p.pick_up_code as pickUpCode,p.store_order_id as storeOrderId
+	from pick_up_code p
+	where p.store_order_id = #{parameter}
+</select>
+
+<!-- 删除取货码 -->
+<delete id="deletePickUpCode" parameterType="java.lang.Integer">
+	delete from pick_up_code p where p.store_order_id = #{parameter}
+</delete>
+
+<!-- 通过取货码查找订单 -->
+<select id="getStoreOrderIdByPickUpCode" parameterType="java.lang.String" resultType="com.qhtr.model.PickUpCode">
+	select p.id,p.pick_up_code as pickUpCode,p.store_order_id as storeOrderId
+	from pick_up_code p
+	where p.pick_up_code = #{parameter}
+</select>
+</mapper>

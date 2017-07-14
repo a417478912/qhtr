@@ -1,0 +1,20 @@
+2017-06-05 16:32:47,470 ERROR[cn.jiguang.common.connection.NativeHttpClient:202] - Your request params is invalid. Please check them according to error message.
+2017-06-05 16:32:47,492 ERROR[qhtr.test.Test:39] - Error response from JPush server. Should review and fix it. 
+{}
+	at cn.jiguang.common.connection.NativeHttpClient._doRequest(NativeHttpClient.java:234)
+	at cn.jiguang.common.connection.NativeHttpClient.doRequest(NativeHttpClient.java:99)
+	at cn.jiguang.common.connection.NativeHttpClient.sendPost(NativeHttpClient.java:86)
+	at cn.jpush.api.push.PushClient.sendPush(PushClient.java:163)
+	at cn.jpush.api.JPushClient.sendPush(JPushClient.java:194)
+	at qhtr.test.Test.testSendPush(Test.java:32)
+	at qhtr.test.Test.main(Test.java:20)
+2017-06-05 16:34:03,737 ERROR[cn.jiguang.common.connection.NativeHttpClient:202] - Your request params is invalid. Please check them according to error message.
+2017-06-05 16:34:03,743 ERROR[qhtr.test.Test:37] - Error response from JPush server. Should review and fix it. 
+{}
+	at cn.jiguang.common.connection.NativeHttpClient._doRequest(NativeHttpClient.java:234)
+	at cn.jiguang.common.connection.NativeHttpClient.doRequest(NativeHttpClient.java:99)
+	at cn.jiguang.common.connection.NativeHttpClient.sendPost(NativeHttpClient.java:86)
+	at cn.jpush.api.push.PushClient.sendPush(PushClient.java:163)
+	at cn.jpush.api.JPushClient.sendPush(JPushClient.java:194)
+	at qhtr.test.Test.testSendPush(Test.java:30)
+	at qhtr.test.Test.main(Test.java:20)

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.GoodsThumbsUpMapper" >
+
+<!-- 通过条件查找是否点赞 -->
+<select id="selectGoodsThumbsUpByCondition" parameterType="com.qhtr.model.GoodsThumbsUp" resultType="com.qhtr.model.GoodsThumbsUp">
+	select g.* 
+	from goods_thumbs_up g
+	<where>
+		1=1
+		<if test="userId != null">
+		and g.user_id = #{userId}
+		</if>
+		<if test="goodsId != null">
+		and g.goods_id = #{goodsId}
+		</if>
+	</where>
+</select>
+
+<!-- 点赞 -->
+<insert id="thumbsUp" parameterType="com.qhtr.model.GoodsThumbsUp">
+	insert into goods_thumbs_up (id,user_id,goods_id) values(0,#{userId},#{goodsId})
+</insert>
+
+<!-- 取消赞 -->
+<delete id="delThumbsUp" parameterType="com.qhtr.model.GoodsThumbsUp">
+	delete from goods_thumbs_up where user_id = #{userId} and goods_id = #{goodsId}
+</delete>
+
+<select id="countThumbsUp" parameterType="Integer" resultType="Integer">
+	select count(0) from goods_thumbs_up where goods_id = #{parameter}
+</select>
+</mapper>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qhtr.dao.UserMessageMapper" >
+  <resultMap id="BaseResultMap" type="com.qhtr.model.UserMessage" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="message_content" property="messageContent" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="link_id" property="linkId" jdbcType="INTEGER" />
+    <result column="store_avatar" property="storeAvatar" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    id, user_id, message_content, create_time, type, link_id, store_avatar
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_message
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user_message
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qhtr.model.UserMessage" >
+    insert into user_message (id, user_id, message_content, 
+      create_time, type, link_id, 
+      store_avatar)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{messageContent,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{linkId,jdbcType=INTEGER}, 
+      #{storeAvatar,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.qhtr.model.UserMessage" >
+    insert into user_message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="messageContent != null" >
+        message_content,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="linkId != null" >
+        link_id,
+      </if>
+      <if test="storeAvatar != null" >
+        store_avatar,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null" >
+        #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="linkId != null" >
+        #{linkId,jdbcType=INTEGER},
+      </if>
+      <if test="storeAvatar != null" >
+        #{storeAvatar,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qhtr.model.UserMessage" >
+    update user_message
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="messageContent != null" >
+        message_content = #{messageContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="linkId != null" >
+        link_id = #{linkId,jdbcType=INTEGER},
+      </if>
+      <if test="storeAvatar != null" >
+        store_avatar = #{storeAvatar,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.qhtr.model.UserMessage" >
+    update user_message
+    set user_id = #{userId,jdbcType=INTEGER},
+      message_content = #{messageContent,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      link_id = #{linkId,jdbcType=INTEGER},
+      store_avatar = #{storeAvatar,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteMsgAll" parameterType="java.lang.Integer">
+  	delete 
+  	from user_message m
+  	where m.user_id = #{parameter}
+  </delete>
+  
+  <select id="getMsgListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	select
+  	<include refid="Base_Column_List"/>
+  	from user_message
+  	where user_id = #{parameter}
+  	order by create_time desc
+  </select>
+</mapper>
